@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="微信公众号：数学建模与人工智能 github地址：https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning 第一章	最优化算法概述1.1最优化算法简介最优化算法,即最优计算方法,也是运筹学。涵盖线性规划、非线性规划、整数规划、组合规划、图论、网络流、决策分析、排队论、可靠性数学理论、仓储库存论、物流论、博弈论、搜索论和模拟等分支。当">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python最优化算法学习笔记（Gurobi）">
+<meta property="og:url" content="http://example.com/2022/05/19/Python%E6%9C%80%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88Gurobi%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="微信公众号：数学建模与人工智能 github地址：https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning 第一章	最优化算法概述1.1最优化算法简介最优化算法,即最优计算方法,也是运筹学。涵盖线性规划、非线性规划、整数规划、组合规划、图论、网络流、决策分析、排队论、可靠性数学理论、仓储库存论、物流论、博弈论、搜索论和模拟等分支。当">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-19T11:05:39.723Z">
+<meta property="article:modified_time" content="2022-05-19T11:16:00.842Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="最优化">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Python最优化算法学习笔记（Gurobi） - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Qin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Python最优化算法学习笔记（Gurobi）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Qin Zk
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-19 19:05" pubdate>
+          2022年5月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python最优化算法学习笔记（Gurobi）</h1>
+            
+            <div class="markdown-body">
+              
+              <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&amp;mid=100000291&amp;idx=1&amp;sn=b68ef91042b9cb17c1be1af2f8728eea&amp;scene=19&token=1933614188&lang=zh_CN#wechat_redirect"> 微信公众号：数学建模与人工智能</a></p>
+<p>github地址：<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a></p>
+<h2 id="第一章最优化算法概述"><a href="#第一章最优化算法概述" class="headerlink" title="第一章	最优化算法概述"></a>第一章	最优化算法概述</h2><p>1.1最优化算法简介<br>最优化算法,即最优计算方法,也是运筹学。涵盖线性规划、非线性规划、整数规划、组合规划、图论、网络流、决策分析、排队论、可靠性数学理论、仓储库存论、物流论、博弈论、搜索论和模拟等分支。<br>当前最优化算法的应用领域如下。<br>(1)市场销售:多应用在广告预算和媒体的选择、竞争性定价、新产品开发、销售计划的编制等方面。如美国杜邦公司在20世纪50年代起就非常重视对广告、产品定价和新产品引入的算法研究。<br>(2)生产计划:从总体确定生产、储存和劳动力的配合等计划以适应变动的需求计划,主要采用线性规划和仿真方法等。此外,还可用于日程表的编排,以及合理下料、配料、物料管理等方面。<br>(3)库存管理:存货模型将库存理论与物料管理信息系统相结合,主要应用于多种物料库存量的 管理,确定某些设备的能力或容量,如工厂库存量、仓库容量,新增发电装机容量、计算机的主存储器容量、合理的水库容量等。<br>(4)运输问题:涉及空运、水运、陆路运输,以及铁路运输、管道运输和厂内运输等,包括班次调度 计划及人员服务时间安排等问题。<br>(5)财政和会计:涉及预算、贷款、成本分析、定价、投资、证券管理、现金管理等,采用的方法包括统计分析、数学规划、决策分析,以及盈亏点分析和价值分析等。<br>(6)人事管理:主要涉及以下6个方面。<br>①人员的获得和需求估计。<br>②人才的开发,即进行教育和培训。<br>③人员的分配，主要是各种指派问题。<br>④各类人员的合理利用问题。<br>⑤人才的评价，主要是测定个人对组织及社会的贡献。<br>⑥人员的薪资和津贴的确定。<br>(7)设备维修、更新可靠度及项目选择和评价:如电力系统的可靠度分析、核能电厂的可靠度B风险评估等。<br>(8)工程的最佳化设计:在土木，水利、信息电子、电机、光学、机械、环境和化工等领域皆有作业研究的应用。<br>(9)计算机信息系统:可将作业研究的最优化算法应用于计算机的主存储器配置，如等候理论在不同排队规则下对磁盘、磁鼓和光盘工作性能的影响。利用整数规划寻找满足组需求档案的寻找次序，并通过图论、数学规划等方法研究计算机信息系统的自动设计。<br>(10)城市管理:包括各种紧急服务救难系统的设计和运用.如消防车、救护车、警车等分布点的设立。美国采用等候理论方法来确定纽约市紧急电话站的值班人数,加拿大采用该方法研究城市警车的配置和负责范围，以及事故发生后警车应走的路线等。此外，还涉及城市垃圾的清扫、搬运和处理，以及城市供水和污水处理系统的规划等相关问题。<br>1.2最优化算法的内容<br>最优化算法的内容包括:规划论(线性规划、非线性规划、整数规划和动态规划)、库存论、图论、排 队论、可靠性理论、对策论、决策论、搜索论等。<br>1.2.1规划论<br>1.2.2库存论<br>库存论中研究的主要问题可以概括为何时订货（补充存贮）和每次订多少货（补充多少库存）这两个问题。<br>1.2.3图论<br>1.2.4排队论<br>排队论(随机服务系统理论)主要研究各种系统的排队长度、排队的等待时间及所提供的服务等各种参数,以便求得更好的服务,它是研究系统随机聚散现象的理论。<br>排队论的研究目的是要回答如何改进服务机构或组织所服务的对象，使某种指标达到最优的问题。如一个港口应该有多少个码头、一个工厂应该有多少名维修人员等。<br>因为排队现象是一个随机现象,因此在研究排队现象时,主要采用将研究随机现象的概率论作为主要工具。此外,还涉及微分和微分方程的相关内容。排队论把它所要研究的对象形象地描述为顾客来到服务台前要求接待。如果服务台已被其他顾客占用,那么就要排队。或者服务台时而空闲、时而忙碌,那就需要通过数学方法求得顾客的等待时间、排队长度等的概率分布。<br>排队论在日常生活中的应用非常广泛,如水库水量的调节、生产流水线的安排、铁路运输的调度 电网的设计等。<br>1.2.5 可靠性理论<br>可靠性理论是研究系统故障，以提高系统可靠性问题的理论。可靠性理论研究的系统一般分为以下两类。<br>(1)不可修复系统:这种系统的参数是寿命、可靠度等，如导弹等。<br>(2)可修复系统:这种系统的重要参数是有效度，其值为系统的正常工作时间与正常工作时间加上事故修理时间之比、如一般的机电设备等。<br>1.2.6对策论<br>对策论(博弈论)是指研究多个个体或团队之间在特定条件制约下的对局中,利用相关方的策略 而实施对应策略的学科,如田忌赛马,智猪博弈就是典型的博弈论问题。<br>1.2.7决策论<br>决策论是研究决策问题的,所谓决策就是根据客观可能性,借助一定的理论、方法和工具,科学地 选择最优方案的过程。决策问题由决策者和决策域构成,而决策域则由决策空间、状态空间和结果函数构成。研究决策理论与方法的科学就是决策科学。<br>决策所要解决的问题是多种多样的,不同角度有不同的分类方法。按决策者所面临的自然状态的确定与否可分为确定型决策、不确定型决策和风险型决策,按决策所依据的目标个数可分为单目标决策与多目标决策,按决策问题的性质可分为战略决策与策略决策，以及按不同准则划分成的种种决策问题类型。不同类型的决策问题应采用不同的决策方法。<br>决策的基本步骤如下:<br>(1)确定问题,提出决策的目标;<br>(2)发现、探索和拟定各种可行方案;<br>(3)从多种可行方案中，选出最佳方案;<br>(4)决策的执行与反馈,以寻求决策的动态最优。<br>如果对方决策者也是人（一个人或一群人），双方都希望取胜，这类具有竞争性的决策称为对策或博弈型决策。构成对策问题的3个根本要素是：局中人、策略和一局对策的得失。对策问题按局中人数分类可分成两人对策或多人对策，按局中人赢得函数的代数和是否为零可分成零和对策和非零和对策,按解的表达形式可分成纯策略对策和混合策略对策,按问题是否静态形式可分成动态对策和静态对策。<br>1.2.8搜索论<br>搜索论主要研究在资源和探测手段受到限制的情况下，如何设计寻找某种目标的最优方案,并加以实施的理论和方法。</p>
+<h2 id="第二章Python编程方法"><a href="#第二章Python编程方法" class="headerlink" title="第二章	Python编程方法"></a>第二章	Python编程方法</h2><p>2.1编程基础：Python语法<br>2.1.1类与实例<br>类在大部分编程语言中都是一个很重要的概念，类是面向对象编程的基础。使用函数可以实现简单功能的复用，而使用类则可以实现复杂的系统代码复用，因此通过类来模拟复杂的仿真系统。<br>举一个例子.如PPT模板可以是一个类，那么,通过修改PPT模板中的数据和文字得到新的PPT,就是实例，这个修改的过程就是实例化。又如，动物是一个类，小猫就是一个实例。<br>类由属性和方法两部分组成。如小猫是个类，其属性包括毛色、体重，方法包括抓老鼠。又如学生是个类，某个具体的同学就是实例，学生这个类的属性包括学号、身高、体重等;而学生这个类的方法就是学生能干什么，包括学习、考试等。方法就是这个类能做哪些事情，代码实现就是函数,一个函数经过固定格式的包装后就是类的方法。<br>注意:类的定义和实例化有固定的格式要求。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义一个类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">cat</span>():<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, color, weight</span>):<br>        self.color = color<br>        self.weight = weight<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">catch_mice</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;抓老鼠的方法&quot;&quot;&quot;</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;抓老鼠&#x27;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">eat_mice</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;吃老鼠&quot;&quot;&quot;</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;吃老鼠&#x27;</span>)<br><br><br><span class="hljs-comment"># 类的实例化</span><br>my_cat = cat(<span class="hljs-string">&#x27;yello&#x27;</span>, <span class="hljs-number">10</span>)<br><br><span class="hljs-comment"># 调用类的方法</span><br>my_cat.catch_mice()<br><span class="hljs-comment"># 输出 抓老鼠</span><br><br>my_cat.eat_mice()<br><span class="hljs-comment"># 输出 吃老鼠</span><br><br><span class="hljs-comment"># 查看类的属性</span><br><span class="hljs-built_in">print</span>(my_cat.color)<br><span class="hljs-comment"># 输出 yello</span><br><br><span class="hljs-built_in">print</span>(my_cat.weight)<br><span class="hljs-comment"># 输出 10</span><br></code></pre></td></tr></table></figure>
+
+<p>所有的类都有一个_init_(self)初始化方法，用来定义类有哪些属性，也可以用来在实例化类时执行某些方法。<br>2.2Pandas基础<br>2.2.1Pandas基础数据结构<br>Pandas提供了Series和DataFrame两种基础数据结构，其中Series表示序列数据，DataFrame表示表格数据，且是由多个Series组成的。<br>2.2.2分组统计<br>Pandas的分组统计使用groupby函数，参数as_index&#x3D;False表示统计后返回DataFrame类型的结果，否则返回Series类型的统计结果。<br>2.2.3apply函数<br>对于apply函数，其作用是对目标集合中的每一个元素执行相同的操作。</p>
+<h2 id="第三章-Gurobi优化器"><a href="#第三章-Gurobi优化器" class="headerlink" title="第三章 Gurobi优化器"></a>第三章 Gurobi优化器</h2><p>3.1Gurobi的数据结构<br>3.1.1Multidict<br>Multidict，即复合字典，就是多重字典的意思，multidict函数允许在一个语句中初始化一个或多个字典。<br>3.1.2Tuplelist<br>Tuplelist，即元组列表，就是tuple和list的组合，也就是list元素的tuple类型，其设计目的是为了高效的在元组列表中构建子列表。<br>3.1.3Tupledict<br>Tupledict是Python的dict的一个子类,通过tupledict可以更加高效地操作Gurobi中的变量子集，也就是说当定义了很多变量,需要对其中一部分变量进行操作时，可以使用tupledict的内置方法来高效轻松地构建线性表达式,如sum和prod。tupledict的键在内部存储格式是tuplelist,因此可以使用tuplelist的select方法选择集合的子集。在实际使用中,通过将元组与每个Gurobi变量关联起来,可以有效地创建包含匹配变量子集的表达式。<br>3.2 <strong>Gurobi</strong>的参数和属性<br>3.2.1参数类型<br>(1)Termination停止参数，用于控制求解的停止条件。如TimeLimit设定整个求解过程耗时限制; SolutionLimit设定MIP可行解数量; BarlterLimit设定障碍法(Barrier)迭代次数限制;IterationLimit设定单纯形法迭代次数限制，如表3.1所示。<br>(2)Tolerances容差参数，用于控制结果的精度，在大多数情况下，这个限制是通过数值公差来管理的；如果冲突小于相应的公差，求解器将结果视为满足约束。<br>(3)Simplex单纯形参数，用于控制单纯形法的应用。如InfUnbdInfo控制是否生成不可行或无界模型的附加信息。<br>(4)Barrier障碍法参数，用于控制障碍法的操作，障碍法也称罚函数法。如QCPDual控制是否获取二次模型的对偶值。<br>(5)MIP混合整数规划参数，用于控制混合整数规划算法。如BranchDir用于设定分支割平面搜索方向，默认值是自动选择的。值为-1时将总是首先探索向下分支，而值为1时则始终首先探索向上分支;Heristics设定启发式算法求解所花费的时间所占的比重。<br>(6)MIP Cuts割平面参数，用于控制割平面的形式。如Cuts用于控制全局割平面法的强度。<br>(7)Tuning调参参数，用于控制求解器的调参行为。如TuneCriterion可设定调参的准则，TuneTimeLimit可设定调参的时间。<br>(8)Multiple Solutions多解参数，用于修改MIP的搜索行为，用于尝试为MIP模型寻找多个解。如PoolSolutions决定储存可行解的数量。<br>3.2.2修改参数<br>对于Gorubi参数的修改有3种方法:一种是selPeram( paramname, newvalue)方法,其中paramname还有两种方法，一种是参数的字符串，比如”TimeLimit”，一种是完整的类属性，比如”gkb.CRB. param.TimeLimit” ;第三种方法是直接修改类的属性，写法是modelLParame.xx。<br>3.2.3属性类型<br>通过属性(Attributes)能够控制模型(变量、约束、目标等对象)的特征, Curobi中的属性共分成8种类型,分别是模型属性、变量属性、线性约束属性、SOS约束属性、二次约束属性、广义约束属性、解的质量属性和多目标属性。<br>(1)Model Attributes（模型属性),包括ModelSense模型优化方向(最大化或最小化).0bjVal当 的目标值。<br>3.2.4查看修改属性<br>查看和修改Gurobi参数属性的方法很简单,用于查看属性的函数是getAttr(attrname,objs),用于修改属性的函数是setAttr(attrname,newvalue）。<br>注意:并不是所有属性都能进行修改,对于只读属性就只能查看而不能修改。<br>(1)查看属性。<br>方法:getAttr(attrname,objs),其中attrname是属性名称,objs(可选）是列表或字典对象用来存储查询的值。<br>例如,model.getAttr(GRB.Attr.ObjVal）或简写为model.ObjVal。<br>（2)修改属性。<br>方法:setAttr(attrname,newvalue),其中attrname是属性名称,newvalue是属性的值。<br>例如, var.setAttr(GRB.Attr.VType,’C’)或简写为var.Vtype &#x3D;‘C’。<br>3.3 Gurobi线性化技巧<br>添加广义约束有两种方法;一种是model类的方法add_XXX;另一种是model.addConstr方法。约束条件用Gurobi内置函数表示.即用gurobipy.XXX函数来表达广义约束。<br>注意:当使用第二种方法时.该约束做的是逻辑判断,而不是赋值操作,这样就和model.addConstr方法的输入要求一致了。<br>3.4 Gurobi 多目标优化<br>在Gurobi中，可以通过MdelsetobjectiveN函数来建立多目标优化模型，多目标的setObjectiveN函数和单目标的setObjecive函数用法基本一致，不同的是多了目标优先级、目标劣化接受程度多目标的权重等参数。<br>setobjectiveN(expr, index, priority, weight, abstol, reltol, name)<br>各参数说明如下。<br>(1)expr:目标函数表达式，如x+ 2y + 3z。<br>(2)index:目标函数对应的序号(0,1,2,..),即第几个目标，注意目标函数序号应从0开始。<br>(3)prority:优先级,为整数，值越大表示目标优先级越高。<br>(4)weight:权重(浮点数)，在合成型多目标解法中使用该参数，表示不同目标之间的组合权重。<br>(5)abtol:允许的目标函数值最大的降低量abstol(浮点数)，即当前迭代的值相比最优值的可接受劣化程度。<br>(6)reltol:abstol的百分数表示，如rlol&#x3D;0.05则表示可接受劣化程度是5%。<br>(7)name:目标函数名称。<br>需要注意的是，在Gurobi的多目标优化中，要求所有的目标函数都是线性的，并且目标函数的优化方向应一致，即全部最大化或全部最小化，因此可以通过乘以-1实现不同的优化方向。<br>当前Gurobi支持3种多目标模式，分别是Blend（合成型)、Hierarchical(分层型)、两者的混合型。<br>Blend通过对多个目标赋予不同的权重实现将多目标转化成单目标函数，权重扮演优先级的角色<br>Herchial有优先级，一般理解是在保证第一个目标值最优的情况下优化第二个目标,或者在优 化第二个目标时要保证第一一个目标的最优值只能允许少量劣化。<br>3.5callback函数<br>callback函数的主要作用是为了获取程序运行过程中的一些中间信息，或者在程序运行过程中动态修改程序运行状态，如用户有时在求解过程中需要实现一些功能，包括终止优化、添加约束条件(割平面)、嵌入自己的算法等。<br>3.5.1回调函数callback定义<br>回调函数callback的定义的方法如下。<br>def funeion_name (model, where):<br>print(‘dosomething where gurobi run’，<br>其中calback函数有两个固定的参数:model是指定义的gurobi.Model类，where是指回调函数的出发点。<br>在callback函数使用过程中,需要注意的是where和what，即在什么地方(where)获取哪些信息(what)，如下面的代码,cbGet查询获取优化器的指定信息,即grb.CRB.Callback.MULTIOBJ_OBJCNT当 前解的数量。<br>if where -&#x3D;grb.GRB.Callback.MULTIOBJ:# where<br>print(model.cbGet(grb.GRB.Callback.MULTIOBJ_OBJCNT)) # what<br>注意:where和what一般是配套使用的,如当where&#x3D;MIP时,what只能获取MIP的相关信息。<br>3.5.2callback函数的功能<br>在Gurobi中除cbGet函数外还有一些常用函数用于获取运行过程中信息或修改运行状态,包 cbGetNodeRel.cbGetSolution ,cbCut ,cbLazy ,cbSetSolution ,cbStopOneMultiObj等。<br>cbGet(what)这个函数的使用最为频繁,常用于查询求解过程中的一些信息，如目标值、节点数等,使用时应注意what与where的匹配。</p>
+<h2 id="第四章-线性规划"><a href="#第四章-线性规划" class="headerlink" title="第四章 线性规划"></a>第四章 线性规划</h2><p>4.1线性规划的标准型<br>在线性规划求解方法中,模型的标准形式如下。<br>(1)目标函数求最大值。<br>(2)约束条件为等式约束。<br>(3)约束条件右边的常数项大于或等于0。<br>(4)所有变量大于或等于0。<br>对于非标准形式的模型,约束方程可以通过引人松弛变量使约束不能转化成等式约束。在某一些模型中,如果目标函数是求最小值,则两边乘以-1将求min转成求max;如果遇到约束方程右边常 数项为负数,则将约束方程乘以-1使常数项非负;如果变量x没有约束,则既可以是正数也可以是负数。<br>将模型转换成标准型后，就可以使用经典的线性规划方法求解了,包括单纯形法、内点法等。<br>内点法和单纯形法的结果相差可能很大，这是因为内点法的搜索路径是在可行域内部,而不能在可行域的边界上，这也是内点法的局限性。<br>内点法不仅局限在线性规划上，二次规划等也是可以求解的,因为其本质是利用函数梯度求最优值，这同很多机器学习算法的思路是一致的，真正的难点在于如何保证新的目标函数是否存在一阶导数和二阶导数，以及如何得到一阶导数和二阶导数的信息，有了导数信息，很多工具如Python中SciPy库的optimize包就可以利用函数的一阶导数和二阶导数快速求解函数的最优值。此外，初始迭代点的选择也是很重要的，在线性规划问题中能够保证最后得到的是最优解，而非线性规划问题中，函数是非凸的，因此很难保证最后的解是全局最优解。<br>4.2列生成法<br>列生成法是一种用于求解大规模线性优化问题非常高效的算法，本质上，列生成算法就是单纯形法的一种形式，它是用来求解线性规划问题的，所不同的是列生成法改善了大规模优化问题中单纯形法基变换计算效率低的问题，列生成法在整数规划中已经得到了广泛应用。<br>4.3对偶问题<br>可以将原问题和对偶问题看成是一个问题的两个视角，如在一定的资源下如何安排生产才能使利润最大，这个问题的另一个角度就是怎样购买这些生产资源使花钱最少。从数学的角度来说，如果原问题不好求解，可以尝试从对偶问题的角度出发求原问题，如在求最小问题中，对偶问题就是寻找原问题目标函数的下界。<br>4.4拉格朗日乘子法</p>
+<h2 id="第五章-整数规划"><a href="#第五章-整数规划" class="headerlink" title="第五章 整数规划"></a>第五章 整数规划</h2><p>通常默认变量的取值是大于或等于0的自然数,然而在许多实际问题中，都要求决策变量的取值为正整数，如机器台数、商品数量、工人数量、装载货物的汽车数量等，,这类要求变量为整数的问题称为整数规划(nteger Programming,IP)问题。如果只要求一部分决策变量取整数，则称为混合整数规划(Mix Integer Programming,MIP)。如果决策变量的取值只能是0或1，则称为0-1整数规划(Binary Integer Programming ,BIP)。如果模型是线性模型，则称为整数线性规划(Integer Linear Programming, ILP)。<br>求解整数规划的常用方法有分支定界法和割平面法，这两种方法的共同特点是，在线性规划的基础上，通过增加附加约束条件，使整数最优解称为线性规划的一个极点(可行域的一个顶点)，于是就可以用单纯形法等方法找到这个最优解，它们的区别在于约束条件的选取规划和方式不同。</p>
+<h2 id="第六章-多目标优化"><a href="#第六章-多目标优化" class="headerlink" title="第六章 多目标优化"></a>第六章 多目标优化</h2><p>多目标优化(Multiobjective Optimization Problem, MOP)也叫多目标规划，即同时优化多个目标的规划问题。前面讲的都是单目标规划方法,但是在实际生活中，很多决策往往是多目标决策，如购买商品时，既要保证质量，也要价格合适,如果有赠品就更好了。那么，在企业的生产管理中，既希望利润最大化，也希望成本最小化。<br>在讲Gurobi求解多目标决策时,已经介绍了Curobi求解多目标规划的两种方法:一种是合成型.将多目标转化成单目标决策问题;另一种是分层型,在保证第一目标的情况下，尽量优化第二,第三等目标。<br>因此,多目标规划一般有两种方法:一种是化多为少,即将多目标转化为比较容易求解的单目标规划方法;另一种是分层序列法,即把目标按其重要性排序,每次都在前一个目标最优解集内求解下一个目标的最优解,直到求出共同的最优解。那么,如何理解目标最优解集呢?在多目标规划中往往有多个最优解同时满足约束条件,不同的解之间不能简单通过大小来比较,这点是同单目标规划的最大区别,多个解组成的集合称为帕累托最优解集,组成的超平面称为帕累托前沿。</p>
+<h2 id="第七章-动态规划"><a href="#第七章-动态规划" class="headerlink" title="第七章 动态规划"></a>第七章 动态规划</h2><p>动态规划(Dynamic Programming,DP)是运筹学的一个分支，是解决多阶段决策过程最优化的一种方法。它把多变量复杂决策的问题进行分阶段决策,可高效求解多个单变量的决策问题。动态规划在现代企业管理、工农业生产中有着广泛的应用，许多问题用动态规划处理，比用线性规划或非线性规划处理更加有效,如最短路径、设备维修换新、多阶段库存等问题。<br>7.1 多阶段决策问题<br>有这样一类问题，它可以从时间或空间t将决策的过程分解为若干个相互联系的阶段.每个阶段都需要做出决策，当前阶段的决策往往会影响到下个阶段的决策,将各阶段的决策构成一个决策序列、称为策略。每个阶段都有若干个决策可供选择,因此就有许多策略可以选择。如何在这些策略中选择一个最优策略，这类问题就是多阶段决策问题。<br>一个较常见的多阶段决策问题是网络最短路径问题，给定的一个网路，需要从A出发到达D,如何选择路径才能使总路程最短，显然这是个4阶段决策问题。<br>动态规划的另一个常见例子是背包问题，一个背包最多能放15kg的物品，每个物品的重量和价值都已经知道，那要选择哪些物品才能使背包内的物品总价值最大?背包问题可以看成是一个多阶段规划问题，如果选择物品A,占用的空间将使得其他可供选择的物品减少。虽然简单背包问题可以用整数规划方法求解，但是用动态规划方法求解更为高效。</p>
+<h2 id="第八章-图与网络分析"><a href="#第八章-图与网络分析" class="headerlink" title="第八章 图与网络分析"></a>第八章 图与网络分析</h2><p>8.1图的基本概念<br>在算法最优化领域，图与网络分析是一个很重要的组成部分，特别是在交通运输领域中，问题会被建模成一个图优化问题。不仅仅是交通问题可以用图的模型表示，像人物关系图谱、任务流程依赖关系、电力线网、信息网络等都可以用图来表示。<br>8.2最小生成树<br>在数学建模中,如果用图的数据结构求解比较麻烦,而用树的数据结构求解比较简单时,就会用到最小生成树,将图转成树来建模。在实际问题中,一个经典的案例就是村庄架设电话线问题，假设6个村庄,网络边的权值标志村庄之间的距离,现在需要架设一条电话线构造成通信网,使每个村庄都能相互通信,且电话线的总长度最小。这同最短路径TSP问题有点相似,不同的是,在最短路径问题中,每个节点只能访问一次,而在村庄电话线问题中,有些节点是可以被访问多次的。<br>8.3网络最大流问题<br>研究网络通过的流量也是生产管理中经常遇到的问题,如交通干线车辆最大通行能力.生产流水线产品最大加工能力、供水网络中最大水流量等。这类网络的弧有确定的容量(Capacity) ,虽然常用cij表示从节点i到节点j的弧最大流量,但实际上通过该弧的流量不一定能达到最大流量,因此常用fij表示通过弧的实际流量。<br>对于网络最大流研究的两个问题:一个是从网络的起点出发到网络终点所能达到的最大流量;另一个问题是,当求解网络最大流量后,分析限制网络流量最大化的关键弧,通过某些方法增加该弧的容量,使网络最大化流量增加更多。<br>8.4 VRP问题<br>VRP( Vehicle Routing Problem,车辆路径问题)是TSP问题的扩展，是交通物流领域的研究热点。这里以物流配送场景为例介绍VRP问题。某配送中心对一定区域内的客户(需求点)进行货物配送服务.每个客户的货物配送量小于车辆最大装载量，且每个客户距离配送中心，以及各个客户间的距离是已知的，通常不存在只需要一辆车跑一趟就能满足全部客户的配送需求，否则VRP就退化为TSP问题，一般来说，需要几辆车或一辆车跑多趟才能满足全部客户的配送需求。此时需要解决的问题有以下两点。<br>(1)哪些客户的货物应该分配到同一辆车上。<br>(2)每辆车对客户服务的次序是什么。<br>VRP问题是运筹优化中一类普遍又重要的问题,Google开源的运筹优化求解器Ortools针对这类问题有专门的调用接口,前面提到的VRP问题就是车辆容量限制的CVRP问题,如果是时间窗约束,如寄快递会指定快递员上门取件的时间段,这就是时间窗口约束的VRP问题,即VRPTW。在配货场景中,因仓库装卸能力有限,只能同时对两辆车进行装卸,那么其他车就需要等待前面的车装卸完成。相似的场景还有飞机场的飞机调度问题,由于飞机场的机位是有限的,如何安排飞机的起降时间和顺序就显得尤为重要,这类问题是资源约束的VRP问题,即VRRC。这些类常见问题Ortools提供了现成的解决方案。</p>
+<h2 id="第九章-智能优化算法"><a href="#第九章-智能优化算法" class="headerlink" title="第九章 智能优化算法"></a>第九章 智能优化算法</h2><p>常见的智能优化算法有遗传算法、粒子群算法、模拟退火算法、禁忌搜索算法、蚁群算法、差分进化算法等。</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96/">#最优化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python最优化算法学习笔记（Gurobi）</div>
+      <div>http://example.com/2022/05/19/Python最优化算法学习笔记（Gurobi）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月19日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/19/2021%E5%B9%B4MathorCup%E9%AB%98%E6%A0%A1%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E6%8C%91%E6%88%98%E8%B5%9Bb%E9%A2%98%EF%BC%9A%E4%B8%89%E7%BB%B4%E5%9B%A2%E7%B0%87%E7%9A%84%E8%83%BD%E9%87%8F%E9%A2%84%E6%B5%8B%EF%BC%88%E4%B8%89%E7%AD%89%EF%BC%89/" title="2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）">
+                        <span class="hidden-mobile">2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://lib.baomitu.com/disqusjs/1.3.0/disqusjs.css');
+          Fluid.utils.createScript('https://lib.baomitu.com/disqusjs/1.3.0/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: ''
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="微信公众号：数学建模与人工智能 https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning 摘要团簇可以分为金属团簇和非金属团簇，由于金属团簇具有良好的催化性能，因此备受关注。但由于团簇的势能面过于复杂，同时有时候还需要考虑相对论效应等，所以搜索团簇的全局最优结构显得尤为困难。其中，传统的理论计算方法研究效率较低且非常耗时。因此，需要对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）">
+<meta property="og:url" content="http://example.com/2022/05/19/2021%E5%B9%B4MathorCup%E9%AB%98%E6%A0%A1%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E6%8C%91%E6%88%98%E8%B5%9Bb%E9%A2%98%EF%BC%9A%E4%B8%89%E7%BB%B4%E5%9B%A2%E7%B0%87%E7%9A%84%E8%83%BD%E9%87%8F%E9%A2%84%E6%B5%8B%EF%BC%88%E4%B8%89%E7%AD%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="微信公众号：数学建模与人工智能 https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning 摘要团簇可以分为金属团簇和非金属团簇，由于金属团簇具有良好的催化性能，因此备受关注。但由于团簇的势能面过于复杂，同时有时候还需要考虑相对论效应等，所以搜索团簇的全局最优结构显得尤为困难。其中，传统的理论计算方法研究效率较低且非常耗时。因此，需要对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210531205211766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1ODMyMDUw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210531205316859.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1ODMyMDUw,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2022-05-19T11:05:20.006Z">
+<meta property="article:modified_time" content="2022-05-19T11:09:37.699Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="数学建模">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210531205211766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1ODMyMDUw,size_16,color_FFFFFF,t_70">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等） - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Qin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Qin Zk
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-19 19:05" pubdate>
+          2022年5月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）</h1>
+            
+            <div class="markdown-body">
+              
+              <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=100000468&idx=1&sn=78ed3ca71b09e0ad39ab73f30943bdf0&scene=19#wechat_redirect">微信公众号：数学建模与人工智能</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a></p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>团簇可以分为金属团簇和非金属团簇，由于金属团簇具有良好的催化性能，因此备受关注。但由于团簇的势能面过于复杂，同时有时候还需要考虑相对论效应等，所以搜索团簇的全局最优结构显得尤为困难。其中，传统的理论计算方法研究效率较低且非常耗时。因此，需要对这种方法加以改进，例如：考虑全局优化算法，结合机器学习等方法，训练团簇结构和能量的关系，从而预测新型团簇的全局最优结构，有利于发现新型团簇材料的结构和性能。本文根据团簇数据样本，通过机器学习和优化算法以及软件编程，对其数据进行处理和预测搜索，完成了以下几方面的问题：<br><strong>针对问题一</strong>，首先，通过Python编程读取xyz文件将其整合，并求出原始数据平均值对缺失的155号数据进行填充。通过金团簇Au20的原子坐标、原子数目和团簇能量来预测金团簇能量，利用库伦矩阵和特征值提取转换成向量以满足机器学习算法，然后利用K近邻回归模型、随机森林回归模型、LightGBM回归模型算法对金团簇能量进行预测，通过MSE评价指标选取最优算法为LightGBM回归模型。最后利用粒子群优化算法与其结合搜索和预测出金团簇Au20的全局最优结构的能量为-1558.381512。<br><strong>针对问题二</strong>，首先，根据金团簇Au20的结构，通过Monte Carlo方法和L-J势函数模拟生成异构体Au32的结构，重新训练LightGBM回归模型，然后利用基于LightGBM回归的粒子群优化算法预测出全局最优结构的能量为-2484.139072。通过分析团簇的对称性以及平均键合能、一级解离能和二级解离能确定结构相对稳定。<br><strong>针对问题三</strong>，同问题一，首先通过Python编程读取xyz文件将其整合，利用库伦矩阵和特征值提取转换成向量以满足机器学习算法且保证原始数据不丢失，然后利用随机森林回归模型、LightGBM回归模型算法对硼团簇能量进行预测，并且对两种模型进行网格搜索找到最优参数，来达到整体模型的偏差和方差的大和谐，通过MSE评价指标选取最优算法为随机森林回归模型。最后利用粒子群优化算法与其结合，搜索和预测出硼团簇B45-的全局最优结构的能量为-114059.5529096。<br><strong>针对问题四</strong>，通过Python编程首先对硼团簇B45-的坐标通过排列组合列出40个坐标所有情形共有 个，然后根据L-J势能函数计算所有情形的势能，取势能最低的作为B40-的坐标。最后通过B40-的坐标训练随机森林回归模型，利用基于随机森林回归模型的粒子群优化算法找到硼团簇B40-的全局最优结构的能量为-101138.961718，最后分析稳定性较为稳定且比B45-稳定。<br><strong>关键词：团簇；LGB回归模型；随机森林回归模型；蒙特卡洛；粒子群优化算法</strong></p>
+<h1 id="一、问题重述1"><a href="#一、问题重述1" class="headerlink" title="一、问题重述	1"></a>一、问题重述	1</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=100000468&idx=1&sn=78ed3ca71b09e0ad39ab73f30943bdf0&scene=19#wechat_redirect">更新时间：2022&#x2F;4&#x2F;13</a></p>
+<h1 id="二、问题的分析1"><a href="#二、问题的分析1" class="headerlink" title="二、问题的分析	1"></a>二、问题的分析	1</h1><p><strong>问题一的分析</strong>:问题一要求通过附件给出的1000个金团簇Au20的结构，建立金团簇能量预测的数学模型，并预测金团簇Au20的全局最优结构，描述形状。首先，观察所给原始数据，发现155号数据缺失，通过计算原始数据平均值对缺失值进行填补。其次，为满足机器学习算法的向量输入需求，通过库伦矩阵等方法将原子坐标进行转换，利用机器学习算法得到金团簇预测模型。最后，结合粒子群优化算法搜索和预测金团簇Au20的全局最优结构并画出图形。<br><strong>问题二的分析</strong>：问题二要求在问题一的基础上设计算法，产生金团簇不同结构的异构体，自动搜索和预测金团簇Au32的全局最优结构，并描述其几何形状，分析稳定性。用Monte Carlo方法及L-J势函数模拟金团簇Au20异构体Au32的生成。并用基于LightGBM回归的粒子群优化算法搜索和预测金团簇Au32的全局最优结构并画出图形。通过分析团簇的对称性以及平均键合能、一级解离能和二级解离能分析其稳定性。<br><strong>问题三的分析</strong>：问题三要求通过附件给出的3751个硼团簇B45-的结构，建立硼团簇能量预测的数学模型，并预测硼团簇B45-的全局最优结构，描述形状。同问题一为满足机器学习算法的向量输入需求，通过库伦矩阵等方法将原子坐标进行转换，利用机器学习算法得到硼团簇预测模型。最后，结合粒子群优化算法搜索和预测硼团簇B45-的全局最优结构并画出图形。<br><strong>问题四的分析</strong>：问题四要求在问题三的基础上设计算法，产生硼团簇不同结构的异构体，自动搜索和预测硼团簇B40-的全局最优结构，并描述其几何形状，分析稳定性。首先对硼团簇B45-的坐标通过排列组合列出40个坐标所有情形，根据势能函数计算所有情形的势能[1]，取势能最低的作为B40-的坐标。最后通过B40-的坐标训练模型，利用基于随机森林回归模型的粒子群优化算法找到硼团簇B40-的全局最优结构并画出图形。通过分析团簇的对称性以及平均键合能、一级解离能和二级解离能分析其稳定性。</p>
+<h1 id="三、模型假设2"><a href="#三、模型假设2" class="headerlink" title="三、模型假设	2"></a>三、模型假设	2</h1><p>（1）数据样本中不存在不精确数据。<br>（2）团簇在空间中的平移或旋转都不会影响基于原子坐标的能量预测模型。<br>（3）使用原子直接的距离来描述体系的结构适用于当前团簇原子规模。<br>（4）基于原子坐标的机器学习模型可以一定程度上描述体系的对称性。</p>
+<h1 id="四、符号说明2"><a href="#四、符号说明2" class="headerlink" title="四、符号说明	2"></a>四、符号说明	2</h1><h1 id="五、模型的建立与求解3"><a href="#五、模型的建立与求解3" class="headerlink" title="五、模型的建立与求解	3"></a>五、模型的建立与求解	3</h1><h2 id="5-1-问题一：金团簇能量预测模型的建立和Au20全局最优结构的预测3"><a href="#5-1-问题一：金团簇能量预测模型的建立和Au20全局最优结构的预测3" class="headerlink" title="5.1 问题一：金团簇能量预测模型的建立和Au20全局最优结构的预测	3"></a>5.1 问题一：金团簇能量预测模型的建立和Au20全局最优结构的预测	3</h2><h3 id="5-1-1求解思路3"><a href="#5-1-1求解思路3" class="headerlink" title="5.1.1求解思路	3"></a>5.1.1求解思路	3</h3><p>首先，通过Python编程读取xyz文件将其整合，并求出原始数据平均值对缺失的155号数据进行填充。由于原始数据中只包含金团簇Au20的原子坐标、原子数目和团簇能量，因此要通过原子坐标和原子数目来预测金团簇能量，就需要一种描述方法将随机生成的结构信息表征成数值向量的模式，同时还要保证原始数据不能丢失，利用库伦矩阵和特征值提取转换成向量以满足机器学习算法，然后利用K近邻回归模型、随机森林回归模型、LightGBM回归模型算法对金团簇能量进行预测，通过MSE评价指标选取最优算法。最后利用粒子群优化算法与其结合搜索和预测出金团簇Au20的全局最优结构并画出图形。</p>
+<h3 id="5-1-2数据处理4"><a href="#5-1-2数据处理4" class="headerlink" title="5.1.2数据处理	4"></a>5.1.2数据处理	4</h3><h3 id="5-1-3金团簇能量预测模型的建立与求解5"><a href="#5-1-3金团簇能量预测模型的建立与求解5" class="headerlink" title="5.1.3金团簇能量预测模型的建立与求解	5"></a>5.1.3金团簇能量预测模型的建立与求解	5</h3><h4 id="5-1-3-1-K近邻回归模型的建立与求解"><a href="#5-1-3-1-K近邻回归模型的建立与求解" class="headerlink" title="5.1.3.1 K近邻回归模型的建立与求解"></a>5.1.3.1 K近邻回归模型的建立与求解</h4><h4 id="5-1-3-2随机森林回归模型的建立与求解"><a href="#5-1-3-2随机森林回归模型的建立与求解" class="headerlink" title="5.1.3.2随机森林回归模型的建立与求解"></a>5.1.3.2随机森林回归模型的建立与求解</h4><p>随机森林算法是Breiman[3]提出的群体分类模型的一种，能有效分析非线性、共线性和具有交互作用数据，在变量和数据的使用上进行随机化生成很多树，随机产生样本及节点变量，使得随机森林中的每一个棵树都不尽相关，进行bootstrap抽样,在原始训练样本集N中多次有放回地随机抽取n个新的训练样本集，生成n个分类树组成的随机森林，得到模型最优时的森林，当出现新样本时随机森林中的每一个树分别进行判断。<br>通过Python使用sklearn库调用随机森林回归算法进行金团簇能量预测，将在数据处理中得到的32×1维的特征向量作为特征变量，金团簇Au20能量作为目标变量，划分80%的训练集和20%的测试集进行求解。在sklearn中直接调用maen_squared_error( )函数计算MSE为0.458028，模型运行时间为2.342937秒。<br>随机森林回归模型使用便捷，特征无须做过多变换，具有较高精度，模型并行训练快；但结果不容易解释。</p>
+<h4 id="5-1-3-3-LightGBM回归模型的建立与求解"><a href="#5-1-3-3-LightGBM回归模型的建立与求解" class="headerlink" title="5.1.3.3 LightGBM回归模型的建立与求解"></a>5.1.3.3 LightGBM回归模型的建立与求解</h4><p>LightGBM(Light Gradient Boosting Machine)是微软亚洲研究所DMYK团队的一个开源的算法，李淑锦, 嵇晓佳[4]认为LGB回归模型基于直方图进行计算获得更高的速度和更高的效率，占用更少的内存，支持并行计算，并且由于缩减了训练时间因此可以进行大数据处理。LGB回归模型在计算时会将浮点型数值转化成离散型数值，从而生成了一个直方图。并且在图中累计离散数值统计量，降低占用的内存来找最佳分割点，算法流程图如图1.3所示。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210531205211766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1ODMyMDUw,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="图1.3 LightGBM模型训练预测流程图"><br>通过Python调用LightGBM回归算法进行金团簇能量预测，将在数据处理中得到的32×1维的特征向量作为特征变量，金团簇Au20能量作为目标变量，划分80%的训练集和20%的测试集进行求解。计算MSE为0.364445，模型运行时间为12.187506秒。发现LightGBM回归模型精度高，但训练时间长，模型复杂。</p>
+<h4 id="5-1-3-4金团簇能量预测模型的选取"><a href="#5-1-3-4金团簇能量预测模型的选取" class="headerlink" title="5.1.3.4金团簇能量预测模型的选取"></a>5.1.3.4金团簇能量预测模型的选取</h4><p>将K近邻回归模型、随机森林回归模型和LightGBM回归模型预测准确率进行对比，如图1.4所示。<img src="https://img-blog.csdnimg.cn/20210531205316859.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1ODMyMDUw,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" lazyload alt="图1.4 3种模型预测准确率"><br>K近邻回归模型在三种模型中MSE最大，精确度较低，故在随机森林回归模型和LightGBM回归模型中进行选取，又比较算法的时间开销如表1.1所示<br>表1.1 算法时间开销</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>运行时间&#x2F;ms</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>KNeighbors</td>
+<td>96.31</td>
+</tr>
+<tr>
+<td>RandomForest</td>
+<td>2342.94</td>
+</tr>
+<tr>
+<td>LightGBM</td>
+<td>12187.51</td>
+</tr>
+</tbody></table>
+<p>综合考虑，选取LightGBM回归模型作为金团簇能量预测的模型。</p>
+<h3 id="5-1-4基于LightGBM回归模型的粒子群优化算法的建立与求解7"><a href="#5-1-4基于LightGBM回归模型的粒子群优化算法的建立与求解7" class="headerlink" title="5.1.4基于LightGBM回归模型的粒子群优化算法的建立与求解	7"></a>5.1.4基于LightGBM回归模型的粒子群优化算法的建立与求解	7</h3><h2 id="5-2-问题二：金团簇不同结构异构体的产生和Au32的全局最优结构的预测10"><a href="#5-2-问题二：金团簇不同结构异构体的产生和Au32的全局最优结构的预测10" class="headerlink" title="5.2 问题二：金团簇不同结构异构体的产生和Au32的全局最优结构的预测	10"></a>5.2 问题二：金团簇不同结构异构体的产生和Au32的全局最优结构的预测	10</h2><h3 id="5-2-1求解思路10"><a href="#5-2-1求解思路10" class="headerlink" title="5.2.1求解思路	10"></a>5.2.1求解思路	10</h3><h3 id="5-2-2基于Monte-Carlo方法和L-J势函数的异构体Au32的生成10"><a href="#5-2-2基于Monte-Carlo方法和L-J势函数的异构体Au32的生成10" class="headerlink" title="5.2.2基于Monte Carlo方法和L-J势函数的异构体Au32的生成	10"></a>5.2.2基于Monte Carlo方法和L-J势函数的异构体Au32的生成	10</h3><h3 id="5-2-3基于LightGBM回归模型的粒子群优化算法的Au32最优结构预测与稳定性分析12"><a href="#5-2-3基于LightGBM回归模型的粒子群优化算法的Au32最优结构预测与稳定性分析12" class="headerlink" title="5.2.3基于LightGBM回归模型的粒子群优化算法的Au32最优结构预测与稳定性分析	12"></a>5.2.3基于LightGBM回归模型的粒子群优化算法的Au32最优结构预测与稳定性分析	12</h3><h2 id="5-3-问题三：硼团簇能量预测模型的建立和B45-全局最优结构的预测13"><a href="#5-3-问题三：硼团簇能量预测模型的建立和B45-全局最优结构的预测13" class="headerlink" title="5.3 问题三：硼团簇能量预测模型的建立和B45-全局最优结构的预测	13"></a>5.3 问题三：硼团簇能量预测模型的建立和B45-全局最优结构的预测	13</h2><h3 id="5-3-1求解思路13"><a href="#5-3-1求解思路13" class="headerlink" title="5.3.1求解思路	13"></a>5.3.1求解思路	13</h3><p>首先，根据金团簇Au20的结构，通过Monte Carlo方法和L-J势函数模拟生成异构体Au32的结构，重新训练LightGBM回归模型，然后利用基于LightGBM回归的粒子群优化算法预测出全局最优结构。通过分析团簇的对称性以及平均键合能、一级解离能和二级解离能分析其稳定性[5]。</p>
+<h3 id="5-3-2数据处理14"><a href="#5-3-2数据处理14" class="headerlink" title="5.3.2数据处理	14"></a>5.3.2数据处理	14</h3><h3 id="5-3-3硼团簇能量预测模型的建立与求解14"><a href="#5-3-3硼团簇能量预测模型的建立与求解14" class="headerlink" title="5.3.3硼团簇能量预测模型的建立与求解	14"></a>5.3.3硼团簇能量预测模型的建立与求解	14</h3><h3 id="5-3-4基于随机森林回归模型的粒子群优化算法的建立与求解15"><a href="#5-3-4基于随机森林回归模型的粒子群优化算法的建立与求解15" class="headerlink" title="5.3.4基于随机森林回归模型的粒子群优化算法的建立与求解	15"></a>5.3.4基于随机森林回归模型的粒子群优化算法的建立与求解	15</h3><h2 id="5-4-问题四：硼团簇不同结构异构体的产生和B40-的全局最优结构的预测17"><a href="#5-4-问题四：硼团簇不同结构异构体的产生和B40-的全局最优结构的预测17" class="headerlink" title="5.4 问题四：硼团簇不同结构异构体的产生和B40-的全局最优结构的预测	17"></a>5.4 问题四：硼团簇不同结构异构体的产生和B40-的全局最优结构的预测	17</h2><h3 id="5-4-1求解思路17"><a href="#5-4-1求解思路17" class="headerlink" title="5.4.1求解思路	17"></a>5.4.1求解思路	17</h3><p>通过Python编程首先对硼团簇B45-的坐标通过排列组合列出40个坐标所有情形共有 个，然后根据L-J势能函数计算所有情形的势能，取势能最低的作为B40-的坐标。最后通过B40-的坐标训练随机森林回归模型，利用基于随机森林回归模型的粒子群优化算法找到硼团簇B40-的全局最优结构并画出图形。通过分析团簇的对称性以及平均键合能、一级解离能和二级解离能分析其稳定性。</p>
+<h3 id="5-4-2基于随机森林回归模型的粒子群优化算法的B40-最优结构预测与稳定性分析17"><a href="#5-4-2基于随机森林回归模型的粒子群优化算法的B40-最优结构预测与稳定性分析17" class="headerlink" title="5.4.2基于随机森林回归模型的粒子群优化算法的B40-最优结构预测与稳定性分析	17"></a>5.4.2基于随机森林回归模型的粒子群优化算法的B40-最优结构预测与稳定性分析	17</h3><h1 id="六、模型评价与改进18"><a href="#六、模型评价与改进18" class="headerlink" title="六、模型评价与改进	18"></a>六、模型评价与改进	18</h1><p>对于问题一：问题一中选取了K近邻回归模型、随机森林回归模型、LightGBM回归模型对金团簇能量进行预测，随机森林回归模型和LightGBM回归模型准确度较高，运行时间较短，加快了粒子群优化算法搜索金团簇Au20的最优结构的速度。对于问题一只选取了三种机器学习模型而且并没有进行调参，对此增加了多层神经网络和支持向量回归模型并进行参数调优，发现LightGBM回归模型精确度最高为0.347896且运行速度较快。并对粒子群优化算法种群数和迭代次数扩大在其中加入金属对称性的约束条件，发现找到的最优结构更好能量更低。<br>对于问题二：在产生金团簇异构体时采取的是L-J势函数，对此进行改进采取LJ+AT势能函数发现产生的异构体更稳定，预测的最优结构对应的能量更低。<br>对于问题三、问题四：采取的是随机森林回归模型和LightGBM回归模型做比较选取对此进行改进，将随机森林回归模型和LightGBM回归模型进行融合发现效果更好。因为预测向量中的每个值都接近于真实值时，才能保证在进行局部优化或全局搜索时的方向和真实情况是一致的。所以建立算法置信度模型，置信度定义为预测误差小于给定允许误差的点所占的比例，这个比例越大，表明算法越可靠，从结果看在准确度方面是可行的。</p>
+<h1 id="七、参考文献19"><a href="#七、参考文献19" class="headerlink" title="七、参考文献	19"></a>七、参考文献	19</h1><h1 id="八、附录20"><a href="#八、附录20" class="headerlink" title="八、附录	20"></a>八、附录	20</h1><p><strong>第一题：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python">read_file_1.py:<br><span class="hljs-keyword">import</span> numpy<br><span class="hljs-keyword">from</span> scipy.spatial.distance <span class="hljs-keyword">import</span> cdist<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_xyz_comment</span>(<span class="hljs-params">path</span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        <span class="hljs-keyword">for</span> i, line <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(f):<br>            <span class="hljs-keyword">if</span>(i==<span class="hljs-number">1</span>):<br>                comment=<span class="hljs-built_in">float</span>(line)<br>    <span class="hljs-keyword">return</span> comment<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_xyz_coords</span>(<span class="hljs-params">path</span>):<br>    elements = []<br>    coords = []<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        <span class="hljs-keyword">for</span> i, line <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(f):<br>            <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">2</span>:<br>                <span class="hljs-keyword">continue</span><br>            ele, x, y, z = line.strip().split()<br>            point = [<span class="hljs-built_in">float</span>(x), <span class="hljs-built_in">float</span>(y), <span class="hljs-built_in">float</span>(z)]<br>            elements.append(ele)<br>            coords.append(point)<br>    <span class="hljs-keyword">return</span> coords<br><br><span class="hljs-comment">#计算库伦矩阵</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_coulomb_matrix</span>(<span class="hljs-params">numbers, coords, alpha=<span class="hljs-number">1</span>, use_decay=<span class="hljs-literal">False</span></span>):<br>......<br></code></pre></td></tr></table></figure>
+<h1 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h1><h1 id="官方优秀论文"><a href="#官方优秀论文" class="headerlink" title="官方优秀论文"></a>官方优秀论文</h1><p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ytLtH2cqSnmD9DrWZ2QS-g">https://pan.baidu.com/s/1ytLtH2cqSnmD9DrWZ2QS-g</a><br>提取码：yhzj</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">#数学建模</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）</div>
+      <div>http://example.com/2022/05/19/2021年MathorCup高校数学建模挑战赛b题：三维团簇的能量预测（三等）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月19日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/19/Python%E6%9C%80%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88Gurobi%EF%BC%89/" title="Python最优化算法学习笔记（Gurobi）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python最优化算法学习笔记（Gurobi）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/19/%E2%80%9C%E5%8D%8E%E4%B8%BA%E6%9D%AF%E2%80%9D%E7%AC%AC%E5%8D%81%E5%85%AB%E5%B1%8A%E4%B8%AD%E5%9B%BD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AB%9E%E8%B5%9BD%E9%A2%98%EF%BC%9A%E6%8A%97%E4%B9%B3%E8%85%BA%E7%99%8C%E5%80%99%E9%80%89%E8%8D%AF%E7%89%A9%E7%9A%84%E4%BC%98%E5%8C%96%E5%BB%BA%E6%A8%A1(%E4%B8%80%E7%AD%89%E5%A5%96%EF%BC%89/" title="“华为杯”第十八届中国研究生数学建模竞赛D题：抗乳腺癌候选药物的优化建模(一等奖）">
+                        <span class="hidden-mobile">“华为杯”第十八届中国研究生数学建模竞赛D题：抗乳腺癌候选药物的优化建模(一等奖）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://lib.baomitu.com/disqusjs/1.3.0/disqusjs.css');
+          Fluid.utils.createScript('https://lib.baomitu.com/disqusjs/1.3.0/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: ''
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
