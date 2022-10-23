@@ -1,0 +1,1108 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="简介GitHub Actions 是 GitHub 推出的持续集成服务。  在 GitHub Actions 的仓库中自动化、自定义和执行软件开发工作流程。 您可以发现、创建和共享操作以执行您喜欢的任何作业（包括 CI&#x2F;CD），并将操作合并到完全自定义的工作流程中。  就是你可以给你的代码仓库部署一系列自动化脚本，在你进行了提交&#x2F;合并分支等操作后，自动执行脚本。 GitHub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）">
+<meta property="og:url" content="http://example.com/2022/10/23/%E9%80%9A%E8%BF%87GitHub%20Actions%E7%BB%99%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E6%B5%8B%E8%AF%95%E5%8F%B7%E5%92%8C%E9%92%89%E9%92%89%E7%BE%A4%E5%AE%9A%E6%97%B6%E6%8E%A8%E9%80%81%E6%B6%88%E6%81%AF%EF%BC%88Python%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="简介GitHub Actions 是 GitHub 推出的持续集成服务。  在 GitHub Actions 的仓库中自动化、自定义和执行软件开发工作流程。 您可以发现、创建和共享操作以执行您喜欢的任何作业（包括 CI&#x2F;CD），并将操作合并到完全自定义的工作流程中。  就是你可以给你的代码仓库部署一系列自动化脚本，在你进行了提交&#x2F;合并分支等操作后，自动执行脚本。 GitHub">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ee6a62241c1d41628ddcb0ef2dca89f2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/710585c11f054b1d91cd198bc186ea71.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/66495a10fcda41b7a0e80b6e3b478dee.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c1483cf48d6a44ae8e6a457b1adc0fe9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/094b0eee40a24fd8a0a1de9b5c550cb4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6edef1fb1e5b4606870a24120237e35c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/93e4ecd7388c43709da2dcff25fa1cf2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a3eb31fc3bbc4f2991586b0d4ec281ba.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a3abac987ae0443eba850793d848d63f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c49e3ef76bfc4deaaad6e31ca8f9b627.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/00896e2580f0428895de352565d84281.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/16042ba005e94ae480a83dd9c65ea220.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d03d721b6c20482d8b6517af8ec284a3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1d1ac2ec331a46d08c4473e152101732.png">
+<meta property="article:published_time" content="2022-10-23T09:41:14.945Z">
+<meta property="article:modified_time" content="2022-10-23T09:55:33.749Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="Blog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/ee6a62241c1d41628ddcb0ef2dca89f2.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":"ture","follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Qin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/article.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Qin Zk
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-23 17:41" pubdate>
+          2022年10月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://qzkq.github.io" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）</h1>
+            
+            <div class="markdown-body">
+              
+              <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>GitHub Actions 是 GitHub 推出的持续集成服务。</p>
+<blockquote>
+<p>在 GitHub Actions 的仓库中自动化、自定义和执行软件开发工作流程。 您可以发现、创建和共享操作以执行您喜欢的任何作业（包括 CI&#x2F;CD），并将操作合并到完全自定义的工作流程中。</p>
+</blockquote>
+<p>就是你可以给你的代码仓库部署一系列自动化脚本，在你进行了提交&#x2F;合并分支等操作后，自动执行脚本。</p>
+<h2 id="GitHub-Actions-术语"><a href="#GitHub-Actions-术语" class="headerlink" title="GitHub Actions 术语"></a>GitHub Actions 术语</h2><ul>
+<li>workflow （工作流程）：持续集成一次运行的过程，就是一个 workflow。</li>
+<li>job （任务）：一个 workflow由一个或多个 jobs 构成，含义是一次持续集成的运行，可以完成多个任务。</li>
+<li>step（步骤）：每个 job 由多个 step构成，一步步完成。 </li>
+<li>action （动作）：每个 step 可以依次执行一个或多个命令（action）。</li>
+</ul>
+<h3 id="workflow-文件"><a href="#workflow-文件" class="headerlink" title="workflow 文件"></a>workflow 文件</h3><p>GitHub Actions 的配置文件叫做 workflow 文件，存放在代码仓库的.github&#x2F;workflows目录。</p>
+<p>workflow 文件采用 YAML 格式，文件名可以任意取，但是后缀名统一为.yml，默认为main.yml。一个库可以有多个 workflow 文件。GitHub 只要发现.github&#x2F;workflows目录里面有.yml文件，就会自动运行该文件。</p>
+<h4 id="1-name"><a href="#1-name" class="headerlink" title="1.name"></a>1.name</h4><p>workflow的名称。如果省略该字段，默认为当前workflow的文件名。</p>
+<h4 id="2-on"><a href="#2-on" class="headerlink" title="2.on"></a>2.on</h4><p>触发workflow的条件，通常是某些事件，详细内容可以参照 <a target="_blank" rel="noopener" href="https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions">官方文档</a> 。<br>例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">on: push<br></code></pre></td></tr></table></figure>
+
+<p>上面代码指定，push事件触发 workflow。</p>
+<p>on字段也可以是事件的数组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">on: [push, pull_request]<br></code></pre></td></tr></table></figure>
+
+<p>上面代码指定，push事件或pull_request事件都可以触发 workflow。</p>
+<p>除了代码库事件，GitHub Actions 也支持外部事件触发，或者定时运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">on.&lt;push|pull_request&gt;.&lt;tags|branches&gt;<br></code></pre></td></tr></table></figure>
+
+<p>指定触发事件时，可以限定分支或标签。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">on:<br>  push:<br>    branches:    <br>      - master<br></code></pre></td></tr></table></figure>
+
+<p>上面代码指定，只有master分支发生push事件时，才会触发 workflow。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">on.schedule<br></code></pre></td></tr></table></figure>
+<p>后续定时推送微信公众测试号需要设置的；预定的工作流程在默认或基础分支的最新提交上运行。您可以运行预定工作流程的最短间隔是每 5 分钟一次。</p>
+<p>在每天 5：30 和 17：30 UTC 触发工作流程（注意utc时间和中国时间差异）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">on:<br>  schedule:<br>    <span class="hljs-comment"># * is a special character in YAML so you have to quote this string</span><br>    - cron:  <span class="hljs-string">&#x27;30 5,17 * * *&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>多个 事件可以触发单个工作流。你可以通过 上下文访问触发工作流的计划事件。此示例触发工作流在每周一至周四 5：30 UTC 运行，但在周一和周三跳过 步骤。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">on:<br>  schedule:<br>    - cron: <span class="hljs-string">&#x27;30 5 * * 1,3&#x27;</span><br>    - cron: <span class="hljs-string">&#x27;30 5 * * 2,4&#x27;</span><br><br>jobs:<br>  test_schedule:<br>    runs-on: ubuntu-latest<br>    steps:<br>      - name: Not on Monday <span class="hljs-keyword">or</span> Wednesday<br>        <span class="hljs-keyword">if</span>: github.event.schedule != <span class="hljs-string">&#x27;30 5 * * 1,3&#x27;</span><br>        run: echo <span class="hljs-string">&quot;This step will be skipped on Monday and Wednesday&quot;</span><br>      - name: Every time<br>        run: echo <span class="hljs-string">&quot;This step will always run&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-jobs"><a href="#3-jobs" class="headerlink" title="3.jobs"></a>3.jobs</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs.&lt;job_id&gt;.name<br></code></pre></td></tr></table></figure>
+
+<p>workflow 文件的主体是jobs字段，表示要执行的一项或多项任务。</p>
+<p>jobs字段里面，需要写出每一项任务的job_id，具体名称自定义。job_id里面的name字段是任务的说明。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs:<br>  my_first_job:<br>    name: My first job<br>  my_second_job:<br>    name: My second job<br></code></pre></td></tr></table></figure>
+
+<p>上面代码的jobs字段包含两项任务，job_id分别是my_first_job和my_second_job。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs.&lt;job_id&gt;.needs<br></code></pre></td></tr></table></figure>
+
+<p>needs字段指定当前任务的依赖关系，即运行顺序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs:<br>  job1:<br>  job2:<br>    needs: job1<br>  job3:<br>    needs: [job1, job2]<br></code></pre></td></tr></table></figure>
+
+<p>上面代码中，job1必须先于job2完成，而job3等待job1和job2的完成才能运行。因此，这个 workflow 的运行顺序依次为：job1、job2、job3。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs.&lt;job_id&gt;.runs-on<br></code></pre></td></tr></table></figure>
+
+<p>runs-on字段指定运行所需要的虚拟机环境。它是必填字段。目前可用的虚拟机如下：</p>
+<ul>
+<li><strong>ubuntu-lates</strong>t，ubuntu-22.04或ubuntu-20.04</li>
+<li><strong>windows-latest</strong>，windows-2022或windows-2019</li>
+<li><strong>macOS-latest</strong>，macOS-12或macOS-11</li>
+</ul>
+<p>指定虚拟机环境为ubuntu-20.04</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">runs-on: ubuntu-<span class="hljs-number">20.04</span><br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">jobs.&lt;job_id&gt;.steps<br></code></pre></td></tr></table></figure>
+
+<p>steps字段指定每个 Job 的运行步骤，可以包含一个或多个步骤。每个步骤都可以指定以下三个字段。</p>
+<ul>
+<li>jobs.<job_id>.steps.name：步骤名称。 </li>
+<li>jobs.<job_id>.steps.run：该步骤运行的命令或者 action。 </li>
+<li>jobs.<job_id>.steps.env：该步骤所需的环境变量。</li>
+</ul>
+<h3 id="几个完整的-workflow-文件的范例"><a href="#几个完整的-workflow-文件的范例" class="headerlink" title="几个完整的 workflow 文件的范例"></a>几个完整的 workflow 文件的范例</h3><h4 id="一"><a href="#一" class="headerlink" title="一"></a>一</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#工作名字</span><br>name: qin<br><span class="hljs-comment">#</span><br>on:<br>  workflow_dispatch: <br>  push:<br>  <span class="hljs-comment"># 当对分支master进行push操作的时候，这个工作流就被触发了</span><br>    branches: [ master ]<br>  pull_request:<br>  <span class="hljs-comment">#只运行特定分支master</span><br>    branches: [ master ]<br>  schedule:<br>  <span class="hljs-comment"># 定时任务，在每天的24点 18点推送签到信息到邮箱</span><br>    - cron:  <span class="hljs-number">0</span> <span class="hljs-number">16</span> * * * <br>  <span class="hljs-comment">#watch:</span><br>  <span class="hljs-comment">#    types: started   </span><br><br>jobs:<br><span class="hljs-comment">#将工作流程中运行的所有作业组合在一起</span><br>  kai:<br>  <span class="hljs-comment">#定义名为 kai 的作业。 子键将定义作业的属性 </span><br>    runs-on: ubuntu-latest<br>    <span class="hljs-comment">#将作业配置为在最新版本的 Ubuntu Linux 运行器上运行</span><br>    <span class="hljs-comment">#if: github.event.repository.owner.id == github.event.sender.id</span><br>    <span class="hljs-comment"># https://p3terx.com/archives/github-actions-manual-trigger.html</span><br>    <br>    steps:<br>    - uses: actions/checkout@v2<br><span class="hljs-comment">#uses 关键字指定此步骤将运行 actions/checkout 操作的 v3。 这是一个将存储</span><br><span class="hljs-comment">#库签出到运行器上的操作，允许您对代码（如生成和测试工具）运行脚本或其他操</span><br><span class="hljs-comment">#作。 每当工作流程将针对存储库的代码运行时，都应使用签出操作。</span><br>    <br>    - name: <span class="hljs-type">Set</span> up Python <span class="hljs-number">3.9</span><br>      uses: actions/setup-python@v2<br>      <span class="hljs-keyword">with</span>:<br>        python-version: <span class="hljs-number">3.9</span><span class="hljs-number">.1</span><br>    - name: requirements<br>      run: |<br>        python -m pip install --upgrade pip<br>        pip3 install -r requirements.txt<br>       <span class="hljs-comment"># if [ -f requirements.txt ]; then pip install -r requirements.txt; fi </span><br>    - name: Checkin<br>      run: |<br>        python3 ./test.py <br>  env: <br>  <span class="hljs-comment">#设置secrets的环境变量</span><br>    COOKIE1: $&#123;&#123; secrets.COOKIE1 &#125;&#125;<br>    COOKIE2: $&#123;&#123; secrets.COOKIE2 &#125;&#125;<br>    <span class="hljs-comment">#SMTP: $&#123;&#123; secrets.SMTP &#125;&#125;</span><br>    MAIL1: $&#123;&#123; secrets.MAIL1 &#125;&#125;<br>    MAIL2: $&#123;&#123; secrets.MAIL2 &#125;&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="二"><a href="#二" class="headerlink" title="二"></a>二</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python">name: Schedule Worker<br>on:<br>  schedule:<br>    - cron: <span class="hljs-string">&#x27;40 3,9 * * *&#x27;</span> <span class="hljs-comment">#每日11点40,17点40，两个时间点执行任务</span><br>jobs:<br>  work:<br>    runs-on: ubuntu-latest<br>    steps:<br>      - uses: actions/checkout@v3<br>      - uses: szenius/<span class="hljs-built_in">set</span>-timezone@v1<span class="hljs-number">.0</span> <span class="hljs-comment"># 设置执行环境的时区</span><br>        <span class="hljs-keyword">with</span>:<br>          timezoneLinux: <span class="hljs-string">&quot;Asia/Shanghai&quot;</span><br>      - uses: actions/setup-python@v4 <span class="hljs-comment"># 使用python装配器</span><br>        <span class="hljs-keyword">with</span>:<br>          python-version: <span class="hljs-string">&#x27;3.10&#x27;</span> <span class="hljs-comment"># 指定python版本</span><br>          cache: <span class="hljs-string">&#x27;poetry&#x27;</span> <span class="hljs-comment"># 设置缓存</span><br><br>      - run: poetry install --without dev <span class="hljs-comment"># 安装</span><br>      - run: poetry run python .\<span class="hljs-built_in">bin</span>.py <span class="hljs-comment"># 执行</span><br></code></pre></td></tr></table></figure>
+<h2 id="实例1、通过GitHub-Actions给微信公众测试号定时推送消息（Python）"><a href="#实例1、通过GitHub-Actions给微信公众测试号定时推送消息（Python）" class="headerlink" title="实例1、通过GitHub Actions给微信公众测试号定时推送消息（Python）"></a>实例1、通过GitHub Actions给微信公众测试号定时推送消息（Python）</h2><h3 id="1、微信公众号步骤"><a href="#1、微信公众号步骤" class="headerlink" title="1、微信公众号步骤"></a>1、微信公众号步骤</h3><p>打开 微信公众测试平台 ，通过微信扫一扫登录注册一个测试号。</p>
+<p><strong>APP_ID</strong>、<strong>APP_SECRET</strong>（复制自己的appID和appsecret）<br><img src="https://img-blog.csdnimg.cn/ee6a62241c1d41628ddcb0ef2dca89f2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>USER_ID</strong>（复制关注测试号的用户微信号，可以给多个用户推送）<br><img src="https://img-blog.csdnimg.cn/710585c11f054b1d91cd198bc186ea71.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>自己新增测试模板（可根据自己喜好修改）<br><img src="https://img-blog.csdnimg.cn/66495a10fcda41b7a0e80b6e3b478dee.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>TEMPLATE_ID</strong>（模板ID）<br><img src="https://img-blog.csdnimg.cn/c1483cf48d6a44ae8e6a457b1adc0fe9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2、github步骤"><a href="#2、github步骤" class="headerlink" title="2、github步骤"></a>2、github步骤</h3><p>新建或选取一个自己的公开库（也可以直接fork别人写好的），点击<strong>Actions</strong>，选择<strong>New workflow</strong><br><img src="https://img-blog.csdnimg.cn/094b0eee40a24fd8a0a1de9b5c550cb4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>选择<strong>set up a workflow yourself</strong>，也可以搜索现成的wordflow<br><img src="https://img-blog.csdnimg.cn/6edef1fb1e5b4606870a24120237e35c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>输入yml文件内容（可先什么也不写，后面会给出具体代码），选择<strong>Start commit</strong><br><img src="https://img-blog.csdnimg.cn/93e4ecd7388c43709da2dcff25fa1cf2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>新建mian.py（可以在本地调试）和requirements.txt文件，可把python所需库版本放入（可先什么也不写，后面会给出具体代码）</p>
+<p>之后点击<strong>Settings</strong>中的<strong>Secrets</strong>添加<br><img src="https://img-blog.csdnimg.cn/a3eb31fc3bbc4f2991586b0d4ec281ba.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>添加完成后（之前已经给出）：注意城市为北京，秦皇岛……；纪念日和生日格式需与main.py中一致。<br><img src="https://img-blog.csdnimg.cn/a3abac987ae0443eba850793d848d63f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>最后，点击<strong>Acrions</strong>里的<strong>morning</strong>，选择<strong>Run workflow</strong>，如果运行成功，则显示绿色对钩，并且用户会收到推送的消息。如运行失败，可以点击查看运行失败的错误信息是什么。<br><img src="https://img-blog.csdnimg.cn/c49e3ef76bfc4deaaad6e31ca8f9b627.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>代码地址：<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/the_milky_way">https://github.com/QInzhengk/the_milky_way</a><br><img src="https://img-blog.csdnimg.cn/00896e2580f0428895de352565d84281.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="实例2、通过GitHub-Actions给钉钉群聊机器人定时推送消息（Python）"><a href="#实例2、通过GitHub-Actions给钉钉群聊机器人定时推送消息（Python）" class="headerlink" title="实例2、通过GitHub Actions给钉钉群聊机器人定时推送消息（Python）"></a>实例2、通过GitHub Actions给钉钉群聊机器人定时推送消息（Python）</h2><h3 id="1、钉钉步骤"><a href="#1、钉钉步骤" class="headerlink" title="1、钉钉步骤"></a>1、钉钉步骤</h3><p>打开钉钉，点击+发起群聊（如你有公司，需要有两个不是公司的好友才能创建普通群），创建完成后，打开群聊中的设置，智能群助手。<br>进入到机器人管理页面，点击添加机器人，进入机器人选择页面，这里选择自定义机器人。<br><img src="https://img-blog.csdnimg.cn/16042ba005e94ae480a83dd9c65ea220.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>需要给机器人修改头像和名称，在安全设置里面，建议最好把自定义关键字也勾选上，比如我这里设置的是：早上好，然后其他的可以默认，点击完成后在新的页面有一个webhook（Webhook不要泄露在网上）<br><img src="https://img-blog.csdnimg.cn/d03d721b6c20482d8b6517af8ec284a3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>获取到Webhook地址后，用户可以向这个地址发起HTTP POST 请求，即可实现给该钉钉群发送消息。</p>
+<p>钉钉群聊机器人最新规定：</p>
+<blockquote>
+<p>发起POST请求时，必须将字符集编码设置成UTF-8。<br>每个机器人每分钟最多发送20条。消息发送太频繁会严重影响群成员的使用体验，大量发消息的场景 (譬如系统监控报警)可以将这些信息进行整合，通过markdown消息以摘要的形式发送到群里。</p>
+</blockquote>
+<p>目前支持发送的消息有5种，分别是：文本 (text)、链接 (link)、markdown、ActionCard、FeedCard。个人使用中比较常用的有两种：分别是文本和链接，企业使用的时候，对于ActionCard类型的也比较常用。</p>
+<p>具体需要根据自己的场景进行选择，以便能达到最好的展示样式。</p>
+<p>自定义机器人发送消息时，可以通过手机号码指定“被@人列表”。在“被@人列表”里面的人员收到该消息时，会有@消息提醒。免打扰会话仍然通知提醒，首屏出现“有人@你”</p>
+<h4 id="文本TEXT"><a href="#文本TEXT" class="headerlink" title="文本TEXT"></a>文本TEXT</h4><p>文本型的消息类型，具体代码如下：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&#123;<br>    <span class="hljs-string">&quot;at&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;atMobiles&quot;</span>:[<br>            <span class="hljs-string">&quot;180xxxxxx&quot;</span><br>        ],<br>        <span class="hljs-string">&quot;atUserIds&quot;</span>:[<br>            <span class="hljs-string">&quot;user123&quot;</span><br>        ],<br>        <span class="hljs-string">&quot;isAtAll&quot;</span>: false<br>    &#125;,<br>    <span class="hljs-string">&quot;text&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;content&quot;</span>:<span class="hljs-string">&quot;测试&quot;</span><br>    &#125;,<br>    <span class="hljs-string">&quot;msgtype&quot;</span>:<span class="hljs-string">&quot;text&quot;</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>参数类型</strong></th>
+<th><strong>是否必填</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>消息类型，此时固定为：text。</td>
+</tr>
+<tr>
+<td>content</td>
+<td>String</td>
+<td>是</td>
+<td>消息内容。</td>
+</tr>
+<tr>
+<td>atMobiles</td>
+<td>Array</td>
+<td>否</td>
+<td>被@人的手机号。<strong>注意</strong> 在content里添加@人的手机号，且只有在群内的成员才可被@，非群内成员手机号会被脱敏。</td>
+</tr>
+<tr>
+<td>atUserIds</td>
+<td>Array</td>
+<td>否</td>
+<td>被@人的用户userid。<strong>注意</strong> 在content里添加@人的userid。</td>
+</tr>
+<tr>
+<td>isAtAll</td>
+<td>Boolean</td>
+<td>否</td>
+<td>是否@所有人。</td>
+</tr>
+</tbody></table>
+<h4 id="链接LINK"><a href="#链接LINK" class="headerlink" title="链接LINK"></a>链接LINK</h4><p>链接型的消息类型，具体代码如下：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scss">&#123;<br>    &quot;msgtype&quot;: <span class="hljs-string">&quot;link&quot;</span>, <br>    <span class="hljs-string">&quot;link&quot;</span>: &#123;<br>        &quot;text&quot;: <span class="hljs-string">&quot;测试&quot;</span>, <br>        <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;测试&quot;</span>, <br>        <span class="hljs-string">&quot;picUrl&quot;</span>: <span class="hljs-string">&quot;&quot;</span>, <br>        <span class="hljs-string">&quot;messageUrl&quot;</span>: <span class="hljs-string">&quot;https://www.dingtalk.com/s?__biz=MzA4NjMwMTA2Ng==&amp;mid=2650316842&amp;idx=1&amp;sn=60da3ea2b29f1dcc43a7c8e4a7c97a16&amp;scene=2&amp;srcid=09189AnRJEdIiWVaKltFzNTw&amp;from=timeline&amp;isappinstalled=0&amp;key=&amp;ascene=2&amp;uin=&amp;devicetype=android-23&amp;version=26031933&amp;nettype=WIFI&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>参数类型</strong></th>
+<th>是否必填</th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>消息类型，此时固定为：link。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>消息标题。</td>
+</tr>
+<tr>
+<td>text</td>
+<td>String</td>
+<td>是</td>
+<td>消息内容。如果太长只会部分展示。</td>
+</tr>
+<tr>
+<td>messageUrl</td>
+<td>String</td>
+<td>是</td>
+<td>点击消息跳转的URL，打开方式如下：移动端，在钉钉客户端内打开PC端默认侧边栏打开希望在外部浏览器打开，请参考<a target="_blank" rel="noopener" href="https://open.dingtalk.com/document/app/message-link-description#section-7w8-4c2-9az">消息链接说明</a></td>
+</tr>
+<tr>
+<td>picUrl</td>
+<td>String</td>
+<td>否</td>
+<td>图片URL。</td>
+</tr>
+</tbody></table>
+<h4 id="markdown类型"><a href="#markdown类型" class="headerlink" title="markdown类型"></a>markdown类型</h4><p>markdown的消息类型，具体代码如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>     <span class="hljs-attr">&quot;msgtype&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;markdown&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;markdown&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>         <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;测试&quot;</span><span class="hljs-punctuation">,</span><br>         <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#### 杭州天气 @150XXXXXXXX \n &gt; 9度，西北风1级，空气良89，相对温度73%\n &gt; ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n &gt; ###### 10点20分发布 [天气](https://www.dingtalk.com) \n&quot;</span><br>     <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;at&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;atMobiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>              <span class="hljs-string">&quot;188XXXXXXXX&quot;</span><br>          <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>          <span class="hljs-attr">&quot;atUserIds&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>              <span class="hljs-string">&quot;user123&quot;</span><br>          <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>          <span class="hljs-attr">&quot;isAtAll&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><br>      <span class="hljs-punctuation">&#125;</span><br> <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>类型</strong></th>
+<th>是否必填</th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>消息类型，此时固定为：markdown。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>首屏会话透出的展示内容。</td>
+</tr>
+<tr>
+<td>text</td>
+<td>String</td>
+<td>是</td>
+<td>markdown格式的消息。</td>
+</tr>
+<tr>
+<td>atMobiles</td>
+<td>Array</td>
+<td>否</td>
+<td>被@人的手机号。<strong>注意</strong> 在text内容里要有@人的手机号，只有在群内的成员才可被@，非群内成员手机号会被脱敏。</td>
+</tr>
+<tr>
+<td>atUserIds</td>
+<td>Array</td>
+<td>否</td>
+<td>被@人的用户userid。<strong>注意</strong> 在content里添加@人的userid。</td>
+</tr>
+<tr>
+<td>isAtAll</td>
+<td>Boolean</td>
+<td>否</td>
+<td>是否@所有人。</td>
+</tr>
+</tbody></table>
+<h4 id="整体跳转ActionCard类型"><a href="#整体跳转ActionCard类型" class="headerlink" title="整体跳转ActionCard类型"></a>整体跳转ActionCard类型</h4><p>整体跳转ActionCard的消息类型，具体代码如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;actionCard&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;测试&quot;</span><span class="hljs-punctuation">,</span> <br>        <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;测试&quot;</span><span class="hljs-punctuation">,</span> <br>        <span class="hljs-attr">&quot;btnOrientation&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0&quot;</span><span class="hljs-punctuation">,</span> <br>        <span class="hljs-attr">&quot;singleTitle&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;测试&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;singleURL&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://www.dingtalk.com/&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <br>    <span class="hljs-attr">&quot;msgtype&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;actionCard&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>类型</strong></th>
+<th><strong>是否必填</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>消息类型，此时固定为：actionCard。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>首屏会话透出的展示内容。</td>
+</tr>
+<tr>
+<td>text</td>
+<td>String</td>
+<td>是</td>
+<td>markdown格式的消息。</td>
+</tr>
+<tr>
+<td>singleTitle</td>
+<td>String</td>
+<td>是</td>
+<td>单个按钮的标题。<strong>注意</strong> 设置此项和singleURL后，btns无效。</td>
+</tr>
+<tr>
+<td>singleURL</td>
+<td>String</td>
+<td>是</td>
+<td>点击消息跳转的URL，打开方式如下：移动端，在钉钉客户端内打开PC端默认侧边栏打开希望在外部浏览器打开，请参考<a target="_blank" rel="noopener" href="https://open.dingtalk.com/document/app/message-link-description#section-7w8-4c2-9az">消息链接说明</a></td>
+</tr>
+<tr>
+<td>btnOrientation</td>
+<td>String</td>
+<td>否</td>
+<td>0：按钮竖直排列1：按钮横向排列</td>
+</tr>
+</tbody></table>
+<h4 id="独立跳转ActionCard类型"><a href="#独立跳转ActionCard类型" class="headerlink" title="独立跳转ActionCard类型"></a>独立跳转ActionCard类型</h4><p>独立跳转ActionCard的消息类型，具体代码如下：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&#123;<br>    <span class="hljs-string">&quot;msgtype&quot;</span>: <span class="hljs-string">&quot;actionCard&quot;</span>,<br>    <span class="hljs-string">&quot;actionCard&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;测试&quot;</span>, <br>        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;测试&quot;</span>, <br>        <span class="hljs-string">&quot;btnOrientation&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>, <br>        <span class="hljs-string">&quot;btns&quot;</span>: [<br>            &#123;<br>                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;内容不错&quot;</span>, <br>                <span class="hljs-string">&quot;actionURL&quot;</span>: <span class="hljs-string">&quot;https://www.dingtalk.com/&quot;</span><br>            &#125;, <br>            &#123;<br>                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;不感兴趣&quot;</span>, <br>                <span class="hljs-string">&quot;actionURL&quot;</span>: <span class="hljs-string">&quot;https://www.dingtalk.com/&quot;</span><br>            &#125;<br>        ]<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>类型</strong></th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>此消息类型为固定actionCard。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>首屏会话透出的展示内容。</td>
+</tr>
+<tr>
+<td>text</td>
+<td>String</td>
+<td>是</td>
+<td>markdown格式的消息。</td>
+</tr>
+<tr>
+<td>btns</td>
+<td>Array</td>
+<td>是</td>
+<td>按钮。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>按钮标题。</td>
+</tr>
+<tr>
+<td>actionURL</td>
+<td>String</td>
+<td>是</td>
+<td>点击按钮触发的URL，打开方式如下：移动端，在钉钉客户端内打开PC端默认侧边栏打开希望在外部浏览器打开，请参考<a target="_blank" rel="noopener" href="https://open.dingtalk.com/document/app/message-link-description#section-7w8-4c2-9az">消息链接说明</a></td>
+</tr>
+<tr>
+<td>btnOrientation</td>
+<td>String</td>
+<td>否</td>
+<td>0：按钮竖直排列1：按钮横向排列</td>
+</tr>
+</tbody></table>
+<h4 id="FeedCard类型"><a href="#FeedCard类型" class="headerlink" title="FeedCard类型"></a>FeedCard类型</h4><p>FeedCard的消息类型，具体代码如下：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&#123;<br>    <span class="hljs-string">&quot;msgtype&quot;</span>:<span class="hljs-string">&quot;feedCard&quot;</span>,<br>    <span class="hljs-string">&quot;feedCard&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;links&quot;</span>: [<br>            &#123;<br>                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;测试1&quot;</span>, <br>                <span class="hljs-string">&quot;messageURL&quot;</span>: <span class="hljs-string">&quot;https://www.dingtalk.com/&quot;</span>, <br>                <span class="hljs-string">&quot;picURL&quot;</span>: <span class="hljs-string">&quot;https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png&quot;</span><br>            &#125;,<br>            &#123;<br>                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;测试2&quot;</span>, <br>                <span class="hljs-string">&quot;messageURL&quot;</span>: <span class="hljs-string">&quot;https://www.dingtalk.com/&quot;</span>, <br>                <span class="hljs-string">&quot;picURL&quot;</span>: <span class="hljs-string">&quot;https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png&quot;</span><br>            &#125;<br>        ]<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述中涉及的参数类型分别如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>类型</strong></th>
+<th>是否必填</th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>msgtype</td>
+<td>String</td>
+<td>是</td>
+<td>此消息类型为固定feedCard。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>是</td>
+<td>单条信息文本。</td>
+</tr>
+<tr>
+<td>messageURL</td>
+<td>String</td>
+<td>是</td>
+<td>点击单条信息到跳转链接。<strong>说明</strong> PC端跳转目标页面的方式，参考<a target="_blank" rel="noopener" href="https://open.dingtalk.com/document/app/message-link-description#section-7w8-4c2-9az">消息链接在PC端侧边栏或者外部浏览器打开</a>。</td>
+</tr>
+<tr>
+<td>picURL</td>
+<td>String</td>
+<td>是</td>
+<td>单条信息后面图片的URL。</td>
+</tr>
+</tbody></table>
+<h3 id="2、Github步骤"><a href="#2、Github步骤" class="headerlink" title="2、Github步骤"></a>2、Github步骤</h3><p>这里和第一个实例类似，不再重复介绍。<br>代码地址：<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/galaxy">https://github.com/QInzhengk/galaxy</a><br><img src="https://img-blog.csdnimg.cn/1d1ac2ec331a46d08c4473e152101732.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>1.<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html</a><br>2.<a target="_blank" rel="noopener" href="https://docs.github.com/cn/actions/using-workflows/workflow-syntax-for-github-actions">https://docs.github.com/cn/actions/using-workflows/workflow-syntax-for-github-actions</a><br>3.<a target="_blank" rel="noopener" href="https://github.com/13812851221/-rxrw-daily_morning">https://github.com/13812851221/-rxrw-daily_morning</a><br>4.<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/126789897">https://blog.csdn.net/qq_45832050&#x2F;article&#x2F;details&#x2F;126789897</a><br>5.<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/122755904">https://blog.csdn.net/qq_45832050&#x2F;article&#x2F;details&#x2F;122755904</a><br>6.<a target="_blank" rel="noopener" href="https://github.com/datawhalechina/office-automation/tree/main/Task05-Python%E6%93%8D%E4%BD%9C%E9%92%89%E9%92%89%E8%87%AA%E5%8A%A8%E5%8C%96">https://github.com/datawhalechina/office-automation/tree/main/Task05-Python%E6%93%8D%E4%BD%9C%E9%92%89%E9%92%89%E8%87%AA%E5%8A%A8%E5%8C%96</a></p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Blog/" class="category-chain-item">Blog</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Blog/">#Blog</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）</div>
+      <div>http://example.com/2022/10/23/通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月23日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/30/ACM%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88Java_Python%E4%BE%8B%E9%A2%98%EF%BC%89/" title="ACM模式之输入输出（Java/Python例题）">
+                        <span class="hidden-mobile">ACM模式之输入输出（Java/Python例题）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="lv-container" data-id="city" data-uid="MTAyMC81NjkxOC8zMzM4Mg==">
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#lv-container', function() {
+        Fluid.utils.createScript('https://cdn-city.livere.com/js/embed.dist.js');
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
