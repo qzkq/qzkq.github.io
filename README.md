@@ -18,7 +18,7 @@
 ## 🤝 [在线阅读](https://qzkq.github.io/)
 
 [公众号：数学建模与人工智能](https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487570&idx=1&sn=9800f79bf67614874faf4ace19d7081f&chksm=ec0c028ddb7b8b9b36862a0993f371307a8ec7f62df7138befab708723e5e7bd03a5c0544891&token=2142812089&lang=zh_CN#rd)
-@[TOC](基于Hexo的主题Fluid搭建Github博客)
+
 # 一、Github配置
 ## 1.安装Git
 Git官网：[https://git-scm.com/downloads](https://git-scm.com/downloads)
