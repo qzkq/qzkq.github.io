@@ -5,7 +5,7 @@
 ![GitHub forks](https://img.shields.io/github/forks/qzkq/qzkq.github.io?style=for-the-badge)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/qzkq/qzkq.github.io?style=for-the-badge)
 
-## 📒 简介
+## 📒 [简介](https://www.coze.cn/s/iBeHdaDv/)
 
 > :smiley: 此博客为自学数学建模和机器学习的分享博客，整理了许多笔记（**持续更新中......**）。
 >
