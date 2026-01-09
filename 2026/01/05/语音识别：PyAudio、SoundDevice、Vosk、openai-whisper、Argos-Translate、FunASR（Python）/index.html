@@ -1,0 +1,1295 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC PyAudioPyAudio 是 Python 中一个强大的跨平台音频 I&#x2F;O 库。它基于 PortAudio 库（一个免费、跨平台、开源的音频 I&#x2F;O 库），为 Python 提供了录制和播放音频流的接口。 核心功能 音频录制（输入）： 从麦克风、音频接口或其他输入设备捕获音频数据。 音频播放（输出）： 将音频数据发送到扬声器、耳机或其他输出设备。 实时音频流处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%EF%BC%9APyAudio%E3%80%81SoundDevice%E3%80%81Vosk%E3%80%81openai-whisper%E3%80%81Argos-Translate%E3%80%81FunASR%EF%BC%88Python%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC PyAudioPyAudio 是 Python 中一个强大的跨平台音频 I&#x2F;O 库。它基于 PortAudio 库（一个免费、跨平台、开源的音频 I&#x2F;O 库），为 Python 提供了录制和播放音频流的接口。 核心功能 音频录制（输入）： 从麦克风、音频接口或其他输入设备捕获音频数据。 音频播放（输出）： 将音频数据发送到扬声器、耳机或其他输出设备。 实时音频流处理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/b1bd309e8fe04c548d1af4ca07616ee5.png">
+<meta property="article:published_time" content="2026-01-05T00:16:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.438Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="FunASR">
+<meta property="article:tag" content="PyAudio">
+<meta property="article:tag" content="SoundDevice">
+<meta property="article:tag" content="Vosk">
+<meta property="article:tag" content="Whisper">
+<meta property="article:tag" content="语音识别">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/b1bd309e8fe04c548d1af4ca07616ee5.png">
+  
+  
+  
+  <title>语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:16" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%EF%BC%9APyAudio%E3%80%81SoundDevice%E3%80%81Vosk%E3%80%81openai-whisper%E3%80%81Argos-Translate%E3%80%81FunASR%EF%BC%88Python%EF%BC%89">TOC</a></p>
+<h1 id="PyAudio"><a href="#PyAudio" class="headerlink" title="PyAudio"></a>PyAudio</h1><p>PyAudio 是 Python 中一个强大的<strong>跨平台音频 I&#x2F;O 库</strong>。它基于 PortAudio 库（一个免费、跨平台、开源的音频 I&#x2F;O 库），为 Python 提供了录制和播放音频流的接口。</p>
+<h2 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h2><ol>
+<li><strong>音频录制（输入）：</strong> 从麦克风、音频接口或其他输入设备捕获音频数据。</li>
+<li><strong>音频播放（输出）：</strong> 将音频数据发送到扬声器、耳机或其他输出设备。</li>
+<li><strong>实时音频流处理：</strong> 核心优势在于处理音频数据流，允许在数据流入（录制）或流出（播放）时进行实时处理（如效果处理、分析、语音识别等）。</li>
+<li><strong>低延迟操作：</strong> 设计目标之一是尽量减少音频输入和输出之间的延迟，这对实时交互应用（如乐器、语音聊天）至关重要。</li>
+<li><strong>跨平台：</strong> 支持 Windows, macOS, Linux。</li>
+</ol>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ol>
+<li><p><strong><code>pyaudio.PyAudio</code> 类：</strong></p>
+<ul>
+<li>这是主要的入口点。你需要先创建一个 <code>PyAudio</code> 实例来访问音频功能。</li>
+<li>它负责管理 PortAudio 资源、查询设备信息和创建流。</li>
+<li><strong>重要方法：</strong><ul>
+<li><code>__init__()</code>: 构造函数，通常不需要显式参数。</li>
+<li><code>get_device_count()</code>: 返回系统中可用的音频设备数量。</li>
+<li><code>get_device_info_by_index(index)</code>: 获取指定索引设备的详细信息（字典形式），包含设备名、最大输入&#x2F;输出通道数、默认采样率等。</li>
+<li><code>get_default_input_device_info()</code>: 获取系统默认输入设备的信息。</li>
+<li><code>get_default_output_device_info()</code>: 获取系统默认输出设备的信息。</li>
+<li><code>open(...)</code>: <strong>最关键的方法！</strong> 用于打开一个新的音频流（输入、输出或同时）。返回一个 <code>pyaudio.Stream</code> 对象。参数众多，下面详解。</li>
+<li><code>terminate()</code>: <strong>非常重要！</strong> 当你完成所有音频操作后，必须调用此方法来正确释放 PortAudio 分配的资源。通常放在 <code>finally</code> 块或使用上下文管理器（<code>with</code> 语句）来确保调用。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>pyaudio.Stream</code> 类：</strong></p>
+<ul>
+<li>代表一个活动的音频流（输入流、输出流或双工流）。</li>
+<li>通过 <code>PyAudio.open()</code> 创建。</li>
+<li><strong>重要方法：</strong><ul>
+<li><code>start_stream()</code>: 启动流。流开始使用回调函数或等待读写操作。</li>
+<li><code>stop_stream()</code>: 暂停流，但不关闭它。可以稍后重新启动。</li>
+<li><code>close()</code>: 关闭流并释放相关资源。应在流不再需要时调用。</li>
+<li><code>is_active()</code>: 如果流正在运行（已启动且未停止&#x2F;关闭），则返回 True。</li>
+<li><code>is_stopped()</code>: 如果流被明确停止或未启动，则返回 True。</li>
+<li><code>read(num_frames, exception_on_overflow=True)</code>: <strong>(主要用于输入流或阻塞回调模式)</strong> 从输入流中读取指定数量的音频帧（二进制数据）。<code>exception_on_overflow</code> 控制缓冲区溢出时是否引发异常。</li>
+<li><code>write(frames, num_frames=None, exception_on_underflow=True)</code>: <strong>(主要用于输出流或阻塞回调模式)</strong> 将二进制音频数据（<code>frames</code>）写入输出流。<code>num_frames</code> 通常可以省略（由 <code>frames</code> 长度推断），<code>exception_on_underflow</code> 控制缓冲区欠载时是否引发异常。</li>
+</ul>
+</li>
+<li><strong>工作模式：</strong><ul>
+<li><strong>回调模式 (Callback Mode - 更常见且高效)：</strong> 在 <code>open()</code> 时指定一个 <code>callback</code> 函数。每当流需要新的数据进行播放（输出）或有新的数据可供处理（输入）时，PortAudio 会自动调用这个函数。函数需要在有限时间内返回数据（输出）或处理数据（输入）。<strong>这是处理实时音频的首选模式。</strong></li>
+<li><strong>阻塞模式 (Blocking Mode)：</strong> 在 <code>open()</code> 时不指定 <code>callback</code>。你需要使用 <code>read()</code>（输入）或 <code>write()</code>（输出）方法在主线程中显式地、<strong>阻塞地</strong>读取或写入数据。主线程会在等待数据可用（输入）或缓冲区空间可用（输出）时被阻塞。适用于简单的、非实时的操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="open-方法关键参数详解"><a href="#open-方法关键参数详解" class="headerlink" title="open() 方法关键参数详解"></a><code>open()</code> 方法关键参数详解</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">stream = p.<span class="hljs-built_in">open</span>(<br>    <span class="hljs-built_in">format</span>=FORMAT,                <span class="hljs-comment"># 音频数据格式 (e.g., pyaudio.paInt16, pyaudio.paFloat32)</span><br>    channels=CHANNELS,            <span class="hljs-comment"># 声道数 (1=单声道, 2=立体声)</span><br>    rate=RATE,                    <span class="hljs-comment"># 采样率 (每秒样本数, e.g., 44100, 48000)</span><br>    <span class="hljs-built_in">input</span>=INPUT,                  <span class="hljs-comment"># 是否打开输入流 (True/False)</span><br>    output=OUTPUT,                <span class="hljs-comment"># 是否打开输出流 (True/False)</span><br>    input_device_index=INPUT_DEVICE_INDEX,  <span class="hljs-comment"># 可选，输入设备索引 (None 使用默认)</span><br>    output_device_index=OUTPUT_DEVICE_INDEX, <span class="hljs-comment"># 可选，输出设备索引 (None 使用默认)</span><br>    frames_per_buffer=CHUNK,      <span class="hljs-comment"># 每个缓冲区/块包含的帧数。影响延迟和CPU负载。</span><br>    stream_callback=CALLBACK,     <span class="hljs-comment"># 可选，回调函数（用于回调模式）</span><br>    start=<span class="hljs-literal">False</span>                   <span class="hljs-comment"># 可选，是否在打开后立即启动流 (默认为 False)</span><br>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>format</code>:</strong> 定义音频数据的表示形式。常用值：<ul>
+<li><code>pyaudio.paInt16</code>: 16 位有符号整数（最常用，CD 质量）。</li>
+<li><code>pyaudio.paInt24</code>: 24 位有符号整数（更高精度）。</li>
+<li><code>pyaudio.paInt32</code>: 32 位有符号整数。</li>
+<li><code>pyaudio.paFloat32</code>: 32 位浮点数（范围 -1.0 到 1.0，适合处理）。</li>
+</ul>
+</li>
+<li><strong><code>channels</code>:</strong> 1 表示单声道，2 表示立体声，更高表示多声道（需要硬件支持）。</li>
+<li><strong><code>rate</code>:</strong> 采样率（Hz）。常见值：8000（电话）、16000、22050、44100（CD）、48000（专业音频）、96000、192000。必须与设备支持的采样率匹配。</li>
+<li><strong><code>input</code>&#x2F;<code>output</code>:</strong> 布尔值，指示流是用于输入（录音）、输出（播放）还是两者（双工）。</li>
+<li><strong><code>input_device_index</code>&#x2F;<code>output_device_index</code>:</strong> 指定要使用的设备索引（通过 <code>get_device_info_by_index</code> 获取）。<code>None</code> 表示使用默认设备。</li>
+<li><strong><code>frames_per_buffer</code> (CHUNK):</strong> <strong>极其重要！</strong> 定义每次回调调用处理的帧数，或每次 <code>read()</code>&#x2F;<code>write()</code> 操作传输的帧数。<ul>
+<li><strong>帧 (Frame):</strong> 所有通道在 <em>同一时间点</em> 的样本集合。对于立体声（2 声道），1 帧 &#x3D; 2 个样本（左声道一个，右声道一个）。</li>
+<li><strong>块&#x2F;缓冲区 (Chunk&#x2F;Buffer):</strong> 包含连续多帧数据的单位。<code>frames_per_buffer</code> 定义了每个缓冲区包含多少帧。</li>
+<li><strong>影响：</strong> 较小的值 → 更低延迟，但更频繁的回调&#x2F;IO 操作 → 更高 CPU 负载，更容易出现缓冲区欠载&#x2F;溢出错误。较大的值 → 更高延迟，更少的回调&#x2F;IO → 更低 CPU 负载，更稳定。需要根据应用在延迟和稳定性之间权衡（如实时效果常用 256, 512, 1024）。</li>
+</ul>
+</li>
+<li><strong><code>stream_callback</code>:</strong> <strong>回调模式的核心。</strong> 指定一个函数，当流需要数据（输出）或有新数据（输入）时自动调用。函数必须具有特定签名：<code>callback(in_data, frame_count, time_info, status_flags)</code>。在输出流中，函数需要返回 <code>(out_data, pyaudio.paContinue)</code>（或其他状态码）。在输入流中，函数接收数据 <code>in_data</code>。</li>
+<li><strong><code>start</code>:</strong> 设为 <code>True</code> 会使流在 <code>open()</code> 后立即开始。通常保持 <code>False</code>，显式调用 <code>start_stream()</code>。</li>
+</ul>
+<h3 id="回调函数签名"><a href="#回调函数签名" class="headerlink" title="回调函数签名"></a>回调函数签名</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">in_data: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">bytes</span>],  <span class="hljs-comment"># 输入数据 (输入流或双工流时有效，否则为None)</span></span><br><span class="hljs-params">             frame_count: <span class="hljs-built_in">int</span>,           <span class="hljs-comment"># 期望返回/提供的帧数 (通常等于 frames_per_buffer)</span></span><br><span class="hljs-params">             time_info: <span class="hljs-built_in">dict</span>,            <span class="hljs-comment"># 时间信息字典 (包含输入/输出缓冲时间戳)</span></span><br><span class="hljs-params">             status_flags: <span class="hljs-built_in">int</span></span>) -&gt; (<span class="hljs-type">Optional</span>[<span class="hljs-built_in">bytes</span>], <span class="hljs-built_in">int</span>): <span class="hljs-comment"># 返回值: (输出数据, 状态码)</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>对于纯输入流：</strong> <code>in_data</code> 包含新捕获的音频数据（二进制）。函数应处理数据（或保存），并返回 <code>(None, pyaudio.paContinue)</code>（或其他状态码）。</li>
+<li><strong>对于纯输出流：</strong> <code>in_data</code> 为 <code>None</code>。函数应生成 <code>frame_count</code> 帧的音频数据（二进制），并返回 <code>(out_data, pyaudio.paContinue)</code>。</li>
+<li><strong>对于双工流：</strong> <code>in_data</code> 包含输入数据。函数应处理输入并生成输出数据，返回 <code>(out_data, pyaudio.paContinue)</code>。</li>
+<li><strong>状态码：</strong><ul>
+<li><code>pyaudio.paContinue</code>: 流应继续。</li>
+<li><code>pyaudio.paComplete</code>: 流正常结束（不再有数据）。</li>
+<li><code>pyaudio.paAbort</code>: 流应立即中止（发生错误）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="典型工作流程"><a href="#典型工作流程" class="headerlink" title="典型工作流程"></a>典型工作流程</h3><ol>
+<li><strong>创建 PyAudio 实例：</strong> <code>p = pyaudio.PyAudio()</code></li>
+<li><strong>(可选) 查询设备信息：</strong> 使用 <code>p.get_device_count()</code>, <code>p.get_device_info_by_index()</code> 等选择非默认设备。</li>
+<li><strong>打开流：</strong><ul>
+<li><strong>回调模式：</strong> <code>stream = p.open(..., stream_callback=my_callback_function)</code></li>
+<li><strong>阻塞模式：</strong> <code>stream = p.open(..., input=True, output=False) # 例如纯输入</code></li>
+</ul>
+</li>
+<li><strong>启动流：</strong> <code>stream.start_stream()</code></li>
+<li><strong>处理音频：</strong><ul>
+<li><strong>回调模式：</strong> 你的 <code>my_callback_function</code> 会被自动调用处理数据流。</li>
+<li><strong>阻塞模式：</strong><ul>
+<li><strong>输入：</strong> 循环调用 <code>data = stream.read(CHUNK)</code>，然后处理 <code>data</code>。</li>
+<li><strong>输出：</strong> 循环生成音频数据 <code>data</code>，然后调用 <code>stream.write(data)</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>停止流：</strong> <code>stream.stop_stream()</code></li>
+<li><strong>关闭流：</strong> <code>stream.close()</code></li>
+<li><strong>终止 PyAudio：</strong> <code>p.terminate()</code> <strong>(绝对不能忘记这一步！)</strong></li>
+</ol>
+<h3 id="重要注意事项和最佳实践"><a href="#重要注意事项和最佳实践" class="headerlink" title="重要注意事项和最佳实践"></a>重要注意事项和最佳实践</h3><ol>
+<li><strong>延迟与块大小 (<code>frames_per_buffer</code>):</strong> 仔细选择块大小。实时应用（如乐器、语音聊天）需要小值（如 256, 512），批处理或播放录制好的文件可以用大值（如 1024, 2048）。测试是关键。</li>
+<li><strong>缓冲区欠载&#x2F;溢出：</strong><ul>
+<li><strong>欠载 (Underflow):</strong> 输出流：CPU 来不及提供足够数据，导致播放中断（咔嗒声&#x2F;爆音）。通常因回调函数太慢或块大小太小导致。</li>
+<li><strong>溢出 (Overflow):</strong> 输入流：CPU 来不及处理捕获的数据，导致部分音频数据丢失。</li>
+<li><strong>处理：</strong> 增加 <code>frames_per_buffer</code>（增加延迟），优化回调函数代码（提高效率），检查系统负载。PyAudio 可以在这些情况下抛出异常（取决于 <code>read</code>&#x2F;<code>write</code> 的参数）。</li>
+</ul>
+</li>
+<li><strong>数据类型转换：</strong> PyAudio 处理的是原始的二进制数据（字节串）。要使用 <code>numpy</code> 或 <code>struct</code> 等库进行处理（如应用效果、可视化），你需要将这些字节串转换为数值数组（如 <code>np.frombuffer(data, dtype=np.int16)</code>），处理后再转换回字节串（如 <code>processed_data.astype(np.int16).tobytes()</code>）。</li>
+<li><strong>线程安全：</strong> PortAudio 回调函数在专门的音频线程中执行。如果你的程序是多线程的，需要确保共享数据访问的线程安全（使用锁等同步机制）。避免在回调函数中执行耗时操作（文件 I&#x2F;O、复杂计算、网络请求）。</li>
+<li><strong>设备兼容性与采样率：</strong> 不是所有采样率和格式都被所有设备支持。使用 <code>get_device_info_by_index()</code> 检查设备支持的能力，或尝试打开流时处理异常。有时需要重新采样或转换格式。</li>
+</ol>
+<h3 id="简单代码示例"><a href="#简单代码示例" class="headerlink" title="简单代码示例"></a>简单代码示例</h3><ol>
+<li><strong>录制音频到 WAV 文件 (阻塞模式):</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyaudio<br><span class="hljs-keyword">import</span> wave<br><br>CHUNK = <span class="hljs-number">1024</span><br>FORMAT = pyaudio.paInt16<br>CHANNELS = <span class="hljs-number">1</span><br>RATE = <span class="hljs-number">44100</span><br>RECORD_SECONDS = <span class="hljs-number">5</span><br>WAVE_OUTPUT_FILENAME = <span class="hljs-string">&quot;output.wav&quot;</span><br><br>p = pyaudio.PyAudio()<br><br>stream = p.<span class="hljs-built_in">open</span>(<span class="hljs-built_in">format</span>=FORMAT,<br>                channels=CHANNELS,<br>                rate=RATE,<br>                <span class="hljs-built_in">input</span>=<span class="hljs-literal">True</span>,<br>                frames_per_buffer=CHUNK)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;* recording&quot;</span>)<br><br>frames = []<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">int</span>(RATE / CHUNK * RECORD_SECONDS)):<br>    data = stream.read(CHUNK)<br>    frames.append(data)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;* done recording&quot;</span>)<br><br>stream.stop_stream()<br>stream.close()<br>p.terminate()<br><br>wf = wave.<span class="hljs-built_in">open</span>(WAVE_OUTPUT_FILENAME, <span class="hljs-string">&#x27;wb&#x27;</span>)<br>wf.setnchannels(CHANNELS)<br>wf.setsampwidth(p.get_sample_size(FORMAT))<br>wf.setframerate(RATE)<br>wf.writeframes(<span class="hljs-string">b&#x27;&#x27;</span>.join(frames))<br>wf.close()<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>播放 WAV 文件 (阻塞模式):</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyaudio<br><span class="hljs-keyword">import</span> wave<br><br>CHUNK = <span class="hljs-number">1024</span><br><br>wf = wave.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;output.wav&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>)  <span class="hljs-comment"># 用上面录制的文件</span><br><br>p = pyaudio.PyAudio()<br><br>stream = p.<span class="hljs-built_in">open</span>(<span class="hljs-built_in">format</span>=p.get_format_from_width(wf.getsampwidth()),<br>                channels=wf.getnchannels(),<br>                rate=wf.getframerate(),<br>                output=<span class="hljs-literal">True</span>)<br><br>data = wf.readframes(CHUNK)<br><br><span class="hljs-keyword">while</span> data:<br>    stream.write(data)<br>    data = wf.readframes(CHUNK)<br><br>stream.stop_stream()<br>stream.close()<br>p.terminate()<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>实时回显 (输入-&gt;立即播放) (回调模式):</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyaudio<br><br>CHUNK = <span class="hljs-number">512</span><br>FORMAT = pyaudio.paInt16<br>CHANNELS = <span class="hljs-number">1</span><br>RATE = <span class="hljs-number">44100</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">in_data, frame_count, time_info, status</span>):<br>    <span class="hljs-comment"># 直接将输入数据作为输出数据返回 (回显)</span><br>    <span class="hljs-keyword">return</span> (in_data, pyaudio.paContinue)<br><br>p = pyaudio.PyAudio()<br><br><span class="hljs-comment"># 打开双工流</span><br>stream = p.<span class="hljs-built_in">open</span>(<span class="hljs-built_in">format</span>=FORMAT,<br>                channels=CHANNELS,<br>                rate=RATE,<br>                <span class="hljs-built_in">input</span>=<span class="hljs-literal">True</span>,<br>                output=<span class="hljs-literal">True</span>,<br>                frames_per_buffer=CHUNK,<br>                stream_callback=callback)<br><br>stream.start_stream()<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Echoing. Press Enter to stop...&quot;</span>)<br><span class="hljs-built_in">input</span>()  <span class="hljs-comment"># 等待用户按回车</span><br><br>stream.stop_stream()<br>stream.close()<br>p.terminate()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="SoundDevice"><a href="#SoundDevice" class="headerlink" title="SoundDevice"></a>SoundDevice</h1><h2 id="核心类与函数"><a href="#核心类与函数" class="headerlink" title="核心类与函数"></a>核心类与函数</h2><h3 id="1-sounddevice-play-播放音频数组"><a href="#1-sounddevice-play-播放音频数组" class="headerlink" title="1. sounddevice.play() - 播放音频数组"></a>1. <code>sounddevice.play()</code> - 播放音频数组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">sounddevice.play(data, samplerate=<span class="hljs-literal">None</span>, blocksize=<span class="hljs-number">0</span>, loop=<span class="hljs-literal">False</span>, mapping=<span class="hljs-literal">None</span>, <br>                clipping=<span class="hljs-literal">None</span>, latency=<span class="hljs-string">&#x27;low&#x27;</span>, extra_settings=<span class="hljs-literal">None</span>, device=<span class="hljs-literal">None</span>, <br>                dtype=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>data</code></strong>: 音频数据（NumPy 数组，形状为 <code>(samples, channels)</code>）。</li>
+<li><strong><code>samplerate</code></strong>: 采样率（Hz），默认使用设备默认值（通常 44100）。</li>
+<li><strong><code>blocksize</code></strong>: 音频块大小（样本数），0 表示自动选择。</li>
+<li><strong><code>loop</code></strong>: 是否循环播放（<code>True</code>&#x2F;<code>False</code>）。</li>
+<li><strong><code>device</code></strong>: 输出设备 ID 或名称（通过 <code>query_devices()</code> 获取）。</li>
+<li><strong><code>dtype</code></strong>: 输出数据类型（如 <code>&#39;float32&#39;</code>, <code>&#39;int16&#39;</code>），默认与输入一致。</li>
+</ul>
+<h3 id="2-sounddevice-rec-录制音频"><a href="#2-sounddevice-rec-录制音频" class="headerlink" title="2. sounddevice.rec() - 录制音频"></a>2. <code>sounddevice.rec()</code> - 录制音频</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">sounddevice.rec(frames, samplerate=<span class="hljs-literal">None</span>, channels=<span class="hljs-literal">None</span>, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>, <br>               blocking=<span class="hljs-literal">False</span>, **kwargs)<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>frames</code></strong>: 录制的样本数（长度）。</li>
+<li><strong><code>channels</code></strong>: 录制通道数（默认 1）。</li>
+<li><strong><code>blocking</code></strong>: 是否阻塞程序直到录制完成（<code>True</code>&#x2F;<code>False</code>）。</li>
+<li><strong>返回值</strong>: 录制的音频数组（NumPy 数组）。</li>
+</ul>
+<h3 id="3-InputStream-OutputStream-高级流控制"><a href="#3-InputStream-OutputStream-高级流控制" class="headerlink" title="3. InputStream &#x2F; OutputStream - 高级流控制"></a>3. <code>InputStream</code> &#x2F; <code>OutputStream</code> - 高级流控制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 输入流（录制）</span><br>stream_in = sounddevice.InputStream(<br>    samplerate=<span class="hljs-number">44100</span>, <br>    channels=<span class="hljs-number">1</span>,<br>    device=<span class="hljs-string">&#x27;microphone&#x27;</span>,<br>    callback=record_callback<br>)<br><br><span class="hljs-comment"># 输出流（播放）</span><br>stream_out = sounddevice.OutputStream(<br>    samplerate=<span class="hljs-number">44100</span>, <br>    channels=<span class="hljs-number">2</span>,<br>    device=<span class="hljs-string">&#x27;speakers&#x27;</span>,<br>    callback=play_callback<br>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>callback</code></strong>: 回调函数，处理实时音频数据（原型：<code>callback(indata, outdata, frames, time, status)</code>）。</li>
+<li><strong><code>blocksize</code></strong>: 每次回调处理的帧数（影响延迟）。</li>
+<li><strong><code>latency</code></strong>: 延迟设置（<code>&#39;low&#39;</code>, <code>&#39;high&#39;</code> 或秒数）。</li>
+</ul>
+<hr>
+<h4 id="1-device-参数"><a href="#1-device-参数" class="headerlink" title="1. device 参数"></a>1. <code>device</code> 参数</h4><ul>
+<li><strong>作用</strong>: 指定输入&#x2F;输出设备。</li>
+<li><strong>获取设备列表</strong>:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sounddevice <span class="hljs-keyword">as</span> sd<br><span class="hljs-built_in">print</span>(sd.query_devices())  <span class="hljs-comment"># 列出所有设备</span><br><span class="hljs-built_in">print</span>(sd.default.device)   <span class="hljs-comment"># 查看默认设备</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-samplerate-参数"><a href="#2-samplerate-参数" class="headerlink" title="2. samplerate 参数"></a>2. <code>samplerate</code> 参数</h4><ul>
+<li>必须与音频数据匹配。常见值：44100 Hz（CD质量）、48000 Hz。</li>
+<li>设备支持的值可通过 <code>sd.query_devices(device_id)[&#39;default_samplerate&#39;]</code> 查询。</li>
+</ul>
+<h4 id="3-blocksize-参数"><a href="#3-blocksize-参数" class="headerlink" title="3.blocksize 参数"></a>3.<code>blocksize</code> 参数</h4><ul>
+<li>较小的值 → 更低延迟，但可能引发音频中断。</li>
+<li>较大的值 → 更稳定，但延迟更高。</li>
+<li>推荐：0（自动选择）或 256&#x2F;512。</li>
+</ul>
+<h4 id="4-latency-参数"><a href="#4-latency-参数" class="headerlink" title="4. latency 参数"></a>4. <code>latency</code> 参数</h4><ul>
+<li><code>&#39;low&#39;</code>: 最小延迟（可能不稳定）。</li>
+<li><code>&#39;high&#39;</code>: 稳定但延迟较高。</li>
+<li>数值：如 <code>0.1</code>（100毫秒）。</li>
+</ul>
+<h4 id="5-dtype-参数"><a href="#5-dtype-参数" class="headerlink" title="5. dtype 参数"></a>5. <code>dtype</code> 参数</h4><ul>
+<li>控制音频数据类型：<ul>
+<li><code>&#39;float32&#39;</code>（范围 [-1.0, 1.0]）</li>
+<li><code>&#39;int16&#39;</code>（范围 [-32768, 32767]）</li>
+</ul>
+</li>
+<li>录制时指定 <code>dtype=&#39;int16&#39;</code> 可节省内存。</li>
+</ul>
+<hr>
+<h3 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h3><h4 id="录制并播放音频（10秒）"><a href="#录制并播放音频（10秒）" class="headerlink" title="录制并播放音频（10秒）"></a>录制并播放音频（10秒）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sounddevice <span class="hljs-keyword">as</span> sd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># 录制音频</span><br>duration = <span class="hljs-number">10</span>  <span class="hljs-comment"># 秒</span><br>fs = <span class="hljs-number">44100</span>     <span class="hljs-comment"># 采样率</span><br>recording = sd.rec(<span class="hljs-built_in">int</span>(duration * fs), samplerate=fs, channels=<span class="hljs-number">1</span>)<br>sd.wait()  <span class="hljs-comment"># 等待录制完成</span><br><br><span class="hljs-comment"># 播放录制的音频</span><br>sd.play(recording, samplerate=fs)<br>sd.wait()<br></code></pre></td></tr></table></figure>
+
+<h4 id="实时音频处理（回环示例）"><a href="#实时音频处理（回环示例）" class="headerlink" title="实时音频处理（回环示例）"></a>实时音频处理（回环示例）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata, outdata, frames, time, status</span>):<br>    <span class="hljs-keyword">if</span> status:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Error:&quot;</span>, status)<br>    outdata[:] = indata  <span class="hljs-comment"># 将输入直接复制到输出（实时回环）</span><br><br><span class="hljs-comment"># 创建双向流</span><br><span class="hljs-keyword">with</span> sd.Stream(<br>    device=(sd.default.input_device, sd.default.output_device),<br>    samplerate=<span class="hljs-number">44100</span>,<br>    channels=<span class="hljs-number">1</span>,<br>    callback=callback<br>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;实时回环中... 按 Enter 停止&quot;</span>)<br>    <span class="hljs-built_in">input</span>()<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="RawInputStream"><a href="#RawInputStream" class="headerlink" title="RawInputStream"></a>RawInputStream</h2><p><code>sounddevice.RawInputStream</code> 是 <code>sounddevice</code> 库中用于处理原始音频输入的低级接口，特别适用于需要直接访问未处理音频字节的场景（如音频编码、网络传输等）。</p>
+<h3 id="RawInputStream-核心参数详解"><a href="#RawInputStream-核心参数详解" class="headerlink" title="RawInputStream 核心参数详解"></a>RawInputStream 核心参数详解</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">sounddevice</span>.RawInputStream(<br>    samplerate=<span class="hljs-literal">None</span>,<br>    blocksize=<span class="hljs-literal">None</span>,<br>    device=<span class="hljs-literal">None</span>,<br>    channels=<span class="hljs-literal">None</span>,<br>    dtype=<span class="hljs-string">&#x27;float32&#x27;</span>,<br>    latency=<span class="hljs-literal">None</span>,<br>    extra_settings=<span class="hljs-literal">None</span>,<br>    callback=<span class="hljs-literal">None</span>,<br>    finished_callback=<span class="hljs-literal">None</span>,<br>    clip_off=<span class="hljs-literal">None</span>,<br>    dither_off=<span class="hljs-literal">None</span>,<br>    never_drop_input=<span class="hljs-literal">None</span>,<br>    prime_output_buffers_using_stream_callback=<span class="hljs-literal">None</span>,<br>    **kwargs<br>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="关键参数说明"><a href="#关键参数说明" class="headerlink" title="关键参数说明"></a>关键参数说明</h4><ol>
+<li><p><strong><code>samplerate</code></strong> (int, 可选)  </p>
+<ul>
+<li>采样率（Hz），默认使用设备默认值</li>
+<li><strong>示例</strong>: <code>samplerate=48000</code></li>
+</ul>
+</li>
+<li><p><strong><code>blocksize</code></strong> (int, 可选)  </p>
+<ul>
+<li>每次回调处理的帧数（样本数）</li>
+<li>较小值 → 低延迟但CPU负担重</li>
+<li>较大值 → 高延迟但稳定</li>
+<li><strong>推荐</strong>: <code>0</code>（自动选择）或 <code>256/512/1024</code></li>
+</ul>
+</li>
+<li><p><strong><code>device</code></strong> (int&#x2F;str, 可选)  </p>
+<ul>
+<li>输入设备ID或名称</li>
+<li>获取设备列表: <code>sd.query_devices()</code></li>
+<li><strong>示例</strong>: <code>device=&#39;麦克风阵列&#39;</code> 或 <code>device=3</code></li>
+</ul>
+</li>
+<li><p><strong><code>channels</code></strong> (int, 可选)  </p>
+<ul>
+<li>音频通道数（默认使用设备最大通道数）</li>
+<li><strong>示例</strong>: <code>channels=2</code>（立体声）</li>
+</ul>
+</li>
+<li><p><strong><code>dtype</code></strong> (str, 必需)  </p>
+<ul>
+<li>音频数据格式（<strong>原始字节格式</strong>）</li>
+<li>支持类型: <code>&#39;float32&#39;</code>, <code>&#39;int32&#39;</code>, <code>&#39;int16&#39;</code>, <code>&#39;int8&#39;</code>, <code>&#39;uint8&#39;</code></li>
+<li><strong>注意</strong>: 不同于普通InputStream，这里数据以原始字节形式传递</li>
+</ul>
+</li>
+<li><p><strong><code>latency</code></strong> (str&#x2F;float, 可选)  </p>
+<ul>
+<li>延迟设置：<code>&#39;low&#39;</code>（低延迟）、<code>&#39;high&#39;</code>（高稳定性）或秒数</li>
+<li><strong>示例</strong>: <code>latency=0.05</code>（50ms延迟）</li>
+</ul>
+</li>
+<li><p><strong><code>callback</code></strong> (callable, 必需)  </p>
+<ul>
+<li>核心回调函数，原型：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata: <span class="hljs-built_in">bytes</span>, frames: <span class="hljs-built_in">int</span>, time: CData, status: CallbackFlags</span>) -&gt; <span class="hljs-literal">None</span><br></code></pre></td></tr></table></figure></li>
+<li><code>indata</code>: 原始音频字节（<strong>非NumPy数组</strong>）</li>
+<li><code>frames</code>: 本次回调的帧数</li>
+<li><code>time</code>: 时间戳信息</li>
+<li><code>status</code>: 错误状态标志</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="与普通-InputStream-的区别"><a href="#与普通-InputStream-的区别" class="headerlink" title="与普通 InputStream 的区别"></a>与普通 InputStream 的区别</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>RawInputStream</th>
+<th>InputStream</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据格式</strong></td>
+<td>原始字节 (<code>bytes</code>)</td>
+<td>NumPy数组</td>
+</tr>
+<tr>
+<td><strong>内存开销</strong></td>
+<td>更低（无格式转换）</td>
+<td>稍高</td>
+</tr>
+<tr>
+<td><strong>使用场景</strong></td>
+<td>编码&#x2F;网络传输&#x2F;硬件交互</td>
+<td>实时处理&#x2F;分析</td>
+</tr>
+<tr>
+<td><strong>数据处理</strong></td>
+<td>需手动解析字节</td>
+<td>直接使用数组</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>更高（避免格式转换开销）</td>
+<td>稍低</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="完整使用示例"><a href="#完整使用示例" class="headerlink" title="完整使用示例"></a>完整使用示例</h3><h4 id="1-原始音频录制（保存为WAV）"><a href="#1-原始音频录制（保存为WAV）" class="headerlink" title="1. 原始音频录制（保存为WAV）"></a>1. 原始音频录制（保存为WAV）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sounddevice <span class="hljs-keyword">as</span> sd<br><span class="hljs-keyword">import</span> wave<br><br><span class="hljs-comment"># 配置参数</span><br>CHUNK = <span class="hljs-number">1024</span><br>FORMAT = <span class="hljs-string">&#x27;int16&#x27;</span>  <span class="hljs-comment"># 原始格式</span><br>CHANNELS = <span class="hljs-number">1</span><br>RATE = <span class="hljs-number">44100</span><br>RECORD_SECONDS = <span class="hljs-number">5</span><br><br><span class="hljs-comment"># 创建WAV文件</span><br>wf = wave.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;raw_audio.wav&quot;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>)<br>wf.setnchannels(CHANNELS)<br>wf.setsampwidth(<span class="hljs-number">2</span>)  <span class="hljs-comment"># 16-bit = 2 bytes</span><br>wf.setframerate(RATE)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata: <span class="hljs-built_in">bytes</span>, frames, time, status</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;接收原始字节并写入文件&quot;&quot;&quot;</span><br>    wf.writeframes(indata)<br><br><span class="hljs-comment"># 创建原始输入流</span><br>stream = sd.RawInputStream(<br>    samplerate=RATE,<br>    blocksize=CHUNK,<br>    dtype=FORMAT,<br>    channels=CHANNELS,<br>    callback=callback<br>)<br><br><span class="hljs-comment"># 开始录制</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Recording raw audio...&quot;</span>)<br>stream.start()<br>sd.sleep(<span class="hljs-built_in">int</span>(RECORD_SECONDS * <span class="hljs-number">1000</span>))<br>stream.stop()<br>wf.close()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Done&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="2-实时原始音频处理（字节转数组）"><a href="#2-实时原始音频处理（字节转数组）" class="headerlink" title="2. 实时原始音频处理（字节转数组）"></a>2. 实时原始音频处理（字节转数组）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sounddevice <span class="hljs-keyword">as</span> sd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata: <span class="hljs-built_in">bytes</span>, frames, time, status</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;将原始字节转为NumPy数组处理&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> status:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Error:&quot;</span>, status)<br>    <br>    <span class="hljs-comment"># 字节 → NumPy数组 (int16格式)</span><br>    audio_array = np.frombuffer(indata, dtype=np.int16)<br>    <br>    <span class="hljs-comment"># 示例处理：计算分贝值</span><br>    rms = np.sqrt(np.mean(audio_array**<span class="hljs-number">2</span>))<br>    db = <span class="hljs-number">20</span> * np.log10(rms / <span class="hljs-number">32768</span>)  <span class="hljs-comment"># 16-bit范围[-32768, 32767]</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;当前音量: <span class="hljs-subst">&#123;db:<span class="hljs-number">.1</span>f&#125;</span> dB&quot;</span>)<br><br><span class="hljs-comment"># 创建原始输入流</span><br>stream = sd.RawInputStream(<br>    samplerate=<span class="hljs-number">48000</span>,<br>    blocksize=<span class="hljs-number">512</span>,<br>    dtype=<span class="hljs-string">&#x27;int16&#x27;</span>,<br>    callback=callback<br>)<br><br><span class="hljs-comment"># 开始处理</span><br>stream.start()<br><span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;按Enter停止...&quot;</span>)<br>stream.stop()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="高级技巧与注意事项"><a href="#高级技巧与注意事项" class="headerlink" title="高级技巧与注意事项"></a>高级技巧与注意事项</h3><ol>
+<li><p><strong>字节解析技巧</strong><br>根据 <code>dtype</code> 解析字节：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># float32 (4字节/样本)</span><br>data = np.frombuffer(indata, dtype=np.float32)<br><br><span class="hljs-comment"># int16 (2字节/样本)</span><br>data = np.frombuffer(indata, dtype=np.int16)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>避免回调阻塞</strong>  </p>
+<ul>
+<li>回调中避免耗时操作（如文件写入）</li>
+<li>使用队列将数据传递到后台线程：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> queue <span class="hljs-keyword">import</span> Queue<br>audio_queue = Queue()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata, ...</span>):<br>    audio_queue.put(indata)<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>错误处理</strong><br>检查 <code>status</code> 参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata, frames, time, status</span>):<br>    <span class="hljs-keyword">if</span> status.input_overflow:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;输入溢出！增加blocksize&quot;</span>)<br>    <span class="hljs-keyword">if</span> status:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;PortAudio错误:&quot;</span>, status)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>低延迟优化</strong>  </p>
+<ul>
+<li>设置 <code>latency=&#39;low&#39;</code></li>
+<li>使用专用音频驱动：ASIO (Windows), JACK (Linux)</li>
+<li>减少 <code>blocksize</code>（但需测试稳定性）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="常见问题解决"><a href="#常见问题解决" class="headerlink" title="常见问题解决"></a>常见问题解决</h3><p><strong>Q1: 为什么回调收到的数据长度不对？</strong>  </p>
+<ul>
+<li>检查 <code>dtype</code> 设置：每个样本字节数 × 通道数 × 帧数应等于 <code>len(indata)</code></li>
+<li>示例：<code>int16</code>立体声，1024帧 → 2字节 × 2通道 × 1024 &#x3D; 4096字节</li>
+</ul>
+<p><strong>Q2: 如何实现零拷贝处理？</strong>  </p>
+<ul>
+<li>直接操作字节对象（避免 <code>np.frombuffer</code> 复制）：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">indata, ...</span>):<br>    <span class="hljs-comment"># 直接处理字节 (示例：反转字节序)</span><br>    swapped = <span class="hljs-built_in">bytes</span>(<span class="hljs-built_in">reversed</span>(indata))<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>Q3: 出现 <code>PortAudioError: Unanticipated host error</code>？</strong>  </p>
+<ul>
+<li>降低采样率或增加 <code>blocksize</code></li>
+<li>关闭其他占用音频设备的程序</li>
+<li>更新音频驱动程序</li>
+</ul>
+<hr>
+<h1 id="Vosk"><a href="#Vosk" class="headerlink" title="Vosk"></a>Vosk</h1><p>Vosk 是一个高效的离线语音识别库，支持实时流式处理和多种语言（包括中文）。以下是其核心参数详解及使用示例，结合 Python 实现：</p>
+<h2 id="一、Vosk-核心参数详解"><a href="#一、Vosk-核心参数详解" class="headerlink" title="一、Vosk 核心参数详解"></a>一、Vosk 核心参数详解</h2><h3 id="1-模型加载参数-Model-类"><a href="#1-模型加载参数-Model-类" class="headerlink" title="1. 模型加载参数 (Model 类)"></a>1. 模型加载参数 (<code>Model</code> 类)</h3><ul>
+<li><strong><code>model_path</code></strong> (str)  ：模型解压后的目录路径。</li>
+</ul>
+<h3 id="2-识别器参数-KaldiRecognizer-类"><a href="#2-识别器参数-KaldiRecognizer-类" class="headerlink" title="2. 识别器参数 (KaldiRecognizer 类)"></a>2. 识别器参数 (<code>KaldiRecognizer</code> 类)</h3><ul>
+<li><strong><code>model</code></strong> (Model 对象)<br>加载的语音识别模型实例。</li>
+<li><strong><code>sample_rate</code></strong> (int)<br>音频采样率（单位：Hz），<strong>必须与输入音频一致</strong>，通常为 <code>16000</code> 或 <code>8000</code>。  </li>
+<li><strong><code>show_words</code></strong> (bool, 可选)<br>是否在结果中返回每个单词的时间戳和置信度（默认 <code>False</code>）。  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> vosk <span class="hljs-keyword">import</span> KaldiRecognizer<br>rec = KaldiRecognizer(model, <span class="hljs-number">16000</span>, show_words=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-音频处理参数"><a href="#3-音频处理参数" class="headerlink" title="3. 音频处理参数"></a>3. 音频处理参数</h3><ul>
+<li><strong>音频格式要求</strong>  <ul>
+<li>单声道（mono）、16-bit PCM、采样率匹配 <code>sample_rate</code>。</li>
+<li>若音频格式不符，需用 <code>ffmpeg</code> 转换：  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">process = subprocess.Popen([<br>    <span class="hljs-string">&#x27;ffmpeg&#x27;</span>, <span class="hljs-string">&#x27;-i&#x27;</span>, <span class="hljs-string">&#x27;input.mp3&#x27;</span>,  <span class="hljs-comment"># 输入文件</span><br>    <span class="hljs-string">&#x27;-ar&#x27;</span>, <span class="hljs-string">&#x27;16000&#x27;</span>,               <span class="hljs-comment"># 采样率</span><br>    <span class="hljs-string">&#x27;-ac&#x27;</span>, <span class="hljs-string">&#x27;1&#x27;</span>,                   <span class="hljs-comment"># 单声道</span><br>    <span class="hljs-string">&#x27;-f&#x27;</span>, <span class="hljs-string">&#x27;s16le&#x27;</span>, <span class="hljs-string">&#x27;-&#x27;</span>            <span class="hljs-comment"># 输出格式为16-bit PCM</span><br>], stdout=subprocess.PIPE)<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-识别结果获取方法"><a href="#4-识别结果获取方法" class="headerlink" title="4. 识别结果获取方法"></a>4. 识别结果获取方法</h3><ul>
+<li><strong><code>AcceptWaveform(data: bytes)</code></strong><br>传入音频数据块（字节流），返回 <code>True</code> 当有完整句子识别完成。  </li>
+<li><strong><code>Result()</code></strong><br>返回完整句子的 JSON 结果（包含 <code>&quot;text&quot;</code> 字段）。  </li>
+<li><strong><code>PartialResult()</code></strong><br>返回中间识别结果（实时流处理时常用）。  </li>
+<li><strong><code>FinalResult()</code></strong><br>返回最终识别结果并重置识别器。</li>
+</ul>
+<hr>
+<h3 id="二、完整代码示例"><a href="#二、完整代码示例" class="headerlink" title="二、完整代码示例"></a>二、完整代码示例</h3><h4 id="1-实时麦克风语音识别"><a href="#1-实时麦克风语音识别" class="headerlink" title="1. 实时麦克风语音识别"></a>1. 实时麦克风语音识别</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sounddevice <span class="hljs-keyword">as</span> sd<br><span class="hljs-keyword">from</span> vosk <span class="hljs-keyword">import</span> Model, KaldiRecognizer<br><span class="hljs-keyword">import</span> queue<br><br><span class="hljs-comment"># 初始化模型和识别器</span><br>model = Model(<span class="hljs-string">&quot;model&quot;</span>)  <span class="hljs-comment"># 模型路径</span><br>rec = KaldiRecognizer(model, <span class="hljs-number">16000</span>)<br>audio_queue = queue.Queue()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">audio_callback</span>(<span class="hljs-params">indata, frames, time, status</span>):<br>    audio_queue.put(<span class="hljs-built_in">bytes</span>(indata))  <span class="hljs-comment"># 原始音频字节流</span><br><br><span class="hljs-comment"># 开始录音</span><br><span class="hljs-keyword">with</span> sd.RawInputStream(samplerate=<span class="hljs-number">16000</span>, dtype=<span class="hljs-string">&#x27;int16&#x27;</span>, callback=audio_callback):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;实时识别中... 按 Ctrl+C 停止&quot;</span>)<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        data = audio_queue.get()<br>        <span class="hljs-keyword">if</span> rec.AcceptWaveform(data):<br>            result = rec.Result()<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;完整结果:&quot;</span>, result)  <span class="hljs-comment"># 输出完整句子</span><br>        <span class="hljs-keyword">else</span>:<br>            partial = rec.PartialResult()<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;中间结果:&quot;</span>, partial)  <span class="hljs-comment"># 实时输出部分识别</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-音频文件识别（结合ffmpeg）"><a href="#2-音频文件识别（结合ffmpeg）" class="headerlink" title="2. 音频文件识别（结合ffmpeg）"></a>2. 音频文件识别（结合ffmpeg）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> vosk <span class="hljs-keyword">import</span> Model, KaldiRecognizer<br><span class="hljs-keyword">import</span> subprocess<br><span class="hljs-keyword">import</span> json<br><br>model = Model(<span class="hljs-string">&quot;model&quot;</span>)<br>rec = KaldiRecognizer(model, <span class="hljs-number">16000</span>)<br><br><span class="hljs-comment"># 通过ffmpeg转换音频格式</span><br>process = subprocess.Popen([<br>    <span class="hljs-string">&#x27;ffmpeg&#x27;</span>, <span class="hljs-string">&#x27;-i&#x27;</span>, <span class="hljs-string">&#x27;input.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;-ar&#x27;</span>, <span class="hljs-string">&#x27;16000&#x27;</span>, <span class="hljs-string">&#x27;-ac&#x27;</span>, <span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;-f&#x27;</span>, <span class="hljs-string">&#x27;s16le&#x27;</span>, <span class="hljs-string">&#x27;-&#x27;</span><br>], stdout=subprocess.PIPE)<br><br>results = []<br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    data = process.stdout.read(<span class="hljs-number">4000</span>)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> data: <br>        <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> rec.AcceptWaveform(data):<br>        result = json.loads(rec.Result())<br>        results.append(result[<span class="hljs-string">&quot;text&quot;</span>])<br><br><span class="hljs-comment"># 获取最终结果</span><br>final = json.loads(rec.FinalResult())<br>results.append(final[<span class="hljs-string">&quot;text&quot;</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;识别结果:&quot;</span>, <span class="hljs-string">&quot; &quot;</span>.join(results))<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="三、参数配置技巧"><a href="#三、参数配置技巧" class="headerlink" title="三、参数配置技巧"></a>三、参数配置技巧</h3><h4 id="1-优化识别准确率"><a href="#1-优化识别准确率" class="headerlink" title="1. 优化识别准确率"></a>1. 优化识别准确率</h4><ul>
+<li><strong>模型选择</strong>：  <ul>
+<li>小模型（~50MB）：适合移动端（如 <code>vosk-model-small-cn-0.22</code>）。  </li>
+<li>大模型（~1.3GB）：适合服务器（如 <code>vosk-model-cn-0.15</code>）。</li>
+</ul>
+</li>
+<li><strong>词汇表定制</strong>：<br>通过 <code>Rec.SetWords(True)</code> 启用单词级输出，动态扩展专业词汇。</li>
+</ul>
+<h4 id="2-实时流处理优化"><a href="#2-实时流处理优化" class="headerlink" title="2. 实时流处理优化"></a>2. 实时流处理优化</h4><ul>
+<li><strong>块大小 (<code>blocksize</code>)</strong>：<br>较小的值（如 <code>4000</code> 字节）降低延迟，但增加CPU负载。  </li>
+<li><strong>部分结果频率</strong>：<br>调用 <code>PartialResult()</code> 控制实时反馈的粒度。</li>
+</ul>
+<h4 id="3-输出结果处理"><a href="#3-输出结果处理" class="headerlink" title="3. 输出结果处理"></a>3. 输出结果处理</h4><ul>
+<li><strong>提取有效文本</strong>：  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_text</span>(<span class="hljs-params">json_str</span>):<br>    result = json.loads(json_str)<br>    <span class="hljs-keyword">return</span> result.get(<span class="hljs-string">&quot;text&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)<br></code></pre></td></tr></table></figure></li>
+<li><strong>保存时间戳</strong>（需 <code>show_words=True</code>）：  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;你好世界&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;result&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;conf&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.95</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;start&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1.2</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;end&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1.5</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;word&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;你好&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> ...<span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="OpenAI-Whisper"><a href="#OpenAI-Whisper" class="headerlink" title="OpenAI Whisper"></a>OpenAI Whisper</h1><h2 id="一、模型选择与加载参数"><a href="#一、模型选择与加载参数" class="headerlink" title="一、模型选择与加载参数"></a>一、模型选择与加载参数</h2><p>Whisper 提供多种模型尺寸，在速度与精度间权衡：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模型类型</strong></th>
+<th><strong>参数规模</strong></th>
+<th><strong>显存占用</strong></th>
+<th><strong>相对速度</strong></th>
+<th><strong>适用场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tiny</code></td>
+<td>39M</td>
+<td>~1GB</td>
+<td>32x</td>
+<td>移动端&#x2F;实时低延迟</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>74M</td>
+<td>~1GB</td>
+<td>16x</td>
+<td>平衡场景（推荐默认）</td>
+</tr>
+<tr>
+<td><code>small</code></td>
+<td>244M</td>
+<td>~2GB</td>
+<td>6x</td>
+<td>高精度转录</td>
+</tr>
+<tr>
+<td><code>medium</code></td>
+<td>769M</td>
+<td>~5GB</td>
+<td>2x</td>
+<td>专业场景（医疗&#x2F;学术）</td>
+</tr>
+<tr>
+<td><code>large-v3</code></td>
+<td>1550M</td>
+<td>~10GB</td>
+<td>1x</td>
+<td>极致精度（多语言&#x2F;复杂口音）</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>首次加载</strong>：自动下载模型至 <code>~/.cache/whisper/</code>，可通过 <code>model_dir</code> 指定本地路径：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model = whisper.load_model(<span class="hljs-string">&quot;small&quot;</span>, download_root=<span class="hljs-string">&quot;/path/to/models&quot;</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="二、转录核心参数详解"><a href="#二、转录核心参数详解" class="headerlink" title="二、转录核心参数详解"></a>二、转录核心参数详解</h2><p><code>transcribe()</code> 是核心方法，关键参数如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">result = model.transcribe(<br>    audio=<span class="hljs-string">&quot;input.wav&quot;</span>,      <span class="hljs-comment"># 音频路径或NP数组</span><br>    language=<span class="hljs-string">&quot;zh&quot;</span>,          <span class="hljs-comment"># 强制指定语言（zh/en/es等）</span><br>    temperature=<span class="hljs-number">0.2</span>,        <span class="hljs-comment"># 采样随机性（0-1，低=确定性强）</span><br>    fp16=<span class="hljs-literal">False</span>,             <span class="hljs-comment"># 关闭FP16加速（CPU环境必设）</span><br>    verbose=<span class="hljs-literal">True</span>,           <span class="hljs-comment"># 打印实时进度</span><br>    word_timestamps=<span class="hljs-literal">True</span>,   <span class="hljs-comment"># 返回词级时间戳</span><br>    initial_prompt=<span class="hljs-string">&quot;以下是普通话：&quot;</span>  <span class="hljs-comment"># 提供上下文提示</span><br>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p><code>task=&quot;transcribe&quot;</code>：将语音转录为原始语言（默认值）。</p>
+</li>
+<li><p><code>task=&quot;translate&quot;</code>：将语音翻译成英语（无论原始语言是什么）。</p>
+</li>
+</ul>
+<h3 id="参数效果对比表："><a href="#参数效果对比表：" class="headerlink" title="参数效果对比表："></a>参数效果对比表：</h3><table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>推荐值</strong></th>
+<th><strong>影响说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>language</code></td>
+<td><code>None</code> (自动检测)</td>
+<td>显式设置（如<code>&quot;zh&quot;</code>)可提升非英语识别精度15%+</td>
+</tr>
+<tr>
+<td><code>temperature</code></td>
+<td><code>0.0</code> (贪婪解码)</td>
+<td>&gt;0 增加多样性，但可能引入错误词；长文本建议设为0</td>
+</tr>
+<tr>
+<td><code>word_timestamps</code></td>
+<td><code>True</code></td>
+<td>生成逐词时间戳（适配字幕场景），输出包含 <code>segments[i][&#39;words&#39;]</code></td>
+</tr>
+<tr>
+<td><code>initial_prompt</code></td>
+<td>领域关键词</td>
+<td>提示模型专注特定领域（如医疗术语），错误率降低可达10%</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、高级使用与性能优化"><a href="#三、高级使用与性能优化" class="headerlink" title="三、高级使用与性能优化"></a>三、高级使用与性能优化</h2><h3 id="1-长音频分段处理策略"><a href="#1-长音频分段处理策略" class="headerlink" title="1. 长音频分段处理策略"></a>1. 长音频分段处理策略</h3><p>Whisper 默认处理30秒片段，长音频需拆解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">audio = whisper.load_audio(<span class="hljs-string">&quot;long.mp3&quot;</span>)<br>segments = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(audio), <span class="hljs-number">30</span> * <span class="hljs-number">16000</span>):  <span class="hljs-comment"># 30秒步进</span><br>    chunk = audio[i:i+<span class="hljs-number">30</span>*<span class="hljs-number">16000</span>]<br>    result = model.transcribe(chunk)<br>    segments.extend(result[<span class="hljs-string">&quot;segments&quot;</span>])<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>为何分段</strong>：避免显存溢出，且模型对短音频优化更好</li>
+</ul>
+<h3 id="2-输出后处理技巧"><a href="#2-输出后处理技巧" class="headerlink" title="2. 输出后处理技巧"></a>2. 输出后处理技巧</h3><ul>
+<li><strong>术语替换</strong>：针对行业术语纠错  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">term_map = &#123;<span class="hljs-string">&quot;心机梗塞&quot;</span>: <span class="hljs-string">&quot;心肌梗死&quot;</span>, <span class="hljs-string">&quot;糖料病&quot;</span>: <span class="hljs-string">&quot;糖尿病&quot;</span>&#125;<br>text = result[<span class="hljs-string">&quot;text&quot;</span>]<br><span class="hljs-keyword">for</span> wrong, correct <span class="hljs-keyword">in</span> term_map.items():<br>    text = text.replace(wrong, correct)<br></code></pre></td></tr></table></figure></li>
+<li><strong>时间戳对齐</strong>：合并连续片段  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">merged = []<br>current_seg = segments[<span class="hljs-number">0</span>]<br><span class="hljs-keyword">for</span> seg <span class="hljs-keyword">in</span> segments[<span class="hljs-number">1</span>:]:<br>    <span class="hljs-keyword">if</span> seg[<span class="hljs-string">&#x27;start&#x27;</span>] - current_seg[<span class="hljs-string">&#x27;end&#x27;</span>] &lt; <span class="hljs-number">0.5</span>:  <span class="hljs-comment"># 间隔小于0.5秒合并</span><br>        current_seg[<span class="hljs-string">&#x27;text&#x27;</span>] += seg[<span class="hljs-string">&#x27;text&#x27;</span>]<br>        current_seg[<span class="hljs-string">&#x27;end&#x27;</span>] = seg[<span class="hljs-string">&#x27;end&#x27;</span>]<br>    <span class="hljs-keyword">else</span>:<br>        merged.append(current_seg)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-速度优化方案"><a href="#3-速度优化方案" class="headerlink" title="3. 速度优化方案"></a>3. 速度优化方案</h3><ul>
+<li><strong>硬件加速</strong>：<ul>
+<li>GPU用户：开启 <code>fp16=True</code>（默认启用）</li>
+<li>CPU优化：用 <code>whisper-ctranslate2</code> 替代库，提速4倍</li>
+</ul>
+</li>
+<li><strong>批处理</strong>：避免重复加载模型  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">model = whisper.load_model(<span class="hljs-string">&quot;base&quot;</span>)  <span class="hljs-comment"># 全局加载一次</span><br>files = [<span class="hljs-string">&quot;a.wav&quot;</span>, <span class="hljs-string">&quot;b.wav&quot;</span>]<br><span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> files:<br>    model.transcribe(f)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="四、典型应用场景代码"><a href="#四、典型应用场景代码" class="headerlink" title="四、典型应用场景代码"></a>四、典型应用场景代码</h2><h3 id="1-会议录音转结构化纪要"><a href="#1-会议录音转结构化纪要" class="headerlink" title="1. 会议录音转结构化纪要"></a>1. 会议录音转结构化纪要</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> whisper<br><span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI<br><br><span class="hljs-comment"># 语音转文本</span><br>model = whisper.load_model(<span class="hljs-string">&quot;medium&quot;</span>)<br>result = model.transcribe(<span class="hljs-string">&quot;meeting.mp3&quot;</span>, word_timestamps=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 调用GPT-4总结重点</span><br>client = OpenAI(api_key=<span class="hljs-string">&quot;YOUR_KEY&quot;</span>)<br>response = client.chat.completions.create(<br>    model=<span class="hljs-string">&quot;gpt-4-turbo&quot;</span>,<br>    messages=[&#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">f&quot;总结会议要点：<span class="hljs-subst">&#123;result[<span class="hljs-string">&#x27;text&#x27;</span>]&#125;</span>&quot;</span>&#125;]<br>)<br><span class="hljs-built_in">print</span>(response.choices[<span class="hljs-number">0</span>].message.content)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-带时间轴的字幕生成"><a href="#2-带时间轴的字幕生成" class="headerlink" title="2. 带时间轴的字幕生成"></a>2. 带时间轴的字幕生成</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">result = model.transcribe(<span class="hljs-string">&quot;video.mp4&quot;</span>, word_timestamps=<span class="hljs-literal">True</span>)<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;subtitle.srt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    <span class="hljs-keyword">for</span> i, seg <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(result[<span class="hljs-string">&quot;segments&quot;</span>]):<br>        start = seg[<span class="hljs-string">&quot;start&quot;</span>]<br>        end = seg[<span class="hljs-string">&quot;end&quot;</span>]<br>        text = seg[<span class="hljs-string">&quot;text&quot;</span>]<br>        f.write(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>\n<span class="hljs-subst">&#123;start:<span class="hljs-number">.3</span>f&#125;</span> --&gt; <span class="hljs-subst">&#123;end:<span class="hljs-number">.3</span>f&#125;</span>\n<span class="hljs-subst">&#123;text&#125;</span>\n\n&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>中文识别不准</strong><ul>
+<li>显式设置 <code>language=&quot;zh&quot;</code></li>
+<li>添加提示词：<code>initial_prompt=&quot;以下是普通话对话&quot;</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="Argos-Translate"><a href="#Argos-Translate" class="headerlink" title="Argos-Translate"></a>Argos-Translate</h1><h2 id="一、安装与语言包管理参数"><a href="#一、安装与语言包管理参数" class="headerlink" title="一、安装与语言包管理参数"></a>一、安装与语言包管理参数</h2><h3 id="1-环境配置与包管理"><a href="#1-环境配置与包管理" class="headerlink" title="1. 环境配置与包管理"></a>1. 环境配置与包管理</h3><ul>
+<li><p><strong><code>update_package_index()</code></strong><br>更新可用的语言包列表（需联网）。首次使用前必须调用，否则无法获取最新模型。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> argostranslate.package<br>argostranslate.package.update_package_index()  <span class="hljs-comment"># 更新包索引</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>get_available_packages()</code></strong><br>获取所有可用语言包（返回对象列表）。每个包包含 <code>from_code</code>、<code>to_code</code>、<code>package_name</code> 等属性。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">available_packages = argostranslate.package.get_available_packages()<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong><code>install_from_path(path)</code></strong><br>安装本地下载的语言包（<code>.argosmodel</code> 文件）。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">package_to_install = <span class="hljs-built_in">next</span>(<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> x: x.from_code==<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-keyword">and</span> x.to_code==<span class="hljs-string">&quot;zh&quot;</span>, available_packages))<br>argostranslate.package.install_from_path(package_to_install.download())<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-自定义存储路径"><a href="#2-自定义存储路径" class="headerlink" title="2. 自定义存储路径"></a>2. 自定义存储路径</h3><p>  默认缓存路径在 <code>~/.cache/argos-translate</code>，可通过环境变量修改：<br>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br>os.environ[<span class="hljs-string">&quot;XDG_CACHE_HOME&quot;</span>] = <span class="hljs-string">&quot;./custom_cache&quot;</span>  <span class="hljs-comment"># 自定义缓存目录</span><br>os.environ[<span class="hljs-string">&quot;XDG_DATA_HOME&quot;</span>] = <span class="hljs-string">&quot;./custom_data&quot;</span>    <span class="hljs-comment"># 自定义数据目录</span><br></code></pre></td></tr></table></figure><br>  <strong>适用场景</strong>：避免占用系统盘空间，或分布式部署时统一管理路径。</p>
+<hr>
+<h2 id="二、核心翻译参数"><a href="#二、核心翻译参数" class="headerlink" title="二、核心翻译参数"></a>二、核心翻译参数</h2><h3 id="1-基础翻译函数"><a href="#1-基础翻译函数" class="headerlink" title="1. 基础翻译函数"></a>1. 基础翻译函数</h3><ul>
+<li><strong><code>translate(text, from_code, to_code)</code></strong>  <ul>
+<li><code>text</code>: 待翻译文本（字符串）  </li>
+<li><code>from_code</code>: 源语言代码（如 <code>&quot;en&quot;</code>）  </li>
+<li><code>to_code</code>: 目标语言代码（如 <code>&quot;zh&quot;</code>）<br><strong>返回</strong>：翻译后的字符串。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">translated_text = argostranslate.translate.translate(<span class="hljs-string">&quot;Hello World&quot;</span>, <span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>)<br><span class="hljs-built_in">print</span>(translated_text)  <span class="hljs-comment"># 输出：你好，世界</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="三、高级功能参数"><a href="#三、高级功能参数" class="headerlink" title="三、高级功能参数"></a>三、高级功能参数</h2><h3 id="1-中间语言自动转换"><a href="#1-中间语言自动转换" class="headerlink" title="1. 中间语言自动转换"></a>1. 中间语言自动转换</h3><p>  当直接语言对（如 <code>ja→zh</code>）未安装时，自动通过中间语言（如英语 <code>en</code>）桥接：<br>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 只需安装 ja→en 和 en→zh 包，即可实现 ja→zh 翻译</span><br>translated_text = translate(<span class="hljs-string">&quot;こんにちは&quot;</span>, <span class="hljs-string">&quot;ja&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>)  <span class="hljs-comment"># 输出：你好</span><br></code></pre></td></tr></table></figure><br>  <strong>注意</strong>：转换层级增加可能降低翻译质量。</p>
+<h3 id="2-GPU-加速"><a href="#2-GPU-加速" class="headerlink" title="2. GPU 加速"></a>2. GPU 加速</h3><p>  通过环境变量启用 CUDA 加速（需安装 PyTorch GPU 版）：<br>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">os.environ[<span class="hljs-string">&quot;ARGOS_DEVICE_TYPE&quot;</span>] = <span class="hljs-string">&quot;cuda&quot;</span>  <span class="hljs-comment"># 或 &quot;auto&quot;</span><br></code></pre></td></tr></table></figure><br>  <strong>效果</strong>：大型模型（如 <code>en→zh</code>）翻译速度提升 3-5 倍。</p>
+<hr>
+<h2 id="四、应用场景参数配置"><a href="#四、应用场景参数配置" class="headerlink" title="四、应用场景参数配置"></a>四、应用场景参数配置</h2><h3 id="1-Web-API-服务（Flask-示例）"><a href="#1-Web-API-服务（Flask-示例）" class="headerlink" title="1. Web API 服务（Flask 示例）"></a>1. Web API 服务（Flask 示例）</h3>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, jsonify<br><span class="hljs-keyword">import</span> argostranslate.translate <span class="hljs-keyword">as</span> translate<br><br>app = Flask(__name__)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/translate&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">api_translate</span>():<br>    data = request.json<br>    text = data[<span class="hljs-string">&quot;text&quot;</span>]<br>    from_code = data[<span class="hljs-string">&quot;from_code&quot;</span>]<br>    to_code = data[<span class="hljs-string">&quot;to_code&quot;</span>]<br>    <span class="hljs-keyword">try</span>:<br>        result = translate.translate(text, from_code, to_code)<br>        <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;translation&quot;</span>: result&#125;)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-built_in">str</span>(e)&#125;), <span class="hljs-number">500</span><br></code></pre></td></tr></table></figure>
+<p>  <strong>关键参数</strong>：  </p>
+<ul>
+<li><code>text</code>: 用户输入的文本  </li>
+<li><code>from_code</code>&#x2F;<code>to_code</code>: 动态指定的语言对。</li>
+</ul>
+<h3 id="2-批量文件翻译"><a href="#2-批量文件翻译" class="headerlink" title="2. 批量文件翻译"></a>2. 批量文件翻译</h3>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> argostranslate <span class="hljs-keyword">import</span> translate, package<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">translate_file</span>(<span class="hljs-params">input_path, output_path, from_code, to_code</span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(input_path, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        text = f.read()<br>    translated = translate.translate(text, from_code, to_code)<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(output_path, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:<br>        f.write(translated)<br><br>translate_file(<span class="hljs-string">&quot;doc_en.txt&quot;</span>, <span class="hljs-string">&quot;doc_zh.txt&quot;</span>, <span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>  <strong>适用场景</strong>：本地化文档、多语言报告生成。</p>
+<hr>
+<h2 id="get-translation-from-codes"><a href="#get-translation-from-codes" class="headerlink" title="get_translation_from_codes"></a>get_translation_from_codes</h2><p>在 Argos Translate 中，<code>get_translation_from_codes()</code> 是<strong>核心翻译对象创建函数</strong>，它根据语言代码创建可复用的翻译器对象。</p>
+<h3 id="函数定义与参数详解"><a href="#函数定义与参数详解" class="headerlink" title="函数定义与参数详解"></a>函数定义与参数详解</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> argostranslate.translate <span class="hljs-keyword">import</span> get_translation_from_codes<br><br><span class="hljs-comment"># 创建翻译器对象</span><br>translator = get_translation_from_codes(<br>    from_code=<span class="hljs-string">&quot;en&quot;</span>,    <span class="hljs-comment"># 源语言代码 (ISO 639-1)</span><br>    to_code=<span class="hljs-string">&quot;zh&quot;</span>,      <span class="hljs-comment"># 目标语言代码 (ISO 639-1)</span><br>    max_cache_size=<span class="hljs-number">100</span> <span class="hljs-comment"># 缓存大小 (可选)</span><br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数说明表"><a href="#参数说明表" class="headerlink" title="参数说明表"></a>参数说明表</h3><table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>类型</strong></th>
+<th><strong>必选</strong></th>
+<th><strong>默认值</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>from_code</code></td>
+<td><code>str</code></td>
+<td>✅</td>
+<td>-</td>
+<td>源语言代码 (如 <code>&quot;en&quot;</code>&#x3D;英语, <code>&quot;zh&quot;</code>&#x3D;中文)</td>
+</tr>
+<tr>
+<td><code>to_code</code></td>
+<td><code>str</code></td>
+<td>✅</td>
+<td>-</td>
+<td>目标语言代码 (如 <code>&quot;es&quot;</code>&#x3D;西班牙语, <code>&quot;fr&quot;</code>&#x3D;法语)</td>
+</tr>
+<tr>
+<td><code>max_cache_size</code></td>
+<td><code>int</code></td>
+<td>❌</td>
+<td><code>0</code></td>
+<td>翻译缓存大小（0&#x3D;禁用缓存）</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td><code>int</code></td>
+<td>❌</td>
+<td><code>0</code></td>
+<td>翻译路径优先级（仅当存在多条路径时生效）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="核心功能与优势"><a href="#核心功能与优势" class="headerlink" title="核心功能与优势"></a>核心功能与优势</h3><h4 id="1-复用翻译器提升效率"><a href="#1-复用翻译器提升效率" class="headerlink" title="1. 复用翻译器提升效率"></a>1. 复用翻译器提升效率</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建翻译器（只需一次）</span><br>en_to_zh = get_translation_from_codes(<span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>)<br><br><span class="hljs-comment"># 多次复用（避免重复加载模型）</span><br>text1 = en_to_zh.translate(<span class="hljs-string">&quot;Hello World&quot;</span>)  <span class="hljs-comment"># 你好，世界</span><br>text2 = en_to_zh.translate(<span class="hljs-string">&quot;Good morning&quot;</span>) <span class="hljs-comment"># 早上好</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>性能提升</strong>：复用翻译器比每次调用 <code>translate()</code> 快 5-10 倍</li>
+<li><strong>内存优化</strong>：避免重复加载模型（大型模型如 <code>zh→en</code> 约 500MB）</li>
+</ul>
+<h4 id="2-智能中间语言桥接"><a href="#2-智能中间语言桥接" class="headerlink" title="2. 智能中间语言桥接"></a>2. 智能中间语言桥接</h4><p>当直接语言对未安装时，自动寻找最优路径：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 未安装 ja→zh 但安装了 ja→en 和 en→zh</span><br>jp_to_cn = get_translation_from_codes(<span class="hljs-string">&quot;ja&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>)<br>result = jp_to_cn.translate(<span class="hljs-string">&quot;ありがとう&quot;</span>)  <span class="hljs-comment"># 输出：谢谢</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>路径选择逻辑</strong>：优先选择最短路径（最少中间语言）</li>
+<li><strong>手动指定路径</strong>：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 强制通过法语中转</span><br>translator = get_translation_from_codes(<span class="hljs-string">&quot;de&quot;</span>, <span class="hljs-string">&quot;ru&quot;</span>, priority=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-缓存机制加速重复内容"><a href="#3-缓存机制加速重复内容" class="headerlink" title="3. 缓存机制加速重复内容"></a>3. 缓存机制加速重复内容</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 启用缓存（存储最近100条翻译）</span><br>translator = get_translation_from_codes(<span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;es&quot;</span>, max_cache_size=<span class="hljs-number">100</span>)<br><br><span class="hljs-comment"># 首次翻译（较慢）</span><br>translator.translate(<span class="hljs-string">&quot;Hello&quot;</span>)  <span class="hljs-comment"># =&gt; Hola</span><br><br><span class="hljs-comment"># 重复内容直接读缓存（极速）</span><br>translator.translate(<span class="hljs-string">&quot;Hello&quot;</span>)  <span class="hljs-comment"># 从缓存返回&quot;Hola&quot;</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>适用场景</strong>：处理大量重复文本（如日志文件、模板内容）</li>
+</ul>
+<hr>
+<h3 id="高级使用技巧"><a href="#高级使用技巧" class="headerlink" title="高级使用技巧"></a>高级使用技巧</h3><h4 id="1-批量翻译优化"><a href="#1-批量翻译优化" class="headerlink" title="1. 批量翻译优化"></a>1. 批量翻译优化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">translator = get_translation_from_codes(<span class="hljs-string">&quot;fr&quot;</span>, <span class="hljs-string">&quot;de&quot;</span>)<br><br><span class="hljs-comment"># 一次性提交多个句子</span><br>sentences = [<span class="hljs-string">&quot;Bonjour&quot;</span>, <span class="hljs-string">&quot;Comment ça va?&quot;</span>, <span class="hljs-string">&quot;Merci&quot;</span>]<br>results = [translator.translate(s) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> sentences]<br><br><span class="hljs-built_in">print</span>(results) <br><span class="hljs-comment"># [&quot;Hallo&quot;, &quot;Wie geht es dir?&quot;, &quot;Danke&quot;]</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-动态语言切换"><a href="#2-动态语言切换" class="headerlink" title="2. 动态语言切换"></a>2. 动态语言切换</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MultiTranslator</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.cache = &#123;&#125;<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">translate</span>(<span class="hljs-params">self, text, from_code, to_code</span>):<br>        <span class="hljs-comment"># 创建或复用翻译器</span><br>        key = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;from_code&#125;</span>-<span class="hljs-subst">&#123;to_code&#125;</span>&quot;</span><br>        <span class="hljs-keyword">if</span> key <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.cache:<br>            <span class="hljs-variable language_">self</span>.cache[key] = get_translation_from_codes(from_code, to_code)<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.cache[key].translate(text)<br><br><span class="hljs-comment"># 使用示例</span><br>mt = MultiTranslator()<br><span class="hljs-built_in">print</span>(mt.translate(<span class="hljs-string">&quot;Hello&quot;</span>, <span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>))  <span class="hljs-comment"># 你好</span><br><span class="hljs-built_in">print</span>(mt.translate(<span class="hljs-string">&quot;Hola&quot;</span>, <span class="hljs-string">&quot;es&quot;</span>, <span class="hljs-string">&quot;ja&quot;</span>))   <span class="hljs-comment"># こんにちは</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-错误处理与调试"><a href="#3-错误处理与调试" class="headerlink" title="3. 错误处理与调试"></a>3. 错误处理与调试</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">try</span>:<br>    <span class="hljs-comment"># 尝试创建不存在的语言对翻译器</span><br>    translator = get_translation_from_codes(<span class="hljs-string">&quot;xx&quot;</span>, <span class="hljs-string">&quot;yy&quot;</span>)<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;错误: <span class="hljs-subst">&#123;<span class="hljs-built_in">str</span>(e)&#125;</span>&quot;</span>)<br>    <span class="hljs-comment"># 输出: &quot;No path from &#x27;xx&#x27; to &#x27;yy&#x27;&quot;</span><br><br><span class="hljs-comment"># 检查可用路径</span><br><span class="hljs-keyword">from</span> argostranslate.translate <span class="hljs-keyword">import</span> get_installed_languages<br>langs = &#123;l.code: l <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> get_installed_languages()&#125;<br><span class="hljs-keyword">if</span> langs[<span class="hljs-string">&quot;en&quot;</span>].has_translation_to(langs[<span class="hljs-string">&quot;zh&quot;</span>]):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;en→zh 翻译可用&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="完整工作流程示例"><a href="#完整工作流程示例" class="headerlink" title="完整工作流程示例"></a>完整工作流程示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> argostranslate.package <span class="hljs-keyword">import</span> update_package_index, install_package<br><span class="hljs-keyword">from</span> argostranslate.translate <span class="hljs-keyword">import</span> get_translation_from_codes<br><br><span class="hljs-comment"># 1. 更新包索引</span><br>update_package_index()<br><br><span class="hljs-comment"># 2. 安装所需语言包</span><br>packages = get_available_packages()<br>en_to_zh = <span class="hljs-built_in">next</span>(pkg <span class="hljs-keyword">for</span> pkg <span class="hljs-keyword">in</span> packages <span class="hljs-keyword">if</span> pkg.from_code==<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-keyword">and</span> pkg.to_code==<span class="hljs-string">&quot;zh&quot;</span>)<br>install_package(en_to_zh)<br><br><span class="hljs-comment"># 3. 创建翻译器</span><br>translator = get_translation_from_codes(<span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;zh&quot;</span>, max_cache_size=<span class="hljs-number">50</span>)<br><br><span class="hljs-comment"># 4. 批量处理文本</span><br>documents = [<br>    <span class="hljs-string">&quot;Artificial Intelligence is changing the world.&quot;</span>,<br>    <span class="hljs-string">&quot;Machine learning algorithms improve over time.&quot;</span>,<br>    <span class="hljs-string">&quot;Neural networks mimic the human brain.&quot;</span><br>]<br><br>translated_docs = [translator.translate(doc) <span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> documents]<br><br><span class="hljs-comment"># 输出结果</span><br><span class="hljs-keyword">for</span> en, zh <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(documents, translated_docs):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;EN: <span class="hljs-subst">&#123;en&#125;</span>\nZH: <span class="hljs-subst">&#123;zh&#125;</span>\n&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h1 id="FunASR"><a href="#FunASR" class="headerlink" title="FunASR"></a>FunASR</h1><h2 id="AutoModel"><a href="#AutoModel" class="headerlink" title="AutoModel"></a>AutoModel</h2><ol>
+<li><p><strong><code>model</code></strong> (必选)  </p>
+<ul>
+<li><p><strong>说明</strong>：主 ASR 模型名称或本地路径，支持预训练模型（如 <code>paraformer-zh</code>、<code>iic/SenseVoiceSmall</code>）。  </p>
+</li>
+<li><p><strong>示例</strong>：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">model = AutoModel(model=<span class="hljs-string">&quot;paraformer-zh&quot;</span>)  <span class="hljs-comment"># 中文通用模型</span><br>model = AutoModel(model=<span class="hljs-string">&quot;iic/SenseVoiceSmall&quot;</span>)  <span class="hljs-comment"># 轻量级多语种模型</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>注意</strong>：首次使用会从 ModelScope 自动下载模型。</p>
+</li>
+</ul>
+</li>
+<li><p><strong><code>vad_model</code></strong>  </p>
+<ul>
+<li><strong>说明</strong>：语音活动检测（VAD）模型，用于分割音频中的语音段，如 <code>fsmn-vad</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>punc_model</code></strong>  </p>
+<ul>
+<li><strong>说明</strong>：标点恢复模型（如 <code>ct-punc</code>），为识别文本添加标点。</li>
+</ul>
+</li>
+<li><p><strong><code>model_revision</code></strong> &#x2F; <strong><code>vad_model_revision</code></strong>  </p>
+<ul>
+<li><strong>说明</strong>：模型版本号（如 <code>v2.0.4</code>），避免版本不兼容问题。英文模型需指定 <code>model_revision=&quot;v2.0.3&quot;</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>disable_update</code></strong>  </p>
+<ul>
+<li><strong>说明</strong>：设为 <code>True</code> 禁用模型自动更新，确保本地模型稳定性。</li>
+</ul>
+</li>
+<li><p><strong><code>hub</code></strong>  </p>
+<ul>
+<li><strong>说明</strong>：模型下载源，默认为 <code>&quot;ms&quot;</code>（ModelScope）。可切换至 Hugging Face 、本地等。</li>
+</ul>
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://python-sounddevice.readthedocs.io/en/0.5.1/">https://python-sounddevice.readthedocs.io/en/0.5.1/</a></li>
+<li><a target="_blank" rel="noopener" href="https://people.csail.mit.edu/hubert/pyaudio/docs/">https://people.csail.mit.edu/hubert/pyaudio/docs/</a></li>
+<li><a target="_blank" rel="noopener" href="https://ffmpeg.org/">https://ffmpeg.org/</a></li>
+<li><a target="_blank" rel="noopener" href="https://alphacephei.com/vosk/">https://alphacephei.com/vosk/</a></li>
+<li><a target="_blank" rel="noopener" href="https://openai.com/index/whisper/">https://openai.com/index/whisper/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.argosopentech.com/argospm/index/">https://www.argosopentech.com/argospm/index/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelscope/FunASR">https://github.com/modelscope/FunASR</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelscope/FunASR/blob/main/runtime/docs/SDK_advanced_guide_online_zh.md">https://github.com/modelscope/FunASR/blob/main/runtime/docs/SDK_advanced_guide_online_zh.md</a><br><img src="/img/b1bd309e8fe04c548d1af4ca07616ee5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" class="category-chain-item">语音识别</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" class="print-no-link">#语音识别</a>
+      
+        <a href="/tags/Whisper/" class="print-no-link">#Whisper</a>
+      
+        <a href="/tags/Vosk/" class="print-no-link">#Vosk</a>
+      
+        <a href="/tags/PyAudio/" class="print-no-link">#PyAudio</a>
+      
+        <a href="/tags/SoundDevice/" class="print-no-link">#SoundDevice</a>
+      
+        <a href="/tags/FunASR/" class="print-no-link">#FunASR</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）</div>
+      <div>https://qzkq.github.io/2026/01/05/语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98%EF%BC%9A%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2%EF%BC%8C%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%98%E5%8C%96%EF%BC%88optuna%EF%BC%89%E8%AF%A6%E8%A7%A3/" title="超参数调优：网格搜索，贝叶斯优化（optuna）详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">超参数调优：网格搜索，贝叶斯优化（optuna）详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB%EF%BC%9Affmpeg-python%E3%80%81ultralytics.YOLO%E3%80%81OpenCV-Python%E3%80%81%E6%A0%87%E5%87%86RTSP%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F/" title="视觉识别：ffmpeg-python、ultralytics.YOLO、OpenCV-Python、标准RTSP地址格式">
+                        <span class="hidden-mobile">视觉识别：ffmpeg-python、ultralytics.YOLO、OpenCV-Python、标准RTSP地址格式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

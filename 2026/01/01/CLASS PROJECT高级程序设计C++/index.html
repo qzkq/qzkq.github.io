@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="# 高级程序设计C++作业 按照如下要求建立程序，并演示程序运行结果： 用名称、人口、海拔高度、天气、年份等数据成员建立一个名为City的类。建立一个产生City对象的类。将产生的City对象（数量大于1000个）填充至一个容器，容器的类型自选。对于City对象的具体属性值通过创建发生器来生成。生成规则如下：年份为2009年；名称由4-8个英文小写字符随机构成；人口在范围[300000,1000">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLASS PROJECT高级程序设计C++">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/CLASS%20PROJECT%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1C++/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="# 高级程序设计C++作业 按照如下要求建立程序，并演示程序运行结果： 用名称、人口、海拔高度、天气、年份等数据成员建立一个名为City的类。建立一个产生City对象的类。将产生的City对象（数量大于1000个）填充至一个容器，容器的类型自选。对于City对象的具体属性值通过创建发生器来生成。生成规则如下：年份为2009年；名称由4-8个英文小写字符随机构成；人口在范围[300000,1000">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T00:07:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.263Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="高级程序设计">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>CLASS PROJECT高级程序设计C++ - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CLASS PROJECT高级程序设计C++"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:07" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          55 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CLASS PROJECT高级程序设计C++</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿# 高级程序设计C++作业</p>
+<h2 id="按照如下要求建立程序，并演示程序运行结果："><a href="#按照如下要求建立程序，并演示程序运行结果：" class="headerlink" title="按照如下要求建立程序，并演示程序运行结果："></a>按照如下要求建立程序，并演示程序运行结果：</h2><ol>
+<li>用名称、人口、海拔高度、天气、年份等数据成员建立一个名为City的类。建立一个产生City对象的类。将产生的City对象（数量大于1000个）填充至一个容器，容器的类型自选。对于City对象的具体属性值通过创建发生器来生成。生成规则如下：年份为2009年；名称由4-8个英文小写字符随机构成；人口在范围[300000,10000000)内随机选取；海拔高度在范围[0,5000)米内随机选取；上述三值均不可重复；天气在枚举常量表中{Rainy,Snowy,Cloudy,Sunny}随机选取（1年天气取12个值，即每月一个值）。容器填充完毕后，将其内容写入一个名为City.txt的文件。</li>
+<li>从2009年至2019年间，各城市人口按照n%的速度进行变化。以题目1中生成数据作为2009年数据计算各城市从2009年到2019年各年的人口数，其中n的值在-10到+10间随机选取。计算完毕后将数据重新写回文件City.txt。注意：可按照年份存储10个文件，依次存储10年的数据（文件名依次为City2009,City2010…）。也可将所有数据存储在一个文件中；每年的天气数据按照题目1的规则同样生成。</li>
+<li>设计算法，对2009年至2019年间的各城市按照其人口数进行查找，找出这10年里人口最多、最少和人口处于中位数的各个城市。结果写入文件Population.txt，格式为“年份，最多人口城市名称，最少人口城市名称，中位数人口城市名称” 。</li>
+<li>设计算法，查找2009年到2019年的10年间，每年拥有最好天气数量的城市（即Sunny最多），结果写入文件Weather.txt，格式为“年份，城市名称，Sunny数量”。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br><span class="line">793</span><br><span class="line">794</span><br><span class="line">795</span><br><span class="line">796</span><br><span class="line">797</span><br><span class="line">798</span><br><span class="line">799</span><br><span class="line">800</span><br><span class="line">801</span><br><span class="line">802</span><br><span class="line">803</span><br><span class="line">804</span><br><span class="line">805</span><br><span class="line">806</span><br><span class="line">807</span><br><span class="line">808</span><br><span class="line">809</span><br><span class="line">810</span><br><span class="line">811</span><br><span class="line">812</span><br><span class="line">813</span><br><span class="line">814</span><br><span class="line">815</span><br><span class="line">816</span><br><span class="line">817</span><br><span class="line">818</span><br><span class="line">819</span><br><span class="line">820</span><br><span class="line">821</span><br><span class="line">822</span><br><span class="line">823</span><br><span class="line">824</span><br><span class="line">825</span><br><span class="line">826</span><br><span class="line">827</span><br><span class="line">828</span><br><span class="line">829</span><br><span class="line">830</span><br><span class="line">831</span><br><span class="line">832</span><br><span class="line">833</span><br><span class="line">834</span><br><span class="line">835</span><br><span class="line">836</span><br><span class="line">837</span><br><span class="line">838</span><br><span class="line">839</span><br><span class="line">840</span><br><span class="line">841</span><br><span class="line">842</span><br><span class="line">843</span><br><span class="line">844</span><br><span class="line">845</span><br><span class="line">846</span><br><span class="line">847</span><br><span class="line">848</span><br><span class="line">849</span><br><span class="line">850</span><br><span class="line">851</span><br><span class="line">852</span><br><span class="line">853</span><br><span class="line">854</span><br><span class="line">855</span><br><span class="line">856</span><br><span class="line">857</span><br><span class="line">858</span><br><span class="line">859</span><br><span class="line">860</span><br><span class="line">861</span><br><span class="line">862</span><br><span class="line">863</span><br><span class="line">864</span><br><span class="line">865</span><br><span class="line">866</span><br><span class="line">867</span><br><span class="line">868</span><br><span class="line">869</span><br><span class="line">870</span><br><span class="line">871</span><br><span class="line">872</span><br><span class="line">873</span><br><span class="line">874</span><br><span class="line">875</span><br><span class="line">876</span><br><span class="line">877</span><br><span class="line">878</span><br><span class="line">879</span><br><span class="line">880</span><br><span class="line">881</span><br><span class="line">882</span><br><span class="line">883</span><br><span class="line">884</span><br><span class="line">885</span><br><span class="line">886</span><br><span class="line">887</span><br><span class="line">888</span><br><span class="line">889</span><br><span class="line">890</span><br><span class="line">891</span><br><span class="line">892</span><br><span class="line">893</span><br><span class="line">894</span><br><span class="line">895</span><br><span class="line">896</span><br><span class="line">897</span><br><span class="line">898</span><br><span class="line">899</span><br><span class="line">900</span><br><span class="line">901</span><br><span class="line">902</span><br><span class="line">903</span><br><span class="line">904</span><br><span class="line">905</span><br><span class="line">906</span><br><span class="line">907</span><br><span class="line">908</span><br><span class="line">909</span><br><span class="line">910</span><br><span class="line">911</span><br><span class="line">912</span><br><span class="line">913</span><br><span class="line">914</span><br><span class="line">915</span><br><span class="line">916</span><br><span class="line">917</span><br><span class="line">918</span><br><span class="line">919</span><br><span class="line">920</span><br><span class="line">921</span><br><span class="line">922</span><br><span class="line">923</span><br><span class="line">924</span><br><span class="line">925</span><br><span class="line">926</span><br><span class="line">927</span><br><span class="line">928</span><br><span class="line">929</span><br><span class="line">930</span><br><span class="line">931</span><br><span class="line">932</span><br><span class="line">933</span><br><span class="line">934</span><br><span class="line">935</span><br><span class="line">936</span><br><span class="line">937</span><br><span class="line">938</span><br><span class="line">939</span><br><span class="line">940</span><br><span class="line">941</span><br><span class="line">942</span><br><span class="line">943</span><br><span class="line">944</span><br><span class="line">945</span><br><span class="line">946</span><br><span class="line">947</span><br><span class="line">948</span><br><span class="line">949</span><br><span class="line">950</span><br><span class="line">951</span><br><span class="line">952</span><br><span class="line">953</span><br><span class="line">954</span><br><span class="line">955</span><br><span class="line">956</span><br><span class="line">957</span><br><span class="line">958</span><br><span class="line">959</span><br><span class="line">960</span><br><span class="line">961</span><br><span class="line">962</span><br><span class="line">963</span><br><span class="line">964</span><br><span class="line">965</span><br><span class="line">966</span><br><span class="line">967</span><br><span class="line">968</span><br><span class="line">969</span><br><span class="line">970</span><br><span class="line">971</span><br><span class="line">972</span><br><span class="line">973</span><br><span class="line">974</span><br><span class="line">975</span><br><span class="line">976</span><br><span class="line">977</span><br><span class="line">978</span><br><span class="line">979</span><br><span class="line">980</span><br><span class="line">981</span><br><span class="line">982</span><br><span class="line">983</span><br><span class="line">984</span><br><span class="line">985</span><br><span class="line">986</span><br><span class="line">987</span><br><span class="line">988</span><br><span class="line">989</span><br><span class="line">990</span><br><span class="line">991</span><br><span class="line">992</span><br><span class="line">993</span><br><span class="line">994</span><br><span class="line">995</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;time.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">enum</span> <span class="hljs-title class_">Enum_weather</span>       <span class="hljs-comment">//天气在枚举常量中表示</span><br>&#123;<br>	Rainy=<span class="hljs-number">0</span>,Snowy,Cloudy,Sunny<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">City</span>      <span class="hljs-comment">//创建城市类</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-type">int</span> year;<br><br>	string name;<br>	<span class="hljs-type">int</span> persons;<br>	<span class="hljs-type">int</span> elevation;<br>	<span class="hljs-type">char</span> *weather[<span class="hljs-number">12</span>];<br>	<span class="hljs-built_in">City</span>()<br>	&#123;<br>	&#125;<br>	~<span class="hljs-built_in">City</span>()&#123;&#125;<br>&#125;;<br><span class="hljs-function"><span class="hljs-type">char</span> *<span class="hljs-title">rand_str</span><span class="hljs-params">(<span class="hljs-type">char</span> *str)</span>     <span class="hljs-comment">//随机生成字符串函数</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> i,n;<br>	n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">5</span>;<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;n<span class="hljs-number">+4</span>;++i)<br>	&#123;<br>		str[i]=<span class="hljs-string">&#x27;a&#x27;</span>+<span class="hljs-built_in">rand</span>()%<span class="hljs-number">26</span>;<br>	&#125;	<br>	str[++i]=<span class="hljs-string">&#x27;\\0&#x27;</span>;<br>	<span class="hljs-keyword">return</span> str;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-type">char</span>* <span class="hljs-title">weather_str</span><span class="hljs-params">(<span class="hljs-keyword">enum</span> Enum_weather w)</span>      <span class="hljs-comment">//枚举类型转化为char*</span></span><br><span class="hljs-function"></span>&#123;  <br>	<span class="hljs-type">char</span> *strings[] = &#123;<span class="hljs-string">&quot;Rainy&quot;</span>, <span class="hljs-string">&quot;Snowy&quot;</span>, <span class="hljs-string">&quot;Cloudy&quot;</span>, <span class="hljs-string">&quot;Sunny&quot;</span>,&#125;;  <br>	<span class="hljs-keyword">return</span> strings[w];  <br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> i,j; <br>	<span class="hljs-built_in">srand</span>((<span class="hljs-type">unsigned</span>)<span class="hljs-built_in">time</span>(<span class="hljs-literal">NULL</span>)); <br>	vector&lt;City&gt;<span class="hljs-built_in">ve</span>(<span class="hljs-number">1023</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)  <span class="hljs-comment">//将随机获取每个城市的数据写入vector中</span><br>	&#123;<br>		ve[i].year=<span class="hljs-number">2009</span>;<br>		ve[i].persons=<span class="hljs-built_in">rand</span>()%(<span class="hljs-number">10000000</span> - <span class="hljs-number">300000</span> + <span class="hljs-number">1</span>) + <span class="hljs-number">300000</span>;  <span class="hljs-comment">//在某范围内随机获取数值</span><br>		ve[i].elevation=<span class="hljs-built_in">rand</span>()%(<span class="hljs-number">5000</span><span class="hljs-number">-0</span><span class="hljs-number">+1</span>)<span class="hljs-number">+0</span>;	<br>		<span class="hljs-type">char</span> name1[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-built_in">rand_str</span>(name1);   <span class="hljs-comment">//调用rand_str（）函数随机生成城市名称字符串</span><br>		ve[i].name=name1;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1);   <span class="hljs-comment">//调用weather_str（）函数将枚举类型值转化为char*</span><br>			ve[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//将2009年各个城市的数据信息写入City.txt文本文件中</span><br>	FILE *fp;<br>	fp=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve[i].year,name2,ve[i].persons,ve[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp,<span class="hljs-string">&quot;%11s&quot;</span>,ve[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp);<br>	<span class="hljs-comment">//从2009年至2019年间各城市数据写入vector中</span><br>	vector&lt;City&gt;<span class="hljs-built_in">ve_city1</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city2</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city3</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city4</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city5</span>(<span class="hljs-number">1023</span>);  <br>	vector&lt;City&gt;<span class="hljs-built_in">ve_city6</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city7</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city8</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city9</span>(<span class="hljs-number">1023</span>);vector&lt;City&gt;<span class="hljs-built_in">ve_city10</span>(<span class="hljs-number">1023</span>);<br>	<span class="hljs-comment">//2009年各城市数据获取，并将数据写入City2009.txt文件中 </span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city1[i].year=<span class="hljs-number">2009</span>;<br>		ve_city1[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2009年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city1[i].elevation=ve[i].elevation;	<br>		ve_city1[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city1[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp1;<br>	fp1=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2009.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp1,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city1[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city1[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp1,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city1[i].year,name2,ve_city1[i].persons,ve_city1[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp1,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city1[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp1,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp1);<br>	<span class="hljs-comment">//2010年各城市数据获取，并将数据写入City2010.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city2[i].year=<span class="hljs-number">2010</span>;<br>		ve_city2[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2010年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city2[i].elevation=ve[i].elevation;	 <br>		ve_city2[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city2[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp2;<br>	fp2=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2010.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp2,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city2[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city2[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp2,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city2[i].year,name2,ve_city2[i].persons,ve_city2[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp2,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city2[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp2,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp2);<br>	<span class="hljs-comment">//2011年各城市数据获取，并将数据写入City2011.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city3[i].year=<span class="hljs-number">2011</span>;<br>		ve_city3[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2011年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city3[i].elevation=ve[i].elevation;	<br>		ve_city3[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city3[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp3;<br>	fp3=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2011.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp3,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city3[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city3[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp3,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city3[i].year,name2,ve_city3[i].persons,ve_city3[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp3,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city3[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp3,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp3);<br>	<span class="hljs-comment">//2012年各城市数据获取，并将数据写入City2012.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city4[i].year=<span class="hljs-number">2012</span>;<br>		ve_city4[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2012年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city4[i].elevation=ve[i].elevation;	<br>		ve_city4[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city4[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp4;<br>	fp4=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2012.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp4,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city4[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city4[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp4,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city4[i].year,name2,ve_city4[i].persons,ve_city4[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp4,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city4[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp4,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp4);<br>	<span class="hljs-comment">//2013年各城市数据获取，并将数据写入City2013.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city5[i].year=<span class="hljs-number">2013</span>;<br>		ve_city5[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2013年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city5[i].elevation=ve[i].elevation;	<br>		ve_city5[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city5[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp5;<br>	fp5=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2013.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp5,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city5[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city5[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp5,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city5[i].year,name2,ve_city5[i].persons,ve_city5[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp5,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city5[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp5,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp5);<br>	<span class="hljs-comment">//2014年各城市数据获取，并将数据写入City2014.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city6[i].year=<span class="hljs-number">2014</span>;<br>		ve_city6[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2014年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city6[i].elevation=ve[i].elevation;	<br>		ve_city6[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city6[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp6;<br>	fp6=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2014.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp6,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city6[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city6[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp6,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city6[i].year,name2,ve_city6[i].persons,ve_city6[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp6,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city6[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp6,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp6);<br>	<span class="hljs-comment">//2015年各城市数据获取，并将数据写入City2015.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city7[i].year=<span class="hljs-number">2015</span>;<br>		ve_city7[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2015年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city7[i].elevation=ve[i].elevation;	<br>		ve_city7[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city7[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp7;<br>	fp7=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2015.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp7,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city7[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city7[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp7,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city7[i].year,name2,ve_city7[i].persons,ve_city7[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp7,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city7[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp7,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp7);<br>	<span class="hljs-comment">//2016年各城市数据获取，并将数据写入City2016.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city8[i].year=<span class="hljs-number">2016</span>;<br>		ve_city8[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2016年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city8[i].elevation=ve[i].elevation;	<br>		ve_city8[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city8[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp8;<br>	fp8=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2016.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp8,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city8[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city8[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp8,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city8[i].year,name2,ve_city8[i].persons,ve_city8[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp8,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city8[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp8,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp8);<br>	<span class="hljs-comment">//2017年各城市数据获取，并将数据写入City2017.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city9[i].year=<span class="hljs-number">2017</span>;<br>		ve_city9[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2017年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city9[i].elevation=ve[i].elevation;	<br>		ve_city9[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city9[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp9;<br>	fp9=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2017.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp9,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city9[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city9[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp9,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city9[i].year,name2,ve_city9[i].persons,ve_city9[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp9,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city9[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp9,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp9);<br>	<span class="hljs-comment">//2018年各城市数据获取，并将数据写入City2018.txt文件中</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		ve_city10[i].year=<span class="hljs-number">2018</span>;<br>		ve_city10[i].persons=(<span class="hljs-number">1</span>+(<span class="hljs-built_in">rand</span>()%<span class="hljs-number">20</span><span class="hljs-number">-10</span>)*<span class="hljs-number">0.01</span>)*ve[i].persons; <span class="hljs-comment">//2018年各城市人口按照n%的速度进行变化，其中n的值在-10到+10间随机选取</span><br>		ve_city10[i].elevation=ve[i].elevation;	<br>		ve_city10[i].name=ve[i].name;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)          <br>		&#123;<br>			<span class="hljs-type">int</span> n=<span class="hljs-built_in">rand</span>()%<span class="hljs-number">4</span>;<br>			Enum_weather w1=(<span class="hljs-keyword">enum</span> Enum_weather)(n);<br>			<span class="hljs-type">char</span>* nc=<span class="hljs-built_in">weather_str</span>(w1); <br>			ve_city10[i].weather[j]=nc;<br>		&#125;<br>	&#125;<br>	FILE *fp10;<br>	fp10=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://City2018.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp10,<span class="hljs-string">&quot;年份   城市名称   城市人口   海拔高度   1月天气   2月天气    3月天气    4月天气    5月天气    6月天气    7月天气    8月天气    9月天气    10月天气   11月天气   12月天气\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-type">char</span> name2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;ve_city10[i].name.<span class="hljs-built_in">size</span>();k++)    <span class="hljs-comment">//string类型转char数组</span><br>		&#123;<br>			name2[k]=ve_city10[i].name[k];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp10,<span class="hljs-string">&quot;%d%10s%10d%10d&quot;</span>,ve_city10[i].year,name2,ve_city10[i].persons,ve_city10[i].elevation);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-built_in">fprintf</span>(fp10,<span class="hljs-string">&quot;%11s&quot;</span>,ve_city10[i].weather[j]);<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp10,<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp10);<br>	<span class="hljs-comment">//分别将2009到2019年各城市的人口数存入下列命名的vector中</span><br>	vector&lt;<span class="hljs-type">int</span>&gt;v1,v2,v3,v4,v5,v6,v7,v8,v9,v10;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)                  <span class="hljs-comment">//将2009-2019年各城市的人口数据分别存入</span><br>	&#123;<br>		v<span class="hljs-number">1.</span><span class="hljs-built_in">push_back</span>(ve_city1[i].persons); <br>		v<span class="hljs-number">2.</span><span class="hljs-built_in">push_back</span>(ve_city2[i].persons);<br>		v<span class="hljs-number">3.</span><span class="hljs-built_in">push_back</span>(ve_city3[i].persons);<br>		v<span class="hljs-number">4.</span><span class="hljs-built_in">push_back</span>(ve_city4[i].persons);<br>		v<span class="hljs-number">5.</span><span class="hljs-built_in">push_back</span>(ve_city5[i].persons);<br>		v<span class="hljs-number">6.</span><span class="hljs-built_in">push_back</span>(ve_city6[i].persons);<br>		v<span class="hljs-number">7.</span><span class="hljs-built_in">push_back</span>(ve_city7[i].persons);<br>		v<span class="hljs-number">8.</span><span class="hljs-built_in">push_back</span>(ve_city8[i].persons);<br>		v<span class="hljs-number">9.</span><span class="hljs-built_in">push_back</span>(ve_city9[i].persons);<br>		v<span class="hljs-number">10.</span><span class="hljs-built_in">push_back</span>(ve_city10[i].persons);<br>	&#125;<br>	<span class="hljs-comment">//对每年各城市的人口数进行排序，调用sort()函数，由小到大排序</span><br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">1.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">1.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">2.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">2.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">3.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">3.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">4.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">4.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">5.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">5.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">6.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">6.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">7.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">7.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">8.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">8.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">9.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">9.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">sort</span>(v<span class="hljs-number">10.</span><span class="hljs-built_in">begin</span>(),v<span class="hljs-number">10.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-type">char</span> much1[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little1[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre1[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much3[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little3[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre3[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much4[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little4[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre4[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-type">char</span> much5[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little5[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre5[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much6[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little6[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre6[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much7[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little7[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre7[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much8[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little8[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre8[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-type">char</span> much9[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little9[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre9[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,much10[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,little10[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,centre10[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-comment">//分别获得从2009~2019这十年里人数最多、人数最少、人数处于中位的城市的名称</span><br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)                   <br>	&#123;<br>		<span class="hljs-keyword">if</span> (ve_city1[i].persons==v1[<span class="hljs-number">1022</span>])  <span class="hljs-comment">//2009年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city1[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much1[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city1[i].persons==v1[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city1[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little1[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city1[i].persons==v1[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city1[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre1[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city2[i].persons==v2[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2010年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city2[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much2[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city2[i].persons==v2[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city2[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little2[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city2[i].persons==v2[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city2[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre2[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city3[i].persons==v3[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2011年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city3[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much3[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city3[i].persons==v3[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city3[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little3[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city3[i].persons==v3[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city3[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre3[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city4[i].persons==v4[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2012年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city4[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much4[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city4[i].persons==v4[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city4[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little4[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city4[i].persons==v4[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city4[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre4[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city5[i].persons==v5[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2013年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city5[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much5[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city5[i].persons==v5[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city5[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little5[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city5[i].persons==v5[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city5[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre5[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city6[i].persons==v6[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2014年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city6[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much6[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city6[i].persons==v6[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city6[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little6[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city6[i].persons==v6[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city6[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre6[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city7[i].persons==v7[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2015年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city7[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much7[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city7[i].persons==v7[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city7[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little7[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city7[i].persons==v7[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city7[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre7[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city8[i].persons==v8[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2016年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city8[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much8[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city8[i].persons==v8[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city8[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little8[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city8[i].persons==v8[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city8[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre8[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city9[i].persons==v9[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2017年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city9[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much9[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city9[i].persons==v9[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city9[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little9[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city9[i].persons==v9[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city9[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre9[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city10[i].persons==v10[<span class="hljs-number">1022</span>])   <span class="hljs-comment">//2018年人口最多城市、最少城市、中等位城市</span><br>		&#123;<br>			string s1=ve_city10[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				much10[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city10[i].persons==v10[<span class="hljs-number">0</span>])<br>		&#123;<br>			string s1=ve_city10[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				little10[k]=s1[k];<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (ve_city10[i].persons==v10[<span class="hljs-number">511</span>])<br>		&#123;<br>			string s1=ve_city10[i].name;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();k++)<br>			&#123;<br>				centre10[k]=s1[k];<br>			&#125;<br>		&#125;<br><br><br>	&#125;<br>	<span class="hljs-comment">//2009~2019这10年里人口最多、最少和人口处于中位数的各个城市，分别将数据写入Population.txt文件中</span><br>	FILE *fpp;<br>	fpp=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://Population.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;年份    最多人口城市名称   最少人口城市名称   中位数人口城市名称\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2009   %10s%18s%22s\n&quot;</span>,much1,little1,centre1);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2010   %10s%18s%22s\n&quot;</span>,much2,little2,centre2);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2011   %10s%18s%22s\n&quot;</span>,much3,little3,centre3);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2012   %10s%18s%22s\n&quot;</span>,much4,little4,centre4);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2013   %10s%18s%22s\n&quot;</span>,much5,little5,centre5);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2014   %10s%18s%22s\n&quot;</span>,much6,little6,centre6);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2015   %10s%18s%22s\n&quot;</span>,much7,little7,centre7);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2016   %10s%18s%22s\n&quot;</span>,much8,little8,centre8);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2017   %10s%18s%22s\n&quot;</span>,much9,little9,centre9);<br>	<span class="hljs-built_in">fprintf</span>(fpp,<span class="hljs-string">&quot;2018   %10s%18s%22s\n&quot;</span>,much10,little10,centre10);<br>	<span class="hljs-built_in">fclose</span>(fpp);<br>	<span class="hljs-comment">//获取2009~2019年每年拥有最好天气的城市的数据信息</span><br>	vector&lt;<span class="hljs-type">int</span>&gt;we1;<br>	<span class="hljs-type">int</span> max1=<span class="hljs-number">0</span>,max2=<span class="hljs-number">0</span>,max3=<span class="hljs-number">0</span>,max4=<span class="hljs-number">0</span>,max5=<span class="hljs-number">0</span>,max6=<span class="hljs-number">0</span>,max7=<span class="hljs-number">0</span>,max8=<span class="hljs-number">0</span>,max9=<span class="hljs-number">0</span>,max10=<span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> n1=<span class="hljs-number">0</span>,n2=<span class="hljs-number">0</span>,n3=<span class="hljs-number">0</span>,n4=<span class="hljs-number">0</span>,n5=<span class="hljs-number">0</span>,n6=<span class="hljs-number">0</span>,n7=<span class="hljs-number">0</span>,n8=<span class="hljs-number">0</span>,n9=<span class="hljs-number">0</span>,n10=<span class="hljs-number">0</span>;<br>	string str1,str2,str3,str4,str5,str6,str7,str8,str9,str10;<br>	<span class="hljs-type">char</span> weat1[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat2[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat3[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat4[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat5[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat6[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat7[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat8[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat9[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;,weat10[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2009年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city1[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max1)<br>		&#123;<br>			max1=w;<br>			n1=i;<br>		&#125;<br>	&#125;<br>	str1=ve_city1[n1].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat1[i]=str1[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2010年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city2[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max2)<br>		&#123;<br>			max2=w;<br>			n2=i;<br>		&#125;<br>	&#125;<br>	str2=ve_city2[n2].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">2.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat2[i]=str2[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2011年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city3[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max3)<br>		&#123;<br>			max3=w;<br>			n3=i;<br>		&#125;<br>	&#125;<br>	str3=ve_city3[n3].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">3.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat3[i]=str3[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2012年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city4[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max4)<br>		&#123;<br>			max4=w;<br>			n4=i;<br>		&#125;<br>	&#125;<br>	str4=ve_city4[n4].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">4.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat4[i]=str4[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2013年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city5[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max5)<br>		&#123;<br>			max5=w;<br>			n5=i;<br>		&#125;<br>	&#125;<br>	str5=ve_city5[n5].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">5.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat5[i]=str5[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2014年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city6[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max6)<br>		&#123;<br>			max6=w;<br>			n6=i;<br>		&#125;<br>	&#125;<br>	str6=ve_city6[n6].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">6.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat6[i]=str6[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2015年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city7[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max7)<br>		&#123;<br>			max7=w;<br>			n7=i;<br>		&#125;<br>	&#125;<br>	str7=ve_city7[n7].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">7.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat7[i]=str7[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2016年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city8[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max8)<br>		&#123;<br>			max8=w;<br>			n8=i;<br>		&#125;<br>	&#125;<br>	str8=ve_city8[n8].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">8.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat8[i]=str8[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2017年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city9[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max9)<br>		&#123;<br>			max9=w;<br>			n9=i;<br>		&#125;<br>	&#125;<br>	str9=ve_city9[n9].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">9.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat9[i]=str9[i];<br>	&#125;<br>	<span class="hljs-keyword">for</span>( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)     <span class="hljs-comment">//2018年拥有天气最好的城市名称及最好天气数</span><br>	&#123;<br>		<span class="hljs-type">int</span> w=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">12</span>;j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (ve_city10[i].weather[j]==<span class="hljs-string">&quot;Sunny&quot;</span>)<br>			&#123;<br>				w++;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (w&gt;max10)<br>		&#123;<br>			max10=w;<br>			n10=i;<br>		&#125;<br>	&#125;<br>	str10=ve_city10[n10].name;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;str<span class="hljs-number">10.</span><span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		weat10[i]=str10[i];<br>	&#125;<br>	<span class="hljs-comment">//2009年到2019年的10年间，每年拥有最好天气数量的城市名称及最好天气数写入Weather.txt文件中</span><br>	FILE *fp_we;<br>	fp_we=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://Weather.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;年份     城市名称     Sunny数量\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2009%12s%10d\n&quot;</span>,weat1,max1);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2010%12s%10d\n&quot;</span>,weat2,max2);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2011%12s%10d\n&quot;</span>,weat3,max3);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2012%12s%10d\n&quot;</span>,weat4,max4);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2013%12s%10d\n&quot;</span>,weat5,max5);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2014%12s%10d\n&quot;</span>,weat6,max6);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2015%12s%10d\n&quot;</span>,weat7,max7);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2016%12s%10d\n&quot;</span>,weat8,max8);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2017%12s%10d\n&quot;</span>,weat9,max9);<br>	<span class="hljs-built_in">fprintf</span>(fp_we,<span class="hljs-string">&quot;2018%12s%10d\n&quot;</span>,weat10,max10);<br>	<span class="hljs-built_in">fclose</span>(fp_we);<br>	<span class="hljs-comment">//找出所有海拔在1000-3500米的城市，结果写入文件altitude.txt</span><br>	vector&lt;string&gt;ss;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">1023</span>;i++)<br>	&#123;<br>		<span class="hljs-keyword">if</span> ((ve[i].elevation&gt;=<span class="hljs-number">1000</span>)&amp;&amp;(ve[i].elevation&lt;=<span class="hljs-number">3500</span>))<br>		&#123;<br>			string s=ve[i].name;<br>			ss.<span class="hljs-built_in">push_back</span>(s);<br>		&#125;<br>	&#125;<br>	FILE *fp_high;<br>	fp_high=<span class="hljs-built_in">fopen</span>(<span class="hljs-string">&quot;D://altitude.txt&quot;</span>,<span class="hljs-string">&quot;w+&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(fp_high,<span class="hljs-string">&quot;所有海拔在1000-3500米的城市如下\n&quot;</span>);<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;ss.<span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		<span class="hljs-type">char</span> ch[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;ss[i].<span class="hljs-built_in">size</span>();j++)<br>		&#123;<br>			ch[j]=ss[i][j];<br>		&#125;<br>		<span class="hljs-built_in">fprintf</span>(fp_high,<span class="hljs-string">&quot;%10s\n&quot;</span>,ch);<br>	&#125;<br>	<span class="hljs-built_in">fclose</span>(fp_high);<br>	vector&lt;<span class="hljs-type">int</span>&gt;ve_sort1;<br>	vector&lt;<span class="hljs-type">int</span>&gt;ve_sort2;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;ve.<span class="hljs-built_in">size</span>();i++)  <span class="hljs-comment">//将各城市的海拔写入ve_sort1,ve.sort2容器中</span><br>	&#123;<br>		ve_sort<span class="hljs-number">1.</span><span class="hljs-built_in">push_back</span>(ve[i].elevation);<br>		ve_sort<span class="hljs-number">2.</span><span class="hljs-built_in">push_back</span>(ve[i].elevation);<br>	&#125;<br>	<span class="hljs-built_in">sort</span>(ve_sort<span class="hljs-number">1.</span><span class="hljs-built_in">begin</span>(),ve_sort<span class="hljs-number">1.</span><span class="hljs-built_in">end</span>());<span class="hljs-comment">//对各城市的海拔由小到大进行排序（升序）</span><br>	<span class="hljs-built_in">sort</span>(ve_sort<span class="hljs-number">2.</span><span class="hljs-built_in">begin</span>(),ve_sort<span class="hljs-number">2.</span><span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">reverse</span>(ve_sort<span class="hljs-number">2.</span><span class="hljs-built_in">begin</span>(),ve_sort<span class="hljs-number">2.</span><span class="hljs-built_in">end</span>());<span class="hljs-comment">// 对各城市的海拔由大到小进行排序（降序）</span><br>	vector&lt;City&gt;<span class="hljs-built_in">ve_airport</span>(<span class="hljs-number">1023</span>);<br>	vector&lt;City&gt;<span class="hljs-built_in">ve_airport1</span>(<span class="hljs-number">1023</span>);<br>	vector&lt;City&gt;<span class="hljs-built_in">ve_airport2</span>(<span class="hljs-number">1023</span>);<br> 	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>, j=<span class="hljs-number">0</span>;(i&lt;<span class="hljs-number">1023</span>)&amp;&amp;(j&lt;<span class="hljs-number">1023</span>);i++)            <span class="hljs-comment">//选取海拔在0~2500的城市，并存入ve_airport中</span><br> 	&#123;<br> 		<span class="hljs-keyword">if</span> ((ve[i].elevation&gt;<span class="hljs-number">0</span>)&amp;&amp;(ve[i].elevation&lt;<span class="hljs-number">2500</span>))<br> 		&#123;<br> 			ve_airport[j].name=ve[i].name;<br> 			ve_airport[j].elevation=ve[i].elevation;<br>			ve_airport1[j].name=ve[i].name;<br>			ve_airport1[j].elevation=ve[i].elevation;<br> 			j++;<br> 		&#125;<br> 	&#125;<br>	<span class="hljs-keyword">for</span> ( i=<span class="hljs-number">0</span>;i&lt;ve_airport.<span class="hljs-built_in">size</span>();i++)<br>	&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;ve_airport<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(ve_airport[i].elevation-ve_airport1[j].elevation)!=<span class="hljs-number">100</span>)<br>			&#123;<br>				ve_airport2[j].name=ve_airport1[j].name;<br>			&#125;<br>		&#125;<br>	&#125;<br>	string s;<br>	<span class="hljs-comment">//将选择城市结果输出Airport.txt文本文件中</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+        <a href="/tags/%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" class="print-no-link">#高级程序设计</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CLASS PROJECT高级程序设计C++</div>
+      <div>https://qzkq.github.io/2026/01/01/CLASS PROJECT高级程序设计C++/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Github%E9%A6%96%E9%A1%B5%E7%BE%8E%E5%8C%96%EF%BC%88updating%EF%BC%89/" title="Github首页美化（updating）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Github首页美化（updating）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/CatBoost%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="CatBoost原生接口和Sklearn接口参数详解">
+                        <span class="hidden-mobile">CatBoost原生接口和Sklearn接口参数详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

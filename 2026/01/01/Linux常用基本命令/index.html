@@ -1,0 +1,1274 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC 一、常用快捷键 ctrl+c: 停止进程 ctrl+l: 清屏（之前的内容可以向上查看）；彻底清屏是：reset tab: 提示 上下键: 查找执行过的命令  二、文件目录类1.pwd显示当前工作目录的绝对路径 2.ls和llll 命令列出的信息更加详细，有时间，是否">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用基本命令">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/Linux%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC 一、常用快捷键 ctrl+c: 停止进程 ctrl+l: 清屏（之前的内容可以向上查看）；彻底清屏是：reset tab: 提示 上下键: 查找执行过的命令  二、文件目录类1.pwd显示当前工作目录的绝对路径 2.ls和llll 命令列出的信息更加详细，有时间，是否">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/29bcfdce641b58571da3cb9766ed36ff.png">
+<meta property="og:image" content="https://qzkq.github.io/img/09146400e8dd7075aa7c0f131b00ccc4.png">
+<meta property="og:image" content="https://qzkq.github.io/img/aacc60b20dc32f877e06226d28ee95c0.png">
+<meta property="og:image" content="https://qzkq.github.io/img/947b3c1853b64e6ac2a56e7276c54360.png">
+<meta property="og:image" content="https://qzkq.github.io/img/102cf26ac3e7086f3951b129c208eb1c.png">
+<meta property="article:published_time" content="2026-01-01T00:15:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.362Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/29bcfdce641b58571da3cb9766ed36ff.png">
+  
+  
+  
+  <title>Linux常用基本命令 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux常用基本命令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:15" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          91 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux常用基本命令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@<a href="Linux%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4">TOC</a></p>
+<h2 id="一、常用快捷键"><a href="#一、常用快捷键" class="headerlink" title="一、常用快捷键"></a>一、常用快捷键</h2><ul>
+<li>ctrl+c: 停止进程</li>
+<li>ctrl+l: 清屏（之前的内容可以向上查看）；彻底清屏是：reset</li>
+<li>tab: 提示</li>
+<li>上下键: 查找执行过的命令</li>
+</ul>
+<h2 id="二、文件目录类"><a href="#二、文件目录类" class="headerlink" title="二、文件目录类"></a>二、文件目录类</h2><h3 id="1-pwd"><a href="#1-pwd" class="headerlink" title="1.pwd"></a>1.pwd</h3><p>显示当前工作目录的绝对路径</p>
+<h3 id="2-ls和ll"><a href="#2-ls和ll" class="headerlink" title="2.ls和ll"></a>2.ls和ll</h3><p><strong>ll 命令列出的信息更加详细，有时间，是否可读写等信息；ll不是命令，是ls -l的别名<br>ll会列出该文件下的所有文件信息，包括隐藏的文件；ls 只列出文件名或目录名</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">(base) [qi@ip--185 q_mk_pess]$ ll<br>总用量 38328<br>-rw-rw-r-- 1 qi qi 12711452 1月  18 02:07 ceshi.gz<br>drwxrwxr-x 3 qi qi     4096 1月  13 06:43 conf<br>-rw-rw-r-- 1 qi qi     154 1月  13 06:43 __init__.py<br></code></pre></td></tr></table></figure>
+<p>ll －t 是降序， ll －t ｜ tac 是升序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">(base) [qi@ip-17-185 q_sk_pess]$ <span class="hljs-built_in">ls</span><br>ceshi.gz     prss_a_lk.py     rupess_l.sh<br></code></pre></td></tr></table></figure>
+
+<p><strong>ls 命令</strong></p>
+<ul>
+<li>-a 列出目录下的所有文件，包括以 . 开头的隐含文件。</li>
+<li>-b 把文件名中不可输出的字符用反斜杠加字符编号(就象在C语言里一样)的形式列出。</li>
+<li>-c 输出文件的 i 节点的修改时间，并以此排序。</li>
+<li>-d 将目录象文件一样显示，而不是显示其下的文件。</li>
+<li>-i 输出文件的 i 节点的索引信息。</li>
+<li>-l 列出文件的详细信息。</li>
+<li>-m 横向输出文件名，并以“，”作分格符。</li>
+<li>-n 用数字的 UID,GID 代替名称。</li>
+<li>-o 显示文件的除组信息外的详细信息。</li>
+<li>-q 用?代替不可输出的字符。</li>
+<li>-r 对目录反向排序。</li>
+<li>-s 在每个文件名后输出该文件的大小。</li>
+<li>-t 以时间排序(以最近修改的日期进行排序)</li>
+<li>-u 以文件上次被访问的时间排序。</li>
+<li>-A 显示除 “.”和“..”外的所有文件。</li>
+<li>-B 不输出以 “~”结尾的备份文件。</li>
+<li>-L 列出链接文件名而不是链接到的文件。</li>
+<li>-N 不限制文件长度。</li>
+<li>-Q 把输出的文件名用双引号括起来。</li>
+<li>-R 列出所有子目录下的文件。</li>
+<li>-S 以文件大小排序。</li>
+<li>-X 以文件的扩展名(最后一个 . 后的字符)排序。</li>
+<li>-1 一行只输出一个文件。</li>
+<li>–color&#x3D;no 不显示彩色文件名</li>
+<li>–help 在标准输出上显示帮助信息。</li>
+<li>–version 在标准输出上输出版本信息并退出。</li>
+</ul>
+<p>   <strong>显示彩色目录列表</strong><br>   打开&#x2F;etc&#x2F;bashrc, 加入如下一行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">alias</span> <span class="hljs-built_in">ls</span>=<span class="hljs-string">&quot;ls --color&quot;</span><br><span class="hljs-built_in">alias</span>：别名<br></code></pre></td></tr></table></figure>
+<p>   下次启动bash时就可以像在Slackware里那样显示彩色的目录列表了, 其中颜色的含义如下:</p>
+<ul>
+<li>蓝色–&gt;目录</li>
+<li>绿色–&gt;可执行文件</li>
+<li>红色–&gt;压缩文件</li>
+<li>浅蓝色–&gt;链接文件</li>
+<li>灰色–&gt;其他文件</li>
+</ul>
+<h3 id="3-cd"><a href="#3-cd" class="headerlink" title="3.cd"></a>3.cd</h3><p>语法 <code>cd [dirName]</code><br>用于切换当前工作目录；其中 dirName 表示法可为绝对路径或相对路径。<br>若目录名称省略，则变换至使用者的 home 目录 (也就是刚 login 时所在的目录)。另外，~ 也表示为 home 目录 的意思， . 则是表示目前所在的目录， . .则表示目前目录位置的上一层目录，- 回到上一次所在目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">跳到目前目录的上上两层 :<br><span class="hljs-built_in">cd</span> ../..<br></code></pre></td></tr></table></figure>
+<h3 id="4-mkdir"><a href="#4-mkdir" class="headerlink" title="4.mkdir"></a>4.mkdir</h3><p>创建目录，语法：<code>mkdir [-p] dirName</code><br>参数说明：</p>
+<ul>
+<li>-p 确保目录名称存在，不存在的就建一个。</li>
+</ul>
+<p>实例<br>在工作目录下，建立一个名为 runoob 的子目录 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> runoob<br></code></pre></td></tr></table></figure>
+<p>在工作目录下的 runoob2 目录中，建立一个名为 test 的子目录。<br>若 runoob2 目录原本不存在，则建立一个。（注：本例若不加 -p 参数，且原本 runoob2 目录不存在，则产生错误。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> -p runoob2/test<br></code></pre></td></tr></table></figure>
+<h3 id="5-rmdir"><a href="#5-rmdir" class="headerlink" title="5.rmdir"></a>5.rmdir</h3><p>语法 <code>rmdir [-p] dirName</code><br>删除空的目录。<br>参数：</p>
+<ul>
+<li>-p 是当子目录被删除后使它也成为空目录的话，则顺便一并删除。</li>
+</ul>
+<p>实例<br>将工作目录下，名为 AAA 的子目录删除 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rmdir</span> AAA<br></code></pre></td></tr></table></figure>
+<p>在工作目录下的 BBB 目录中，删除名为 Test 的子目录。若 Test 删除后，BBB 目录成为空目录，则 BBB 亦予删除。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rmdir</span> -p BBB/Test<br></code></pre></td></tr></table></figure>
+<h3 id="6-touch"><a href="#6-touch" class="headerlink" title="6.touch"></a>6.touch</h3><p>创建新文件</p>
+<h3 id="7-cp"><a href="#7-cp" class="headerlink" title="7.cp"></a>7.cp</h3><p>语法 <code>cp [options] source dest</code><br>主要用于复制文件或目录。<br>参数说明：</p>
+<ul>
+<li>-f：覆盖已经存在的目标文件而不给出提示。</li>
+<li>-i：与 -f 选项相反，在覆盖目标文件之前给出提示，要求用户确认是否覆盖，回答 y 时目标文件将被覆盖。</li>
+<li>-r：若给出的源文件是一个目录文件，此时将复制该目录下所有的子目录和文件。</li>
+</ul>
+<p>实例<br>使用指令 cp 将当前目录 test&#x2F; 下的所有文件复制到新目录 newtest 下，输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">cp</span> –r <span class="hljs-built_in">test</span>/ newtest        <br></code></pre></td></tr></table></figure>
+<p>注意：用户使用该指令复制目录时，必须使用参数 -r 或者 -R 。</p>
+<h3 id="8-rm"><a href="#8-rm" class="headerlink" title="8.rm"></a>8.rm</h3><p>用于删除一个文件或者目录。</p>
+<h3 id="9-mv"><a href="#9-mv" class="headerlink" title="9.mv"></a>9.mv</h3><p>用来为文件或目录改名、或将文件或目录移入其它位置。<br>语法</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">mv</span> [<span class="hljs-type">options</span>] source dest<br></code></pre></td></tr></table></figure>
+<p>mv 参数设置与运行结果</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">mv</span> source_file(文件) dest_file(文件)	将源文件名 source_file 改为目标文件名 dest_file<br><span class="hljs-built_in">mv</span> source_file(文件) dest_directory(目录)	将文件 source_file 移动到目标目录 dest_directory 中<br><span class="hljs-built_in">mv</span> source_directory(目录) dest_directory(目录)	目录名 dest_directory 已存在，将 source_directory 移动到目录名 dest_directory 中；目录名 dest_directory 不存在则 source_directory 改名为目录名 dest_directory<br></code></pre></td></tr></table></figure>
+<p>实例<br>将 info 目录放入 logs 目录中。注意，如果 logs 目录不存在，则该命令将 info 改名为 logs。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">mv</span> info/ logs <br></code></pre></td></tr></table></figure>
+<p>再如将 &#x2F;usr&#x2F;runoob 下的所有文件和目录移到当前目录下，命令行为：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">mv</span> /usr/runoob/*  . <br></code></pre></td></tr></table></figure>
+<h3 id="10-cat"><a href="#10-cat" class="headerlink" title="10.cat"></a>10.cat</h3><p>用于连接文件并打印到标准输出设备上。<br>语法格式 <code>cat [-AbeEnstTuv] [--help] [--version] fileName</code><br>参数说明：</p>
+<ul>
+<li>-n ：由 1 开始对所有输出的行数编号。  </li>
+<li>-b ：和 -n 相似，只不过对于空白行不编号。</li>
+<li>-s ：当遇到有连续两行以上的空白行，就代换为一行的空白行。</li>
+</ul>
+<p>实例：<br>把 textfile1 的文档内容加上行号后输入 textfile2 这个文档里：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> <span class="hljs-literal">-n</span> textfile1 &gt; textfile2<br></code></pre></td></tr></table></figure>
+<p>把 textfile1 和 textfile2 的文档内容加上行号（空白行不加）之后将内容附加到 textfile3 文档里：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> <span class="hljs-literal">-b</span> textfile1 textfile2 &gt;&gt; textfile3<br></code></pre></td></tr></table></figure>
+<p>清空 &#x2F;etc&#x2F;test.txt 文档内容：(&#x2F;dev&#x2F;null)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cat</span> /dev/null &gt; /etc/test.txt<br></code></pre></td></tr></table></figure>
+<h3 id="11-more"><a href="#11-more" class="headerlink" title="11.more"></a>11.more</h3><p>以一页一页的形式显示<br>按空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示 。<br>语法 <code>more [-dlfpcsu] [-num] [+/pattern] [+linenum] [fileNames..]</code><br>参数：</p>
+<ul>
+<li>-num 一次显示的行数</li>
+<li>-d 提示使用者，在画面下方显示 [Press space to continue, ‘q’ to quit.] ，如果使用者按错键，则会显示 [Press ‘h’ for instructions.] 而不是 ‘哔’ 声  （请按“h”键获取指示）</li>
+<li>-f 计算行数时，以实际上的行数，而非自动换行过后的行数（有些单行字数太长的会被扩展为两行或两行以上）</li>
+<li>-s 当遇到有连续两行以上的空白行，就代换为一行的空白行</li>
+<li>+&#x2F;pattern 在每个文档显示前搜寻该字串（pattern），然后从该字串之后开始显示</li>
+<li>+num 从第 num 行开始显示</li>
+<li>fileNames 欲显示内容的文档，可为复数个数</li>
+</ul>
+<p>常用操作命令</p>
+<ul>
+<li>Enter 向下1行 </li>
+<li>Ctrl+F 向下滚动一屏 </li>
+<li>空格键 向下滚动一屏 </li>
+<li>Ctrl+B 返回上一屏</li>
+<li>&#x3D; 输出当前行的行号 </li>
+<li>:f 输出文件名和当前行的行号 </li>
+<li>q 退出more</li>
+</ul>
+<h3 id="12-less"><a href="#12-less" class="headerlink" title="12.less"></a>12.less</h3><p>less 支持翻页和搜索，支持向上翻页和向下翻页。<br><strong>语法</strong>：less [参数] 文件<br><strong>参数说明：</strong></p>
+<ul>
+<li>-e 当文件显示结束后，自动离开</li>
+<li>-N 显示每行的行号</li>
+<li>-o &lt;文件名&gt; 将less 输出的内容在指定文件中保存起来</li>
+<li>-Q 不使用警告音</li>
+<li>-s 显示连续空行为一行</li>
+<li>&#x2F;字符串：向下搜索”字符串”的功能;n:向下查找；N:向上查找</li>
+<li>? 字符串：向上搜索”字符串”的功能 ;n:向下查找；N:向上查找</li>
+<li>b 向上翻一页 </li>
+<li>d 向后翻半页 </li>
+<li>h 显示帮助界面 </li>
+<li>Q 退出less 命令 </li>
+<li>u 向前滚动半页 </li>
+<li>y 向前滚动一行 </li>
+<li>空格键 滚动一页 </li>
+<li>回车键 滚动一行 </li>
+<li>[pagedown]： 向下翻动一页 </li>
+<li>[pageup]： 向上翻动一页</li>
+</ul>
+<p>实例<br>1、ps查看进程信息并通过less分页显示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps -ef |less<br></code></pre></td></tr></table></figure>
+<p>2、查看命令历史使用记录并通过less分页显示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@localhost <span class="hljs-built_in">test</span>]# <span class="hljs-built_in">history</span> | less<br>22  scp -r tomcat6.0.32 root@192.168.120.203:/opt/soft<br>23  <span class="hljs-built_in">cd</span> ..<br>24  scp -r web root@192.168.120.203:/opt/<br>25  <span class="hljs-built_in">cd</span> soft<br>26  <span class="hljs-built_in">ls</span><br>……省略……<br></code></pre></td></tr></table></figure>
+<p>3、浏览多个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">less log2013.log log2014.log<br></code></pre></td></tr></table></figure>
+<p>说明：<br>输入 ：n后，切换到log2014.log<br>输入 ：p后，切换到log2013.log</p>
+<p>附加备注<br>1.全屏导航</p>
+<ul>
+<li>ctrl + F - 向前移动一屏 </li>
+<li>ctrl + B - 向后移动一屏 </li>
+<li>ctrl + D - 向前移动半屏 </li>
+<li>ctrl + U - 向后移动半屏</li>
+</ul>
+<p>2.单行导航</p>
+<ul>
+<li>j - 下一行 </li>
+<li>k - 上一行</li>
+</ul>
+<p>3.其它导航</p>
+<ul>
+<li>G - 移动到最后一行 </li>
+<li>g - 移动到第一行 </li>
+<li>q &#x2F; ZZ - 退出 less 命令</li>
+</ul>
+<p>4.其它有用的命令</p>
+<ul>
+<li>v - 使用配置的编辑器编辑当前文件 </li>
+<li>h - 显示 less 的帮助文档 </li>
+<li>&amp;pattern - 仅显示匹配模式的行，而不是整个文件</li>
+</ul>
+<p>5.标记导航<br>当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：</p>
+<ul>
+<li>ma - 使用 a 标记文本的当前位置 </li>
+<li>‘a - 导航到标记 a 处</li>
+</ul>
+<h3 id="13-head"><a href="#13-head" class="headerlink" title="13.head"></a>13.head</h3><p>用于查看文件的开头部分的内容，有一个常用的参数 -n 用于显示行数，默认为 10，即显示 10 行的内容。<br><strong>命令格式：</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">head [参数] [文件]  <br></code></pre></td></tr></table></figure>
+<p><strong>参数：</strong></p>
+<ul>
+<li>-q 隐藏文件名</li>
+<li>-v 显示文件名</li>
+<li>-c&lt;数目&gt; 显示的字节数</li>
+<li>-n&lt;行数&gt; 显示的行数</li>
+</ul>
+<p>例<br>显示文件前 20 个字节:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">head <span class="hljs-literal">-c</span> <span class="hljs-number">20</span> runoob_notes.log<br></code></pre></td></tr></table></figure>
+<h3 id="14-tail"><a href="#14-tail" class="headerlink" title="14.tail"></a>14.tail</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-operator">-F</span> /achin/lo/lg.sprk.cter.ent_pv.<span class="hljs-number">202</span><br></code></pre></td></tr></table></figure>
+<p>tail 命令可用于查看文件的内容，有一个常用的参数 -f 常用于查阅正在改变的日志文件。</p>
+<p>tail -f filename 会把 filename 文件里的最尾部的内容显示在屏幕上，并且不断刷新，只要 filename 更新就可以看到最新的文件内容。</p>
+<p><strong>命令格式：</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail [参数] [文件]  <br></code></pre></td></tr></table></figure>
+<p><strong>参数：</strong></p>
+<ul>
+<li>-f 循环读取 </li>
+<li>-q 不显示处理信息</li>
+<li>-v 显示详细的处理信息</li>
+<li>-c&lt;数目&gt; 显示的字节数</li>
+<li>-n&lt;行数&gt; 显示文件的尾部 n 行内容</li>
+</ul>
+<p>例：要显示 notes.log 文件的最后 10 行，请输入以下命令：<br><code>tail notes.log</code>         # 默认显示最后 10 行<br>要跟踪名为 notes.log 的文件的增长情况，请输入以下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-operator">-f</span> notes.log<br></code></pre></td></tr></table></figure>
+<p>此命令显示 notes.log 文件的最后 10 行。当将某些行添加至 notes.log 文件时，tail 命令会继续显示这些行。 显示一直继续，直到您按下（<strong>Ctrl-C</strong>）组合键停止显示。<br>显示文件 notes.log 的内容，从第 20 行至文件末尾:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-literal">-n</span> +<span class="hljs-number">20</span> notes.log<br></code></pre></td></tr></table></figure>
+<p>显示文件 notes.log 的最后 10 个字符:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">tail <span class="hljs-literal">-c</span> <span class="hljs-number">10</span> notes.log<br></code></pre></td></tr></table></figure>
+<h3 id="15-覆盖-和-追加"><a href="#15-覆盖-和-追加" class="headerlink" title="15.&gt; 覆盖 和 &gt;&gt; 追加"></a>15.&gt; 覆盖 和 &gt;&gt; 追加</h3><p>echo “内容” &gt;&gt; 文件<br>1 将history命令执行的结果保存到history.log文件中</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># history &gt; history.log</span><br></code></pre></td></tr></table></figure>
+<p>2 使用 &gt;&gt; 向 hosts.log中追加 当前日期</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># echo &quot;当前日期是 `date`&quot; &gt;&gt; hosts.log</span><br></code></pre></td></tr></table></figure>
+<h3 id="16-history"><a href="#16-history" class="headerlink" title="16.history"></a>16.history</h3><p>查看已经执行过的命令</p>
+<h2 id="三、时间日期类"><a href="#三、时间日期类" class="headerlink" title="三、时间日期类"></a>三、时间日期类</h2><h3 id="1-date"><a href="#1-date" class="headerlink" title="1.date"></a>1.date</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">date [-<span class="hljs-type">u</span>|--<span class="hljs-type">utc</span>|--<span class="hljs-type">universal</span>] [<span class="hljs-type">MMDDhhmm</span>[[<span class="hljs-type">CC</span>]<span class="hljs-type">YY</span>][<span class="hljs-type">.ss</span>]]<br></code></pre></td></tr></table></figure>
+<p>date 可以用来显示或设定系统的日期与时间。<br>1.在显示方面，使用者可以设定欲显示的格式，格式设定为一个加号后接数个标记，其中可用的标记列表如下: %<br>%H : 小时(00..23)<br>%M : 分钟(00..59)<br>%p : 显示本地 AM 或 PM<br>%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)<br>%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数<br>%S : 秒(00..61)<br>%T : 直接显示时间 (24 小时制)<br>%X : 相当于 %H:%M:%S<br>%Z : 显示时区<br>%a : 星期几 (Sun..Sat)<br>%A : 星期几 (Sunday..Saturday)<br>%b : 月份 (Jan..Dec)<br>%B : 月份 (January..December)<br>%c : 直接显示日期与时间<br>%d : 日 (01..31)<br>%D : 直接显示日期 (mm&#x2F;dd&#x2F;yy)<br>%j : 一年中的第几天 (001..366)<br>%m : 月份 (01..12)<br>%U : 一年中的第几周 (00..53) (以 Sunday 为一周的第一天的情形)<br>%w : 一周中的第几天 (0..6)<br>%W : 一年中的第几周 (00..53) (以 Monday 为一周的第一天的情形)<br>%x : 直接显示日期 (mm&#x2F;dd&#x2F;yy)<br>%y : 年份的最后两位数字 (00.99)<br>%Y : 完整年份 (0000..9999)<br>2.加减<br>date +%Y%m%d         &#x2F;&#x2F;显示现在天年月日<br>date +%Y%m%d –date&#x3D;”+1 day”  &#x2F;&#x2F;显示后一天的日期<br>date +%Y%m%d –date&#x3D;”-1 day”  &#x2F;&#x2F;显示前一天的日期<br>date +%Y%m%d –date&#x3D;”-1 month”  &#x2F;&#x2F;显示上一月的日期<br>date +%Y%m%d –date&#x3D;”+1 year”  &#x2F;&#x2F;显示下一年的日期</p>
+<p>或者更简单点的  date&#x3D;<code>date -d -${t}day &#39;+%Y%m%d&#39;</code> &#x2F;&#x2F;为t为前几天</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">YMD=<span class="hljs-variable">$</span>(date <span class="hljs-literal">-d</span><span class="hljs-string">&quot;-1 days&quot;</span> +%Y%m%d <span class="hljs-literal">-u</span>) <span class="hljs-comment">#前一天</span><br></code></pre></td></tr></table></figure>
+<p>转换成时间戳：<code>$ date +%s -d 20211220</code><br>1639958400<br>转换成日期：<code>$ date -d @1639958400</code><br>2021年 12月 20日 星期一 00:00:00 UTC</p>
+<h3 id="2-cal"><a href="#2-cal" class="headerlink" title="2.cal"></a>2.cal</h3><p>查看日历</p>
+<h2 id="四、文件权限类"><a href="#四、文件权限类" class="headerlink" title="四、文件权限类"></a>四、文件权限类</h2><h3 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1.文件属性"></a>1.文件属性</h3><p>在Linux中我们可以使用ll或者ls -l命令来显示一个文件的属性以及文件所属的用户和组。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">(base) q@MacBook-Pro PycharmProjects % <span class="hljs-built_in">ls</span> -l<br>total 0<br>drwxr-xr-x   7 q  staff  224  1 25 17:40 pythonProject<br>drwxr-xr-x   6 q  staff  192  1 27 15:55 qi<br>drwxr-xr-x@ 24 q  staff  768  1 25 17:40 人工智能<br></code></pre></td></tr></table></figure>
+<p>如果没有权限，就会出现减号[ - ]。<br>在 Linux 中第一个字符代表这个文件是目录、文件或链接文件等等 </p>
+<ul>
+<li>-代表文件</li>
+<li>d 代表目录</li>
+<li>l 链接文档(link file)</li>
+</ul>
+<p>Linux&#x2F;Unix 的文件调用权限分为三级 : 文件所有者（Owner）、用户组（Group）、其它用户（Other Users）。<br><img src="/img/29bcfdce641b58571da3cb9766ed36ff.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>rxw 作用文件和目录的不同解释</strong><br>(1)作用到文件:</p>
+<ul>
+<li>[ r ]代表可读(read): 可以读取，查看 </li>
+<li>[ w ]代表可写(write): 可以修改，但是不代表可以删除该文件，删除一个文件的前提条件是对该文件所在的目录有写权限，才能删除该文件. </li>
+<li>[ x ]代表可执行(execute):可以被系统执行</li>
+</ul>
+<p>(2)作用到目录:</p>
+<ul>
+<li>[ r ]代表可读(read): 可以读取，ls 查看目录内容</li>
+<li>[ w ]代表可写(write): 可以修改，目录内创建+删除+重命名目录 </li>
+<li>[ x ]代表可执行(execute):可以进入该目录</li>
+</ul>
+<p><img src="/img/09146400e8dd7075aa7c0f131b00ccc4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>其中链接数：</p>
+<ul>
+<li>如果查看到是文件:链接数指的是硬链接个数。  </li>
+<li>如果查看的是文件夹:链接数指的是子文件夹个数(包括隐藏文件夹，使用 ll -a 查 看)。</li>
+</ul>
+<h3 id="2-chmod（change-mode）"><a href="#2-chmod（change-mode）" class="headerlink" title="2.chmod（change mode）"></a>2.chmod（change mode）</h3><p>控制用户对文件的权限的命令；<br>语法 <code>chmod [-cfvR] [--help] [--version] mode file...</code><br>参数说明<br>mode : 权限设定字串，格式如下 :</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">[<span class="hljs-type">ugoa...</span>][[+-=][<span class="hljs-type">rwxX</span>]<span class="hljs-type">...</span>][,<span class="hljs-type">...</span>]<br></code></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>u 表示该文件的拥有者，g 表示与该文件的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。</li>
+<li>+表示增加权限、- 表示取消权限、&#x3D; 表示唯一设定权限。</li>
+<li>r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。</li>
+</ul>
+<p>其他参数说明：</p>
+<ul>
+<li>-R : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递归的方式逐个变更)</li>
+</ul>
+<p><strong>r&#x3D;4 w&#x3D;2 x&#x3D;1 rwx&#x3D;4+2+1&#x3D;7</strong><br>实例<br>将文件 file1.txt 与 file2.txt 设为该文件拥有者，与其所属同一个群体者可写入，但其他以外的人则不可写入 :</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">chmod ug+w,o<span class="hljs-literal">-w</span> file1.txt file2.txt<br></code></pre></td></tr></table></figure>
+
+<p>将目前目录下的所有文件与子目录皆设为任何人可读取 :</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">chmod <span class="hljs-literal">-R</span> a+<span class="hljs-built_in">r</span> *<br></code></pre></td></tr></table></figure>
+<h2 id="五、搜素查找类"><a href="#五、搜素查找类" class="headerlink" title="五、搜素查找类"></a>五、搜素查找类</h2><p><img src="/img/aacc60b20dc32f877e06226d28ee95c0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/947b3c1853b64e6ac2a56e7276c54360.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="1-find"><a href="#1-find" class="headerlink" title="1.find"></a>1.find</h3><p>将从指定目录向下递归地遍历其各个子目录，将满足条件的文件显示在终端。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-literal">-amin</span> n : 在过去 n 分钟内被读取过<br><span class="hljs-literal">-anewer</span> file : 比文件 file 更晚被读取过的文件<br><span class="hljs-literal">-atime</span> n : 在过去n天内被读取过的文件<br><span class="hljs-literal">-cmin</span> n : 在过去 n 分钟内被修改过<br><span class="hljs-literal">-ctime</span> n : 在过去n天内被修改过的文件<br><span class="hljs-literal">-name</span> name, <span class="hljs-literal">-iname</span> name : 文件名称符合 name 的文件。iname 会忽略大小写<br><span class="hljs-literal">-size</span> n : 默认单位是b,而它代表的是<span class="hljs-number">512</span>字节，所以<span class="hljs-number">2</span>表示<span class="hljs-number">1</span>k，<span class="hljs-number">1</span>M则是<span class="hljs-number">2048</span>，如果不想自己转换，可以使用其他单位，如c(bytes)、k(Kilobytes)等，+n大于 <span class="hljs-literal">-n</span>小于 n等于<br><span class="hljs-literal">-type</span> c : 文件类型是 c 的文件。<br> - d: 目录<br> - f: 一般文件<br></code></pre></td></tr></table></figure>
+<p>实例</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs powershell">将当前目录及其子目录下所有文件后缀为 .c 的文件列出来:<br><span class="hljs-comment"># find . -name &quot;*.c&quot;</span><br><br>将当前目录及其子目录中的所有文件列出：<br><span class="hljs-comment"># find . -type f</span><br><br>将当前目录及其子目录下所有最近 <span class="hljs-number">20</span> 天内更新过的文件列出:<br><span class="hljs-comment"># find . -ctime -20</span><br><br>查找 /var/log 目录中更改时间在 <span class="hljs-number">7</span> 日以前的普通文件，并在删除之前询问它们：<br><span class="hljs-comment"># find /var/log -type f -mtime +7 -ok rm &#123;&#125; \;</span><br><br>查找当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件：<br><span class="hljs-comment"># find . -type f -perm 644 -exec ls -l &#123;&#125; \;</span><br><br>查找系统中所有文件长度为 <span class="hljs-number">0</span> 的普通文件，并列出它们的完整路径：<br><span class="hljs-comment"># find / -type f -size 0 -exec ls -l &#123;&#125; \;</span><br></code></pre></td></tr></table></figure>
+<h3 id="2-grep-过滤查找及“-”管道符"><a href="#2-grep-过滤查找及“-”管道符" class="headerlink" title="2.grep 过滤查找及“|”管道符"></a>2.grep 过滤查找及“|”管道符</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">grep rn_spk_uster.sh *sh<br>注：哪些sh文件里有rn_spk_uster.sh<br></code></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">n_ent_pv.sh:bash rn_spk_uster.sh <span class="hljs-string">&quot;<span class="hljs-variable">$</span>&#123;JOB_PREFIX&#125;&quot;</span> \<br>n_deo_tais_ily.sh:bash rn_spk_uster.sh <span class="hljs-string">&quot;<span class="hljs-variable">$</span>&#123;JOB_PREFIX&#125;&quot;</span> \<br></code></pre></td></tr></table></figure>
+<p>grep 指令用于查找内容包含指定的范本样式的文件，如果发现某文件的内容符合所指定的范本样式，预设 grep 指令会把含有范本样式的那一列显示出来。若不指定任何文件名称，或是所给予的文件名为 -，则 grep 指令会从标准输入设备读取数据。</p>
+<p>语法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">grep [-abcEFGhHilLnqrsvVwxy][-A&lt;显示行数&gt;][-B&lt;显示列数&gt;][-C&lt;显示列数&gt;][-d&lt;进行动作&gt;][-e&lt;范本样式&gt;][-f&lt;范本文件&gt;][--<span class="hljs-built_in">help</span>][范本样式][文件或目录...]<br></code></pre></td></tr></table></figure>
+<p>参数：</p>
+<blockquote>
+<p>-A&lt;显示行数&gt; 或 –after-context&#x3D;&lt;显示行数&gt; : 除了显示符合范本样式的那一列之外，并显示该行之后的内容。<br>-B&lt;显示行数&gt; 或 –before-context&#x3D;&lt;显示行数&gt; : 除了显示符合样式的那一行之外，并显示该行之前的内容。<br>-c 或 –count : 计算符合样式的列数。<br>-d &lt;动作&gt; 或 –directories&#x3D;&lt;动作&gt; : 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep指令将回报信息并停止动作。<br>-i 或 –ignore-case : 忽略字符大小写的差别。<br>-n 或 –line-number : 在显示符合样式的那一行之前，标示出该行的列数编号。<br>-v 或 –invert-match : 显示不包含匹配文本的所有行。</p>
+</blockquote>
+<p><strong>管道符，“|”</strong>，表示将前一个命令的处理结果输出传递给后面的命令处理.<br>例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">(base) q@MacBook-Pro ~ % <span class="hljs-built_in">ls</span><br>Applications	Downloads	Music		PycharmProjects<br>Desktop		Library		Pictures	Sunlogin Files<br>Documents	Movies		Public		opt<br>(base) q@MacBook-Pro ~ % <span class="hljs-built_in">ls</span> | grep D<br>Desktop<br>Documents<br>Downloads<br>(base) q@MacBook-Pro ~ % <span class="hljs-built_in">ls</span> | grep -n D<br>2:Desktop<br>3:Documents<br>4:Downloads<br></code></pre></td></tr></table></figure>
+
+<p>1、在当前目录中，查找后缀有 file 字样的文件中包含 test 字符串的文件，并打印出该字符串的行。此时，可以使用如下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">grep test *file <br></code></pre></td></tr></table></figure>
+<p>结果如下所示：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> grep test test* <span class="hljs-comment">#查找前缀有“test”的文件包含“test”字符串的文件  </span><br>testfile1:This a Linux testfile! <span class="hljs-comment">#列出testfile1 文件中包含test字符的行  </span><br>testfile_2:This is a linux testfile! <span class="hljs-comment">#列出testfile_2 文件中包含test字符的行  </span><br>testfile_2:Linux test <span class="hljs-comment">#列出testfile_2 文件中包含test字符的行 </span><br></code></pre></td></tr></table></figure>
+<p>2、以递归的方式查找符合条件的文件。例如，查找指定目录&#x2F;etc&#x2F;acpi 及其子目录（如果存在子目录的话）下所有文件中包含字符串”update”的文件，并打印出该字符串所在行的内容，使用的命令为：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">grep <span class="hljs-literal">-r</span> update /etc/acpi <br></code></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> grep <span class="hljs-literal">-r</span> update /etc/acpi <span class="hljs-comment">#以递归的方式查找“etc/acpi”下包含“update”的文件  </span><br>/etc/acpi/ac.d/<span class="hljs-number">85</span><span class="hljs-literal">-anacron</span>.sh:<span class="hljs-comment"># (Things like the slocate updatedb cause a lot of IO.)  </span><br>Rather than  <br>/etc/acpi/resume.d/<span class="hljs-number">85</span><span class="hljs-literal">-anacron</span>.sh:<span class="hljs-comment"># (Things like the slocate updatedb cause a lot of  </span><br>IO.) Rather than  <br>/etc/acpi/events/thinkpad<span class="hljs-literal">-cmos</span>:action=/usr/sbin/thinkpad<span class="hljs-literal">-keys--update</span> <br></code></pre></td></tr></table></figure>
+<p>3、反向查找。前面各个例子是查找并打印出符合条件的行，通过”-v”参数可以打印出不符合条件行的内容。<br>查找文件名中包含 test 的文件中不包含test 的行，此时，使用的命令为：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">grep <span class="hljs-literal">-v</span> test *test*<br></code></pre></td></tr></table></figure>
+<p>结果如下所示：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> grep<span class="hljs-literal">-v</span> test* <span class="hljs-comment">#查找文件名中包含test 的文件中不包含test 的行  </span><br>testfile1:helLinux!  <br>testfile1:Linis a free Unix<span class="hljs-literal">-type</span> operating system.  <br>testfile1:Lin  <br>testfile_1:HELLO LINUX!  <br>testfile_1:LINUX IS A FREE UNIX<span class="hljs-literal">-TYPE</span> OPTERATING SYSTEM.  <br>testfile_1:THIS IS A LINUX TESTFILE!  <br>testfile_2:HELLO LINUX!  <br>testfile_2:Linux is a free unix<span class="hljs-literal">-type</span> opterating system.  <br></code></pre></td></tr></table></figure>
+<h3 id="3-which"><a href="#3-which" class="headerlink" title="3.which"></a>3.which</h3><p>which指令会在环境变量$PATH设置的目录里查找符合条件的文件。<br>语法：<code>which [文件...]</code><br>例：使用指令”which”查看指令”bash”的绝对路径，输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">which</span> bash<br></code></pre></td></tr></table></figure>
+<p>上面的指令执行后，输出信息如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/bin/bash  <span class="hljs-comment">#bash可执行程序的绝对路径 </span><br></code></pre></td></tr></table></figure>
+<h2 id="六、压缩和解压类"><a href="#六、压缩和解压类" class="headerlink" title="六、压缩和解压类"></a>六、压缩和解压类</h2><h3 id="1-gzip-gunzip压缩"><a href="#1-gzip-gunzip压缩" class="headerlink" title="1.gzip&#x2F;gunzip压缩"></a>1.gzip&#x2F;gunzip压缩</h3><p>gzip 文件 ：压缩文件，只能将文件压缩为*.gz文件(只能压缩文件不能压缩目录)<br>gunzip 文件.gz ：解压缩文件命令<br>不保留原来的文件（无论压缩还是解压）</p>
+<h3 id="2-zip-unzip压缩"><a href="#2-zip-unzip压缩" class="headerlink" title="2.zip&#x2F;unzip压缩"></a>2.zip&#x2F;unzip压缩</h3><p>zip [选项] xxx.zip:将要压缩的内容 ：压缩文件和目录的命令</p>
+<ul>
+<li>-r :压缩目录</li>
+<li>-d 从压缩文件内删除指定的文件</li>
+</ul>
+<p>unzip [选项] xxx.zip ：解压缩文件</p>
+<ul>
+<li>-d &lt;目录&gt; ：指定解压后文件的存放目录</li>
+<li>-l ：显示压缩文件内所包含的文件</li>
+<li>-v ：执行是时显示详细的信息</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">解压xxx.zip到指定目录<br>unzip xxx.zip <span class="hljs-literal">-d</span> /home/test/<br></code></pre></td></tr></table></figure>
+<p>zip压缩命令可以压缩目录且保留源文件</p>
+<p>查看压缩文件中包含的文件：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># unzip -l abc.zip </span><br>Archive: abc.zip<br> Length   Date  Time  Name<br><span class="hljs-literal">--------</span>  <span class="hljs-literal">----</span>  <span class="hljs-literal">----</span>  <span class="hljs-literal">----</span><br>  <span class="hljs-number">94618</span> <span class="hljs-number">05</span><span class="hljs-literal">-21-10</span> <span class="hljs-number">20</span>:<span class="hljs-number">44</span>  a11.jpg<br>  <span class="hljs-number">202001</span> <span class="hljs-number">05</span><span class="hljs-literal">-21-10</span> <span class="hljs-number">20</span>:<span class="hljs-number">44</span>  a22.jpg<br>    <span class="hljs-number">16</span> <span class="hljs-number">05</span><span class="hljs-literal">-22-10</span> <span class="hljs-number">15</span>:<span class="hljs-number">01</span>  <span class="hljs-number">11</span>.txt<br>  <span class="hljs-number">46468</span> <span class="hljs-number">05</span><span class="hljs-literal">-23-10</span> <span class="hljs-number">10</span>:<span class="hljs-number">30</span>  w456.JPG<br>  <span class="hljs-number">140085</span> <span class="hljs-number">03</span><span class="hljs-literal">-14-10</span> <span class="hljs-number">21</span>:<span class="hljs-number">49</span>  my.asp<br><span class="hljs-literal">--------</span>          <span class="hljs-literal">-------</span><br>  <span class="hljs-number">483188</span>          <span class="hljs-number">5</span> files<br></code></pre></td></tr></table></figure>
+<p>-v 参数用于查看压缩文件目录信息，但是不解压该文件。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># unzip -v abc.zip </span><br>Archive: abc.zip<br>Length  Method  Size Ratio  Date  Time  CRC<span class="hljs-literal">-32</span>  Name<br><span class="hljs-literal">--------</span> <span class="hljs-literal">------</span> <span class="hljs-literal">-------</span> <span class="hljs-literal">-----</span>  <span class="hljs-literal">----</span>  <span class="hljs-literal">----</span>  <span class="hljs-literal">------</span>  <span class="hljs-literal">----</span><br>  <span class="hljs-number">94618</span> Defl:N  <span class="hljs-number">93353</span>  <span class="hljs-number">1</span>% <span class="hljs-number">05</span><span class="hljs-literal">-21-10</span> <span class="hljs-number">20</span>:<span class="hljs-number">44</span> <span class="hljs-number">9</span>e661437 a11.jpg<br> <span class="hljs-number">202001</span> Defl:N  <span class="hljs-number">201833</span>  <span class="hljs-number">0</span>% <span class="hljs-number">05</span><span class="hljs-literal">-21-10</span> <span class="hljs-number">20</span>:<span class="hljs-number">44</span> <span class="hljs-number">1</span>da462eb a22.jpg<br>   <span class="hljs-number">16</span> Stored    <span class="hljs-number">16</span>  <span class="hljs-number">0</span>% <span class="hljs-number">05</span><span class="hljs-literal">-22-10</span> <span class="hljs-number">15</span>:<span class="hljs-number">01</span> ae8a9910 ? +-|￥+-? (<span class="hljs-number">11</span>).txt<br>  <span class="hljs-number">46468</span> Defl:N  <span class="hljs-number">39997</span> <span class="hljs-number">14</span>% <span class="hljs-number">05</span><span class="hljs-literal">-23-10</span> <span class="hljs-number">10</span>:<span class="hljs-number">30</span> <span class="hljs-number">962861</span>f2 w456.JPG<br> <span class="hljs-number">140085</span> Defl:N  <span class="hljs-number">36765</span> <span class="hljs-number">74</span>% <span class="hljs-number">03</span><span class="hljs-literal">-14-10</span> <span class="hljs-number">21</span>:<span class="hljs-number">49</span> <span class="hljs-number">836</span>fcc3f my.asp<br><span class="hljs-literal">--------</span>     <span class="hljs-literal">-------</span> <span class="hljs-literal">---</span>              <span class="hljs-literal">-------</span><br> <span class="hljs-number">483188</span>      <span class="hljs-number">371964</span> <span class="hljs-number">23</span>%              <span class="hljs-number">5</span> files<br></code></pre></td></tr></table></figure>
+<h3 id="3-tar"><a href="#3-tar" class="headerlink" title="3.tar"></a>3.tar</h3><p>tar [选项] xxx.tar.gz 将要打包进去的内容<br>打包目录，压缩后的文件格式.tar.gz<br>选项说明</p>
+<ul>
+<li>-z：打包同时压缩</li>
+<li>-c：产生.tar打包文件</li>
+<li>-v：显示详细信息</li>
+<li>-f：指定压缩后的文件名</li>
+<li>-x：解包.tar文件</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">压缩多个文件<br>tar <span class="hljs-literal">-zcvf</span> xxx.tar.gz <span class="hljs-number">1</span>.txt <span class="hljs-number">2</span>.txt<br>解压到指定目录<br>tar <span class="hljs-literal">-zxvf</span> xxx.tar.gz <span class="hljs-literal">-C</span> d0<br></code></pre></td></tr></table></figure>
+<h2 id="七、进程线程类"><a href="#七、进程线程类" class="headerlink" title="七、进程线程类"></a>七、进程线程类</h2><h3 id="1-ps"><a href="#1-ps" class="headerlink" title="1.ps"></a>1.ps</h3><p>process status：用于显示当前进程的状态，类似于 windows 的任务管理器。<br>语法 <code>ps [options] [--help]</code><br>常用参数：</p>
+<ul>
+<li>-A 列出所有的进程   </li>
+<li>-au 显示较详细的资讯   </li>
+<li>-aux 显示所有包含其他使用者的行程</li>
+</ul>
+<p>查找指定进程格式：（可以查看子父进程之间的关系）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps -ef | grep 进程关键字<br></code></pre></td></tr></table></figure>
+<p>显示指定用户信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ps -u root //显示root进程用户信息</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>(1)ps -aux 显示信息说明</strong></p>
+<blockquote>
+<p>USER:该进程是由哪个用户产生的<br>PID:进程的 ID 号<br>%CPU:该进程占用 CPU 资源的百分比，占用越高，进程越耗费资源;<br>%MEM:该进程占用物理内存的百分比，占用越高，进程越耗费资源;<br>VSZ:该进程占用虚拟内存的大小，单位 KB;<br>RSS:该进程占用实际物理内存的大小，单位 KB;<br>TTY:该进程是在哪个终端中运行的。其中 tty1-tty7 代表本地控制台终端，tty1-tty6 是 本地的字符界面终端，tty7 是图形终端。pts&#x2F;0-255 代表虚拟终端。<br>STAT:进程状态。常见的状态有:R:运行、S:睡眠、T:停止状态、s:包含子进程、+: 位于后台 START:该进程的启动时间<br>TIME:该进程占用 CPU 的运算时间，注意不是系统时间 COMMAND:产生此进程的命令名</p>
+</blockquote>
+<p><strong>(2)ps -ef 显示信息说明</strong> </p>
+<blockquote>
+<p>UID:用户 ID<br>PID:进程 ID<br>PPID:父进程 ID<br>C:CPU 用于计算执行优先级的因子。数值越大，表明进程是 CPU<br>密集型运算，执行优先 级会降低;数值越小，表明进程是 I&#x2F;O 密集型运算，执行优先级会提高 STIME:进程启动的时间<br>TTY:完整的终端名称<br>TIME:CPU 时间<br>CMD:启动进程所用的命令和参数</p>
+</blockquote>
+<p>如果想查看进程的 CPU 占用率和内存占用率，可以使用 aux; 如果想查看进程的父进程 ID 可以使用 ef。</p>
+<h3 id="2-kill"><a href="#2-kill" class="headerlink" title="2.kill"></a>2.kill</h3><p>用于删除执行中的程序或工作。</p>
+<p>kill 可将指定的信息送至程序。预设的信息为 SIGTERM(15)，可将指定程序终止。若仍无法终止该程序，可使用 SIGKILL(9) 信息尝试强制删除程序。程序或工作的编号可利用 ps 指令或 jobs 指令查看。</p>
+<p>语法 <code>kill [-s &lt;信息名称或编号&gt;][程序]　或　kill [-l &lt;信息编号&gt;]</code><br>参数说明：</p>
+<ul>
+<li>-l &lt;信息编号&gt; 　若不加&lt;信息编号&gt;选项，则 -l 参数会列出全部的信息名称。</li>
+<li>-s &lt;信息名称或编号&gt; 　指定要送出的信息。</li>
+<li>[程序] 　[程序]可以是程序的PID或是PGID，也可以是工作编号。</li>
+</ul>
+<p>使用 kill -l 命令列出所有可用信号。</p>
+<p>最常用的信号是：</p>
+<ul>
+<li>1 (HUP)：重新加载进程。</li>
+<li>9 (KILL)：杀死一个进程。 </li>
+<li>15 (TERM)：正常停止一个进程。</li>
+</ul>
+<p>实例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">杀死进程<br><span class="hljs-comment"># kill 12345</span><br><br>强制杀死进程<br><span class="hljs-comment"># kill -KILL 123456</span><br><br>彻底杀死进程<br><span class="hljs-comment"># kill -9 123456</span><br><br>显示信号<br><span class="hljs-comment"># kill -l</span><br><br>杀死指定用户所有进程<br><span class="hljs-comment">#kill -9 $(ps -ef | grep hnlinux) //方法一 过滤出hnlinux用户进程 </span><br><span class="hljs-comment">#kill -u hnlinux //方法二</span><br></code></pre></td></tr></table></figure>
+<h3 id="3-netstat"><a href="#3-netstat" class="headerlink" title="3.netstat"></a>3.netstat</h3><p>显示网络统计信息和端口占用情况<br>1、基本语法</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">netstat <span class="hljs-literal">-anp</span> | grep 进程号(查看该进程网络信息) <br>netstat <span class="hljs-literal">-nlp</span> | grep 端口号 (查看网络端口号占用情况)<br></code></pre></td></tr></table></figure>
+<p> 2、选项说明</p>
+<ul>
+<li>-n ：拒绝显示别名，能显示数字的全部转化成数字</li>
+<li>-l ： 仅列出有在 listen(监听)的服务状态</li>
+<li>-p： 表示显示哪个进程在调用</li>
+</ul>
+<p>3、案例实操<br>(1)通过 Tomcat 进程号查看该进程的网络信息</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">netstat <span class="hljs-literal">-anp</span> | grep Tomcat 进程号<br></code></pre></td></tr></table></figure>
+<p>(2)查看某端口号是否被占用</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">netstat <span class="hljs-literal">-nlp</span> | grep <span class="hljs-number">8080</span><br></code></pre></td></tr></table></figure>
+<h2 id="八、crond系统定时任务"><a href="#八、crond系统定时任务" class="headerlink" title="八、crond系统定时任务"></a>八、crond系统定时任务</h2><h3 id="1-crontab"><a href="#1-crontab" class="headerlink" title="1.crontab"></a>1.crontab</h3><p>用来定期执行程序的命令。</p>
+<p>linux 任务调度的工作主要分为以下两类：</p>
+<ol>
+<li>系统执行的工作：系统周期性所要执行的工作，如备份系统数据、清理缓存</li>
+<li>个人执行的工作：某个用户定期要做的工作，例如每隔10分钟检查邮件服务器是否有新信，这些工作可由每个用户自行设置</li>
+</ol>
+<p><strong>语法</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">crontab [ -<span class="hljs-type">u</span> <span class="hljs-type">user</span> ] file<br></code></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">crontab [ -<span class="hljs-type">u</span> <span class="hljs-type">user</span> ] &#123; <span class="hljs-literal">-l</span> | <span class="hljs-literal">-r</span> | <span class="hljs-literal">-e</span> &#125;<br></code></pre></td></tr></table></figure>
+<p><strong>说明：</strong><br>crontab 是用来让使用者在固定时间或固定间隔执行程序之用，换句话说，也就是类似使用者的时程表。<br>-u user 是指设定指定 user 的时程表，这个前提是你必须要有其权限(比如说是 root)才能够指定他人的时程表。如果不使用 -u user 的话，就是表示设定自己的时程表。</p>
+<p><strong>参数说明：</strong></p>
+<ul>
+<li>-e : 执行文字编辑器来设定时程表，内定的文字编辑器是 VI，如果你想用别的文字编辑器，则请先设定 VISUAL 环境变数来指定使用那个文字编辑器(比如说 setenv VISUAL joe)</li>
+<li>-r : 删除目前的时程表 </li>
+<li>-l : 列出目前的时程表</li>
+</ul>
+<p><strong>时间格式如下：</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">f1 f2 f3 f4 f5 program<br></code></pre></td></tr></table></figure>
+<p>其中 f1 是表示分钟，f2 表示小时，f3 表示一个月份中的第几日，f4 表示月份，f5 表示一个星期中的第几天。program 表示要执行的程序。<br>当 f1 为 * 时表示每分钟都要执行 program，f2 为 * 时表示每小时都要执行程序，其余类推<br>当 f1 为 a-b 时表示从第 a 分钟到第 b 分钟这段时间内要执行，f2 为 a-b 时表示从第 a 到第 b 小时都要执行，其余类推<br>当 f1 为 *&#x2F;n 时表示每 n 分钟个时间间隔执行一次，f2 为 *&#x2F;n 表示每 n 小时个时间间隔执行一次，其余类推<br>当 f1 为 a, b, c,… 时表示第 a, b, c,… 分钟要执行，f2 为 a, b, c,… 时表示第 a, b, c…个小时要执行，其余类推</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs powershell">*    *    *    *    *<br>-    -    -    -    -<br>|    |    |    |    |<br>|    |    |    |    +<span class="hljs-literal">-----</span> 星期中星期几 (<span class="hljs-number">0</span> - <span class="hljs-number">6</span>) (星期天 为<span class="hljs-number">0</span>)<br>|    |    |    +<span class="hljs-literal">----------</span> 月份 (<span class="hljs-number">1</span> - <span class="hljs-number">12</span>) <br>|    |    +<span class="hljs-literal">---------------</span> 一个月中的第几天 (<span class="hljs-number">1</span> - <span class="hljs-number">31</span>)<br>|    +<span class="hljs-literal">--------------------</span> 小时 (<span class="hljs-number">0</span> - <span class="hljs-number">23</span>)<br>+<span class="hljs-literal">-------------------------</span> 分钟 (<span class="hljs-number">0</span> - <span class="hljs-number">59</span>)<br></code></pre></td></tr></table></figure>
+<p>使用者也可以将所有的设定先存放在文件中，用 crontab file 的方式来设定执行时间。<br>例：每一分钟执行一次 &#x2F;bin&#x2F;ls：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">* * * * * /bin/<span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>
+<p>在 12 月内, 每天的早上 6 点到 12 点，每隔 3 个小时 0 分钟执行一次 &#x2F;usr&#x2F;bin&#x2F;backup：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">0</span> <span class="hljs-number">6</span><span class="hljs-literal">-12</span>/<span class="hljs-number">3</span> * <span class="hljs-number">12</span> * /usr/bin/backup<br></code></pre></td></tr></table></figure>
+<p>周一到周五每天下午 5:00 寄一封信给 <a href="mailto:&#97;&#x6c;&#101;&#120;&#64;&#100;&#x6f;&#x6d;&#x61;&#x69;&#110;&#x2e;&#x6e;&#97;&#x6d;&#101;">alex@domain.name</a>：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">0</span> <span class="hljs-number">17</span> * * <span class="hljs-number">1</span><span class="hljs-literal">-5</span> mail <span class="hljs-literal">-s</span> <span class="hljs-string">&quot;hi&quot;</span> alex@domain.name &lt; /tmp/maildata<br></code></pre></td></tr></table></figure>
+<p>每月每天的午夜 0 点 20 分, 2 点 20 分, 4 点 20 分….执行 echo “haha”：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">20</span> <span class="hljs-number">0</span><span class="hljs-literal">-23</span>/<span class="hljs-number">2</span> * * * <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;haha&quot;</span><br></code></pre></td></tr></table></figure>
+<p>下面再看看几个具体的例子：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">0</span> */<span class="hljs-number">2</span> * * * /sbin/service httpd restart  意思是每两个小时重启一次apache <br><br><span class="hljs-number">50</span> <span class="hljs-number">7</span> * * * /sbin/service sshd <span class="hljs-built_in">start</span>  意思是每天<span class="hljs-number">7</span>：<span class="hljs-number">50</span>开启ssh服务 <br><br><span class="hljs-number">50</span> <span class="hljs-number">22</span> * * * /sbin/service sshd stop  意思是每天<span class="hljs-number">22</span>：<span class="hljs-number">50</span>关闭ssh服务 <br><br><span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span>,<span class="hljs-number">15</span> * * fsck /home  每月<span class="hljs-number">1</span>号和<span class="hljs-number">15</span>号检查/home 磁盘 <br><br><span class="hljs-number">1</span> * * * * /home/bruce/backup  每小时的第一分执行 /home/bruce/backup这个文件 <br><br><span class="hljs-number">00</span> <span class="hljs-number">03</span> * * <span class="hljs-number">1</span><span class="hljs-literal">-5</span> find /home <span class="hljs-string">&quot;*.xxx&quot;</span> <span class="hljs-literal">-mtime</span> +<span class="hljs-number">4</span> <span class="hljs-literal">-exec</span> <span class="hljs-built_in">rm</span> &#123;&#125; \;  每周一至周五<span class="hljs-number">3</span>点钟，在目录/home中，查找文件名为*.xxx的文件，并删除<span class="hljs-number">4</span>天前的文件。<br><br><span class="hljs-number">30</span> <span class="hljs-number">6</span> */<span class="hljs-number">10</span> * * <span class="hljs-built_in">ls</span>  意思是每月的<span class="hljs-number">1</span>、<span class="hljs-number">11</span>、<span class="hljs-number">21</span>、<span class="hljs-number">31</span>日是的<span class="hljs-number">6</span>：<span class="hljs-number">30</span>执行一次<span class="hljs-built_in">ls</span>命令<br></code></pre></td></tr></table></figure>
+<p>注意：当程序在你所指定的时间执行后，系统会发一封邮件给当前的用户，显示该程序执行的内容，若是你不希望收到这样的邮件，请在每一行空一格之后加上 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1 即可，如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-number">20</span> <span class="hljs-number">03</span> * * * . /etc/profile;/bin/sh /var/www/runoob/test.sh &gt; /dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">crontab <span class="hljs-literal">-e</span> <span class="hljs-comment">#下一行为显示内容</span><br><span class="hljs-number">00</span> <span class="hljs-number">04</span> * * * <span class="hljs-built_in">cd</span> /r_alysis &amp;&amp; sh rut_v.sh &gt;log.crontab.run_ <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br><span class="hljs-comment"># utc04是北京时间12点</span><br></code></pre></td></tr></table></figure>
+<h2 id="九、补充"><a href="#九、补充" class="headerlink" title="九、补充"></a>九、补充</h2><h3 id="1、nohup"><a href="#1、nohup" class="headerlink" title="1、nohup"></a>1、nohup</h3><p>no hang up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。</p>
+<p>nohup 命令，在默认情况下（非重定向时），会输出一个名叫 nohup.out 的文件到当前目录下，如果当前目录的 nohup.out 文件不可写，输出重定向到 $HOME&#x2F;nohup.out 文件中。</p>
+<p><strong>语法格式</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nohup Command [ <span class="hljs-type">Arg</span> … ] [　&amp; ]<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数说明：</strong></p>
+<ul>
+<li>Command：要执行的命令。</li>
+<li>Arg：一些参数，可以指定输出文件。</li>
+<li>&amp;：让命令在后台执行，终端退出后命令仍旧执行。</li>
+</ul>
+<p>例：在后台执行 root 目录下的 runoob.sh 脚本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nohup sh runpv.sh <span class="hljs-number">20211228</span> &amp;<br>nohup /root/runoob.sh &amp;<br></code></pre></td></tr></table></figure>
+<p>在终端如果看到以下输出说明运行成功：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">appending output to nohup.out<br></code></pre></td></tr></table></figure>
+<p>这时我们打开 root 目录 可以看到生成了 nohup.out 文件。</p>
+<p>如果要停止运行，你需要使用以下命令查找到 nohup 运行脚本到 PID，然后使用 kill 命令来删除：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">ps</span> <span class="hljs-literal">-aux</span> | grep <span class="hljs-string">&quot;runoob.sh&quot;</span> <br></code></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>a : 显示所有程序 </li>
+<li>u : 以用户为主的格式来显示 </li>
+<li>x : 显示所有程序，不区分终端机</li>
+</ul>
+<p>另外也可以使用 <code>ps -def | grep &quot;runoob.sh&quot;</code> 命令来查找。</p>
+<p>找到 PID 后，就可以使用 kill PID 来删除。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">kill</span> <span class="hljs-literal">-9</span>  进程号PID<br></code></pre></td></tr></table></figure>
+
+<p>以下命令在后台执行 root 目录下的 runoob.sh 脚本，并重定向输入到 runoob.log 文件：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nohup /root/runoob.sh &gt; runoob.log <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> &amp;<br></code></pre></td></tr></table></figure>
+
+<p><strong>2&gt;&amp;1 解释：</strong></p>
+<p>将标准错误 2 重定向到标准输出 &amp;1 ，标准输出 &amp;1 再被重定向输入到 runoob.log 文件中。</p>
+<ul>
+<li>0 – stdin (standard input，标准输入) </li>
+<li>1 – stdout (standard output，标准输出) </li>
+<li>2 – stderr (standard error，标准错误输出)</li>
+</ul>
+<h3 id="2、zcat"><a href="#2、zcat" class="headerlink" title="2、zcat"></a>2、zcat</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">zcat cli211226/*.gz<br></code></pre></td></tr></table></figure>
+<p>zcat命令用于不真正解压缩文件，就能显示压缩包中文件的内容的场合。<br><strong>zcat [参数]</strong></p>
+<ul>
+<li>-S	当后缀不是标准压缩包后缀时使用此选项</li>
+<li>-c	将文件内容写到标注输出</li>
+<li>-d	执行解压缩操作</li>
+<li>-l	显示压缩包中文件的列表</li>
+<li>-q	禁用警告信息</li>
+<li>-r	在目录上执行递归操作</li>
+<li>-t	测试压缩文件的完整性</li>
+</ul>
+<p>例：<br>不解压缩文件的情况下，显示压缩包中文件的内容：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">[<span class="hljs-type">root</span>@<span class="hljs-type">linux265</span> ~]<span class="hljs-comment"># zcat file.gz</span><br></code></pre></td></tr></table></figure>
+
+<p>查看多个压缩文件：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">zcat file1.gz file2.gz<br></code></pre></td></tr></table></figure>
+<p>获取压缩文件的属性（压缩大小，未压缩大小，比率 – 压缩率）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">zcat <span class="hljs-literal">-l</span> file.gz<br></code></pre></td></tr></table></figure>
+
+<p>禁止所有警告：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">zcat <span class="hljs-literal">-q</span> file.gz<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="3、uniq"><a href="#3、uniq" class="headerlink" title="3、uniq"></a>3、uniq</h3><p>用于检查及删除文本文件中重复出现的行列，一般与 sort 命令结合使用。<br>uniq 可检查文本文件中重复出现的行列。<br><strong>语法</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">uniq [-<span class="hljs-type">cdu</span>][-<span class="hljs-type">f</span>&lt;栏位&gt;][-<span class="hljs-type">s</span>&lt;字符位置&gt;][-<span class="hljs-type">w</span>&lt;字符位置&gt;][--<span class="hljs-type">help</span>][--<span class="hljs-type">version</span>][输入文件][输出文件]<br></code></pre></td></tr></table></figure>
+<p><strong>参数：</strong></p>
+<ul>
+<li>-c或–count 在每列旁边显示该行重复出现的次数。</li>
+<li>-d或–repeated 仅显示重复出现的行列。</li>
+<li>-u或–unique 仅显示出一次的行列。</li>
+<li>[输入文件] 指定已排序好的文本文件。如果不指定此项，则从标准读取数据；、</li>
+<li>[输出文件] 指定输出的文件。如果不指定此选项，则将内容显示到标准输出设备（显示终端）。</li>
+</ul>
+<p>例：<br>文件testfile中第 2、3、5、6、7、9行为相同的行，使用 uniq 命令删除重复的行，可使用以下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">uniq testfile <br></code></pre></td></tr></table></figure>
+<p>testfile中的原有内容为：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">cat</span> testfile      <span class="hljs-comment">#原有内容  </span><br>test <span class="hljs-number">30</span>  <br>test <span class="hljs-number">30</span>  <br>test <span class="hljs-number">30</span>  <br>Hello <span class="hljs-number">95</span>  <br>Hello <span class="hljs-number">95</span>  <br>Hello <span class="hljs-number">95</span>  <br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span>  <br>Linux <span class="hljs-number">85</span> <br></code></pre></td></tr></table></figure>
+<p>使用uniq 命令删除重复的行后，有如下输出结果：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> uniq testfile     <span class="hljs-comment">#删除重复行后的内容  </span><br>test <span class="hljs-number">30</span>  <br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br></code></pre></td></tr></table></figure>
+<p>检查文件并删除文件中重复出现的行，并在行首显示该行重复出现的次数。使用如下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">uniq <span class="hljs-literal">-c</span> testfile <br></code></pre></td></tr></table></figure>
+<p>结果输出如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> uniq <span class="hljs-literal">-c</span> testfile      <span class="hljs-comment">#删除重复行后的内容  </span><br><span class="hljs-number">3</span> test <span class="hljs-number">30</span>             <span class="hljs-comment">#前面的数字的意义为该行共出现了3次  </span><br><span class="hljs-number">4</span> Hello <span class="hljs-number">95</span>            <span class="hljs-comment">#前面的数字的意义为该行共出现了4次  </span><br><span class="hljs-number">2</span> Linux <span class="hljs-number">85</span>            <span class="hljs-comment">#前面的数字的意义为该行共出现了2次 </span><br></code></pre></td></tr></table></figure>
+<p>当重复的行并不相邻时，uniq 命令是不起作用的，即若文件内容为以下时，uniq 命令不起作用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">cat</span> testfile1      <span class="hljs-comment"># 原有内容 </span><br>test <span class="hljs-number">30</span>  <br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br>test <span class="hljs-number">30</span>  <br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br>test <span class="hljs-number">30</span>  <br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br></code></pre></td></tr></table></figure>
+<p>这时我们就可以使用 sort：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">sort</span>  testfile1 | uniq<br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br>test <span class="hljs-number">30</span><br></code></pre></td></tr></table></figure>
+<p>统计各行在文件中出现的次数：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">sort</span> testfile1 | uniq <span class="hljs-literal">-c</span><br>   <span class="hljs-number">3</span> Hello <span class="hljs-number">95</span>  <br>   <span class="hljs-number">3</span> Linux <span class="hljs-number">85</span> <br>   <span class="hljs-number">3</span> test <span class="hljs-number">30</span><br></code></pre></td></tr></table></figure>
+<p>在文件中找出重复的行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">sort</span> testfile1 | uniq <span class="hljs-literal">-d</span><br>Hello <span class="hljs-number">95</span>  <br>Linux <span class="hljs-number">85</span> <br>test <span class="hljs-number">30</span>  <br></code></pre></td></tr></table></figure>
+
+<h3 id="4、dirname"><a href="#4、dirname" class="headerlink" title="4、dirname"></a>4、dirname</h3><p>从文件名剥离非目录的后缀<br>dirname命令去除文件名中的非目录部分，仅显示与目录有关的内容。dirname命令读取指定路径名保留最后一个&#x2F;及其后面的字符，删除其他部分，并写结果到标准输出。如果最后一个&#x2F;后无字符，dirname 命令使用倒数第二个&#x2F;，并忽略其后的所有字符。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 如果最后一个文件是目录的情形</span><br>$ <span class="hljs-built_in">dirname</span> /home/deng/share/<br>/home/deng<br><br><span class="hljs-comment"># 如果最后一个文件是普通文件情形</span><br>$ <span class="hljs-built_in">dirname</span> /home/deng/scott_data.sql <br>/home/deng<br><br><span class="hljs-comment"># 如果名字中没有包含/ 则输出 .</span><br>$ <span class="hljs-built_in">dirname</span> <span class="hljs-built_in">dir</span><br>.<br><br><span class="hljs-comment"># 相对路径情形</span><br>$ <span class="hljs-built_in">dirname</span> <span class="hljs-built_in">dir</span>/a<br><span class="hljs-built_in">dir</span><br><br><span class="hljs-comment"># 路径是根目录的情形</span><br>$ <span class="hljs-built_in">dirname</span> /<br>/<br>$ <span class="hljs-built_in">dirname</span> //<br>/<br></code></pre></td></tr></table></figure>
+
+<h3 id="5、seq"><a href="#5、seq" class="headerlink" title="5、seq"></a>5、seq</h3><p>用于产生从某个数到另外一个数之间的所有整数。<br><strong>语法</strong>：</p>
+<ul>
+<li>seq [选项]… 尾数 </li>
+<li>seq [选项]… 首数 尾数 </li>
+<li>seq [选项]… 首数 增量 尾数</li>
+</ul>
+<p><strong>选项</strong>：</p>
+<ul>
+<li>-f, –format&#x3D;格式 使用printf 样式的浮点格式</li>
+<li>-s, –separator&#x3D;字符串 使用指定字符串分隔数字（默认使用：\n）</li>
+<li>-w, –equal-width 在列前添加0 使得宽度相同</li>
+</ul>
+<p>实例：<br>-f选项：指定格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -f &quot;%3g&quot; 9 11</span><br>  9<br> 10<br> 11<br></code></pre></td></tr></table></figure>
+
+<p>%后面指定数字的位数 默认是%g，%3g那么数字位数不足部分是<strong>空格</strong>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -f &quot;str%03g&quot; 9 11</span><br>str009<br>str010<br>str011<br></code></pre></td></tr></table></figure>
+
+<p>这样的话数字位数不足部分是0，%前面制定字符串。</p>
+<p>-w选项：指定输出数字同宽</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -w 98 101</span><br>098<br>099<br>100<br>101<br></code></pre></td></tr></table></figure>
+
+<p>不能和-f一起用，输出是同宽的。</p>
+<p>-s选项：指定分隔符（默认是回车）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -s&quot; &quot; -f&quot;str%03g&quot; 9 11</span><br>str009 str010 str011<br></code></pre></td></tr></table></figure>
+
+<p>指定&#x2F;t做为分隔符号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -s&quot;`echo -e &quot;/t&quot;`&quot; 9 11</span><br>9/t10/t11<br></code></pre></td></tr></table></figure>
+
+<p>指定 &#x3D; 作为分隔符号：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># seq -s &#x27;=&#x27; 1 5</span><br>1=2=3=4=5<br></code></pre></td></tr></table></figure>
+
+<h3 id="6、export"><a href="#6、export" class="headerlink" title="6、export"></a>6、export</h3><p>用于设置或显示环境变量。</p>
+<p>在 shell 中执行程序时，shell 会提供一组环境变量。export 可新增，修改或删除环境变量，供后续执行的程序使用。export 的效力仅限于该次登陆操作。</p>
+<p>语法 <code>export [-fnp][变量名称]=[变量设置值]</code><br>参数说明：</p>
+<ul>
+<li>-f 　代表[变量名称]中为函数名称。</li>
+<li>-n 　删除指定的变量。变量实际上并未删除，只是不会输出到后续指令的执行环境中。</li>
+<li>-p 　列出所有的shell赋予程序的环境变量。</li>
+</ul>
+<p>实例<br>列出当前所有的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># export -p //列出当前的环境变量值</span><br><span class="hljs-built_in">export</span> COLORFGBG=<span class="hljs-string">&#x27;7;0&#x27;</span><br><span class="hljs-built_in">export</span> COLORTERM=truecolor<br><span class="hljs-built_in">export</span> COMMAND_MODE=unix2003<br></code></pre></td></tr></table></figure>
+<p>定义环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># export MYENV //定义环境变量</span><br><span class="hljs-comment"># export MYENV=7 //定义环境变量并赋值</span><br></code></pre></td></tr></table></figure>
+<h3 id="7、du"><a href="#7、du" class="headerlink" title="7、du"></a>7、du</h3><p>disk usage：用于显示目录或文件的大小。<br>du 会显示指定的目录或文件所占用的磁盘空间。<br>语法</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">du [-<span class="hljs-type">abcDhHklmsSx</span>][-<span class="hljs-type">L</span> &lt;符号连接&gt;][-<span class="hljs-type">X</span> &lt;文件&gt;][--<span class="hljs-built_in">block-size</span>][--<span class="hljs-type">exclude</span>=&lt;目录或文件&gt;][--<span class="hljs-type">max</span>-<span class="hljs-type">depth</span>=&lt;目录层数&gt;][--<span class="hljs-type">help</span>][--<span class="hljs-type">version</span>][目录或文件]<br></code></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-literal">-a</span>或<span class="hljs-literal">-all</span> 显示目录中个别文件的大小。<br><span class="hljs-literal">-b</span>或<span class="hljs-literal">-bytes</span> 显示目录或文件大小时，以byte为单位。<br><span class="hljs-literal">-c</span>或<span class="hljs-literal">--total</span> 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。<br><span class="hljs-literal">-h</span>或<span class="hljs-literal">--human-readable</span> 以K，M，G为单位，提高信息的可读性。<br><span class="hljs-literal">-X</span>&lt;文件&gt;或<span class="hljs-literal">--exclude-from</span>=&lt;文件&gt; 在&lt;文件&gt;指定目录或文件。<br></code></pre></td></tr></table></figure>
+<p>显示目录或者文件所占空间:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># du</span><br><span class="hljs-number">4</span>       ./scf/lib<br><span class="hljs-number">4</span>       ./scf/service/deploy/product<br><span class="hljs-number">4</span>       ./scf/service/deploy/info<br><span class="hljs-number">12</span>      ./scf/service/deploy<br><span class="hljs-number">16</span>      ./scf/service<br><span class="hljs-number">4</span>       ./scf/doc<br><span class="hljs-number">4</span>       ./scf/bin<br><span class="hljs-number">32</span>      ./scf<br><span class="hljs-number">1288</span>    .<br></code></pre></td></tr></table></figure>
+<p>只显示当前目录下面的子目录的目录大小和当前目录的总的大小，最下面的1288为当前目录的总大小</p>
+<p>显示指定文件所占空间</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># du log2012.log </span><br><span class="hljs-number">300</span>     log2012.log<br></code></pre></td></tr></table></figure>
+<p>方便阅读的格式显示test目录所占空间情况：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># du -h test</span><br><span class="hljs-number">4.0</span>K    test/scf/lib<br><span class="hljs-number">4.0</span>K    test/scf/service/deploy/product<br><span class="hljs-number">4.0</span>K    test/scf/service/deploy/info<br><span class="hljs-number">12</span>K     test/scf/service/deploy<br><span class="hljs-number">16</span>K     test/scf/service<br><span class="hljs-number">4.0</span>K    test/scf/doc<br><span class="hljs-number">4.0</span>K    test/scf/bin<br><span class="hljs-number">32</span>K     test/scf<br><span class="hljs-number">1.3</span>M    test<br></code></pre></td></tr></table></figure>
+<h3 id="8、sort"><a href="#8、sort" class="headerlink" title="8、sort"></a>8、sort</h3><p>用于将文本文件内容加以排序。<br>sort 可针对文本文件的内容，以行为单位来排序。</p>
+<p>语法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sort</span> [-bcdfimMnr][-o&lt;输出文件&gt;][-t&lt;分隔字符&gt;][+&lt;起始栏位&gt;-&lt;结束栏位&gt;][--<span class="hljs-built_in">help</span>][--verison][文件][-k field1[,field2]]<br></code></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">-b 忽略每行前面开始出的空格字符。<br>-c 检查文件是否已经按照顺序排序。<br>-d 排序时，处理英文字母、数字及空格字符外，忽略其他的字符。<br>-f 排序时，将小写字母视为大写字母。<br>-i 排序时，除了040至176之间的ASCII字符外，忽略其他的字符。<br>-m 将几个排序好的文件进行合并。<br>-M 将前面3个字母依照月份的缩写进行排序。<br>-n 依照数值的大小排序。<br>-u 意味着是唯一的(unique)，输出的结果是去完重了的。<br>-o&lt;输出文件&gt; 将排序后的结果存入指定的文件。<br>-r 以相反的顺序来排序。<br>-t&lt;分隔字符&gt; 指定排序时所用的栏位分隔字符。<br>[-k field1[,field2]] 按指定的列进行排序。<br></code></pre></td></tr></table></figure>
+
+<p>在使用 sort 命令以默认的式对文件的行进行排序，使用的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sort</span> testfile <br></code></pre></td></tr></table></figure>
+<p>sort 命令将以默认的方式将文本文件的第一列以 ASCII 码的次序排列，并将结果输出到标准输出。</p>
+<h3 id="9、let"><a href="#9、let" class="headerlink" title="9、let"></a>9、let</h3><p>let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上 $ 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</p>
+<p>语法格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">let arg [arg ...]<br></code></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>arg：要执行的表达式</li>
+</ul>
+<p>自加操作：let no++<br>自减操作：let no - -<br>简写形式 let no+&#x3D;10，let no-&#x3D;20，分别等同于 let no&#x3D;no+10，let no&#x3D;no-20。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/bin/bash</span><br>let a=<span class="hljs-number">5</span>+<span class="hljs-number">4</span><br>let b=<span class="hljs-number">9</span>-<span class="hljs-number">3</span> <br>echo $a $b<br><br><span class="hljs-number">9</span> <span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+<h3 id="10、wc"><a href="#10、wc" class="headerlink" title="10、wc"></a>10、wc</h3><p>用于计算字数。</p>
+<p>利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为”-“，则wc指令会从标准输入设备读取数据。</p>
+<p>语法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">wc [-clw][--<span class="hljs-built_in">help</span>][--version][文件...]<br></code></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li>-c或–bytes或–chars 只显示Bytes数。</li>
+<li>-l或–lines 显示行数。</li>
+<li>-w或–words 只显示字数。</li>
+</ul>
+<p>在默认的情况下，wc将计算指定文件的行数、字数，以及字节数。使用的命令为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">wc testfile <br></code></pre></td></tr></table></figure>
+
+<p>先查看testfile文件的内容，可以看到：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">$ cat testfile  <br>Linux networks are becoming more <span class="hljs-keyword">and</span> more common, but scurity <span class="hljs-keyword">is</span> often an overlooked  <br>issue. Unfortunately, <span class="hljs-keyword">in</span> today’s environment <span class="hljs-built_in">all</span> networks are potential hacker targets,  <br>fro0m tp-secret military research networks to small home LANs.  <br>Linux Network Securty focuses on securing Linux <span class="hljs-keyword">in</span> a networked environment, where the  <br>security of the entire network needs to be considered rather than just isolated machines.  <br>It uses a mix of theory <span class="hljs-keyword">and</span> practicl techniques to teach administrators how to install <span class="hljs-keyword">and</span>  <br>use security applications, <span class="hljs-keyword">as</span> well <span class="hljs-keyword">as</span> how the applcations work <span class="hljs-keyword">and</span> why they are necesary. <br></code></pre></td></tr></table></figure>
+
+<p>使用 wc统计，结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">$ wc testfile           <span class="hljs-comment"># testfile文件的统计信息  </span><br><span class="hljs-number">3</span> <span class="hljs-number">92</span> <span class="hljs-number">598</span> testfile       <span class="hljs-comment"># testfile文件的行数为3、单词数92、字节数598 </span><br></code></pre></td></tr></table></figure>
+<p>如果想同时统计多个文件的信息，例如同时统计testfile、testfile_1、testfile_2，可使用如下命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">wc testfile testfile_1 testfile_2   <span class="hljs-comment">#统计三个文件的信息 </span><br></code></pre></td></tr></table></figure>
+
+<p>输出结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">$ wc testfile testfile_1 testfile_2  <span class="hljs-comment">#统计三个文件的信息  </span><br><span class="hljs-number">3</span> <span class="hljs-number">92</span> <span class="hljs-number">598</span> testfile                    <span class="hljs-comment">#第一个文件行数为3、单词数92、字节数598  </span><br><span class="hljs-number">9</span> <span class="hljs-number">18</span> <span class="hljs-number">78</span> testfile_1                   <span class="hljs-comment">#第二个文件的行数为9、单词数18、字节数78  </span><br><span class="hljs-number">3</span> <span class="hljs-number">6</span> <span class="hljs-number">32</span> testfile_2                    <span class="hljs-comment">#第三个文件的行数为3、单词数6、字节数32  </span><br><span class="hljs-number">15</span> <span class="hljs-number">116</span> <span class="hljs-number">708</span> 总用量                    <span class="hljs-comment">#三个文件总共的行数为15、单词数116、字节数708 </span><br></code></pre></td></tr></table></figure>
+<h3 id="11、timeout"><a href="#11、timeout" class="headerlink" title="11、timeout"></a>11、timeout</h3><p>timeout是一个命令行实用程序，它运行指定的命令，如果在给定的时间段后仍在运行，则终止该命令。timeout命令是GNU核心实用程序软件包的一部分，该软件包几乎安装在所有Linux发行版中.<br>语法格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">timeout</span> [OPTION] DURATION COMMAND [ARG]...<br></code></pre></td></tr></table></figure>
+
+<p>DURATION可以是正整数或浮点数，后跟可选的后缀：</p>
+<ul>
+<li>s – 秒 (默认) </li>
+<li>m – 分钟 </li>
+<li>h – 小时 </li>
+<li>d – 天</li>
+</ul>
+<p>如果不添加任何单位，默认是秒。如果DURATION为0，则关联的超时是禁用的。</p>
+<h2 id="十"><a href="#十" class="headerlink" title="十"></a>十</h2><h3 id="1-ip-a"><a href="#1-ip-a" class="headerlink" title="1.ip a"></a>1.ip a</h3><p>查看所有的ip地址，参数 a,address,addr 都可以</p>
+<h3 id="2-ping"><a href="#2-ping" class="headerlink" title="2.ping"></a>2.ping</h3><p>用于检测主机。</p>
+<p>执行 ping 指令会使用 ICMP 传输协议，发出要求回应的信息，若远端主机的网络功能没有问题，就会回应该信息，因而得知该主机运作正常。</p>
+<h3 id="3-route"><a href="#3-route" class="headerlink" title="3.route"></a>3.route</h3><p>route命令用来显示并设置Linux内核中的网络路由表，route命令设置的路由主要是静态路由。要实现两个不同的子网之间的通信，需要一台连接两个网络的路由器，或者同时位于两个网络的网关来实现。</p>
+<p>在Linux系统中设置路由通常是为了解决以下问题：该Linux系统在一个局域网中，局域网中有一个网关，能够让机器访问Internet，那么就需要将这台机器的ip地址设置为Linux机器的默认路由。要注意的是，直接在命令行下执行route命令来添加路由，不会永久保存，当网卡重启或者机器重启之后，该路由就失效了；可以在&#x2F;etc&#x2F;rc.local中添加route命令来保证该路由设置永久有效。</p>
+<p>显示当前路由表(显示ip地址)     <code>route -n</code><br><img src="/img/102cf26ac3e7086f3951b129c208eb1c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>Flags 含义</p>
+<ul>
+<li>U 路由是活动的 </li>
+<li>H 目标是个主机 </li>
+<li>G 需要经过网关 </li>
+<li>R 恢复动态路由产生的表项 </li>
+<li>D 由路由的后台程序动态地安装 </li>
+<li>M 由路由的后台程序修改 </li>
+<li>! 拒绝路由</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux常用基本命令</div>
+      <div>https://qzkq.github.io/2026/01/01/Linux常用基本命令/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Mac_Windows%20Git%E9%85%8D%E7%BD%AESSH%E5%92%8CGit%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/" title="Mac_Windows Git配置SSH和Git常用命令（笔记）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mac_Windows Git配置SSH和Git常用命令（笔记）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/Linux%20jq%20%E3%80%81vim%E4%BB%A5%E5%8F%8ALinux%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85miniconda%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/" title="Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）">
+                        <span class="hidden-mobile">Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

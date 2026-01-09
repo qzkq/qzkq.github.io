@@ -1,0 +1,1102 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC Dcoker官网https:&#x2F;&#x2F;www.docker.com&#x2F; Docker 是一种开源的 容器化平台，用于构建、部署和运行应用程序。它通过容器技术将应用程序及其依赖项打包到一个可移植的单元中，从而实现跨环境的一致性。在传统的项目开发中，开发者经常遇到环境不一致的问题，比如代码在本地开发环境运行正常，但在测试或生产环境却出现各种错误，原因可能是操作系统版本、依赖库版本或配置差异。此外，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/AI%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84Docker%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%B1%89%E5%8C%96%EF%BC%88%E4%B8%AD%E6%96%87%EF%BC%89%EF%BC%8C%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%E6%BA%90%EF%BC%8CDockerfile%EF%BC%8C%E9%83%A8%E7%BD%B2Python%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC Dcoker官网https:&#x2F;&#x2F;www.docker.com&#x2F; Docker 是一种开源的 容器化平台，用于构建、部署和运行应用程序。它通过容器技术将应用程序及其依赖项打包到一个可移植的单元中，从而实现跨环境的一致性。在传统的项目开发中，开发者经常遇到环境不一致的问题，比如代码在本地开发环境运行正常，但在测试或生产环境却出现各种错误，原因可能是操作系统版本、依赖库版本或配置差异。此外，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/f97943cda3f94a269f3bcd73c97e9844.png">
+<meta property="og:image" content="https://qzkq.github.io/img/244ee9c72ec040bba8c0847f96c2f30a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e193066a156a4e2990975a174c36f77d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1ceb8c9b158d40b3bc63684d4b3a1016.png">
+<meta property="og:image" content="https://qzkq.github.io/img/4453eb8c20c748959eccf21908dc8fdd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f2663af44473470abf8a5e2b6559967f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/feaee6296faa46cd8c96b75d3ce40b4f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/76d7a26f3fc245fba0ff2de7bc9d9702.png">
+<meta property="og:image" content="https://qzkq.github.io/img/03fb404367f64fc79e6886b04c3fc102.png">
+<meta property="og:image" content="https://qzkq.github.io/img/999a6fb7140540269d056dce23836d88.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ade1f59474214e6bacaa73425320a017.png">
+<meta property="og:image" content="https://qzkq.github.io/img/21ced1ca13354373a6dbee48fb121575.png">
+<meta property="og:image" content="https://qzkq.github.io/img/8646672c8a0c45139f9ae02ec0d6e143.png">
+<meta property="og:image" content="https://qzkq.github.io/img/0ff095934c2a48b285315e27ce0370db.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ec5143a78bb747b190d4995f12c4c144.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f9e183b98b8a42e89f42174f055096fd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/82256d9c80a74ef18cd6d6a5f68eb345.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5eae621c2f0e421499ebe04b54053148.png">
+<meta property="og:image" content="https://qzkq.github.io/img/2eba32070a7644f3a90bc332afc6c6f1.png">
+<meta property="og:image" content="https://qzkq.github.io/img/05e9cec2ed274e34afd1977e3662c552.png">
+<meta property="og:image" content="https://qzkq.github.io/img/94bc5eac64934f288094fca0088b33c1.png">
+<meta property="og:image" content="https://qzkq.github.io/img/43d5812156be472b8cc3ba82f9a54a98.png">
+<meta property="og:image" content="https://qzkq.github.io/img/352cd696f33b4e1ba0e38b278a592d55.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ed16babbb6264ce8a4d879c0affd9146.png">
+<meta property="og:image" content="https://qzkq.github.io/img/4bbb1b53316e459daeba73062e9d8e9f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/410d65745bd145afb7ec5ec158eb72a5.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d2086981ed0d43a8af47c6f92650abf0.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e7eacb0cd2e64547be5167d6724a8e92.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1ed0048aab7e414c9c8016b3a772101a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c9d9ac9274654070b34239ba76d79b28.png">
+<meta property="og:image" content="https://qzkq.github.io/img/552b17e4e8c340f4b514c19083fa8dc2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/605d10377222428fb2e2f6f85f3660e6.png">
+<meta property="og:image" content="https://qzkq.github.io/img/24ef0552bae247818e22438965ed30a8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ee6aa7334663420e827afdb69356527e.png">
+<meta property="og:image" content="https://qzkq.github.io/img/eefbad13828e4b0fbee655c25cb32bd5.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6b5f2a6064a743468d3ecc83b09b383b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b3806a7e1ac14b87b60822d3a138be97.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7620a420c0b844d59c7388b7e2bed624.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5cb294a6e6424a84bb8fed37dd372ced.png">
+<meta property="article:published_time" content="2026-01-01T00:03:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.351Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Python部署">
+<meta property="article:tag" content="容器化">
+<meta property="article:tag" content="汉化">
+<meta property="article:tag" content="镜像源">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/f97943cda3f94a269f3bcd73c97e9844.png">
+  
+  
+  
+  <title>AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:03" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="AI%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84Docker%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%B1%89%E5%8C%96%EF%BC%88%E4%B8%AD%E6%96%87%EF%BC%89%EF%BC%8C%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%E6%BA%90%EF%BC%8CDockerfile%EF%BC%8C%E9%83%A8%E7%BD%B2Python%E9%A1%B9%E7%9B%AE">TOC</a></p>
+<h1 id="Dcoker官网"><a href="#Dcoker官网" class="headerlink" title="Dcoker官网"></a>Dcoker官网</h1><p><a target="_blank" rel="noopener" href="https://www.docker.com/">https://www.docker.com/</a><br><img src="/img/f97943cda3f94a269f3bcd73c97e9844.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>Docker 是一种开源的 容器化平台，用于构建、部署和运行应用程序。它通过容器技术将应用程序及其依赖项打包到一个可移植的单元中，从而实现跨环境的一致性。<br>在传统的项目开发中，开发者经常遇到环境不一致的问题，比如代码在本地开发环境运行正常，但在测试或生产环境却出现各种错误，原因可能是操作系统版本、依赖库版本或配置差异。此外，传统部署方式需要手动安装和配置各种软件环境，过程繁琐且容易出错，不同服务器之间的环境也难以保持一致。</p>
+<p>Docker 的核心目标就是解决这些问题，通过容器化技术将应用及其运行环境打包在一起，确保应用在不同环境中表现一致。Docker 的出现极大简化了开发、测试和部署的流程，成为现代 DevOps 和云计算中的重要工具。Docker 有几个显著特点：</p>
+<ul>
+<li>轻量性：由于容器共享宿主机的操作系统内核，它们比传统虚拟机更小且启动更快，解决了传统虚拟化技术资源占用高、启动慢的问题。</li>
+<li>可移植性：Docker 容器可以在任何支持 Docker 的平台上运行，无论是本地开发机、物理服务器还是云环境，彻底解决了「在我机器上能跑，线上却不行」的难题。</li>
+<li>隔离性：每个容器拥有独立的文件系统、网络和进程空间，确保应用之间互不干扰，避免了传统部署中多个应用共用环境导致的依赖冲突问题。</li>
+<li>标准化：Docker 提供统一的接口和工具链，使得构建、分发和运行容器变得简单高效，替代了传统部署中复杂的手动配置流程。<br><img src="/img/244ee9c72ec040bba8c0847f96c2f30a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="1、核心概念"><a href="#1、核心概念" class="headerlink" title="1、核心概念"></a>1、核心概念</h2><h3 id="镜像-Image"><a href="#镜像-Image" class="headerlink" title="镜像 (Image)"></a>镜像 (Image)</h3><ul>
+<li>镜像是容器的静态模板，包含运行应用程序所需的所有文件和配置。</li>
+<li>镜像通过 Dockerfile 定义，并可以分层存储，便于复用和版本管理。</li>
+</ul>
+<h3 id="容器-Container"><a href="#容器-Container" class="headerlink" title="容器 (Container)"></a>容器 (Container)</h3><ul>
+<li>容器是轻量级、独立的运行环境，包含应用程序及其所有依赖（代码、运行时、库、环境变量等）。</li>
+<li>容器基于镜像创建，每个容器相互隔离（进程、文件系统、网络等）。</li>
+</ul>
+<h3 id="仓库-Repository"><a href="#仓库-Repository" class="headerlink" title="仓库 (Repository)"></a>仓库 (Repository)</h3><ul>
+<li>仓库用于存储和分发镜像，如 <a target="_blank" rel="noopener" href="http://registry.hub.docker.com/">Docker Hub</a>（官方公共仓库）、私有仓库（如 Harbor）。</li>
+</ul>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><ul>
+<li>一个文本文件，通过指令（如 FROM, COPY, RUN）定义如何构建镜像。</li>
+</ul>
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><ul>
+<li>用于定义和运行多容器应用的工具，通过 docker-compose.yml 文件配置服务、网络和卷。</li>
+</ul>
+<h2 id="2、Docker-的核心组件"><a href="#2、Docker-的核心组件" class="headerlink" title="2、Docker 的核心组件"></a>2、Docker 的核心组件</h2><h3 id="Docker-引擎（Docker-Engine）"><a href="#Docker-引擎（Docker-Engine）" class="headerlink" title="Docker 引擎（Docker Engine）"></a>Docker 引擎（Docker Engine）</h3><p>核心后台服务，包含：</p>
+<ul>
+<li>Docker Daemon：管理容器、镜像、网络和卷。</li>
+<li>REST API：与 Docker Daemon 交互的接口。</li>
+<li>CLI：命令行工具（如 docker 命令）。</li>
+</ul>
+<h3 id="Docker-网络"><a href="#Docker-网络" class="headerlink" title="Docker 网络"></a>Docker 网络</h3><p>支持多种网络模式：</p>
+<ul>
+<li>bridge（默认）：容器通过虚拟网桥通信。</li>
+<li>host：容器直接使用主机网络。</li>
+<li>overlay：用于跨主机的容器通信（如 Docker Swarm）。</li>
+</ul>
+<h3 id="Docker-存储卷（Volume）"><a href="#Docker-存储卷（Volume）" class="headerlink" title="Docker 存储卷（Volume）"></a>Docker 存储卷（Volume）</h3><p>持久化数据存储机制，独立于容器生命周期。</p>
+<h2 id="3、Docker-的工作流程"><a href="#3、Docker-的工作流程" class="headerlink" title="3、Docker 的工作流程"></a>3、Docker 的工作流程</h2><h3 id="开发阶段"><a href="#开发阶段" class="headerlink" title="开发阶段"></a>开发阶段</h3><ul>
+<li>编写 Dockerfile 定义应用环境。</li>
+<li>使用 docker build 构建镜像。</li>
+<li>推送镜像到仓库（如 docker push）。</li>
+</ul>
+<h3 id="部署阶段"><a href="#部署阶段" class="headerlink" title="部署阶段"></a>部署阶段</h3><ul>
+<li>从仓库拉取镜像（如 docker pull）。</li>
+<li>使用 docker run 启动容器。</li>
+</ul>
+<h1 id="Windows-上的安装和汉化（中文）"><a href="#Windows-上的安装和汉化（中文）" class="headerlink" title="Windows 上的安装和汉化（中文）"></a>Windows 上的安装和汉化（中文）</h1><p><strong>运行</strong>：Docker 启动之后会在 Windows 任务栏出现鲸鱼图标。<br><img src="/img/e193066a156a4e2990975a174c36f77d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="1-下载对应版本中文语言包"><a href="#1-下载对应版本中文语言包" class="headerlink" title="1.下载对应版本中文语言包"></a>1.下载对应版本中文语言包</h2><p><a target="_blank" rel="noopener" href="https://github.com/asxez/DockerDesktop-CN">https://github.com/asxez/DockerDesktop-CN</a></p>
+<p><img src="/img/1ceb8c9b158d40b3bc63684d4b3a1016.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-下载-app-Windows-x86-asar"><a href="#2-下载-app-Windows-x86-asar" class="headerlink" title="2.下载 app-Windows-x86.asar"></a>2.下载 app-Windows-x86.asar</h2><p><img src="/img/4453eb8c20c748959eccf21908dc8fdd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-找到docker安装目录-Docker-Docker-frontend-resources，备份并替换app-asar文件。"><a href="#3-找到docker安装目录-Docker-Docker-frontend-resources，备份并替换app-asar文件。" class="headerlink" title="3.找到docker安装目录\Docker\Docker\frontend\resources，备份并替换app.asar文件。"></a>3.找到docker安装目录<code>\Docker\Docker\frontend\resources</code>，备份并替换app.asar文件。</h2><p><img src="/img/f2663af44473470abf8a5e2b6559967f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="4-重启Docker"><a href="#4-重启Docker" class="headerlink" title="4.重启Docker"></a>4.重启Docker</h2><p><img src="/img/feaee6296faa46cd8c96b75d3ce40b4f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="5-启动终端后，通过命令可以检查安装后的-Docker-版本。"><a href="#5-启动终端后，通过命令可以检查安装后的-Docker-版本。" class="headerlink" title="5.启动终端后，通过命令可以检查安装后的 Docker 版本。"></a>5.启动终端后，通过命令可以检查安装后的 Docker 版本。</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">PS C:\Users\74223&gt; docker --version<br>Docker version 28.0.4, build b8034c0<br>PS C:\Users\74223&gt; docker-compose --version<br>Docker Compose version v2.34.0-desktop.1<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-测试（Docker引擎新增国内源）"><a href="#6-测试（Docker引擎新增国内源）" class="headerlink" title="6.测试（Docker引擎新增国内源）"></a>6.测试（Docker引擎新增国内源）</h2><p>Docker 下载镜像默认从国外的官网下载，在国内需要通过代理访问 &#x2F; 更换国内镜像源。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">PS C:\Users\74223&gt; docker run hello-world<br>Unable to find image <span class="hljs-string">&#x27;hello-world:latest&#x27;</span> locally<br>docker: Error response from daemon: Get <span class="hljs-string">&quot;https://registry-1.docker.io/v2/&quot;</span>: net/http: request canceled <span class="hljs-keyword">while</span> waiting <span class="hljs-keyword">for</span> connection (Client.Timeout exceeded <span class="hljs-keyword">while</span> awaiting headers)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/76d7a26f3fc245fba0ff2de7bc9d9702.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>将</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;builder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;gc&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;defaultKeepStorage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;20GB&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;enabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;builder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;gc&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;defaultKeepStorage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;20GB&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;enabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;registry-mirrors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>	<span class="hljs-string">&quot;https://docker.1ms.run&quot;</span><span class="hljs-punctuation">,</span><br>	<span class="hljs-string">&quot;https://swr.cn-north-4.myhuaweicloud.com&quot;</span><span class="hljs-punctuation">,</span><br>	<span class="hljs-string">&quot;https://registry.cn-hangzhou.aliyuncs.com&quot;</span><span class="hljs-punctuation">,</span><br>	<span class="hljs-string">&quot;https://dockerproxy.com&quot;</span><span class="hljs-punctuation">,</span><br>	<span class="hljs-string">&quot;https://hub-mirror.c.163.com&quot;</span><br>	<span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>重启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs bash">PS C:\Users\74223&gt; docker run hello-world<br>Unable to find image <span class="hljs-string">&#x27;hello-world:latest&#x27;</span> locally<br>latest: Pulling from library/hello-world<br>e6590344b1a5: Pull complete<br>Digest: sha256:c41088499908a59aae84b0a49c70e86f4731e588a737f1637e73c8c09d995654Status: Downloaded newer image <span class="hljs-keyword">for</span> hello-world:latest<br><br>Hello from Docker!<br>This message shows that your installation appears to be working correctly.<br><br>To generate this message, Docker took the following steps:<br> 1. The Docker client contacted the Docker daemon.<br> 2. The Docker daemon pulled the <span class="hljs-string">&quot;hello-world&quot;</span> image from the Docker Hub.<br>    (amd64)<br> 3. The Docker daemon created a new container from that image <span class="hljs-built_in">which</span> runs the<br>    executable that produces the output you are currently reading.<br> 4. The Docker daemon streamed that output to the Docker client, <span class="hljs-built_in">which</span> sent it<br>    to your terminal.<br><br>To try something more ambitious, you can run an Ubuntu container with:<br> $ docker run -it ubuntu bash<br><br>Share images, automate workflows, and more with a free Docker ID:<br> https://hub.docker.com/<br><br>For more examples and ideas, visit:<br> https://docs.docker.com/get-started/<br></code></pre></td></tr></table></figure>
+
+<h1 id="DockerFile"><a href="#DockerFile" class="headerlink" title="DockerFile"></a>DockerFile</h1><ul>
+<li><strong>定义</strong>：DockerFile是一个文本文件，包含一系列指令（Instructions），用于定义如何构建 Docker 镜像。</li>
+<li><strong>作用</strong>：通过逐行执行指令，自动化构建镜像的层（Layer），最终生成一个可运行的容器环境。</li>
+</ul>
+<h2 id="Dockerfile核心指令详解"><a href="#Dockerfile核心指令详解" class="headerlink" title="Dockerfile核心指令详解"></a>Dockerfile核心指令详解</h2><p><img src="/img/03fb404367f64fc79e6886b04c3fc102.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1. FROM"></a>1. FROM</h3><ul>
+<li>用途：指定基础镜像（必须为第一条指令）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">FROM ubuntu:22.04      <span class="hljs-comment"># 使用官方 Ubuntu 镜像</span><br>FROM python:3.9-slim   <span class="hljs-comment"># 使用轻量级 Python 镜像</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-RUN"><a href="#2-RUN" class="headerlink" title="2. RUN"></a>2. RUN</h3><ul>
+<li>用途：在镜像构建过程中执行命令（如安装软件包）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">RUN apt-get update &amp;&amp; apt-get install -y python3<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-COPY-vs-ADD"><a href="#3-COPY-vs-ADD" class="headerlink" title="3. COPY vs ADD"></a>3. COPY vs ADD</h3><ul>
+<li>COPY：将文件从本地复制到容器中，功能类似于 ADD，但不支持远程 URL 和自动解压。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">COPY requirements.txt /app/<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>ADD：将文件从本地复制到容器中，支持远程 URL 和自动解压。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ADD index.html /var/www/html/<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-WORKDIR"><a href="#4-WORKDIR" class="headerlink" title="4. WORKDIR"></a>4. WORKDIR</h3><ul>
+<li>用途：设置后续指令的工作目录（类似 cd）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">WORKDIR /app   <span class="hljs-comment"># 后续指令默认在 /app 目录下执行</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-ENV"><a href="#5-ENV" class="headerlink" title="5. ENV"></a>5. ENV</h3><ul>
+<li>用途：设置环境变量（可被后续指令和容器运行时使用）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ENV NODE_ENV=production<br>ENV APP_PORT=8080<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-EXPOSE"><a href="#6-EXPOSE" class="headerlink" title="6. EXPOSE"></a>6. EXPOSE</h3><ul>
+<li>用途：声明容器运行时监听的端口（需通过 -p 映射到主机）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">EXPOSE 80   <span class="hljs-comment"># 容器监听 80 端口</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-CMD-vs-ENTRYPOINT"><a href="#7-CMD-vs-ENTRYPOINT" class="headerlink" title="7. CMD vs ENTRYPOINT"></a>7. CMD vs ENTRYPOINT</h3><ul>
+<li>CMD：定义容器启动时默认执行的命令。</li>
+<li>格式：CMD [“executable”,”param1”,”param2”] 或 CMD command param1 param2</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">CMD [<span class="hljs-string">&quot;python3&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>ENTRYPOINT：定义容器启动时运行的命令，与 CMD 不同的是，ENTRYPOINT 不会被覆盖。</li>
+<li>格式：ENTRYPOINT [“executable”, “param1”, “param2”]</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ENTRYPOINT [<span class="hljs-string">&quot;python3&quot;</span>, <span class="hljs-string">&quot;server.py&quot;</span>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-USER"><a href="#8-USER" class="headerlink" title="8. USER"></a>8. USER</h3><ul>
+<li>用途：指定运行容器时的用户（避免使用 root，提升安全性）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">RUN useradd -m appuser<br>USER appuser      <span class="hljs-comment"># 后续指令以 appuser 身份运行</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="9-VOLUME"><a href="#9-VOLUME" class="headerlink" title="9. VOLUME"></a>9. VOLUME</h3><ul>
+<li>用途：声明数据卷挂载点（用于持久化数据）。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">VOLUME /data    <span class="hljs-comment"># 容器运行时挂载到 /data</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Dockerfile示例"><a href="#Dockerfile示例" class="headerlink" title="Dockerfile示例"></a>Dockerfile示例</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 阶段1：构建依赖</span><br>FROM python:3.9 AS builder<br>WORKDIR /app<br>COPY requirements.txt .<br>RUN pip install --user -r requirements.txt<br><br><span class="hljs-comment"># 阶段2：运行环境</span><br>FROM python:3.9-slim<br>WORKDIR /app<br>COPY --from=builder /root/.local /root/.local<br>COPY . .<br><br><span class="hljs-comment"># 确保 PATH 包含用户安装的包</span><br>ENV PATH=/root/.local/bin:<span class="hljs-variable">$PATH</span><br><br><span class="hljs-comment"># 启动应用</span><br>CMD [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Base Images </span><br><span class="hljs-comment">## 从天池基础镜像构建(from的base img 根据自己的需要更换，建议使用天池open list镜像链接：https://tianchi.aliyun.com/forum/postDetail?postId=67720) </span><br>FROM registry.cn-shanghai.aliyuncs.com/tcc_public/python:3.10<br><br><span class="hljs-comment">##安装python依赖包 </span><br>RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r /app/requirements.txt<br><br><span class="hljs-comment">## 把当前文件夹里的文件构建到镜像的根目录下,并设置为默认工作目录 </span><br>ADD . /app<br><br>WORKDIR /app<br><br><span class="hljs-comment">## 镜像启动后统一执行 sh run.sh </span><br>CMD [<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;/app/run.sh&quot;</span>]<br></code></pre></td></tr></table></figure>
+<p><strong>run.sh</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span><br><br><span class="hljs-built_in">cd</span> /app; python ml_baseline.py predict<br></code></pre></td></tr></table></figure>
+<h2 id="在Docker构建过程中，是否需要重新构建镜像取决于Dockerfile的指令顺序和文件变动情况。"><a href="#在Docker构建过程中，是否需要重新构建镜像取决于Dockerfile的指令顺序和文件变动情况。" class="headerlink" title="在Docker构建过程中，是否需要重新构建镜像取决于Dockerfile的指令顺序和文件变动情况。"></a>在Docker构建过程中，是否需要重新构建镜像取决于Dockerfile的指令顺序和文件变动情况。</h2><h3 id="1-Docker的层缓存机制"><a href="#1-Docker的层缓存机制" class="headerlink" title="1. Docker的层缓存机制"></a>1. Docker的层缓存机制</h3><p>Docker镜像由多个层（Layer）组成，每个Dockerfile指令对应一个层。如果某一层及其之前的所有层未发生变化，Docker会直接使用缓存，避免重复执行耗时操作（如安装依赖）。若某一层变动，后续所有层缓存失效，需要重新构建。</p>
+<h1 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h1><p><img src="/img/999a6fb7140540269d056dce23836d88.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<hr>
+<h2 id="1-镜像相关命令"><a href="#1-镜像相关命令" class="headerlink" title="1. 镜像相关命令"></a>1. 镜像相关命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker images</code></td>
+<td>列出本地所有的镜像。</td>
+</tr>
+<tr>
+<td><code>docker pull &lt;镜像名&gt;:&lt;标签&gt;</code></td>
+<td>从 Docker Hub 拉取指定镜像，例如：<code>docker pull ubuntu:latest</code>。</td>
+</tr>
+<tr>
+<td><code>docker build -t &lt;镜像名&gt;:&lt;标签&gt; .</code></td>
+<td>使用 Dockerfile 构建镜像，<code>.</code> 表示当前目录为上下文路径。</td>
+</tr>
+<tr>
+<td><code>docker rmi &lt;镜像ID&gt;</code></td>
+<td>删除指定的镜像。</td>
+</tr>
+<tr>
+<td><code>docker tag &lt;源镜像ID&gt; &lt;目标镜像名&gt;:&lt;标签&gt;</code></td>
+<td>为镜像打标签，便于推送或管理。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2-容器相关命令"><a href="#2-容器相关命令" class="headerlink" title="2. 容器相关命令"></a>2. 容器相关命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker ps</code></td>
+<td>列出所有正在运行的容器。</td>
+</tr>
+<tr>
+<td><code>docker ps -a</code></td>
+<td>列出所有容器（包括停止的）。</td>
+</tr>
+<tr>
+<td><code>docker run [选项] &lt;镜像名&gt;</code></td>
+<td>创建并启动一个新的容器。<br>常用选项：<br><code>-d</code> 后台运行容器。<br><code>-p</code> 端口映射，例如 <code>-p 8080:80</code>。<br><code>-v</code> 卷挂载，例如 <code>-v /host/path:/container/path</code>。<br><code>--name</code> 指定容器名称。</td>
+</tr>
+<tr>
+<td><code>docker start &lt;容器ID/名称&gt;</code></td>
+<td>启动已停止的容器。</td>
+</tr>
+<tr>
+<td><code>docker stop &lt;容器ID/名称&gt;</code></td>
+<td>停止正在运行的容器。</td>
+</tr>
+<tr>
+<td><code>docker restart &lt;容器ID/名称&gt;</code></td>
+<td>重启容器。</td>
+</tr>
+<tr>
+<td><code>docker rm &lt;容器ID&gt;</code></td>
+<td>删除指定的容器。</td>
+</tr>
+<tr>
+<td><code>docker logs &lt;容器ID/名称&gt;</code></td>
+<td>查看容器的日志输出。</td>
+</tr>
+<tr>
+<td><code>docker exec -it &lt;容器ID/名称&gt; /bin/bash</code></td>
+<td>进入正在运行的容器的交互式终端。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3-数据卷相关命令"><a href="#3-数据卷相关命令" class="headerlink" title="3. 数据卷相关命令"></a>3. 数据卷相关命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker volume create &lt;卷名&gt;</code></td>
+<td>创建一个新的数据卷。</td>
+</tr>
+<tr>
+<td><code>docker volume ls</code></td>
+<td>列出所有数据卷。</td>
+</tr>
+<tr>
+<td><code>docker volume inspect &lt;卷名&gt;</code></td>
+<td>查看数据卷的详细信息。</td>
+</tr>
+<tr>
+<td><code>docker volume rm &lt;卷名&gt;</code></td>
+<td>删除指定的数据卷。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-网络相关命令"><a href="#4-网络相关命令" class="headerlink" title="4. 网络相关命令"></a>4. 网络相关命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker network ls</code></td>
+<td>列出所有网络。</td>
+</tr>
+<tr>
+<td><code>docker network inspect &lt;网络ID/名称&gt;</code></td>
+<td>查看网络的详细信息。</td>
+</tr>
+<tr>
+<td><code>docker network create &lt;网络名&gt;</code></td>
+<td>创建一个新的网络。</td>
+</tr>
+<tr>
+<td><code>docker network connect &lt;网络名&gt; &lt;容器名&gt;</code></td>
+<td>将容器连接到指定网络。</td>
+</tr>
+<tr>
+<td><code>docker network disconnect &lt;网络名&gt; &lt;容器名&gt;</code></td>
+<td>将容器从指定网络断开。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5-其他常用命令"><a href="#5-其他常用命令" class="headerlink" title="5. 其他常用命令"></a>5. 其他常用命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker stats</code></td>
+<td>实时查看容器的资源使用情况（CPU、内存等）。</td>
+</tr>
+<tr>
+<td><code>docker system prune</code></td>
+<td>清理未使用的容器、网络、镜像和卷。</td>
+</tr>
+<tr>
+<td><code>docker save -o &lt;文件名&gt; &lt;镜像名&gt;</code></td>
+<td>将镜像保存为 tar 文件。</td>
+</tr>
+<tr>
+<td><code>docker load -i &lt;文件名&gt;</code></td>
+<td>从 tar 文件加载镜像。</td>
+</tr>
+<tr>
+<td><code>docker commit &lt;容器ID&gt; &lt;新镜像名&gt;</code></td>
+<td>根据容器创建一个新的镜像。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="docker-run-OPTIONS-IMAGE-COMMAND-ARG…"><a href="#docker-run-OPTIONS-IMAGE-COMMAND-ARG…" class="headerlink" title="docker run [OPTIONS] IMAGE [COMMAND] [ARG…]"></a>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]</h2><p>常用参数说明：</p>
+<ul>
+<li>-d: 后台运行容器并返回容器 ID。</li>
+<li>-it: 交互式运行容器，分配一个伪终端。</li>
+<li>–name: 给容器指定一个名称。</li>
+<li>-p: 端口映射，格式为 host_port:container_port。</li>
+<li>-v: 挂载卷，格式为 host_dir:container_dir。</li>
+<li>–rm: 容器停止后自动删除容器。</li>
+<li>–env 或 -e: 设置环境变量。</li>
+<li>–network: 指定容器的网络模式。</li>
+<li>–restart: 容器的重启策略（如 no、on-failure、always、unless-stopped）。</li>
+<li>-u: 指定用户。</li>
+</ul>
+<p><strong>交互式运行并分配终端</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it ubuntu /bin/bash<br></code></pre></td></tr></table></figure>
+<h1 id="Docker-Compose-1"><a href="#Docker-Compose-1" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><p><strong>Docker Compose</strong> 是一个用于定义和运行多容器 Docker 应用程序的工具。通过一个 YAML 文件（<code>docker-compose.yml</code>）配置所有服务、网络和卷，实现一键启动&#x2F;停止整个应用栈。</p>
+<hr>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ol>
+<li><strong>服务 (Service)</strong><br>每个容器对应一个服务（如 Web 服务器、数据库）。在配置文件中定义镜像、端口、环境变量等。</li>
+<li><strong>项目 (Project)</strong><br>默认以当前目录命名，所有服务组成一个独立环境（可通过 <code>-p</code> 指定项目名）。</li>
+<li><strong>网络 (Network)</strong><br>服务间通过自定义网络自动通信（默认创建 <code>projectname_default</code> 网络）。</li>
+<li><strong>卷 (Volume)</strong><br>持久化数据（如数据库文件），避免容器重启丢失。</li>
+</ol>
+<hr>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docker compose up</code></td>
+<td>启动所有服务（<code>-d</code> 后台运行）</td>
+</tr>
+<tr>
+<td><code>docker compose down</code></td>
+<td>停止并删除所有容器、网络</td>
+</tr>
+<tr>
+<td><code>docker compose ps</code></td>
+<td>查看运行中的服务</td>
+</tr>
+<tr>
+<td><code>docker compose logs [服务名]</code></td>
+<td>查看日志（<code>-f</code> 实时追踪）</td>
+</tr>
+<tr>
+<td><code>docker compose build</code></td>
+<td>重新构建服务的镜像</td>
+</tr>
+<tr>
+<td><code>docker compose exec [服务名] [命令]</code></td>
+<td>进入运行中的容器（如 <code>exec app sh</code>）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h1 id="部署Python项目"><a href="#部署Python项目" class="headerlink" title="部署Python项目"></a>部署Python项目</h1><h2 id="1-准备-Python-项目"><a href="#1-准备-Python-项目" class="headerlink" title="1. 准备 Python 项目"></a>1. 准备 Python 项目</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">myapp/<br>├── app/<br>│   ├── __init__.py<br>│   └── main.py<br>├── requirements.txt<br>└── Dockerfile<br></code></pre></td></tr></table></figure>
+<p><img src="/img/ade1f59474214e6bacaa73425320a017.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>application.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-comment"># yes, just adding two numbers</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_two_numbers</span>(<span class="hljs-params">a=<span class="hljs-number">0</span>, b=<span class="hljs-number">0</span></span>):<br>    result = a + b<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;a is <span class="hljs-subst">&#123;a&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;b is <span class="hljs-subst">&#123;b&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;solution is <span class="hljs-subst">&#123;result&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) &gt; <span class="hljs-number">2</span>:<br>        add_two_numbers(<span class="hljs-built_in">int</span>(sys.argv[<span class="hljs-number">1</span>]), <span class="hljs-built_in">int</span>(sys.argv[<span class="hljs-number">2</span>]))<br>    <span class="hljs-keyword">else</span>:<br>        add_two_numbers()<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-创建-Dockerfile（文件不带后缀）"><a href="#2-创建-Dockerfile（文件不带后缀）" class="headerlink" title="2. 创建 Dockerfile（文件不带后缀）"></a>2. 创建 Dockerfile（文件不带后缀）</h2><p><img src="/img/21ced1ca13354373a6dbee48fb121575.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>requirements.txt</strong><br><img src="/img/8646672c8a0c45139f9ae02ec0d6e143.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-构建-Docker-镜像"><a href="#3-构建-Docker-镜像" class="headerlink" title="3. 构建 Docker 镜像"></a>3. 构建 Docker 镜像</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -t 指定镜像名称和标签，. 表示Dockerfile所在的当前目录。</span><br>docker build -t my-python-app:<span class="hljs-number">1.0</span> .<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><code class="hljs python">Windows PowerShell<br>版权所有（C） Microsoft Corporation。保留所有权利。<br><br>安装最新的 PowerShell，了解新功能和改进！https://aka.ms/PSWindows<br><br>PS C:\Users\<span class="hljs-number">15734</span>&gt; cd <span class="hljs-string">&quot;D:\PyCharm Community Edition 2022.2.1\pythonProject\docker-tutorial&quot;</span>     <br>PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; docker build -t my-python-app:<span class="hljs-number">1.0</span> .<br>[+] Building <span class="hljs-number">8.6</span>s (<span class="hljs-number">8</span>/<span class="hljs-number">8</span>) FINISHED                                           docker:desktop-linux <br> =&gt; [internal] load build definition <span class="hljs-keyword">from</span> Dockerfile                                       <span class="hljs-number">0.1</span>s<br> =&gt; =&gt; transferring dockerfile: 376B                                                       <span class="hljs-number">0.0</span>s<br> =&gt; [internal] load metadata <span class="hljs-keyword">for</span> docker.io/library/python:<span class="hljs-number">3.9</span>-slim                         <span class="hljs-number">1.7</span>s<br> =&gt; [internal] load .dockerignore                                                          <span class="hljs-number">0.0</span>s<br> =&gt; =&gt; transferring context: 2B                                                            <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.2</span>s <br> =&gt; =&gt; transferring context: <span class="hljs-number">21.14</span>kB                                                       <span class="hljs-number">0.1</span>s <br> =&gt; [<span class="hljs-number">1</span>/<span class="hljs-number">4</span>] FROM docker.io/library/python:<span class="hljs-number">3.9</span>-slim@sha256:9aa5793609640ecea2f06451a0d6f3793  <span class="hljs-number">0.0</span>s <br> =&gt; CACHED [<span class="hljs-number">2</span>/<span class="hljs-number">4</span>] WORKDIR /app                                                              <span class="hljs-number">0.0</span>s<br> =&gt; [<span class="hljs-number">3</span>/<span class="hljs-number">4</span>] COPY . .                                                                         <span class="hljs-number">0.2</span>s <br> =&gt; ERROR [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt                         <span class="hljs-number">6.2</span>s<br>------<br> &gt; [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt:<br><span class="hljs-number">3.132</span> Processing /C:/ci/aiohttp_1646806572557/work<br><span class="hljs-number">3.135</span> ERROR: Could <span class="hljs-keyword">not</span> install packages due to an OSError: [Errno <span class="hljs-number">2</span>] No such file <span class="hljs-keyword">or</span> directory: <span class="hljs-string">&#x27;/C:/ci/aiohttp_1646806572557/work&#x27;</span><br><span class="hljs-number">3.135</span><br><span class="hljs-number">3.750</span><br><span class="hljs-number">3.750</span> [notice] A new release of pip <span class="hljs-keyword">is</span> available: <span class="hljs-number">23.0</span><span class="hljs-number">.1</span> -&gt; <span class="hljs-number">25.0</span><span class="hljs-number">.1</span><br><span class="hljs-number">3.750</span> [notice] To update, run: pip install --upgrade pip<br>------<br>Dockerfile:<span class="hljs-number">12</span><br>--------------------<br>  <span class="hljs-number">10</span> |     <br>  <span class="hljs-number">11</span> |     <span class="hljs-comment"># 安装项目依赖</span><br>  <span class="hljs-number">12</span> | &gt;&gt;&gt; RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt<br>  <span class="hljs-number">13</span> |<br>  <span class="hljs-number">14</span> |     ENTRYPOINT [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;-u&quot;</span>, <span class="hljs-string">&quot;./application.py&quot;</span> ]<br><span class="hljs-keyword">not</span> complete successfully: exit code: <span class="hljs-number">1</span><br>-------------------------------------------------------------------------------------------------XXView build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/vlp8jhik1yukve561d6ahwzg5<br>PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; docker build -t my-python-app:<span class="hljs-number">1.0</span> .rm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt;<br>[+] Building <span class="hljs-number">12.6</span>s (<span class="hljs-number">8</span>/<span class="hljs-number">8</span>) FINISHED                                          docker:desktop-linux  =&gt; [internal] load build definition <span class="hljs-keyword">from</span> Dockerfile                                       <span class="hljs-number">0.1</span>s <br> =&gt; =&gt; transferring dockerfile: 376B                                                       <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load metadata <span class="hljs-keyword">for</span> docker.io/library/python:<span class="hljs-number">3.9</span>-slim                         <span class="hljs-number">1.3</span>s <br> =&gt; [internal] load .dockerignore                                                          <span class="hljs-number">0.1</span>s<br> =&gt; =&gt; transferring context: 2B                                                            <span class="hljs-number">0.0</span>s<br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.2</span>s<br> =&gt; =&gt; transferring context: <span class="hljs-number">3.46</span>kB                                                        <span class="hljs-number">0.1</span>s <br> =&gt; [<span class="hljs-number">1</span>/<span class="hljs-number">4</span>] FROM docker.io/library/python:<span class="hljs-number">3.9</span>-slim@sha256:9aa5793609640ecea2f06451a0d6f3793  <span class="hljs-number">0.0</span>s <br> =&gt; CACHED [<span class="hljs-number">2</span>/<span class="hljs-number">4</span>] WORKDIR /app                                                              <span class="hljs-number">0.0</span>s<br> =&gt; [<span class="hljs-number">3</span>/<span class="hljs-number">4</span>] COPY . .                                                                         <span class="hljs-number">0.3</span>s<br> =&gt; ERROR [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt                        <span class="hljs-number">10.0</span>s<br>------<br> &gt; [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt:<br><span class="hljs-number">5.994</span> Collecting alembic==<span class="hljs-number">1.13</span><span class="hljs-number">.1</span><br><span class="hljs-number">6.348</span>   Downloading alembic-<span class="hljs-number">1.13</span><span class="hljs-number">.1</span>-py3-none-<span class="hljs-built_in">any</span>.whl (<span class="hljs-number">233</span> kB)<br><span class="hljs-number">6.623</span>      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class="hljs-number">233.4</span>/<span class="hljs-number">233.4</span> kB <span class="hljs-number">904.0</span> kB/s eta <span class="hljs-number">0</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br><span class="hljs-number">6.820</span> ERROR: Could <span class="hljs-keyword">not</span> find a version that satisfies the requirement anaconda-navigator==<span class="hljs-number">2.1</span><span class="hljs-number">.4</span> (<span class="hljs-keyword">from</span> versions: none)<br><span class="hljs-number">6.820</span> ERROR: No matching distribution found <span class="hljs-keyword">for</span> anaconda-navigator==<span class="hljs-number">2.1</span><span class="hljs-number">.4</span><br><span class="hljs-number">7.450</span><br><span class="hljs-number">7.450</span> [notice] A new release of pip <span class="hljs-keyword">is</span> available: <span class="hljs-number">23.0</span><span class="hljs-number">.1</span> -&gt; <span class="hljs-number">25.0</span><span class="hljs-number">.1</span><br><span class="hljs-number">7.450</span> [notice] To update, run: pip install --upgrade pip<br>------<br>Dockerfile:<span class="hljs-number">12</span><br>--------------------<br>  <span class="hljs-number">10</span> |     <br>  <span class="hljs-number">11</span> |     <span class="hljs-comment"># 安装项目依赖</span><br>  <span class="hljs-number">12</span> | &gt;&gt;&gt; RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt<br>  <span class="hljs-number">13</span> |<br>  <span class="hljs-number">14</span> |     ENTRYPOINT [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;-u&quot;</span>, <span class="hljs-string">&quot;./application.py&quot;</span> ]<br>--------------------<br>ERROR: failed to solve: process <span class="hljs-string">&quot;/bin/sh -c pip install --no-cache-dir -r requirements.txt&quot;</span> did <span class="hljs-keyword">not</span> complete successfully: exit code: <span class="hljs-number">1</span><br><br>View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/73hqsam0a7fmp9ep2zmd4pt6r<br>PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; docker build -t my-python-app:<span class="hljs-number">1.0</span> .<br>[+] Building <span class="hljs-number">8.9</span>s (<span class="hljs-number">8</span>/<span class="hljs-number">8</span>) FINISHED                                           docker:desktop-linux<br> =&gt; [internal] load build definition <span class="hljs-keyword">from</span> Dockerfile                                       <span class="hljs-number">0.0</span>s<br> =&gt; =&gt; transferring dockerfile: 376B                                                       <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load metadata <span class="hljs-keyword">for</span> docker.io/library/python:<span class="hljs-number">3.9</span>-slim                         <span class="hljs-number">0.7</span>s <br> =&gt; [internal] load .dockerignore                                                          <span class="hljs-number">0.0</span>s<br> =&gt; =&gt; transferring context: 2B                                                            <span class="hljs-number">0.0</span>s <br> =&gt; [<span class="hljs-number">1</span>/<span class="hljs-number">4</span>] FROM docker.io/library/python:<span class="hljs-number">3.9</span>-slim@sha256:9aa5793609640ecea2f06451a0d6f3793  <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br> =&gt; =&gt; transferring context: 512B                                                          <span class="hljs-number">0.0</span>s <br> =&gt; CACHED [<span class="hljs-number">2</span>/<span class="hljs-number">4</span>] WORKDIR /app                                                              <span class="hljs-number">0.0</span>s<br> =&gt; [<span class="hljs-number">3</span>/<span class="hljs-number">4</span>] COPY . .                                                                         <span class="hljs-number">0.2</span>s <br> =&gt; ERROR [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt                         <span class="hljs-number">7.6</span>s<br>------<br> &gt; [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt:<br><span class="hljs-number">3.397</span> Collecting alembic==<span class="hljs-number">1.13</span><span class="hljs-number">.1</span><br><span class="hljs-number">3.974</span>   Downloading alembic-<span class="hljs-number">1.13</span><span class="hljs-number">.1</span>-py3-none-<span class="hljs-built_in">any</span>.whl (<span class="hljs-number">233</span> kB)<br><span class="hljs-number">4.380</span>      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class="hljs-number">233.4</span>/<span class="hljs-number">233.4</span> kB <span class="hljs-number">586.9</span> kB/s eta <span class="hljs-number">0</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br><span class="hljs-number">4.528</span> ERROR: Could <span class="hljs-keyword">not</span> find a version that satisfies the requirement anaconda-navigator==<span class="hljs-number">2.1</span><span class="hljs-number">.4</span> (<span class="hljs-keyword">from</span> versions: none)<br><span class="hljs-number">4.528</span> ERROR: No matching distribution found <span class="hljs-keyword">for</span> anaconda-navigator==<span class="hljs-number">2.1</span><span class="hljs-number">.4</span><br><span class="hljs-number">5.084</span><br><span class="hljs-number">5.084</span> [notice] A new release of pip <span class="hljs-keyword">is</span> available: <span class="hljs-number">23.0</span><span class="hljs-number">.1</span> -&gt; <span class="hljs-number">25.0</span><span class="hljs-number">.1</span><br><span class="hljs-number">5.084</span> [notice] To update, run: pip install --upgrade pip<br>------<br>Dockerfile:<span class="hljs-number">12</span><br>--------------------<br>  <span class="hljs-number">10</span> |     <br>  <span class="hljs-number">11</span> |     <span class="hljs-comment"># 安装项目依赖</span><br>  <span class="hljs-number">12</span> | &gt;&gt;&gt; RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt<br>  <span class="hljs-number">13</span> |<br>  <span class="hljs-number">14</span> |     ENTRYPOINT [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;-u&quot;</span>, <span class="hljs-string">&quot;./application.py&quot;</span> ]<br>--------------------<br>ERROR: failed to solve: process <span class="hljs-string">&quot;/bin/sh -c pip install --no-cache-dir -r requirements.txt&quot;</span> did <span class="hljs-keyword">not</span> complete successfully: exit code: <span class="hljs-number">1</span><br><br>View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/q8at9hhjtj61fm40aclyopwgv<br>PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; docker build -t my-python-app:<span class="hljs-number">1.0</span> .<br>[+] Building <span class="hljs-number">310.8</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux<br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s<br>[+] Building <span class="hljs-number">311.0</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux <br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br>[+] Building <span class="hljs-number">311.1</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux <br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br>[+] Building <span class="hljs-number">322.5</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux<br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br>[+] Building <span class="hljs-number">322.7</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux<br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br>[+] Building <span class="hljs-number">322.8</span>s (<span class="hljs-number">7</span>/<span class="hljs-number">8</span>)                                                  docker:desktop-linux<br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br>[+] Building <span class="hljs-number">894.6</span>s (<span class="hljs-number">9</span>/<span class="hljs-number">9</span>) FINISHED                                         docker:desktop-linux <br> =&gt; [internal] load build definition <span class="hljs-keyword">from</span> Dockerfile                                       <span class="hljs-number">0.0</span>s <br> =&gt; =&gt; transferring dockerfile: 376B                                                       <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load metadata <span class="hljs-keyword">for</span> docker.io/library/python:<span class="hljs-number">3.9</span>-slim                         <span class="hljs-number">0.6</span>s <br> =&gt; [internal] load .dockerignore                                                          <span class="hljs-number">0.0</span>s <br> =&gt; =&gt; transferring context: 2B                                                            <span class="hljs-number">0.0</span>s <br> =&gt; [<span class="hljs-number">1</span>/<span class="hljs-number">4</span>] FROM docker.io/library/python:<span class="hljs-number">3.9</span>-slim@sha256:9aa5793609640ecea2f06451a0d6f3793  <span class="hljs-number">0.0</span>s <br> =&gt; [internal] load build context                                                          <span class="hljs-number">0.0</span>s <br> =&gt; =&gt; transferring context: 130B                                                          <span class="hljs-number">0.0</span>s <br> =&gt; CACHED [<span class="hljs-number">2</span>/<span class="hljs-number">4</span>] WORKDIR /app                                                              <span class="hljs-number">0.0</span>s <br> =&gt; [<span class="hljs-number">3</span>/<span class="hljs-number">4</span>] COPY . .                                                                         <span class="hljs-number">0.3</span>s <br> =&gt; [<span class="hljs-number">4</span>/<span class="hljs-number">4</span>] RUN pip install --no-cache-<span class="hljs-built_in">dir</span> -r requirements.txt                             <span class="hljs-number">886.0</span>s <br> =&gt; exporting to image                                                                     <span class="hljs-number">6.9</span>s<br> =&gt; =&gt; exporting layers                                                                    <span class="hljs-number">6.8</span>s <br> =&gt; =&gt; writing image sha256:5c80cd625d69fbfc8e6ada4d822165bad06666bf417db842bdfdc1c0da225  <span class="hljs-number">0.0</span>s <br> =&gt; =&gt; naming to docker.io/library/my-python-app:<span class="hljs-number">1.0</span>                                       <span class="hljs-number">0.0</span>s <br><br>View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/njmlcpgxaeiewkez9b2nurns6<br>PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; <br></code></pre></td></tr></table></figure>
+
+<h2 id="4-运行容器"><a href="#4-运行容器" class="headerlink" title="4. 运行容器"></a>4. 运行容器</h2><p><strong>查看镜像</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">docker images<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt;  docker images<br>REPOSITORY      TAG       IMAGE ID       CREATED              SIZE<br>my-python-app   <span class="hljs-number">1.0</span>       5c80cd625d69   About a minute ago   872MB<br>my-python-app   latest    1e9870b0df05   <span class="hljs-number">18</span> hours ago         126MB<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 基础运行</span><br>docker run -d -p <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span> --name myapp my-python-app:<span class="hljs-number">1.0</span><br><br><span class="hljs-comment"># 带环境变量</span><br>docker run -d -p <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span> \<br>  -e DEBUG_MODE=<span class="hljs-number">1</span> \<br>  --name myapp \<br>  my-python-app:<span class="hljs-number">1.0</span><br><br><span class="hljs-comment"># 挂载卷（开发时同步代码）</span><br>docker run -d -p <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span> \<br>  -v $(pwd)/app:/app/app \<br>  --name myapp \<br>  my-python-app:<span class="hljs-number">1.0</span><br></code></pre></td></tr></table></figure>
+<p>-d 参数表示容器在后台运行，-p 参数用于将主机的8000端口映射到容器的8000端口。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">PS D:\PyCharm Community Edition <span class="hljs-number">2022.2</span><span class="hljs-number">.1</span>\pythonProject\docker-tutorial&gt; docker run -d -p <span class="hljs-number">8000</span>:<span class="hljs-number">8000</span> --name myapp my-python-app:<span class="hljs-number">1.0</span><br>4af9469d1cc95789e6c81022779dc52cee604c6e5e325b7d1f7b977c71b7f8e8<br></code></pre></td></tr></table></figure>
+<h1 id="人工智能竞赛-阿里云镜像实战"><a href="#人工智能竞赛-阿里云镜像实战" class="headerlink" title="人工智能竞赛-阿里云镜像实战"></a>人工智能竞赛-阿里云镜像实战</h1><h2 id="一、创建阿里云镜像仓库sais-synthetic"><a href="#一、创建阿里云镜像仓库sais-synthetic" class="headerlink" title="一、创建阿里云镜像仓库sais_synthetic"></a>一、创建阿里云镜像仓库sais_synthetic</h2><h3 id="1️⃣-登录阿里云账号"><a href="#1️⃣-登录阿里云账号" class="headerlink" title="1️⃣ 登录阿里云账号"></a>1️⃣ 登录阿里云账号</h3><p><img src="/img/0ff095934c2a48b285315e27ce0370db.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/ec5143a78bb747b190d4995f12c4c144.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2️⃣-创建个人版实例"><a href="#2️⃣-创建个人版实例" class="headerlink" title="2️⃣ 创建个人版实例"></a>2️⃣ 创建个人版实例</h3><p><img src="/img/f9e183b98b8a42e89f42174f055096fd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/82256d9c80a74ef18cd6d6a5f68eb345.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/5eae621c2f0e421499ebe04b54053148.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/2eba32070a7644f3a90bc332afc6c6f1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/05e9cec2ed274e34afd1977e3662c552.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/94bc5eac64934f288094fca0088b33c1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="选择本地仓库"><a href="#选择本地仓库" class="headerlink" title="选择本地仓库"></a>选择本地仓库</h4><h5 id="1-点击【创建镜像仓库】"><a href="#1-点击【创建镜像仓库】" class="headerlink" title="1. 点击【创建镜像仓库】"></a>1. 点击【创建镜像仓库】</h5><p><img src="/img/43d5812156be472b8cc3ba82f9a54a98.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h5 id="2-设置仓库信息"><a href="#2-设置仓库信息" class="headerlink" title="2. 设置仓库信息"></a>2. 设置仓库信息</h5><p><strong>这里建议选择私有更安全</strong><br><img src="/img/352cd696f33b4e1ba0e38b278a592d55.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h5 id="3-选择【本地仓库】"><a href="#3-选择【本地仓库】" class="headerlink" title="3. 选择【本地仓库】"></a>3. 选择【本地仓库】</h5><p><img src="/img/ed16babbb6264ce8a4d879c0affd9146.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h5 id="4-创建成功！"><a href="#4-创建成功！" class="headerlink" title="4. 创建成功！"></a>4. 创建成功！</h5><p><img src="/img/4bbb1b53316e459daeba73062e9d8e9f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="二、打包镜像并推送"><a href="#二、打包镜像并推送" class="headerlink" title="二、打包镜像并推送"></a>二、打包镜像并推送</h2><h3 id="1️⃣-打开终端，跳转到下载好的文件目录下"><a href="#1️⃣-打开终端，跳转到下载好的文件目录下" class="headerlink" title="1️⃣ 打开终端，跳转到下载好的文件目录下"></a>1️⃣ 打开终端，跳转到下载好的文件目录下</h3><p><strong>cd + 直接拖拽或复制文件路径，回车跳转</strong><br><img src="/img/410d65745bd145afb7ec5ec158eb72a5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2️⃣-登录ACR仓库"><a href="#2️⃣-登录ACR仓库" class="headerlink" title="2️⃣ 登录ACR仓库"></a>2️⃣ 登录ACR仓库</h3><p><strong>注意输入密码时不会显示、直接输入然后回车即可<br>当看到“Login Succeeded”即为成功</strong></p>
+<p><img src="/img/d2086981ed0d43a8af47c6f92650abf0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="3️⃣-本地打包镜像（约5分钟）"><a href="#3️⃣-本地打包镜像（约5分钟）" class="headerlink" title="3️⃣ 本地打包镜像（约5分钟）"></a>3️⃣ 本地打包镜像（约5分钟）</h3><p><strong>使用命令 <code>docker build -t wind_pv:v1 .</code><br>千万不要忘记 “.”（代表当前目录）</strong></p>
+<p><img src="/img/e7eacb0cd2e64547be5167d6724a8e92.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/1ed0048aab7e414c9c8016b3a772101a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="4️⃣-打tag（此步骤可省略）"><a href="#4️⃣-打tag（此步骤可省略）" class="headerlink" title="4️⃣ 打tag（此步骤可省略）"></a>4️⃣ 打tag（此步骤可省略）</h3><p><strong>替换<code>[ImageId]</code>为 <code> wind_pv:v1</code><br>替换[镜像版本号]为 <code>v1</code></strong><br><img src="/img/c9d9ac9274654070b34239ba76d79b28.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/552b17e4e8c340f4b514c19083fa8dc2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><code>docker images</code>命令可以查看当前环境下的docker镜像</p>
+<p><img src="/img/605d10377222428fb2e2f6f85f3660e6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="5️⃣-推送镜像"><a href="#5️⃣-推送镜像" class="headerlink" title="5️⃣ 推送镜像"></a>5️⃣ 推送镜像</h3><p>替换<code>[镜像版本号]</code>为 <code>v1</code><br><img src="/img/24ef0552bae247818e22438965ed30a8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/ee6aa7334663420e827afdb69356527e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="三、提交赛事"><a href="#三、提交赛事" class="headerlink" title="三、提交赛事"></a>三、提交赛事</h2><h3 id="1️⃣-复制镜像仓库公网地址"><a href="#1️⃣-复制镜像仓库公网地址" class="headerlink" title="1️⃣ 复制镜像仓库公网地址"></a>1️⃣ 复制镜像仓库公网地址</h3><h4 id="镜像版本正常"><a href="#镜像版本正常" class="headerlink" title="镜像版本正常"></a>镜像版本正常</h4><p><img src="/img/eefbad13828e4b0fbee655c25cb32bd5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="复制公网地址"><a href="#复制公网地址" class="headerlink" title="复制公网地址"></a>复制公网地址</h4><p><img src="/img/6b5f2a6064a743468d3ecc83b09b383b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2️⃣-提交赛事"><a href="#2️⃣-提交赛事" class="headerlink" title="2️⃣ 提交赛事"></a>2️⃣ 提交赛事</h3><p><strong>需要提交的地址 &#x3D; 公网地址 + “:v1”</strong></p>
+<h4 id="1-粘贴公网地址，追加“-v1”"><a href="#1-粘贴公网地址，追加“-v1”" class="headerlink" title="1. 粘贴公网地址，追加“:v1”"></a>1. 粘贴公网地址，追加“:v1”</h4><p><strong>如果是私有地址须填写用户名和密码</strong><br><img src="/img/b3806a7e1ac14b87b60822d3a138be97.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="2-提交"><a href="#2-提交" class="headerlink" title="2. 提交"></a>2. 提交</h4><p><img src="/img/7620a420c0b844d59c7388b7e2bed624.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">cd <span class="hljs-string">&quot;D:\PyCharm 2025.1\PyProject\new_energy_predict&quot;</span><br><br>docker login --username=*** crpi-******.cn-beijing.personal.cr.aliyuncs.com<br><br>docker build -t crpi-******.cn-beijing.personal.cr.aliyuncs.com/new_energy/windpv:v1 .<br><br><span class="hljs-comment"># docker tag windpv:v1 ******.cn-beijing.personal.cr.aliyuncs.com/new_energy/windpv:v1</span><br><br>docker push crpi-******.cn-beijing.personal.cr.aliyuncs.com/new_energy/windpv:v1<br><span class="hljs-comment"># 复制粘贴</span><br>crpi-******.cn-beijing.personal.cr.aliyuncs.com/new_energy/windpv:v1<br><span class="hljs-comment"># 可自己在本地测试运行</span><br>docker run crpi-******.cn-beijing.personal.cr.aliyuncs.com/new_energy/windpv:v1<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="/img/5cb294a6e6424a84bb8fed37dd372ced.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Dockfile"><a href="#Dockfile" class="headerlink" title="Dockfile"></a>Dockfile</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"># Base Images <br>## 从天池基础镜像构建(from的base img 根据自己的需要更换，建议使用天池open list镜像链接：https://tianchi.aliyun.com/forum/postDetail?postId=67720) <br>FROM registry.cn-shanghai.aliyuncs.com/tcc_public/python:3.10<br><br>## 把当前文件夹里的文件构建到镜像的根目录下,并设置为默认工作目录<br>ADD . /app<br><br>WORKDIR /app<br><br>##安装python依赖包<br>RUN pip3 install numpy==1.26.4 pandas==2.2.2 scikit-learn==1.5.1 lightgbm==4.5.0 xgboost==2.1.1 catboost==1.2.6 netCDF4==1.7.2 --index-url=http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com<br><br>## 镜像启动后统一执行 sh run.sh <br>CMD [&quot;sh&quot;, &quot;/app/run.sh&quot;]<br></code></pre></td></tr></table></figure>
+<h3 id="run-sh"><a href="#run-sh" class="headerlink" title="run.sh"></a>run.sh</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">ls</span><br><br><span class="hljs-built_in">cd</span> /app; python WIND2PV.py qzk<br></code></pre></td></tr></table></figure>
+<h1 id="常规技巧"><a href="#常规技巧" class="headerlink" title="常规技巧"></a>常规技巧</h1><ol>
+<li>检查基础镜像软件源和pip源是否替换为国内源，如果非国内源后续每次构建镜像会比较浪费时间。</li>
+<li>必备软件包可直接安装于基础镜像内，以减少每次构建镜像时都要安装一遍的等待时间。</li>
+<li>镜像面临调试问题时，可交互式进入容器后直接调试修改，直到成功后退出再在Dockerfile中修改。</li>
+<li>养成使用Dockerfile的习惯，不要依赖于commit</li>
+<li>每次镜像修改都给定新的版本号或标签，方便区分版本管理，有意义的版本最好使用有含义的字符作为版本号，如：frist_submit</li>
+<li><strong>深度学习常用镜像集合（包含国内源和海外源）<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/forum/postDetail?postId=67720">https://tianchi.aliyun.com/forum/postDetail?postId=67720</a></strong></li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>1.<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/course/351?spm=a2c22.29205803.J_9902613000.6.7f5b36d97HVqKv">AI开发者的Docker实践</a><br>2.<a target="_blank" rel="noopener" href="https://www.runoob.com/docker/docker-command-manual.html?spm=a2c6h.13046898.publish-article.42.10f16ffa9SGo2L">Docker 命令大全</a><br>3.<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/126789897?spm=1011.2415.3001.5331">项目依赖的python包requirements.txt文件的生成与安装</a><br>4.<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/531863/customize253">零基础入门Docker-cuda练习场</a><br>5.<a target="_blank" rel="noopener" href="https://modelscope.cn/my/mynotebook">魔搭社区</a><br>6.<a target="_blank" rel="noopener" href="https://codeup.aliyun.com/">Codeup</a><br>7.<a target="_blank" rel="noopener" href="https://www.datawhale.cn/article/332">Docker 万字教程：从入门到掌握</a><br>8.<a target="_blank" rel="noopener" href="https://dockerpractice.readthedocs.io/zh/latest/dockerai/?spm=a2c22.12281976.0.0.1a221b05HYk58h">AI开发者的docker实践电子书</a><br>9.<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/course/live/1610?spm=a2c22.12281976.0.0.1a221b05PQ9rdE">天池大赛docker提交演示</a><br>10.<a target="_blank" rel="noopener" href="https://www.datawhale.cn/learn/content/141/3630">DataWhale春训营</a><br>11.<a target="_blank" rel="noopener" href="https://github.com/coze-dev/coze-studio/blob/main/README.zh_CN.md">https://github.com/coze-dev/coze-studio/blob/main/README.zh_CN.md</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
+      
+        <a href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/" class="print-no-link">#容器化</a>
+      
+        <a href="/tags/Python%E9%83%A8%E7%BD%B2/" class="print-no-link">#Python部署</a>
+      
+        <a href="/tags/%E6%B1%89%E5%8C%96/" class="print-no-link">#汉化</a>
+      
+        <a href="/tags/%E9%95%9C%E5%83%8F%E6%BA%90/" class="print-no-link">#镜像源</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目</div>
+      <div>https://qzkq.github.io/2026/01/01/AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/aws%20s3%E5%91%BD%E4%BB%A4%E4%B8%8Ehdfs%20dfs%E5%91%BD%E4%BB%A4_hadoop%20fs%E5%91%BD%E4%BB%A4%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/" title="aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/AGV%E5%88%86%E6%8B%A3%E5%B7%A5%E4%B8%9A%E5%9C%BA%E6%99%AFBaseline/" title="AGV分拣工业场景Baseline">
+                        <span class="hidden-mobile">AGV分拣工业场景Baseline</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

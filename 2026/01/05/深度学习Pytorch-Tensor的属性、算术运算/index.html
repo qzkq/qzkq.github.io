@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 微信公众号：数学建模与人工智能Tensor的属性每一个Tensor对象都有以下几个属性：torch.dtype、torch.device和torch.layout 1、torch.dtype属性标识了torch.Tensor的数据类型。 2、torch.device属性标识了torch.Tensor对象在创建之后所存储在的设备名称。torch.device包含了两种设备类型 (‘cpu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习Pytorch-Tensor的属性、算术运算">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Pytorch-Tensor%E7%9A%84%E5%B1%9E%E6%80%A7%E3%80%81%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 微信公众号：数学建模与人工智能Tensor的属性每一个Tensor对象都有以下几个属性：torch.dtype、torch.device和torch.layout 1、torch.dtype属性标识了torch.Tensor的数据类型。 2、torch.device属性标识了torch.Tensor对象在创建之后所存储在的设备名称。torch.device包含了两种设备类型 (‘cpu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/6a36a4cc55a947cb903f356598cd93ef.png">
+<meta property="og:image" content="https://qzkq.github.io/img/aea21d32bafb473ca5bdca7223a6079b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/04d508201916401f82000a6338dde9da.png">
+<meta property="og:image" content="https://qzkq.github.io/img/23a1def8ecd44a918f2df2fada9f9e0c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/40ef77013fdd444aa44ea66346ebe400.png">
+<meta property="og:image" content="https://qzkq.github.io/img/9736c9fe7be740d78d28cb4580326f39.png">
+<meta property="article:published_time" content="2026-01-05T00:04:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.423Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="Tensor">
+<meta property="article:tag" content="张量">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/6a36a4cc55a947cb903f356598cd93ef.png">
+  
+  
+  
+  <title>深度学习Pytorch-Tensor的属性、算术运算 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深度学习Pytorch-Tensor的属性、算术运算"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:04" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度学习Pytorch-Tensor的属性、算术运算</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Pytorch-Tensor%E7%9A%84%E5%B1%9E%E6%80%A7%E3%80%81%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97">TOC</a></p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="Tensor的属性"><a href="#Tensor的属性" class="headerlink" title="Tensor的属性"></a>Tensor的属性</h1><p><strong>每一个Tensor对象都有以下几个属性：torch.dtype、torch.device和torch.layout</strong></p>
+<p><strong>1、torch.dtype属性标识了torch.Tensor的数据类型。</strong></p>
+<p><strong>2、torch.device属性标识了torch.Tensor对象在创建之后所存储在的设备名称。</strong><br>torch.device包含了两种设备类型 (‘cpu’ 或者 ‘cuda’) ，分别标识将Tensor对象储存于cpu内存或者gpu内存中，同时支持指定设备编号，比如多张gpu，可以通过gpu编号指定某一块gpu。 如果没有指定设备编号，则默认将对象存储于current_device()当前设备中；<br>举个例子， 一个torch.Tensor对象构造函数中的设备字段如果填写’cuda’，那等价于填写了’cuda:X’，其中X是函数 torch.cuda.current_device()的返回值。在torch.Tensor对象创建之后，可以通过访问torch.device属性实时访问当前对象所存储在的设备名称。构造torch.device可以通过字符串&#x2F;字符串和设备编号。</p>
+<p><strong>3、torch.layout属性标识了torch.Tensor在内存中的布局模式。</strong><br>现在， 我们支持了两种内存布局模式 torch.strided (dense Tensors) 和尚处试验阶段的torch.sparse_coo (sparse COO Tensors， 一种经典的稀疏矩阵存储方式)。<br>torch.strided 跨步存储代表了密集张量的存储布局方式，当然也是最常用最经典的一种布局方式。 每一个strided tensor都有一个与之相连的torch.Storage对象, 这个对象存储着tensor的数据。这些Storage对象为tensor提供了一种多维的， 跨步的(strided)数据视图。这一视图中的strides是一个interger整形列表：这个列表的主要作用是给出当前张量的各个维度的所占内存大小，严格的定义就是，strides中的第k个元素代表了在第k维度下，从一个元素跳转到下一个元素所需要跨越的内存大小。 跨步这个概念有助于提高多种张量运算的效率。</p>
+<p><strong>Tensor创建实例：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">import torch<br>a = torch.Tensor([[1, 2],[3, 4]])#定义一个2*2的张量，数值为1,2，3,4<br><span class="hljs-built_in">print</span>(a)<br>Out[]: <br>tensor([[1., 2.],<br>        [3., 4.]])<br><br>b = torch.Tensor(2, 2)#制定形状2*2<br><span class="hljs-built_in">print</span>(b)<br>Out[]: <br>tensor([[6.2106e-42, 0.0000e+00],<br>        [       nan,        nan]])<br></code></pre></td></tr></table></figure>
+
+<p><strong>稀疏张量实例：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash">i = torch.tensor([[0, 1, 2], [0, 1, 2]])#非0元素的坐标（0,0）（1,1）（2,2）<br>v = torch.tensor([1, 2, 3])#非0元素具体的值对应上述坐标<br>a = torch.sparse_coo_tensor(i, v, (4, 4),<br>                            dtype=torch.float32,<br>                            device=dev)<br><span class="hljs-built_in">print</span>(a)<br>Out[]: <br>tensor(indices=tensor([[0, 1, 2],<br>                       [0, 1, 2]]),<br>       values=tensor([1., 2., 3.]),<br>       size=(4, 4), nnz=3, layout=torch.sparse_coo)<br><span class="hljs-comment">#转变为稠密张量</span><br>i = torch.tensor([[0, 1, 2], [0, 1, 2]])#非0元素的坐标（0,0）（1,1）（2,2）<br>v = torch.tensor([1, 2, 3])#非0元素具体的值对应上述坐标<br>a = torch.sparse_coo_tensor(i, v, (4, 4),<br>                            dtype=torch.float32,<br>                            device=dev).to_dense()#大小4*4<br><span class="hljs-built_in">print</span>(a)<br>Out[]: <br>tensor([[1., 0., 0., 0.],<br>        [0., 2., 0., 0.],<br>        [0., 0., 3., 0.],<br>        [0., 0., 0., 0.]])<br></code></pre></td></tr></table></figure>
+
+<h1 id="Tensor的算术运算"><a href="#Tensor的算术运算" class="headerlink" title="Tensor的算术运算"></a>Tensor的算术运算</h1><ul>
+<li>哈达玛积（element wise,对应元素相乘）</li>
+<li>二维矩阵乘法运算操作包括torch.mm()、torch.matmul()、@</li>
+<li>对于高维的Tensor（dim&gt;2），定义其矩阵乘法仅在最后的两个维度上，要求前面的维度必须保持一致，就像矩阵的索引一样并且运算操作只有torch.matmul()</li>
+</ul>
+<p><strong>算术运算实例</strong>：add加法、sub减法、mul哈达玛积（乘法）、div除法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">import torch<br>a = torch.rand(2, 3)<br>b = torch.rand(2, 3)<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(a + b)<br><span class="hljs-built_in">print</span>(a.add(b))<br><span class="hljs-built_in">print</span>(torch.add(a, b))<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(a.add_(b))#其中，前三种一样，第四种是对 a 进行了修改。<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/6a36a4cc55a947cb903f356598cd93ef.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>矩阵运算</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">##matmul</span><br>a = torch.ones(2, 1)#形状<br>b = torch.ones(1, 2)<br><span class="hljs-built_in">print</span>(a @ b)<br><span class="hljs-built_in">print</span>(a.matmul(b))<br><span class="hljs-built_in">print</span>(torch.matmul(a, b))<br><span class="hljs-built_in">print</span>(torch.mm(a, b))<br><span class="hljs-built_in">print</span>(a.mm(b))<br><br><span class="hljs-comment">##高维tensor</span><br>a = torch.ones(1, 2, 3, 4)<br>b = torch.ones(1, 2, 4, 3)<br><span class="hljs-built_in">print</span>(a.matmul(b).shape)<br>out[]:<br>torch.Size([1, 2, 3, 3])<br></code></pre></td></tr></table></figure>
+
+<p><strong>幂运算</strong>pow、指数运算exp、对数运算log、开根号sqrt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">a = torch.tensor([1, 2])#数值<br><span class="hljs-built_in">print</span>(torch.pow(a, 3))<br><span class="hljs-built_in">print</span>(a.pow(3))<br><span class="hljs-built_in">print</span>(a**3)<br><span class="hljs-built_in">print</span>(a.pow_(3))<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/aea21d32bafb473ca5bdca7223a6079b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="Pytorch中的in-place操作"><a href="#Pytorch中的in-place操作" class="headerlink" title="Pytorch中的in-place操作"></a>Pytorch中的in-place操作</h1><ul>
+<li>“就地”操作，即不允许使用临时变量。</li>
+<li>也称为原味操作。</li>
+<li>x&#x3D;x+y</li>
+<li>add_、sub_、mul_等等</li>
+</ul>
+<h1 id="Pytorch中的广播机制"><a href="#Pytorch中的广播机制" class="headerlink" title="Pytorch中的广播机制"></a>Pytorch中的广播机制</h1><ul>
+<li>广播机制：张量参数可以自动扩展为相同大小</li>
+<li>广播机制需要满足两个条件：</li>
+</ul>
+<p>1.每个张量至少有一个维度<br>2.满足右对齐<br>A.ndim &#x3D;&#x3D; B.ndim, 并且<strong>A.shape和B.shape对应位置的元素要么相同要么其中一个是1</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">import torch<br>a = torch.rand(2, 2)<br>b = torch.rand(1, 2)<br><span class="hljs-comment"># a, 2*1</span><br><span class="hljs-comment"># b, 1*2</span><br><span class="hljs-comment"># c, 2*2</span><br><span class="hljs-comment"># a = torch.rand(2, 1, 1, 3)</span><br><span class="hljs-comment"># b = torch.rand(4, 2, 3)</span><br><span class="hljs-comment"># 2*4*2*3</span><br>c = a + b<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(c)<br><span class="hljs-built_in">print</span>(c.shape)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/04d508201916401f82000a6338dde9da.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="Tensor的取整-取余运算"><a href="#Tensor的取整-取余运算" class="headerlink" title="Tensor的取整&#x2F;取余运算"></a>Tensor的取整&#x2F;取余运算</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">.floor()向下取整数<br>.ceil()向上取整数<br>.round()四舍五入&gt;=0.5向上取整，&lt;0.5向下取整<br>.trunc()裁剪，只取整数部分<br>.frac()只取小数部分<br>%取余<br>torch.fmod(a, b)除数除以元素的余数;torch.remainder(a, b)张量a每个元素的除法余数<br></code></pre></td></tr></table></figure>
+
+<h1 id="Tensor的比较运算"><a href="#Tensor的比较运算" class="headerlink" title="Tensor的比较运算"></a>Tensor的比较运算</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">torch.eq(input,other,out=None) <span class="hljs-comment">#按成员进行等式操作，相同返回True→Tensor</span><br>torch.equal(tensor1,tensor2) <span class="hljs-comment">#如果tensor1和tensor2有相同的size和elements，则为True→ bool</span><br>torch.ge(input,other,out=None) <span class="hljs-comment">#input&gt;=other,逐个元素比较输入张量input是否大于或等于另外的张量或浮点数other。若大于或等于则返回为True，否则返回False。若张量other无法自动扩展成与输入张量input相同尺寸，则返回为False。→Tensor</span><br>torch.gt(input,other,out=None) <span class="hljs-comment">#input&gt;other→Tensor</span><br>torch.le(input,other,out=None) <span class="hljs-comment">#input&lt;=other→Tensor</span><br>torch.lt(input,other,out=None) <span class="hljs-comment">#input&lt;other→Tensor</span><br>torch.ne(input,other,out=None) <span class="hljs-comment">#input!=other不等于→Tensor</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Tensor的取前k个大-前k小-第k小的数值及其索引"><a href="#Tensor的取前k个大-前k小-第k小的数值及其索引" class="headerlink" title="Tensor的取前k个大&#x2F;前k小&#x2F;第k小的数值及其索引"></a>Tensor的取前k个大&#x2F;前k小&#x2F;第k小的数值及其索引</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">torch.sort(input,dim=None,descending=False,out=None)#对目标input进行排序；**维度，对于二维数据：dim=0 按列排序，dim=1 按行排序，默认 dim=1**<br>torch.topk(input,k,dim=None,largest=True,sorted=True,out=None)#沿着指定维度返回最大k个数值及其索引值<br>torch.kthvalue(input,k,dim=None,out=None)#沿着指定维度返回第k个最小值及其索引值<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">##topk，k和维度dim</span><br>a = torch.tensor([[2, 4, 3, 1, 5],<br>                  [2, 3, 5, 1, 4]])<br><span class="hljs-built_in">print</span>(a.shape)<br><br><span class="hljs-built_in">print</span>(torch.topk(a, k=1, dim=1, largest=False))<br><br><span class="hljs-comment">##topk</span><br>a = torch.tensor([[2, 4, 3, 1, 5],<br>                  [2, 3, 5, 1, 4]])<br><span class="hljs-built_in">print</span>(a.shape)<br><br><span class="hljs-built_in">print</span>(torch.topk(a, k=2, dim=0, largest=False))<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/23a1def8ecd44a918f2df2fada9f9e0c.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/40ef77013fdd444aa44ea66346ebe400.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">print</span>(torch.kthvalue(a, k=2, dim=0))<br><span class="hljs-built_in">print</span>(torch.kthvalue(a, k=2, dim=1))<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/9736c9fe7be740d78d28cb4580326f39.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="Tensor判定是否为finite-inf-nan"><a href="#Tensor判定是否为finite-inf-nan" class="headerlink" title="Tensor判定是否为finite&#x2F;inf&#x2F;nan"></a>Tensor判定是否为finite&#x2F;inf&#x2F;nan</h1><ul>
+<li>torch.isfinite(tensor)&#x2F;torch.isinf(tensor)&#x2F;torch.isnan(tensor)</li>
+<li>返回一个标记元素是否为finite&#x2F;inf&#x2F;nan的mask张量(有界，无界，nan)</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/PyTorch/" class="print-no-link">#PyTorch</a>
+      
+        <a href="/tags/Tensor/" class="print-no-link">#Tensor</a>
+      
+        <a href="/tags/%E5%BC%A0%E9%87%8F/" class="print-no-link">#张量</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度学习Pytorch-Tensor的属性、算术运算</div>
+      <div>https://qzkq.github.io/2026/01/05/深度学习Pytorch-Tensor的属性、算术运算/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Pytorch%E6%A1%86%E6%9E%B6Tensor%E5%BC%A0%E9%87%8F/" title="深度学习Pytorch框架Tensor张量">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度学习Pytorch框架Tensor张量</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Pytorch-Tensor%E5%87%BD%E6%95%B0/" title="深度学习Pytorch-Tensor函数">
+                        <span class="hidden-mobile">深度学习Pytorch-Tensor函数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

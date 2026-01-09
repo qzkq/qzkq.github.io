@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](Pytorch与卷积神经网络 OpenCV) 微信公众号：数学建模与人工智能卷积神经网：以卷积层为主的深度网络结构123456卷积层激活层BN层（Batch Normalization:批量归一化）池化层FC层（fully connected layers:全连接层）损失层  卷积层的定义对图像和滤波矩阵做内积（逐个元素相乘再求和）的操作 1Conv2d(in_channels,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch与卷积神经网络(OpenCV)">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Pytorch%E4%B8%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(OpenCV)/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](Pytorch与卷积神经网络 OpenCV) 微信公众号：数学建模与人工智能卷积神经网：以卷积层为主的深度网络结构123456卷积层激活层BN层（Batch Normalization:批量归一化）池化层FC层（fully connected layers:全连接层）损失层  卷积层的定义对图像和滤波矩阵做内积（逐个元素相乘再求和）的操作 1Conv2d(in_channels,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/b9f4c1b5df9e42bfbbcba33e752d4ae1.png">
+<meta property="og:image" content="https://qzkq.github.io/img/dea2588c5c6046559072b0f6e49927a3.png">
+<meta property="og:image" content="https://qzkq.github.io/img/2d253db8b28c49f48446c1947521ee83.png">
+<meta property="article:published_time" content="2026-01-03T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.385Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="CNN">
+<meta property="article:tag" content="卷积神经网络">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/b9f4c1b5df9e42bfbbcba33e752d4ae1.png">
+  
+  
+  
+  <title>Pytorch与卷积神经网络(OpenCV) - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pytorch与卷积神经网络(OpenCV)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:00" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Pytorch与卷积神经网络(OpenCV)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<br>@[TOC](Pytorch与卷积神经网络 OpenCV)</p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="卷积神经网：以卷积层为主的深度网络结构"><a href="#卷积神经网：以卷积层为主的深度网络结构" class="headerlink" title="卷积神经网：以卷积层为主的深度网络结构"></a>卷积神经网：以卷积层为主的深度网络结构</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">卷积层<br>激活层<br>BN层（Batch Normalization:批量归一化）<br>池化层<br>FC层（fully connected layers:全连接层）<br>损失层<br></code></pre></td></tr></table></figure>
+
+<h2 id="卷积层的定义"><a href="#卷积层的定义" class="headerlink" title="卷积层的定义"></a>卷积层的定义</h2><p>对图像和滤波矩阵做内积（逐个元素相乘再求和）的操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Conv2d(in_channels, out_channels, kernel_size, stride=1,padding=0, dilation=1, <span class="hljs-built_in">groups</span>=1,bias=True)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">in_channels：输入的通道数目 <br>out_channels： 输出的通道数目 <br>kernel_size：卷积核的大小，类型为int或者元组，当卷积是方形的时候，只需要一个整数边长即可，卷积不是方形，要输入一个元组表示高和宽。<br>stride： 卷积每次滑动的步长为多少，默认是 1 <br>padding： 设置在所有边界增加值为 0 的边距的大小（也就是在feature map 外围增加几圈 0 ），例如当 padding =1 的时候，如果原来大小为 3 × 3 ，那么之后的大小为 5 × 5 。即在外围加了一圈 0 。<br>dilation：控制卷积核之间的间距<br><span class="hljs-built_in">groups</span>：控制输入和输出之间的连接.<br>比如 <span class="hljs-built_in">groups</span> 为1，那么所有的输入都会连接到所有输出<br>当 <span class="hljs-built_in">groups</span> 为 2的时候，相当于将输入分为两组，并排放置两层，每层看到一半的输入通道并产生一半的输出通道，并且两者都是串联在一起的。这也是参数字面的意思：“组” 的含义。<br>需要注意的是，in_channels 和 out_channels 必须都可以整除 <span class="hljs-built_in">groups</span>，否则会报错<br></code></pre></td></tr></table></figure>
+
+<h2 id="常见的卷积操作"><a href="#常见的卷积操作" class="headerlink" title="常见的卷积操作"></a>常见的卷积操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">标准卷积<br>分组卷积（group参数）<br>空洞卷积（dilation参数）<br>深度可分离卷积（分组卷积+1*1卷积）<br>反卷积（torch.nn.ConvTranspose2d）<br>可变形卷积等等<br></code></pre></td></tr></table></figure>
+
+<h2 id="如何理解卷积层感受野？"><a href="#如何理解卷积层感受野？" class="headerlink" title="如何理解卷积层感受野？"></a>如何理解卷积层感受野？</h2><p>感受野（Receptive Field)，指的是神经网络中神经元“看到的”输入区域，在卷积神经网络中，feature map上某个元素的计算受输入图像上某个区域的影响，这个区域即该元素的感受野。</p>
+<h2 id="如何理解卷积层的参数量与计算量"><a href="#如何理解卷积层的参数量与计算量" class="headerlink" title="如何理解卷积层的参数量与计算量"></a>如何理解卷积层的参数量与计算量</h2><p>参数量:参与计算参数的个数占用内存空间<br><img src="/img/b9f4c1b5df9e42bfbbcba33e752d4ae1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>FLOPS:每秒浮点运算次数，理解为计算速度。是一个衡量硬件性能的指标。<br>FLOPs:浮点运算数，理解为计算量。可以用来衡量算法&#x2F;模型的复杂度。<br><img src="/img/dea2588c5c6046559072b0f6e49927a3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>MAC:乘加次数，用来衡量计算量。<br><img src="/img/2d253db8b28c49f48446c1947521ee83.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="如何压缩卷积层参数-计算量"><a href="#如何压缩卷积层参数-计算量" class="headerlink" title="如何压缩卷积层参数&amp;计算量?"></a>如何压缩卷积层参数&amp;计算量?</h2><p>从感受野不变+减少参数量的角度压缩卷积层</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">采用多个3×3卷积核代替大卷积核<br>采用深度可分离卷积<br>通道Shuffle<br>Pooling层<br>Stride=2等等<br></code></pre></td></tr></table></figure>
+
+<h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>对输入的特征图进行压缩</p>
+<ul>
+<li>一方面使特征图变小，简化网络计算复杂度;</li>
+<li>一方面进行特征压缩，提取主要特征</li>
+</ul>
+<p>最大池化(Max Pooling)、平均池化(Average Pooling)等</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.MaxPool2d(kernel_size, stride=None, padding=O, dilation=1,return_indices=False, ceil_mode=False)<br></code></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">kernel_size(int or tuple) - max pooling的窗口大小，<br>stride(int or tuple, optional) - max pooling的窗口移动的步长。默认值是kernel_size<br>padding(int or tuple, optional) - 输入的每一条边补充0的层数<br>dilation(int or tuple, optional) – 一个控制窗口中元素步幅的参数<br>return_indices - 如果等于True，会返回输出最大值的序号，对于上采样操作会有帮助<br>ceil_mode - 如果等于True，计算输出信号大小的时候，会使用向上取整，代替默认的向下取整的操作<br></code></pre></td></tr></table></figure>
+
+<h2 id="上采样层"><a href="#上采样层" class="headerlink" title="上采样层"></a>上采样层</h2><p>Resize，如双线性插值直接缩放，类似于图像缩放，概念可见最邻近插值算法和双线性插值算法——图像缩放<br>Deconvolution，也叫Transposed Convolution（转置卷积&#x2F;反卷积）<br>实现函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.functional.interpolate(input, size=None, scale_factor=None,mode=<span class="hljs-string">&#x27;nearest&quot;, align_corners=None)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=1,padding=0, output_padding=0, bias=True)<br></code></pre></td></tr></table></figure>
+
+<h2 id="激活层"><a href="#激活层" class="headerlink" title="激活层"></a>激活层</h2><p>激活函数:为了增加网络的非线性，进而提升网络的表达能力<br>ReLU函数、Leakly ReLU函数、ELU函数等<br>torch.nn.ReLU(inplace&#x3D;True)</p>
+<h2 id="BatchNorm层"><a href="#BatchNorm层" class="headerlink" title="BatchNorm层"></a>BatchNorm层</h2><p>通过一定的规范化手段，把每层神经网络任意神经元这个输入值的分布强行拉回到均值为0方差为1的标准正态分布<br>Batchnorm是归一化的一种手段，它会减小图像之间的绝对差异，突出相对差异，加快训练速度<br>不适用的问题: image-to-image以及对噪声敏感的任务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.BatchNorm2d(num_features, eps=1e-05,momentum=0.1, affine=True,track_running_stats=True)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">num_features：一般输入参数为batch_size*num_features*height*width，即为其中特征的数量<br>eps：分母中添加的一个值，目的是为了计算的稳定性，默认为：1e-5<br></code></pre></td></tr></table></figure>
+
+<h2 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h2><p>连接所有的特征，将输出值送给分类器（如softmax分类器)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">对前层的特征进行一个加权和，(卷积层是将数据输入映射到隐层特征空间)<br>将特征空间通过线性变换映射到样本标记空间（也就是label)<br>可以通过1×1卷积+global average pooling代替<br>可以通过全连接层参数冗余<br>全连接层参数和尺寸相关<br>nn.Linear(in_features, out_features,bias)<br></code></pre></td></tr></table></figure>
+
+<h2 id="Dropout层"><a href="#Dropout层" class="headerlink" title="Dropout层"></a>Dropout层</h2><p>在不同的训练过程中随机扔掉一部分神经元<br>测试过程中不使用随机失活，所有的神经元都激活<br>为了防止或减轻过拟合而使用的函数，它一般用在全连接层nn.dropout</p>
+<h2 id="损失层"><a href="#损失层" class="headerlink" title="损失层"></a>损失层</h2><p>损失层:设置一个损失函数用来比较网络的输出和目标值，通过最小化损失来驱动网络的训练<br>网络的损失通过前向操作计算，网络参数相对于损失函数的梯度则通过反向操作计算<br>分类问题损失</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.BCELoss; nn.CrossEntropyLoss等等<br></code></pre></td></tr></table></figure>
+
+<p>回归问题损失</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.L1Loss; nn.MSELoss; nn.SmoothL1Loss等等<br></code></pre></td></tr></table></figure>
+
+<h2 id="Attention机制"><a href="#Attention机制" class="headerlink" title="Attention机制"></a>Attention机制</h2><p>对于全局信息,注意力机制会重点关注一些特殊的目标区域,也就是所谓的注意力焦点，进而利用有限的注意力资源对信息进行筛选，提高信息处理的准确性和效率<br>one-hot分布或者soft的软分布<br>Soft-Attention 或者Hard-Attention<br>可以作用在特征图上，尺度空间上，channel尺度上，不同时刻历史特征上等</p>
+<h2 id="学习率"><a href="#学习率" class="headerlink" title="学习率"></a>学习率</h2><p>学习率作为监督学习以及深度学习中重要的超参，其决定着目标函数能否收敛到局部最小值以及何时收敛到最小值。<br>合适的学习率能够使目标函数在合适的时间内收敛到局部最小值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">torch.optim.Ir_scheduler<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">ExponentialLR<br>ReduceLROnPlateau<br>CyclicLR等等<br></code></pre></td></tr></table></figure>
+
+<h2 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h2><p>GD、BGD、SGD、MBGD</p>
+<ul>
+<li>引入了随机性和噪声</li>
+</ul>
+<p>Momentum、NAG等</p>
+<ul>
+<li>加入动量原则，具有加速梯度下降的作用</li>
+</ul>
+<p>AdaGrad，RMSProp，Adam、AdaDelta</p>
+<ul>
+<li>自适应学习率</li>
+</ul>
+<p>torch.optim.Adam</p>
+<h2 id="卷积神经网添加正则化"><a href="#卷积神经网添加正则化" class="headerlink" title="卷积神经网添加正则化"></a>卷积神经网添加正则化</h2><p>L1正则:参数绝对值的和<br>L2正则:参数的平方和（Pytorch自带，weight_decay)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">optimizer =<br>torch.optim.SGD(model.parameters(),Ir=0.01,weight_decay=0.001)<br></code></pre></td></tr></table></figure>
+
+<h1 id="OpenCV及其常用库函数介绍"><a href="#OpenCV及其常用库函数介绍" class="headerlink" title="OpenCV及其常用库函数介绍"></a>OpenCV及其常用库函数介绍</h1><h2 id="1-图像读取与显示"><a href="#1-图像读取与显示" class="headerlink" title="1. 图像读取与显示"></a>1. 图像读取与显示</h2><h3 id="cv2-imread-filepath-flags-读取图像文件"><a href="#cv2-imread-filepath-flags-读取图像文件" class="headerlink" title="cv2.imread(filepath,flags)读取图像文件"></a>cv2.imread(filepath,flags)读取图像文件</h3><ul>
+<li><p>filepath：要读入图片的完整路径</p>
+</li>
+<li><p>flags：读入图片的标志</p>
+<pre><code class="hljs"> cv2.IMREAD_COLOR：默认参数，读入一副彩色图片，忽略alpha通道，可用1作为实参替代
+ cv2.IMREAD_GRAYSCALE：读入灰度图片，可用0作为实参替代
+ cv2.IMREAD_UNCHANGED：读入完整图片，包括alpha通道，可用-1作为实参替代
+</code></pre>
+</li>
+</ul>
+<h3 id="cv2-imshow-wname-img-显示图像"><a href="#cv2-imshow-wname-img-显示图像" class="headerlink" title="cv2.imshow(wname,img)显示图像"></a>cv2.imshow(wname,img)显示图像</h3><p>第一个参数是显示图像的窗口的名字，第二个参数是要显示的图像（imread读入的图像），窗口大小自动调整为图片大小</p>
+<pre><code class="hljs">	cv2.waitKey:等待键盘输入，单位为毫秒，即等待指定的毫秒数看是否有键盘输入，若在等待时间内按下任意键则返回按键的ASCII码，程序继续运行。若没有按下任何键，超时后返回-1。参数为0表示无限等待。不调用waitKey的话，窗口会一闪而逝，看不到显示的图片。
+	cv2.destroyAllWindow()销毁所有窗口
+	cv2.destroyWindow(wname)销毁指定窗口
+</code></pre>
+<h3 id="cv2-imwrite-file，img，num-保存一个图像"><a href="#cv2-imwrite-file，img，num-保存一个图像" class="headerlink" title="cv2.imwrite(file，img，num)保存一个图像"></a>cv2.imwrite(file，img，num)保存一个图像</h3><p>第一个参数是要保存的文件名，第二个参数是要保存的图像。可选的第三个参数，它针对特定的格式：对于JPEG，其表示的是图像的质量，用0   - 100的整数表示，默认95;对于png ,第三个参数表示的是压缩级别。默认为3.</p>
+<h2 id="2-图像转换"><a href="#2-图像转换" class="headerlink" title="2. 图像转换"></a>2. 图像转换</h2><h3 id="cv2-cvtColor-p1-p2-颜色空间转换。"><a href="#cv2-cvtColor-p1-p2-颜色空间转换。" class="headerlink" title="cv2.cvtColor(p1,p2) 颜色空间转换。"></a>cv2.cvtColor(p1,p2) 颜色空间转换。</h3><p>p1是需要转换的图片，p2是转换成何种格式。</p>
+<pre><code class="hljs">	cv2.COLOR_BGR2RGB #灰度图像转为彩色图像
+	cv2.COLOR_BGR2GRAY #彩色图像转为灰度图像
+</code></pre>
+<h3 id="cv2-resize：调整图像大小。"><a href="#cv2-resize：调整图像大小。" class="headerlink" title="cv2.resize：调整图像大小。"></a>cv2.resize：调整图像大小。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">resized_image = cv2.resize(image, (new_width, new_height))<br></code></pre></td></tr></table></figure>
+
+<h3 id="cv2-flip：图像翻转。"><a href="#cv2-flip：图像翻转。" class="headerlink" title="cv2.flip：图像翻转。"></a>cv2.flip：图像翻转。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">flipped_image = cv2.flip(image, <span class="hljs-number">1</span>)  <span class="hljs-comment"># 1 表示水平翻转，0 表示垂直翻转，-1 表示水平和垂直翻转</span><br></code></pre></td></tr></table></figure>
+<h2 id="3-图像处理"><a href="#3-图像处理" class="headerlink" title="3. 图像处理"></a>3. 图像处理</h2><h3 id="cv2-GaussianBlur：高斯模糊。"><a href="#cv2-GaussianBlur：高斯模糊。" class="headerlink" title="cv2.GaussianBlur：高斯模糊。"></a>cv2.GaussianBlur：高斯模糊。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">blurred_image = cv2.GaussianBlur(image, (<span class="hljs-number">5</span>, <span class="hljs-number">5</span>), <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>cv2.blur(img,ksize) 均值滤波, cv2.GaussianBlur()高斯滤波, cv2.medianBlur()中值滤波,cv2.bilateralFilter()双边滤波</li>
+</ul>
+<h3 id="cv2-Canny：边缘检测。"><a href="#cv2-Canny：边缘检测。" class="headerlink" title="cv2.Canny：边缘检测。"></a>cv2.Canny：边缘检测。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">edges = cv2.Canny(image, <span class="hljs-number">100</span>, <span class="hljs-number">200</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-threshold：阈值处理。"><a href="#cv2-threshold：阈值处理。" class="headerlink" title="cv2.threshold：阈值处理。"></a>cv2.threshold：阈值处理。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">_, binary_image = cv2.threshold(gray_image, <span class="hljs-number">127</span>, <span class="hljs-number">255</span>, cv2.THRESH_BINARY)<br></code></pre></td></tr></table></figure>
+<h2 id="4-形态学操作"><a href="#4-形态学操作" class="headerlink" title="4. 形态学操作"></a>4. 形态学操作</h2><h3 id="cv2-erode-src-kernel-iteration-腐蚀操作。"><a href="#cv2-erode-src-kernel-iteration-腐蚀操作。" class="headerlink" title="cv2.erode(src, kernel, iteration) 腐蚀操作。"></a>cv2.erode(src, kernel, iteration) 腐蚀操作。</h3><pre><code class="hljs">	参数说明：src表示的是输入图片，kernel表示的是方框的大小，iteration表示迭代的次数, cv2.dilate()膨胀操作, cv2.morphologyEx()开运算、闭运算
+</code></pre>
+<h3 id="cv2-dilate：膨胀操作。"><a href="#cv2-dilate：膨胀操作。" class="headerlink" title="cv2.dilate：膨胀操作。"></a>cv2.dilate：膨胀操作。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">dilated_image = cv2.dilate(image, kernel, iterations=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-morphologyEx：形态学扩展操作（如开运算、闭运算）。"><a href="#cv2-morphologyEx：形态学扩展操作（如开运算、闭运算）。" class="headerlink" title="cv2.morphologyEx：形态学扩展操作（如开运算、闭运算）。"></a>cv2.morphologyEx：形态学扩展操作（如开运算、闭运算）。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">opening = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)<br>closing = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)<br></code></pre></td></tr></table></figure>
+<h2 id="5-特征检测"><a href="#5-特征检测" class="headerlink" title="5. 特征检测"></a>5. 特征检测</h2><h3 id="cv2-findContours：查找轮廓。"><a href="#cv2-findContours：查找轮廓。" class="headerlink" title="cv2.findContours：查找轮廓。"></a>cv2.findContours：查找轮廓。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">contours, _ = cv2.findContours(binary_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-drawContours：绘制轮廓。"><a href="#cv2-drawContours：绘制轮廓。" class="headerlink" title="cv2.drawContours：绘制轮廓。"></a>cv2.drawContours：绘制轮廓。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">cv2.drawContours(image, contours, -<span class="hljs-number">1</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>), <span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-goodFeaturesToTrack：角点检测。"><a href="#cv2-goodFeaturesToTrack：角点检测。" class="headerlink" title="cv2.goodFeaturesToTrack：角点检测。"></a>cv2.goodFeaturesToTrack：角点检测。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">corners = cv2.goodFeaturesToTrack(gray_image, maxCorners=<span class="hljs-number">100</span>, qualityLevel=<span class="hljs-number">0.01</span>, minDistance=<span class="hljs-number">10</span>)<br>corners = np.int0(corners)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> corners:<br>    x, y = i.ravel()<br>    cv2.circle(image, (x, y), <span class="hljs-number">3</span>, <span class="hljs-number">255</span>, -<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="6-直方图"><a href="#6-直方图" class="headerlink" title="6. 直方图"></a>6. 直方图</h2><h3 id="cv2-calcHist：计算直方图。"><a href="#cv2-calcHist：计算直方图。" class="headerlink" title="cv2.calcHist：计算直方图。"></a>cv2.calcHist：计算直方图。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">hist = cv2.calcHist([image], [<span class="hljs-number">0</span>], <span class="hljs-literal">None</span>, [<span class="hljs-number">256</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">256</span>])<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-equalizeHist：直方图均衡化。"><a href="#cv2-equalizeHist：直方图均衡化。" class="headerlink" title="cv2.equalizeHist：直方图均衡化。"></a>cv2.equalizeHist：直方图均衡化。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">equalized_image = cv2.equalizeHist(gray_image)<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-视频处理"><a href="#7-视频处理" class="headerlink" title="7. 视频处理"></a>7. 视频处理</h2><h3 id="cv2-VideoCapture：读取视频。"><a href="#cv2-VideoCapture：读取视频。" class="headerlink" title="cv2.VideoCapture：读取视频。"></a>cv2.VideoCapture：读取视频。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">cap = cv2.VideoCapture(<span class="hljs-string">&#x27;path/to/video.mp4&#x27;</span>)<br><br><span class="hljs-keyword">while</span> cap.isOpened():<br>    ret, frame = cap.read()<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> ret:<br>        <span class="hljs-keyword">break</span><br>    cv2.imshow(<span class="hljs-string">&#x27;Frame&#x27;</span>, frame)<br>    <span class="hljs-keyword">if</span> cv2.waitKey(<span class="hljs-number">1</span>) &amp; <span class="hljs-number">0xFF</span> == <span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;q&#x27;</span>):<br>        <span class="hljs-keyword">break</span><br><br>cap.release()<br>cv2.destroyAllWindows()<br></code></pre></td></tr></table></figure>
+<h3 id="cv2-VideoWriter：保存视频。"><a href="#cv2-VideoWriter：保存视频。" class="headerlink" title="cv2.VideoWriter：保存视频。"></a>cv2.VideoWriter：保存视频。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">fourcc = cv2.VideoWriter_fourcc(*<span class="hljs-string">&#x27;XVID&#x27;</span>)<br>out = cv2.VideoWriter(<span class="hljs-string">&#x27;output_video.avi&#x27;</span>, fourcc, <span class="hljs-number">20.0</span>, (<span class="hljs-number">640</span>, <span class="hljs-number">480</span>))<br><br><span class="hljs-keyword">while</span> cap.isOpened():<br>    ret, frame = cap.read()<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> ret:<br>        <span class="hljs-keyword">break</span><br>    out.write(frame)<br><br>cap.release()<br>out.release()<br>cv2.destroyAllWindows()<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/CNN/" class="print-no-link">#CNN</a>
+      
+        <a href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#卷积神经网络</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pytorch与卷积神经网络(OpenCV)</div>
+      <div>https://qzkq.github.io/2026/01/03/Pytorch与卷积神经网络(OpenCV)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/Pytorch%E5%8F%AF%E8%A7%86%E5%8C%96Visdom%E3%80%81tensorboardX%E5%92%8CTorchvision/" title="Pytorch可视化Visdom、tensorboardX和Torchvision">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pytorch可视化Visdom、tensorboardX和Torchvision</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/02/Pytorch%E4%B8%8Eautograd%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC/" title="Pytorch与autograd自动求导">
+                        <span class="hidden-mobile">Pytorch与autograd自动求导</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

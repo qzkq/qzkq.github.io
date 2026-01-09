@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](深度学习面试笔试之迁移学习Transfer、强化学习Reinforcement&amp; 多任务) 微信公众号：数学建模与人工智能13.迁移学习(Transfer)1. 什么是迁移学习迁移学习(Transfer Learning)是一种机器学习方法，就是把为任务 A 开发的模型作为初始点，重新使用在为任务 B 开发模型的过程中。迁移学习是通过从已学习的相关任务中转移知识来改进学习的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer)%E3%80%81%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0(Reinforcement)%20&%20%E5%A4%9A%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](深度学习面试笔试之迁移学习Transfer、强化学习Reinforcement&amp; 多任务) 微信公众号：数学建模与人工智能13.迁移学习(Transfer)1. 什么是迁移学习迁移学习(Transfer Learning)是一种机器学习方法，就是把为任务 A 开发的模型作为初始点，重新使用在为任务 B 开发模型的过程中。迁移学习是通过从已学习的相关任务中转移知识来改进学习的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/dea4e5c5880449869cb8654100a004e2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e3df12fd5f814b5a916fcdf08b5c9dcc.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c6a05f29bcab423fac61953ad3e84e67.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b2bca82f91034e38832f18fca57a717e.png">
+<meta property="og:image" content="https://qzkq.github.io/img/efaeed4f382a41ad8528560ac6e2244f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b7b7ca8681614b6f89c66a85f4136cdd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5de564ec6e7f41f8982c3bcc16d19baa.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6ef78e9ed56d4488a3d825766c5f159a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3d16154970af45a68420a65034796bf6.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3f4ca3b63c60494a8984b15dc0ebfeb2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/91cb494cd8dd4a2d84bba6da8f163cae.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a46a25f2ce5a4769a68a2bc8d7f0a5a7.png">
+<meta property="og:image" content="https://qzkq.github.io/img/00786c3db2004618a550a8578fe263e7.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b4d64c91037e47618499fef4e4984732.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f619c6df5daf437885feff5b7d658ada.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6ba398f95329462ca0108c212998e701.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5c12660c53774f43b8ba2d60cddcff0c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/96375b9da43641b7a25a546187cfd7ea.png">
+<meta property="og:image" content="https://qzkq.github.io/img/97855da750b4494fa6803b6e3ea2e43d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/4d11e7c5d1914cfe90793e38579ab571.png">
+<meta property="og:image" content="https://qzkq.github.io/img/8a0e2db2d7084b3698ab4e456ab0eaf5.png">
+<meta property="article:published_time" content="2026-01-05T00:10:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.432Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="多任务学习">
+<meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="迁移学习">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/dea4e5c5880449869cb8654100a004e2.png">
+  
+  
+  
+  <title>深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:10" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          50 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](深度学习面试笔试之迁移学习Transfer、强化学习Reinforcement&amp; 多任务)</p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="13-迁移学习-Transfer"><a href="#13-迁移学习-Transfer" class="headerlink" title="13.迁移学习(Transfer)"></a>13.迁移学习(Transfer)</h1><h2 id="1-什么是迁移学习"><a href="#1-什么是迁移学习" class="headerlink" title="1. 什么是迁移学习"></a>1. 什么是迁移学习</h2><p>迁移学习(Transfer Learning)是一种机器学习方法，就是把为任务 A 开发的模型作为初始点，重新使用在为任务 B 开发模型的过程中。迁移学习是通过从已学习的相关任务中转移知识来改进学习的新任务，虽然大多数机器学习算法都是为了解决单个任务而设计的，但是促进迁移学习的算法的开发是机器学习社区持续关注的话题。 迁移学习对人类来说很常见，例如，我们可能会发现学习识别苹果可能有助于识别梨，或者学习弹奏电子琴可能有助于学习钢琴。<br>找到目标问题的相似性，迁移学习任务就是从相似性出发，将旧领域(domain)学习过的模型应用在新领域上。</p>
+<h2 id="2-为什么需要迁移学习？"><a href="#2-为什么需要迁移学习？" class="headerlink" title="2. 为什么需要迁移学习？"></a>2. 为什么需要迁移学习？</h2><ul>
+<li><strong>大数据与少标注的矛盾</strong>：虽然有大量的数据，但往往都是没有标注的，无法训练机器学习模型。人工进行数据标定太耗时。</li>
+<li><strong>大数据与弱计算的矛盾</strong>：普通人无法拥有庞大的数据量与计算资源。因此需要借助于模型的迁移。</li>
+<li><strong>普适化模型与个性化需求的矛盾</strong>：即使是在同一个任务上，一个模型也往往难以满足每个人的个性化需求，比如特定的隐私设置。这就需要在不同人之间做模型的适配。</li>
+<li><strong>特定应用（如冷启动）的需求。</strong></li>
+</ul>
+<h2 id="3-迁移学习的基本问题有哪些？"><a href="#3-迁移学习的基本问题有哪些？" class="headerlink" title="3. 迁移学习的基本问题有哪些？"></a>3. 迁移学习的基本问题有哪些？</h2><p>基本问题主要有3个：</p>
+<ul>
+<li><strong>How to transfer</strong>： 如何进行迁移学习？（设计迁移方法）</li>
+<li><strong>What to transfer：</strong> 给定一个目标领域，如何找到相对应的源领域，然后进行迁移？（源领域选择）</li>
+<li><strong>When to transfer</strong>： 什么时候可以进行迁移，什么时候不可以？（避免负迁移）</li>
+</ul>
+<h2 id="4-迁移学习有哪些常用概念？"><a href="#4-迁移学习有哪些常用概念？" class="headerlink" title="4.迁移学习有哪些常用概念？"></a>4.迁移学习有哪些常用概念？</h2><h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p><strong>域(Domain)：数据特征和特征分布组成，是学习的主体</strong></p>
+<ul>
+<li><strong>源域 (Source domain)</strong>：已有知识的域</li>
+<li><strong>目标域 (Target domain)</strong>：要进行学习的域</li>
+</ul>
+<p><strong>任务 (Task)：由目标函数和学习结果组成，是学习的结果</strong></p>
+<h3 id="按特征空间分类"><a href="#按特征空间分类" class="headerlink" title="按特征空间分类"></a>按特征空间分类</h3><p><strong>同构迁移学习（Homogeneous TL）</strong>： 源域和目标域的特征空间相同，</p>
+<p><img src="/img/dea4e5c5880449869cb8654100a004e2.png" srcset="/img/loading.gif" lazyload alt="异构迁移学习"><br><strong>（Heterogeneous TL）</strong>：源域和目标域的特征空间不同，</p>
+<p><img src="/img/e3df12fd5f814b5a916fcdf08b5c9dcc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="按迁移情景分类"><a href="#按迁移情景分类" class="headerlink" title="按迁移情景分类"></a>按迁移情景分类</h3><ul>
+<li><strong>归纳式迁移学习</strong>（Inductive TL）：源域和目标域的学习任务不同</li>
+<li><strong>直推式迁移学习</strong>（Transductive TL)：源域和目标域不同，学习任务相同</li>
+<li><strong>无监督迁移学习</strong>（Unsupervised TL)：源域和目标域均没有标签</li>
+</ul>
+<h3 id="按迁移方法分类"><a href="#按迁移方法分类" class="headerlink" title="按迁移方法分类"></a>按迁移方法分类</h3><ul>
+<li><strong>基于样本的迁移</strong> (Instance based TL)：通过权重重用源域和目标域的样例进行迁移</li>
+</ul>
+<p>基于样本的迁移学习方法 (Instance based Transfer Learning) 根据一定的权重生成规则，对数据样本进行重用，来进行迁移学习。下图形象地表示了基于样本迁移方法的思想源域中存在不同种类的动物，如狗、鸟、猫等，目标域只有狗这一种类别。在迁移时，为了最大限度地和目标域相似，我们可以人为地提高源域中属于狗这个类别的样本权重。</p>
+<p><img src="/img/c6a05f29bcab423fac61953ad3e84e67.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>基于特征的迁移</strong> (Feature based TL)：将源域和目标域的特征变换到相同空间</li>
+</ul>
+<p>基于特征的迁移方法 (Feature based Transfer Learning) 是指将通过特征变换的方式互相迁移,来减少源域和目标域之间的差距；或者将源域和目标域的数据特征变换到统一特征空间中,然后利用传统的机器学习方法进行分类识别。根据特征的同构和异构性,又可以分为同构和异构迁移学习。下图很形象地表示了两种基于特征的迁移学习方法。</p>
+<p><img src="/img/b2bca82f91034e38832f18fca57a717e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>基于模型的迁移</strong> (Parameter based TL)：利用源域和目标域的参数共享模型</li>
+</ul>
+<p>基于模型的迁移方法 (Parameter&#x2F;Model based Transfer Learning) 是指从源域和目标域中找到他们之间共享的参数信息,以实现迁移的方法。这种迁移方式要求的假设条件是： 源域中的数据与目标域中的数据可以共享一些模型的参数。下图形象地表示了基于模型的迁移学习方法的基本思想。</p>
+<p><img src="/img/efaeed4f382a41ad8528560ac6e2244f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>基于关系的迁移</strong> (Relation based TL)：利用源域中的逻辑网络关系进行迁移</li>
+</ul>
+<p>基于关系的迁移学习方法 (Relation Based Transfer Learning) 与上述三种方法具有截然不同的思路。这种方法比较关注源域和目标域的样本之间的关系。下图形象地表示了不同领域之间相似的关系。</p>
+<p><img src="/img/b7b7ca8681614b6f89c66a85f4136cdd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="/img/5de564ec6e7f41f8982c3bcc16d19baa.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="5-迁移学习与传统机器学习有什么区别？"><a href="#5-迁移学习与传统机器学习有什么区别？" class="headerlink" title="5. 迁移学习与传统机器学习有什么区别？"></a>5. 迁移学习与传统机器学习有什么区别？</h2><p><img src="/img/6ef78e9ed56d4488a3d825766c5f159a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="6-迁移学习的核心及度量准则？"><a href="#6-迁移学习的核心及度量准则？" class="headerlink" title="6. 迁移学习的核心及度量准则？"></a>6. 迁移学习的核心及度量准则？</h2><p><strong>迁移学习的总体思路可以概括为</strong>：开发算法来最大限度地利用有标注的领域的知识，来辅助目标领域的知识获取和学习。<br><strong>迁移学习的核心是</strong>：找到源领域和目标领域之间的相似性，并加以合理利用。这种相似性非常普遍。比如，不同人的身体构造是相似的；自行车和摩托车的骑行方式是相似的；国际象棋和中国象棋是相似的；羽毛球和网球的打球方式是相似的。这种相似性也可以理解为不变量。以不变应万变，才能立于不败之地。<br>**有了这种相似性后，下一步工作就是， 如何度量和利用这种相似性。**度量工作的目标有两点：一是很好地度量两个领域的相似性，不仅定性地告诉我们它们是否相似，更定量地给出相似程度。二是以度量为准则，通过我们所要采用的学习手段，增大两个领域之间的相似性，从而完成迁移学习。<br>一句话总结： 相似性是核心，度量准则是重要手段。</p>
+<h2 id="7-迁移学习与其他概念的区别？"><a href="#7-迁移学习与其他概念的区别？" class="headerlink" title="7. 迁移学习与其他概念的区别？"></a>7. 迁移学习与其他概念的区别？</h2><h3 id="迁移学习与多任务学习关系："><a href="#迁移学习与多任务学习关系：" class="headerlink" title="迁移学习与多任务学习关系："></a>迁移学习与多任务学习关系：</h3><ul>
+<li><strong>多任务学习</strong>：多个相关任务一起协同学习；</li>
+<li><strong>迁移学习</strong>：强调信息复用，从一个领域(domain)迁移到另一个领域。</li>
+</ul>
+<h3 id="迁移学习与领域自适应：领域自适应：使两个特征分布不一致的domain一致。"><a href="#迁移学习与领域自适应：领域自适应：使两个特征分布不一致的domain一致。" class="headerlink" title="迁移学习与领域自适应：领域自适应：使两个特征分布不一致的domain一致。"></a>迁移学习与领域自适应：领域自适应：使两个特征分布不一致的domain一致。</h3><h3 id="迁移学习与协方差漂移：协方差漂移：数据的条件概率分布发生变化。"><a href="#迁移学习与协方差漂移：协方差漂移：数据的条件概率分布发生变化。" class="headerlink" title="迁移学习与协方差漂移：协方差漂移：数据的条件概率分布发生变化。"></a>迁移学习与协方差漂移：协方差漂移：数据的条件概率分布发生变化。</h3><h2 id="8-什么情况下可以使用迁移学习？"><a href="#8-什么情况下可以使用迁移学习？" class="headerlink" title="8. 什么情况下可以使用迁移学习？"></a>8. 什么情况下可以使用迁移学习？</h2><p>迁移学习<strong>最有用的场合</strong>是，如果你尝试优化任务B的性能，通常这个任务数据相对较少。 例如，在放射科中你知道很难收集很多射线扫描图来搭建一个性能良好的放射科诊断系统，所以在这种情况下，你可能会找一个相关但不同的任务，如图像识别，其中你可能用 1 百万张图片训练过了，并从中学到很多低层次特征，所以那也许能帮助网络在任务在放射科任务上做得更好，尽管任务没有这么多数据。<br>假如两个领域之间的区别特别的大，<strong>不可以直接采用迁移学习</strong>，因为在这种情况下效果不是很好。在这种情况下，推荐以上的方法，在两个相似度很低的domain之间一步步迁移过去（踩着石头过河）。</p>
+<h2 id="9-什么是finetune？"><a href="#9-什么是finetune？" class="headerlink" title="9. 什么是finetune？"></a>9. 什么是finetune？</h2><p>深度网络的finetune也许是最简单的深度网络迁移方法。<strong>Finetune</strong>,也叫微调、fine-tuning, 是深度学习中的一个重要概念。简而言之，finetune就是利用别人己经训练好的网络，针对自己的任务再进行调整。从这个意思上看，我们不难理解finetune是迁移学习的一部分。</p>
+<h3 id="为什么需要已经训练好的网络？"><a href="#为什么需要已经训练好的网络？" class="headerlink" title="为什么需要已经训练好的网络？"></a>为什么需要已经训练好的网络？</h3><p>在实际的应用中,我们通常不会针对一个新任务,就去从头开始训练一个神经网络。这样的操作显然是非常耗时的。尤其是，我们的训练数据不可能像ImageNet那么大，可以训练出泛化能力足够强的深度神经网络。即使有如此之多的训练数据,我们从头开始训练,其代价也是不可承受的。</p>
+<h3 id="为什么需要-finetune？"><a href="#为什么需要-finetune？" class="headerlink" title="为什么需要 finetune？"></a>为什么需要 finetune？</h3><p>因为别人训练好的模型,可能并不是完全适用于我们自己的任务。可能别人的训练数据和我们的数据之间不服从同一个分布；可能别人的网络能做比我们的任务更多的事情；可能别人的网络比较复杂,我们的任务比较简单。</p>
+<h2 id="10-什么是深度网络自适应？"><a href="#10-什么是深度网络自适应？" class="headerlink" title="10. 什么是深度网络自适应？"></a>10. 什么是深度网络自适应？</h2><p>深度网络的 finetune 可以帮助我们节省训练时间，提高学习精度。但是 finetune 有它的先天不足:它无法处理训练数据和测试数据分布不同的情况。而这一现象在实际应用中比比皆是。因为 finetune 的基本假设也是训练数据和测试数据服从相同的数据分布。这在迁移学习中也是不成立的。因此，我们需要更进一步，针对深度网络开发出更好的方法使之更好地完成迁移学习任务。<br>以我们之前介绍过的数据分布自适应方法为参考，许多深度学习方法都开发出了自适应层(AdaptationLayer)来完成源域和目标域数据的自适应。自适应能够使得源域和目标域的数据分布更加接近，从而使得网络的效果更好。</p>
+<h2 id="11-GAN在迁移学习中的应用"><a href="#11-GAN在迁移学习中的应用" class="headerlink" title="11. GAN在迁移学习中的应用"></a>11. GAN在迁移学习中的应用</h2><p>生成对抗网络 GAN(Generative Adversarial Nets) 受到自博弈论中的二人零和博弈 (two-player game) 思想的启发而提出。它一共包括两个部分：<br>一部分为生成网络(Generative Network)，此部分负责生成尽可能地以假乱真的样本，这部分被成为生成器(Generator)；<br>另一部分为判别网络(Discriminative Network), 此部分负责判断样本是真实的，还是由生成器生成的，这部分被成为判别器(Discriminator) 生成器和判别器的互相博弈，就完成了对抗训练。</p>
+<h3 id="GAN的优缺点"><a href="#GAN的优缺点" class="headerlink" title="GAN的优缺点"></a>GAN的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>GAN是一种生成式模型，相比较其他生成模型(玻尔兹曼机和GSNs)只用到了反向传播,而不需要复杂的马尔科夫链</li>
+<li>相比其他所有模型,GAN可以产生更加清晰，真实的样本</li>
+<li>无监督的学习方式训练，可以被广泛用在无监督学习和半监督学习领域</li>
+<li>GANs是渐进一致的，但是VAE是有偏差的</li>
+<li>GAN应用到一些场景上，比如图片风格迁移，超分辨率，图像补全，去噪，避免了损失函数设计的困难</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>训练GAN需要达到纳什均衡,有时候可以用梯度下降法做到,有时候做不到</li>
+<li>GAN不适合处理离散形式的数据，比如文本</li>
+<li>GAN存在训练不稳定、梯度消失、模式崩溃的问题</li>
+</ul>
+<h3 id="如何训练GAN网络"><a href="#如何训练GAN网络" class="headerlink" title="如何训练GAN网络?"></a>如何训练GAN网络?</h3><ul>
+<li>输入规范化到(-1，1)之间，最后一层的激活函数使用tanh (BEGAN除外)</li>
+<li>使用wassertein GAN的损失函数，</li>
+<li>如果有标签数据的话，尽量使用标签，也有人提出使用反转标签效果很好，另外使用标签平滑，单边标签平滑或者双边标签平滑</li>
+<li>使用mini-batch norm，如果不用batch norm可以使用instance norm或者weight norm</li>
+<li>避免使用RELU和pooling层，减少稀疏梯度的可能性，可以使用leakyrelu激活函数</li>
+<li>优化器尽量选择ADAM，学习率不要设置太大，初始1e-4可以参考，另外可以随着训练进行不断缩小学习率，</li>
+<li>给D的网络层增加高斯噪声，相当于是一种正则等等</li>
+</ul>
+<p>GAN 的目标很明确：生成训练样本。这似乎与迁移学习的大目标有些许出入。然而，由于在迁移学习中，天然地存在一个源领域，一个目标领域，因此，我们可以免去生成样本的过程，而直接将其中一个领域的数据 (通常是目标域) 当作是生成的样本。此时，生成器的职能发生变化，不再生成新样本，而是扮演了特征提取的功能：不断学习领域数据的特征使得判别器无法对两个领域进行分辨。这样，原来的生成器也可以称为特征提取器 (Feature Extractor)。</p>
+<h1 id="14-强化学习-Reinforcement-多任务"><a href="#14-强化学习-Reinforcement-多任务" class="headerlink" title="14.强化学习(Reinforcement) &amp; 多任务"></a>14.强化学习(Reinforcement) &amp; 多任务</h1><h2 id="1-什么是强化学习"><a href="#1-什么是强化学习" class="headerlink" title="1. 什么是强化学习"></a>1. 什么是强化学习</h2><p>其他许多机器学习算法中学习器都是学得怎样做，而强化学习（Reinforcement Learning, RL）是在尝试的过程中学习到在特定的情境下选择哪种行动可以得到最大的回报。在很多场景中，当前的行动不仅会影响当前的rewards，还会影响之后的状态和一系列的rewards。RL最重要的3个特定在于：</p>
+<ol>
+<li>基本是以一种闭环的形式；</li>
+<li>不会直接指示选择哪种行动（actions）；</li>
+<li>一系列的actions和奖励信号（reward signals）都会影响之后较长的时间。</li>
+</ol>
+<p>强化学习（Reinforcement Learning, RL），又称再励学习、评价学习或增强学习，是机器学习的范式和方法论之一，用于描述和解决智能体（agent）在与环境的交互过程中通过学习策略以达成回报最大化或实现特定目标的问题 。</p>
+<p><img src="/img/3d16154970af45a68420a65034796bf6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图中agent代表自身，如果是自动驾驶，agent就是车；如果你玩游戏它就是你当前控制的游戏角色，如马里奥，马里奥往前走时环境就一直在发生变化，有小怪物或者障碍物出现，它需要通过跳跃来进行躲避，就是要做action（如向前走和跳起的动作）；无人驾驶的action就是车左转、右转或刹车等等，它无时无刻都在与环境产生交互，action会反馈给环境，进而改变环境，如果自动驾驶的车行驶目标是100米，它向前开了10米，那环境就发生了变化，所以每次产生action都会导致环境改变，环境的改变会反馈给自身（agent），就是这样的一个循环；反馈又两种方式：</p>
+<ol>
+<li>做的好（reward）即正反馈，</li>
+<li>做得不好（punishment惩罚）即负反馈。</li>
+</ol>
+<p><strong>Agent可能做得好，也可能做的不好，环境始终都会给它反馈，agent会尽量去做对自身有利的决策，通过反反复复这样的一个循环，agent会越来越做的好，就像孩子在成长过程中会逐渐明辨是非，这就是强化学习。</strong></p>
+<h2 id="2-强化学习模型"><a href="#2-强化学习模型" class="headerlink" title="2. 强化学习模型"></a>2. 强化学习模型</h2><p><img src="/img/3f4ca3b63c60494a8984b15dc0ebfeb2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>如上图左边所示，一个agent(例如：玩家&#x2F;智能体等)做出了一个action，对environment造成了影响，也就是改变了state，而environment为了反馈给agent，agent就得到了一个奖励(例如：积分&#x2F;分数)，不断的进行这样的循环，直到结束为止。<br>上述过程就相当于一个<strong>马尔可夫决策过程</strong>，为什么这样叫呢？因为符合<strong>马儿可夫假设</strong>：<br>当前状态 St 只由上一个状态 St-1 和行为所决定，而和前序的更多的状态是没有关系的。<br>上图右边所示，S0 状态经过了 a0 的行为后，获得了奖励 r1 ，变成了状态S1，后又经过了 a0 行为得到奖励 r2，变成了状态 S2 ，如此往复循环，直到结束为止。</p>
+<h3 id="2-1-打折的未来奖励"><a href="#2-1-打折的未来奖励" class="headerlink" title="2.1 打折的未来奖励"></a>2.1 打折的未来奖励</h3><p>通过以上的描述，大家都已经确定了一个概念，也就是agent(智能体)在当下做出的决定肯定使得未来收益最大化，那么，一个马儿可夫决策过程对应的奖励总和为：</p>
+<p><img src="/img/91cb494cd8dd4a2d84bba6da8f163cae.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>t 时刻(当下)的未来奖励，只考虑后面的奖励，前面的改变不了：<br><img src="/img/a46a25f2ce5a4769a68a2bc8d7f0a5a7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>接下来，<strong>当前的情况下做出的动作是能够得到结果的，但对于未来的影响是一个不确定的</strong>，这也符合我们的真实世界，比如谁都不知道一只蝴蝶只是煽动了一次翅膀会造成飓风式的影响(蝴蝶效应)。所以，当前的行为对于未来是不确定性的，要打一个折扣，也就是加入一个系数gamma，是一个 0 到 1 的值：</p>
+<p><img src="/img/00786c3db2004618a550a8578fe263e7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>离当前越远的时间，gamma的惩罚系数就会越大，也就是越不确定。为的就是在当前和未来的决策中取得一个平衡。gamma取 0 ，相当于不考虑未来，只考虑当下，是一种很短视的做法；而gamma取 1 ，则完全考虑了未来，又有点过虑了。所以一般gamma会取 0 到 1 之间的一个值。<br>Rt 可以用 Rt+1 来表示，写成递推式：</p>
+<p><img src="/img/b4d64c91037e47618499fef4e4984732.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2-2-Q-Learning算法"><a href="#2-2-Q-Learning算法" class="headerlink" title="2.2 Q-Learning算法"></a>2.2 Q-Learning算法</h3><p><strong>Q(s, a)函数(Quality)，质量函数用来表示智能体在s状态下采用a动作并在之后采取最优动作条件下</strong>的打折的未来奖励(先不管未来的动作如何选择)：</p>
+<p><img src="/img/f619c6df5daf437885feff5b7d658ada.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>假设有了这个Q函数，那么我们就能够求得在当前 t 时刻当中，做出各个决策的最大收益值，通过对比这些收益值，就能够得到 <strong>t 时刻某个决策是这些决策当中收益最高</strong>。</p>
+<p><img src="/img/6ba398f95329462ca0108c212998e701.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>于是乎，根据Q函数的递推公式可以得到：</p>
+<p><img src="/img/5c12660c53774f43b8ba2d60cddcff0c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>这就是著名的贝尔曼公式</strong>。贝尔曼公式实际非常合理。对于某个状态来讲，最大化未来奖励相当于 最大化即刻奖励与下一状态最大未来奖励之和。<br><strong>Q-learning的核心思想是</strong>：我们能够通过贝尔曼公式迭代地近似Q-函数。</p>
+<h3 id="2-3-Deep-Q-Learning-DQN"><a href="#2-3-Deep-Q-Learning-DQN" class="headerlink" title="2.3 Deep Q Learning(DQN)"></a>2.3 Deep Q Learning(DQN)</h3><p>Deep Q Learning(DQN)是一种融合了神经网络和的Q-Learning方法。</p>
+<h4 id="2-3-1-神经网络的作用"><a href="#2-3-1-神经网络的作用" class="headerlink" title="2.3.1 神经网络的作用"></a>2.3.1 神经网络的作用</h4><p><img src="/img/96375b9da43641b7a25a546187cfd7ea.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>使用表格来存储每一个状态 state, 和在这个 state 每个行为 action 所拥有的 Q 值. 而当今问题是在太复杂, 状态可以多到比天上的星星还多(比如下围棋). 如果全用表格来存储它们, 恐怕我们的计算机有再大的内存都不够, 而且每次在这么大的表格中搜索对应的状态也是一件很耗时的事. 不过, 在机器学习中, 有一种方法对这种事情很在行, 那就是神经网络.<br>我们可以将状态和动作当成神经网络的输入, 然后经过神经网络分析后得到动作的 Q 值, 这样我们就没必要在表格中记录 Q 值, 而是直接使用神经网络生成 Q 值.<br>还有一种形式的是这样, 我们也能只输入状态值, 输出所有的动作值, 然后按照 Q learning 的原则, 直接选择拥有最大值的动作当做下一步要做的动作.<br>我们可以想象, 神经网络接受外部的信息, 相当于眼睛鼻子耳朵收集信息, 然后通过大脑加工输出每种动作的值, 最后通过强化学习的方式选择动作.</p>
+<h4 id="2-3-2-神经网络计算Q值"><a href="#2-3-2-神经网络计算Q值" class="headerlink" title="2.3.2 神经网络计算Q值"></a>2.3.2 神经网络计算Q值</h4><p>这一部分就跟监督学习的神经网络一样了我，输入状态值，输出为Q值，根据大量的数据去训练神经网络的参数，最终得到Q-Learning的计算模型，这时候我们就可以利用这个模型来进行强化学习了。</p>
+<p><img src="/img/97855da750b4494fa6803b6e3ea2e43d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-强化学习和监督学习、无监督学习的区别"><a href="#3-强化学习和监督学习、无监督学习的区别" class="headerlink" title="3. 强化学习和监督学习、无监督学习的区别"></a>3. 强化学习和监督学习、无监督学习的区别</h2><ul>
+<li>监督式学习就好比你在学习的时候，有一个导师在旁边指点，他知道怎么是对的怎么是错的。</li>
+</ul>
+<p>强化学习会在没有任何标签的情况下，通过先尝试做出一些行为得到一个结果，通过这个结果是对还是错的反馈，调整之前的行为，就这样不断的调整，算法能够学习到在什么样的情况下选择什么样的行为可以得到最好的结果。</p>
+<ul>
+<li>监督式学习出的是之间的关系，可以告诉算法什么样的输入对应着什么样的输出。监督学习做了比较坏的选择会立刻反馈给算法。</li>
+</ul>
+<p>强化学习出的是给机器的反馈 reward function，即用来判断这个行为是好是坏。 另外强化学习的结果反馈有延时，有时候可能需要走了很多步以后才知道以前的某一步的选择是好还是坏。</p>
+<ul>
+<li>监督学习的输入是独立同分布的。</li>
+</ul>
+<p>强化学习面对的输入总是在变化，每当算法做出一个行为，它影响下一次决策的输入。</p>
+<ul>
+<li>监督学习算法不考虑这种平衡，就只是 exploitative。</li>
+</ul>
+<p>强化学习，一个 agent 可以在探索和开发（exploration and exploitation）之间做权衡，并且选择一个最大的回报。</p>
+<ul>
+<li>非监督式不是学习输入到输出的映射，而是模式(自动映射)。</li>
+</ul>
+<p>对强化学习来说，它通过对没有概念标记、但与一个延迟奖赏或效用（可视为延迟的概念标记）相关联的训练例进行学习，以获得某种从状态到行动的映射。<br>**强化学习和前二者的本质区别:**没有前两者具有的明确数据概念，它不知道结果，只有目标。数据概念就是大量的数据，有监督学习、无监督学习需要大量数据去训练优化你建立的模型。</p>
+<p><img src="/img/4d11e7c5d1914cfe90793e38579ab571.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="4-什么是多任务学习"><a href="#4-什么是多任务学习" class="headerlink" title="4. 什么是多任务学习"></a>4. 什么是多任务学习</h2><p>在机器学习中，我们通常关心优化某一特定指标，不管这个指标是一个标准值，还是企业KPI。为了达到这个目标，我们训练单一模型或多个模型集合来完成指定得任务。然后，我们通过精细调参，来改进模型直至性能不再提升。尽管这样做可以针对一个任务得到一个可接受得性能，但是我们可能忽略了一些信息，这些信息有助于在我们关心的指标上做得更好。具体来说，这些信息就是相关任务的监督数据。<strong>通过在相关任务间共享表示信息，我们的模型在原始任务上泛化性能更好。这种方法称为多任务学习（Multi-Task Learning）</strong><br>在不同的任务中都会有一些共性，而这些共性就构成了多任务学习的一个连接点，也就是任务都需要通过这个共性能得出结果来的。比如电商场景中的点击率和转化率，都要依赖于同一份数据的输入和神经网络层次。多语种语音识</p>
+<p><img src="/img/8a0e2db2d7084b3698ab4e456ab0eaf5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/" class="print-no-link">#迁移学习</a>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+        <a href="/tags/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0/" class="print-no-link">#多任务学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务</div>
+      <div>https://qzkq.github.io/2026/01/05/深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E7%AC%94%E8%AE%B0-pd.set_option()%E3%80%81warnings%E3%80%81np.set_printoptions%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="笔记-pd.set_option()、warnings、np.set_printoptions参数详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">笔记-pd.set_option()、warnings、np.set_printoptions参数详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="深度学习面试笔试之深度学习的优化方法">
+                        <span class="hidden-mobile">深度学习面试笔试之深度学习的优化方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

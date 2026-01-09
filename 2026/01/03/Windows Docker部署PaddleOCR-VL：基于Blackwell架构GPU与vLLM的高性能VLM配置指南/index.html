@@ -1,0 +1,1477 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南) 一、概述PaddleOCR-VL 是基于 PaddlePaddle 的视觉语言模型（VLM），支持图像中的文字检测、识别与结构化理解。本指南旨在帮助用户在 Windows Docker 环境中，利用 NVIDIA Blackwell 架构 GPU 及 vLL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Windows%20Docker%E9%83%A8%E7%BD%B2PaddleOCR-VL%EF%BC%9A%E5%9F%BA%E4%BA%8EBlackwell%E6%9E%B6%E6%9E%84GPU%E4%B8%8EvLLM%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BDVLM%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南) 一、概述PaddleOCR-VL 是基于 PaddlePaddle 的视觉语言模型（VLM），支持图像中的文字检测、识别与结构化理解。本指南旨在帮助用户在 Windows Docker 环境中，利用 NVIDIA Blackwell 架构 GPU 及 vLL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_vl_cover.png">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_bengali_train.png">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_sft_loss.png">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_bengali_test.png">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_table.png">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_formula.jpg">
+<meta property="og:image" content="https://qzkq.github.io/img/paddleocr_chart.png">
+<meta property="article:published_time" content="2026-01-03T00:17:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.401Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/paddleocr_vl_cover.png">
+  
+  
+  
+  <title>Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:17" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南)<br><img src="/img/paddleocr_vl_cover.png" srcset="/img/loading.gif" lazyload alt="PaddleOCR-VL"></p>
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>PaddleOCR-VL 是基于 PaddlePaddle 的视觉语言模型（VLM），支持图像中的文字检测、识别与结构化理解。本指南旨在帮助用户在 <strong>Windows Docker</strong> 环境中，利用 <strong>NVIDIA Blackwell 架构 GPU</strong> 及 <strong>vLLM 推理加速框架</strong>，完成 PaddleOCR-VL 的高性能部署与调优。</p>
+<hr>
+<h2 id="二、PaddleOCR-VL-简介"><a href="#二、PaddleOCR-VL-简介" class="headerlink" title="二、PaddleOCR-VL 简介"></a>二、PaddleOCR-VL 简介</h2><p>见官网说明：<a target="_blank" rel="noopener" href="https://www.paddleocr.ai/latest/version3.x/pipeline_usage/PaddleOCR-VL.html">使用教程 - PaddleOCR 文档</a></p>
+<hr>
+<h2 id="三、vLLM-详解"><a href="#三、vLLM-详解" class="headerlink" title="三、vLLM 详解"></a>三、vLLM 详解</h2><p>vLLM（<strong>V</strong>ery <strong>L</strong>arge <strong>L</strong>anguage <strong>M</strong>odel <strong>S</strong>erving）是一个专为大规模语言模型推理设计的高性能服务框架，由加州大学伯克利分校的研究团队开发。其核心创新在于 <strong>PagedAttention 算法</strong>，通过优化的内存管理机制显著提高了 GPU 显存利用率和推理吞吐量。</p>
+<h3 id="3-1-核心架构与设计理念"><a href="#3-1-核心架构与设计理念" class="headerlink" title="3.1 核心架构与设计理念"></a>3.1 核心架构与设计理念</h3><h4 id="3-1-1-主要特点"><a href="#3-1-1-主要特点" class="headerlink" title="3.1.1 主要特点"></a>3.1.1 主要特点</h4><ul>
+<li><strong>高性能推理</strong>：相比传统服务框架（如 Hugging Face Transformers），vLLM 在相同硬件上可实现 <strong>最高 24 倍</strong> 的吞吐量提升</li>
+<li><strong>高效内存管理</strong>：采用 PagedAttention 技术，减少内存碎片，提高显存利用率</li>
+<li><strong>连续批处理</strong>：支持动态批处理，自动合并来自不同请求的 token</li>
+<li><strong>兼容性强</strong>：提供与 OpenAI API 兼容的接口，易于集成到现有系统</li>
+</ul>
+<h4 id="3-1-2-核心组件"><a href="#3-1-2-核心组件" class="headerlink" title="3.1.2 核心组件"></a>3.1.2 核心组件</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs scss">vLLM 架构：<br>┌─────────────────────────────────────────┐<br>│           客户端请求                      │<br>└─────────────────┬───────────────────────┘<br>                  │<br>┌─────────────────▼───────────────────────┐<br>│          vLLM 服务层                      │<br>│  ┌─────────────┐  ┌─────────────────┐  │<br>│  │ 调度器       │  │ 批处理引擎      │  │<br>│  │ (Scheduler) │  │ (Batching)      │  │<br>│  └─────────────┘  └─────────────────┘  │<br>│                  │                      │<br>│          ┌───────▼───────┐              │<br>│          │ PagedAttention │              │<br>│          │   内存管理     │              │<br>│          └───────┬───────┘              │<br>└──────────────────┼──────────────────────┘<br>                   │<br>          ┌────────▼────────┐<br>          │ GPU 显存池      │<br>          │ (Memory Pool)   │<br>          └─────────────────┘<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-关键技术：PagedAttention"><a href="#3-2-关键技术：PagedAttention" class="headerlink" title="3.2 关键技术：PagedAttention"></a>3.2 关键技术：PagedAttention</h3><h4 id="3-2-1-传统注意力机制的内存问题"><a href="#3-2-1-传统注意力机制的内存问题" class="headerlink" title="3.2.1 传统注意力机制的内存问题"></a>3.2.1 传统注意力机制的内存问题</h4><p>传统 Transformer 模型在推理时，KV（Key-Value）缓存通常需要连续的内存空间：</p>
+<ul>
+<li><strong>内存碎片严重</strong>：不同序列长度导致显存利用不充分</li>
+<li><strong>OOM 风险高</strong>：长序列容易导致显存溢出</li>
+<li><strong>资源浪费</strong>：短序列无法充分利用已分配内存</li>
+</ul>
+<h4 id="3-2-2-PagedAttention-解决方案"><a href="#3-2-2-PagedAttention-解决方案" class="headerlink" title="3.2.2 PagedAttention 解决方案"></a>3.2.2 PagedAttention 解决方案</h4><p>PagedAttention 借鉴操作系统虚拟内存的分页机制：</p>
+<ul>
+<li><strong>分块存储</strong>：将 KV 缓存分割成固定大小的”块”（如 16 个 token&#x2F;块）</li>
+<li><strong>动态分配</strong>：按需分配块，避免预先分配大块连续内存</li>
+<li><strong>内存共享</strong>：相同提示词的多个请求可共享 KV 缓存块</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs less">传统方式：<br>┌─────────────────────────────────────────┐<br>│ <span class="hljs-selector-tag">Sequence</span> <span class="hljs-number">1</span>: <span class="hljs-number">1024</span> <span class="hljs-selector-tag">tokens</span>                 │<br>│ (连续内存分配)                          │<br>└─────────────────────────────────────────┘<br><br><span class="hljs-selector-tag">PagedAttention</span>：<br>┌───┬───┬───┬───┬───┬───┐<br>│块<span class="hljs-number">1</span>│块<span class="hljs-number">2</span>│块<span class="hljs-number">3</span>│块<span class="hljs-number">4</span>│块<span class="hljs-number">5</span>│...│<br>└───┴───┴───┴───┴───┴───┘<br>  ↑    ↑    ↑    ↑<br>序列<span class="hljs-selector-tag">A</span>  序列<span class="hljs-selector-tag">B</span> 序列<span class="hljs-selector-tag">A</span>  序列<span class="hljs-selector-tag">C</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-3-性能优势"><a href="#3-2-3-性能优势" class="headerlink" title="3.2.3 性能优势"></a>3.2.3 性能优势</h4><ul>
+<li><strong>显存利用率提升</strong>：最高可达 <strong>99%</strong>（传统方法通常为 60-70%）</li>
+<li><strong>吞吐量增加</strong>：支持更大批量处理，提高 GPU 利用率</li>
+<li><strong>延迟降低</strong>：减少内存分配和碎片整理开销</li>
+</ul>
+<hr>
+<h2 id="四、环境准备：Windows-Docker-与-NVIDIA-GPU-支持"><a href="#四、环境准备：Windows-Docker-与-NVIDIA-GPU-支持" class="headerlink" title="四、环境准备：Windows Docker 与 NVIDIA GPU 支持"></a>四、环境准备：Windows Docker 与 NVIDIA GPU 支持</h2><p>在 Windows 上使用 Docker 进行 GPU 加速部署，核心是配置好 <strong>NVIDIA Container Toolkit</strong>（原 nvidia-docker）。这是让 Docker 容器访问宿主机 GPU 驱动的基础。</p>
+<h3 id="4-1-系统与驱动要求"><a href="#4-1-系统与驱动要求" class="headerlink" title="4.1 系统与驱动要求"></a>4.1 系统与驱动要求</h3><ul>
+<li><strong>Windows 版本</strong>：确保系统支持 WSL 2（Windows Subsystem for Linux 2），这是当前在 Windows 上运行 Docker 并启用 GPU 加速的推荐方式</li>
+<li><strong>NVIDIA 驱动</strong>：确认驱动支持 <strong>CUDA 12.9 或以上版本</strong>（可通过 NVIDIA app或官网更新驱动）</li>
+<li><strong>GPU 支持列表</strong>（NVIDIA Blackwell 架构）：<ul>
+<li>RTX 5090、RTX 5080、RTX 5070、RTX 5070 Ti、RTX 5060、RTX 5060 Ti、RTX 5050</li>
+</ul>
+</li>
+</ul>
+<h4 id="Blackwell-架构优势"><a href="#Blackwell-架构优势" class="headerlink" title="Blackwell 架构优势"></a>Blackwell 架构优势</h4><p>Blackwell 架构相比上一代 Hopper 架构在以下方面有明显提升：</p>
+<ul>
+<li><strong>显存带宽更高</strong>：支持更快的模型加载与推理</li>
+<li><strong>能效比优化</strong>：相同任务功耗更低</li>
+<li><strong>第二代 Transformer 引擎</strong>：针对 LLM 推理进一步优化</li>
+</ul>
+<h3 id="4-2-环境检查步骤"><a href="#4-2-环境检查步骤" class="headerlink" title="4.2 环境检查步骤"></a>4.2 环境检查步骤</h3><ol>
+<li><p>打开 PowerShell（管理员身份），运行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">wsl <span class="hljs-literal">--version</span><br></code></pre></td></tr></table></figure>
+
+<p>确保 WSL 版本为 2 或更高。</p>
+</li>
+<li><p>运行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nvidia<span class="hljs-literal">-smi</span><br></code></pre></td></tr></table></figure>
+
+<p>查看驱动版本与 CUDA 支持情况。</p>
+</li>
+</ol>
+<hr>
+<h2 id="五、Docker-部署-PaddleOCR-VL-核心服务"><a href="#五、Docker-部署-PaddleOCR-VL-核心服务" class="headerlink" title="五、Docker 部署 PaddleOCR-VL 核心服务"></a>五、Docker 部署 PaddleOCR-VL 核心服务</h2><p>PaddleOCR-VL 的完整部署包含两部分：<strong>版面检测模型</strong>和 <strong>VLM 推理服务</strong>。</p>
+<h3 id="5-1-使用官方集成镜像（推荐）"><a href="#5-1-使用官方集成镜像（推荐）" class="headerlink" title="5.1 使用官方集成镜像（推荐）"></a>5.1 使用官方集成镜像（推荐）</h3><p>PaddleOCR 提供了 Docker 镜像，用于快速启动 vLLM 推理服务。可使用以下命令启动服务（要求 Docker 版本 ≥ 19.03）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --<span class="hljs-built_in">rm</span> --gpus all --network host ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-vllm-server:latest-gpu-sm120 paddleocr genai_server --model_name PaddleOCR-VL-0.9B --host 0.0.0.0 --port 8118 --backend vllm<br></code></pre></td></tr></table></figure>
+
+<h4 id="离线环境部署"><a href="#离线环境部署" class="headerlink" title="离线环境部署"></a>离线环境部署</h4><p>若无法连接互联网，可使用离线版本镜像（约 14 GB）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --<span class="hljs-built_in">rm</span> --gpus all --network host ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-vllm-server:latest-gpu-sm120-offline paddleocr genai_server --model_name PaddleOCR-VL-0.9B --host 0.0.0.0 --port 8118 --backend vllm<br></code></pre></td></tr></table></figure>
+
+<h4 id="端口映射（可选）"><a href="#端口映射（可选）" class="headerlink" title="端口映射（可选）"></a>端口映射（可选）</h4><p>如需将容器端口映射到宿主机：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --<span class="hljs-built_in">rm</span> --gpus all -p 8118:8118 -p 8080:8080 &lt;image_id&gt;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、性能优化与推理加速"><a href="#六、性能优化与推理加速" class="headerlink" title="六、性能优化与推理加速"></a>六、性能优化与推理加速</h2><h3 id="6-1-vLLM-关键参数调优"><a href="#6-1-vLLM-关键参数调优" class="headerlink" title="6.1 vLLM 关键参数调优"></a>6.1 vLLM 关键参数调优</h3><p>以下参数可用于提升推理性能与资源利用率：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>建议值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--gpu-memory-utilization</code></td>
+<td>GPU 显存使用比例（0~1）</td>
+<td>0.8</td>
+</tr>
+<tr>
+<td><code>--max-num-batched-tokens</code></td>
+<td>批处理最大 token 数</td>
+<td>16384（OCR任务建议）</td>
+</tr>
+<tr>
+<td><code>--max-model-len</code></td>
+<td>模型最大上下文长度</td>
+<td>7520</td>
+</tr>
+</tbody></table>
+<h4 id="示例启动命令（含性能调优）："><a href="#示例启动命令（含性能调优）：" class="headerlink" title="示例启动命令（含性能调优）："></a>示例启动命令（含性能调优）：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">paddleocr genai_server --model_name PaddleOCR-VL-0.9B --host 0.0.0.0 --port 8118 --backend vllm --backend_config &lt;(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;gpu-memory-utilization: 0.8\nmax-model-len: 7520\nmax-num-batched-tokens: 32768&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2-服务监控与健康检查"><a href="#6-2-服务监控与健康检查" class="headerlink" title="6.2 服务监控与健康检查"></a>6.2 服务监控与健康检查</h3><p>部署后，可使用以下命令检查服务状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8118/health<br></code></pre></td></tr></table></figure>
+
+<p>若返回 <code>StatusCode        : 200 StatusDescription : OK Content           : {} RawContent        : HTTP/1.1 200 OK                     Content-Length: 0</code>，说明服务运行正常。</p>
+<p><strong>补充监控建议</strong>：</p>
+<ul>
+<li>使用 <code>nvidia-smi</code> 监控 GPU 利用率</li>
+<li>使用 <code>docker stats</code> 查看容器资源使用情况</li>
+<li>通过日志查看推理耗时与吞吐量</li>
+</ul>
+<hr>
+<h2 id="七、客户端调用示例"><a href="#七、客户端调用示例" class="headerlink" title="七、客户端调用示例"></a>七、客户端调用示例</h2><h3 id="7-1-Python-API-调用"><a href="#7-1-Python-API-调用" class="headerlink" title="7.1 Python API 调用"></a>7.1 Python API 调用</h3><p>安装 PaddleOCR 客户端库后，可通过以下代码调用服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> paddleocr <span class="hljs-keyword">import</span> PaddleOCRVL<br><br>pipeline = PaddleOCRVL(<br>    vl_rec_backend=<span class="hljs-string">&quot;vllm-server&quot;</span>,<br>    vl_rec_server_url=<span class="hljs-string">&quot;http://127.0.0.1:8118/v1&quot;</span><br>)<br><br><span class="hljs-comment"># 处理图片</span><br>result = pipeline.ocr(<span class="hljs-string">&quot;path/to/image.jpg&quot;</span>, cls=<span class="hljs-literal">True</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-2-CLI-命令行调用"><a href="#7-2-CLI-命令行调用" class="headerlink" title="7.2 CLI 命令行调用"></a>7.2 CLI 命令行调用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">paddleocr doc_parser --input paddleocr_vl_demo.png --vl_rec_backend vllm-server --vl_rec_server_url http://127.0.0.1:8118/v1<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、vLLM-参数分类说明"><a href="#八、vLLM-参数分类说明" class="headerlink" title="八、vLLM 参数分类说明"></a>八、vLLM 参数分类说明</h2><h3 id="8-1-模型加载与基本配置"><a href="#8-1-模型加载与基本配置" class="headerlink" title="8.1 模型加载与基本配置"></a>8.1 模型加载与基本配置</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--model_name</code></td>
+<td>模型名称，如 <code>PaddleOCR-VL-0.9B</code></td>
+</tr>
+<tr>
+<td><code>--backend</code></td>
+<td>推理后端，应设置为 <code>vllm</code></td>
+</tr>
+</tbody></table>
+<h3 id="8-2-推理性能与资源管理"><a href="#8-2-推理性能与资源管理" class="headerlink" title="8.2 推理性能与资源管理"></a>8.2 推理性能与资源管理</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--gpu-memory-utilization</code></td>
+<td>GPU 显存使用比例</td>
+</tr>
+<tr>
+<td><code>--max-num-batched-tokens</code></td>
+<td>批处理 token 上限</td>
+</tr>
+<tr>
+<td><code>--max-model-len</code></td>
+<td>模型上下文最大长度</td>
+</tr>
+</tbody></table>
+<h3 id="8-3-服务部署与网络配置"><a href="#8-3-服务部署与网络配置" class="headerlink" title="8.3 服务部署与网络配置"></a>8.3 服务部署与网络配置</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--host</code></td>
+<td>服务绑定地址，如 <code>0.0.0.0</code></td>
+</tr>
+<tr>
+<td><code>--port</code></td>
+<td>服务端口，如 <code>8118</code></td>
+</tr>
+<tr>
+<td><code>--backend_config</code></td>
+<td>可选，用于传递 YAML 格式的 vLLM 配置</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、-服务化部署"><a href="#九、-服务化部署" class="headerlink" title="九、 服务化部署"></a>九、 服务化部署</h2><h3 id="9-1-整体架构"><a href="#9-1-整体架构" class="headerlink" title="9.1 整体架构"></a>9.1 整体架构</h3><p>PaddleOCR‑VL 服务化部署采用前后端分离架构，通过 Docker Compose 编排以下两个容器服务：</p>
+<ol>
+<li><strong>paddleocr‑vl‑api</strong> – 对外提供 OCR 和视觉语言模型 API 接口（前端服务）</li>
+<li><strong>paddleocr‑vlm‑server</strong> – 视觉语言模型推理服务后端（后端服务）</li>
+</ol>
+<p>两个服务均支持 GPU 加速，适用于生产环境部署。</p>
+<hr>
+<h3 id="9-2-使用-Docker-Compose-部署（推荐）"><a href="#9-2-使用-Docker-Compose-部署（推荐）" class="headerlink" title="9.2 使用 Docker Compose 部署（推荐）"></a>9.2 使用 Docker Compose 部署（推荐）</h3><h4 id="步骤一：准备配置文件"><a href="#步骤一：准备配置文件" class="headerlink" title="步骤一：准备配置文件"></a>步骤一：准备配置文件</h4><p><strong>1. 创建 <code>compose.yaml</code></strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">paddleocr-vl-api:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-vl:$&#123;API_IMAGE_TAG_SUFFIX&#125;</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">paddleocr-vl-api</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-number">8080</span><span class="hljs-string">:8080</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-attr">paddleocr-vlm-server:</span><br>        <span class="hljs-attr">condition:</span> <span class="hljs-string">service_healthy</span><br>    <span class="hljs-attr">deploy:</span><br>      <span class="hljs-attr">resources:</span><br>        <span class="hljs-attr">reservations:</span><br>          <span class="hljs-attr">devices:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">driver:</span> <span class="hljs-string">nvidia</span><br>              <span class="hljs-attr">device_ids:</span> [<span class="hljs-string">&quot;0&quot;</span>]<br>              <span class="hljs-attr">capabilities:</span> [<span class="hljs-string">gpu</span>]<br>    <span class="hljs-attr">user:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">VLM_BACKEND=$&#123;VLM_BACKEND:-vllm&#125;</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">/bin/bash</span> <span class="hljs-string">-c</span> <span class="hljs-string">&quot;paddlex --serve --pipeline /home/paddleocr/pipeline_config_$&#123;VLM_BACKEND&#125;.yaml&quot;</span><br>    <span class="hljs-attr">healthcheck:</span><br>      <span class="hljs-attr">test:</span> [<span class="hljs-string">&quot;CMD-SHELL&quot;</span>, <span class="hljs-string">&quot;curl -f http://localhost:8080/health || exit 1&quot;</span>]<br><br>  <span class="hljs-attr">paddleocr-vlm-server:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-$&#123;VLM_BACKEND&#125;-server:$&#123;VLM_IMAGE_TAG_SUFFIX&#125;</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">paddleocr-vlm-server</span><br>    <span class="hljs-attr">deploy:</span><br>      <span class="hljs-attr">resources:</span><br>        <span class="hljs-attr">reservations:</span><br>          <span class="hljs-attr">devices:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">driver:</span> <span class="hljs-string">nvidia</span><br>              <span class="hljs-attr">device_ids:</span> [<span class="hljs-string">&quot;0&quot;</span>]<br>              <span class="hljs-attr">capabilities:</span> [<span class="hljs-string">gpu</span>]<br>    <span class="hljs-attr">user:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span><br>    <span class="hljs-attr">healthcheck:</span><br>      <span class="hljs-attr">test:</span> [<span class="hljs-string">&quot;CMD-SHELL&quot;</span>, <span class="hljs-string">&quot;curl -f http://localhost:8080/health || exit 1&quot;</span>]<br>      <span class="hljs-attr">start_period:</span> <span class="hljs-string">300s</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 创建 <code>.env</code> 环境变量文件</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">API_IMAGE_TAG_SUFFIX</span>=latest-gpu-sm120-<span class="hljs-literal">off</span>line<br><span class="hljs-attr">VLM_BACKEND</span>=vllm<br><span class="hljs-attr">VLM_IMAGE_TAG_SUFFIX</span>=latest-gpu-sm120-<span class="hljs-literal">off</span>line<br></code></pre></td></tr></table></figure>
+
+<h4 id="步骤二：启动服务"><a href="#步骤二：启动服务" class="headerlink" title="步骤二：启动服务"></a>步骤二：启动服务</h4><p>在 <code>compose.yaml</code> 和 <code>.env</code> 所在目录执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker compose up<br></code></pre></td></tr></table></figure>
+
+<p>启动成功后，日志将显示：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">paddleocr-vl-api             | <span class="hljs-keyword">INFO</span>:     Started <span class="hljs-keyword">server</span> process [<span class="hljs-number">1</span>]<br>paddleocr-vl-api             | <span class="hljs-keyword">INFO</span>:     Waiting <span class="hljs-keyword">for</span> application startup.<br>paddleocr-vl-api             | <span class="hljs-keyword">INFO</span>:     Application startup complete.<br>paddleocr-vl-api             | <span class="hljs-keyword">INFO</span>:     Uvicorn running <span class="hljs-keyword">on</span> http://<span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>:<span class="hljs-number">8080</span> (Press CTRL+C <span class="hljs-keyword">to</span> quit)<br></code></pre></td></tr></table></figure>
+
+<p>服务默认监听 <strong>8080</strong> 端口。</p>
+<h4 id="步骤三：验证服务"><a href="#步骤三：验证服务" class="headerlink" title="步骤三：验证服务"></a>步骤三：验证服务</h4><p>访问健康检查接口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl http://localhost:8080/health<br></code></pre></td></tr></table></figure>
+
+<p>或使用客户端调用示例进行功能验证。</p>
+<hr>
+<h3 id="9-3-服务详解"><a href="#9-3-服务详解" class="headerlink" title="9.3 服务详解"></a>9.3 服务详解</h3><h4 id="9-3-1-paddleocr‑vl‑api（前端服务）"><a href="#9-3-1-paddleocr‑vl‑api（前端服务）" class="headerlink" title="9.3.1 paddleocr‑vl‑api（前端服务）"></a>9.3.1 paddleocr‑vl‑api（前端服务）</h4><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>image</code></td>
+<td>PaddleOCR‑VL 服务镜像，标签通过 <code>API_IMAGE_TAG_SUFFIX</code> 环境变量指定</td>
+</tr>
+<tr>
+<td><code>ports</code></td>
+<td>端口映射，格式为 <code>宿主机端口:容器端口</code></td>
+</tr>
+<tr>
+<td><code>depends_on</code></td>
+<td>依赖后端服务，并设置健康检查条件</td>
+</tr>
+<tr>
+<td><code>deploy.resources</code></td>
+<td>GPU 资源配置，支持指定 GPU 设备 ID</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>容器运行用户（目前为 root，后续计划改为普通用户）</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td>环境变量，<code>VLM_BACKEND</code> 指定推理后端（默认为 vllm）</td>
+</tr>
+<tr>
+<td><code>command</code></td>
+<td>启动命令，动态加载对应后端的 pipeline 配置文件</td>
+</tr>
+<tr>
+<td><code>healthcheck</code></td>
+<td>健康检查机制，通过调用 <code>/health</code> 接口判断服务状态</td>
+</tr>
+</tbody></table>
+<h4 id="9-3-2-paddleocr‑vlm‑server（后端服务）"><a href="#9-3-2-paddleocr‑vlm‑server（后端服务）" class="headerlink" title="9.3.2 paddleocr‑vlm‑server（后端服务）"></a>9.3.2 paddleocr‑vlm‑server（后端服务）</h4><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>image</code></td>
+<td>VLM 推理服务镜像，镜像标签由 <code>VLM_BACKEND</code> 和 <code>VLM_IMAGE_TAG_SUFFIX</code> 决定</td>
+</tr>
+<tr>
+<td><code>deploy.resources</code></td>
+<td>GPU 资源配置，与前端服务保持一致</td>
+</tr>
+<tr>
+<td><code>healthcheck</code></td>
+<td>健康检查，设置 <code>start_period</code> 以避免启动初期误判</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="9-4-自定义配置"><a href="#9-4-自定义配置" class="headerlink" title="9.4 自定义配置"></a>9.4 自定义配置</h3><h4 id="9-4-1-修改服务端口"><a href="#9-4-1-修改服务端口" class="headerlink" title="9.4.1 修改服务端口"></a>9.4.1 修改服务端口</h4><p>如需将服务端口改为 8111，编辑 <code>compose.yaml</code> 中 <code>paddleocr-vl-api.ports</code>：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs diff">  ports:<br><span class="hljs-deletion">-   - 8080:8080</span><br><span class="hljs-addition">+   - 8111:8080</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="9-4-2-指定使用的-GPU"><a href="#9-4-2-指定使用的-GPU" class="headerlink" title="9.4.2 指定使用的 GPU"></a>9.4.2 指定使用的 GPU</h4><p>如需使用 GPU 卡 1，修改 <code>compose.yaml</code> 中两个服务的 <code>device_ids</code>：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs diff">  devices:<br>    - driver: nvidia<br><span class="hljs-deletion">-     device_ids: [&quot;0&quot;]</span><br><span class="hljs-addition">+     device_ids: [&quot;1&quot;]</span><br>      capabilities: [gpu]<br></code></pre></td></tr></table></figure>
+
+<h4 id="9-4-3-调整-VLM-服务端配置"><a href="#9-4-3-调整-VLM-服务端配置" class="headerlink" title="9.4.3 调整 VLM 服务端配置"></a>9.4.3 调整 VLM 服务端配置</h4><p>若需自定义 VLM 服务端参数，可生成配置文件并挂载至容器。</p>
+<ol>
+<li>生成配置文件（例如 <code>vlm_server_config.yaml</code>）</li>
+</ol>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">gpu</span>-memory-utilization: <span class="hljs-number">0</span>.<span class="hljs-number">8</span><br><span class="hljs-attribute">max</span>-model-len: <span class="hljs-number">7520</span><br><span class="hljs-attribute">max</span>-num-batched-tokens: <span class="hljs-number">32768</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>在 <code>compose.yaml</code> 的 <code>paddleocr-vlm-server</code> 服务中添加以下配置：</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">volumes:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/path/to/your_config.yaml:/home/paddleocr/vlm_server_config.yaml</span><br><span class="hljs-attr">command:</span> <span class="hljs-string">paddleocr</span> <span class="hljs-string">genai_server</span> <span class="hljs-string">--model_name</span> <span class="hljs-string">PaddleOCR-VL-0.9B</span> <span class="hljs-string">--host</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span> <span class="hljs-string">--port</span> <span class="hljs-number">8080</span> <span class="hljs-string">--backend</span> <span class="hljs-string">vllm</span> <span class="hljs-string">--backend_config</span> <span class="hljs-string">/home/paddleocr/vlm_server_config.yaml</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="9-5-vLLM后端对应的产线配置文件：pipeline-config-vllm-yaml"><a href="#9-5-vLLM后端对应的产线配置文件：pipeline-config-vllm-yaml" class="headerlink" title="9.5 vLLM后端对应的产线配置文件：pipeline_config_vllm.yaml"></a>9.5 vLLM后端对应的产线配置文件：pipeline_config_vllm.yaml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">pipeline_name:</span> <span class="hljs-string">PaddleOCR-VL</span><br><span class="hljs-attr">batch_size:</span> <span class="hljs-number">64</span><br><span class="hljs-attr">use_queues:</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">use_doc_preprocessor:</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">use_layout_detection:</span> <span class="hljs-literal">True</span><br><span class="hljs-attr">use_chart_recognition:</span> <span class="hljs-literal">False</span><br><span class="hljs-attr">format_block_content:</span> <span class="hljs-literal">False</span><br><br><span class="hljs-attr">SubModules:</span><br>  <span class="hljs-attr">LayoutDetection:</span><br>    <span class="hljs-attr">module_name:</span> <span class="hljs-string">layout_detection</span><br>    <span class="hljs-attr">model_name:</span> <span class="hljs-string">PP-DocLayoutV2</span><br>    <span class="hljs-attr">model_dir:</span> <span class="hljs-literal">null</span><br>    <span class="hljs-attr">batch_size:</span> <span class="hljs-number">8</span><br>    <span class="hljs-attr">threshold:</span> <br>      <span class="hljs-attr">0:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># abstract</span><br>      <span class="hljs-attr">1:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># algorithm</span><br>      <span class="hljs-attr">2:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># aside_text</span><br>      <span class="hljs-attr">3:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># chart</span><br>      <span class="hljs-attr">4:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># content</span><br>      <span class="hljs-attr">5:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># formula</span><br>      <span class="hljs-attr">6:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># doc_title</span><br>      <span class="hljs-attr">7:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># figure_title</span><br>      <span class="hljs-attr">8:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># footer</span><br>      <span class="hljs-attr">9:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># footer</span><br>      <span class="hljs-attr">10:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># footnote</span><br>      <span class="hljs-attr">11:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># formula_number</span><br>      <span class="hljs-attr">12:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># header</span><br>      <span class="hljs-attr">13:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># header</span><br>      <span class="hljs-attr">14:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># image</span><br>      <span class="hljs-attr">15:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># formula</span><br>      <span class="hljs-attr">16:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># number</span><br>      <span class="hljs-attr">17:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># paragraph_title</span><br>      <span class="hljs-attr">18:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># reference</span><br>      <span class="hljs-attr">19:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># reference_content</span><br>      <span class="hljs-attr">20:</span> <span class="hljs-number">0.45</span> <span class="hljs-comment"># seal</span><br>      <span class="hljs-attr">21:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># table</span><br>      <span class="hljs-attr">22:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># text</span><br>      <span class="hljs-attr">23:</span> <span class="hljs-number">0.4</span> <span class="hljs-comment"># text</span><br>      <span class="hljs-attr">24:</span> <span class="hljs-number">0.5</span> <span class="hljs-comment"># vision_footnote</span><br>    <span class="hljs-attr">layout_nms:</span> <span class="hljs-literal">True</span><br>    <span class="hljs-attr">layout_unclip_ratio:</span> [<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>] <br>    <span class="hljs-attr">layout_merge_bboxes_mode:</span> <br>      <span class="hljs-attr">0:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># abstract</span><br>      <span class="hljs-attr">1:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># algorithm</span><br>      <span class="hljs-attr">2:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># aside_text</span><br>      <span class="hljs-attr">3:</span> <span class="hljs-string">&quot;large&quot;</span> <span class="hljs-comment"># chart</span><br>      <span class="hljs-attr">4:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># content</span><br>      <span class="hljs-attr">5:</span> <span class="hljs-string">&quot;large&quot;</span> <span class="hljs-comment"># display_formula</span><br>      <span class="hljs-attr">6:</span> <span class="hljs-string">&quot;large&quot;</span> <span class="hljs-comment"># doc_title</span><br>      <span class="hljs-attr">7:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># figure_title</span><br>      <span class="hljs-attr">8:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># footer</span><br>      <span class="hljs-attr">9:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># footer</span><br>      <span class="hljs-attr">10:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># footnote</span><br>      <span class="hljs-attr">11:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># formula_number</span><br>      <span class="hljs-attr">12:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># header</span><br>      <span class="hljs-attr">13:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># header</span><br>      <span class="hljs-attr">14:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># image</span><br>      <span class="hljs-attr">15:</span> <span class="hljs-string">&quot;large&quot;</span> <span class="hljs-comment"># inline_formula</span><br>      <span class="hljs-attr">16:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># number</span><br>      <span class="hljs-attr">17:</span> <span class="hljs-string">&quot;large&quot;</span> <span class="hljs-comment"># paragraph_title</span><br>      <span class="hljs-attr">18:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># reference</span><br>      <span class="hljs-attr">19:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># reference_content</span><br>      <span class="hljs-attr">20:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># seal</span><br>      <span class="hljs-attr">21:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># table</span><br>      <span class="hljs-attr">22:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># text</span><br>      <span class="hljs-attr">23:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># text</span><br>      <span class="hljs-attr">24:</span> <span class="hljs-string">&quot;union&quot;</span> <span class="hljs-comment"># vision_footnote</span><br>  <span class="hljs-attr">VLRecognition:</span><br>    <span class="hljs-attr">module_name:</span> <span class="hljs-string">vl_recognition</span><br>    <span class="hljs-attr">model_name:</span> <span class="hljs-string">PaddleOCR-VL-0.9B</span><br>    <span class="hljs-attr">model_dir:</span> <span class="hljs-literal">null</span><br>    <span class="hljs-attr">batch_size:</span> <span class="hljs-number">4096</span><br>    <span class="hljs-attr">genai_config:</span><br>      <span class="hljs-attr">backend:</span> <span class="hljs-string">vllm-server</span><br>      <span class="hljs-attr">server_url:</span> <span class="hljs-string">http://paddleocr-vlm-server:8080/v1</span><br><br><span class="hljs-attr">SubPipelines:</span><br>  <span class="hljs-attr">DocPreprocessor:</span><br>    <span class="hljs-attr">pipeline_name:</span> <span class="hljs-string">doc_preprocessor</span><br>    <span class="hljs-attr">batch_size:</span> <span class="hljs-number">8</span><br>    <span class="hljs-attr">use_doc_orientation_classify:</span> <span class="hljs-literal">True</span><br>    <span class="hljs-attr">use_doc_unwarping:</span> <span class="hljs-literal">True</span><br>    <span class="hljs-attr">SubModules:</span><br>      <span class="hljs-attr">DocOrientationClassify:</span><br>        <span class="hljs-attr">module_name:</span> <span class="hljs-string">doc_text_orientation</span><br>        <span class="hljs-attr">model_name:</span> <span class="hljs-string">PP-LCNet_x1_0_doc_ori</span><br>        <span class="hljs-attr">model_dir:</span> <span class="hljs-literal">null</span><br>        <span class="hljs-attr">batch_size:</span> <span class="hljs-number">8</span><br>      <span class="hljs-attr">DocUnwarping:</span><br>        <span class="hljs-attr">module_name:</span> <span class="hljs-string">image_unwarping</span><br>        <span class="hljs-attr">model_name:</span> <span class="hljs-string">UVDoc</span><br>        <span class="hljs-attr">model_dir:</span> <span class="hljs-literal">null</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="9-5-1-配置说明补充"><a href="#9-5-1-配置说明补充" class="headerlink" title="9.5.1 配置说明补充"></a>9.5.1 配置说明补充</h4><ul>
+<li><strong><code>batch_size: 64</code></strong>：全局批处理大小，建议根据 GPU 显存调整</li>
+<li><strong><code>use_queues: True</code></strong>：启用异步队列，适合高并发场景</li>
+<li><strong><code>use_doc_preprocessor: False</code></strong>：如文档已预处理，可关闭以提升速度</li>
+<li><strong><code>batch_size: 4096</code>（VLRecognition）</strong>：针对 vLLM 的 token 批处理大小，影响吞吐量</li>
+</ul>
+<h4 id="9-5-2-版面检测模块（LayoutDetection）"><a href="#9-5-2-版面检测模块（LayoutDetection）" class="headerlink" title="9.5.2 版面检测模块（LayoutDetection）"></a>9.5.2 版面检测模块（LayoutDetection）</h4><h5 id="9-5-2-1-基本配置"><a href="#9-5-2-1-基本配置" class="headerlink" title="9.5.2.1 基本配置"></a>9.5.2.1 基本配置</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">module_name:</span> <span class="hljs-string">layout_detection</span>      <span class="hljs-comment"># 模块类型</span><br><span class="hljs-attr">model_name:</span> <span class="hljs-string">PP-DocLayoutV2</span>         <span class="hljs-comment"># 使用最新版布局检测模型</span><br><span class="hljs-attr">model_dir:</span> <span class="hljs-literal">null</span>                    <span class="hljs-comment"># 使用默认模型路径</span><br><span class="hljs-attr">batch_size:</span> <span class="hljs-number">8</span>                      <span class="hljs-comment"># 布局检测批处理大小</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>模型特性</strong>：</p>
+<ul>
+<li><strong>PP-DocLayoutV2</strong>：支持 25 种版面元素检测</li>
+<li>相比 V1 版本，精度提升 15%，速度提升 30%</li>
+</ul>
+<h5 id="9-5-2-2-类别阈值配置（0-24类）"><a href="#9-5-2-2-类别阈值配置（0-24类）" class="headerlink" title="9.5.2.2 类别阈值配置（0-24类）"></a>9.5.2.2 类别阈值配置（0-24类）</h5><p>配置文件中详细定义了 25 类版面元素的置信度阈值：</p>
+<table>
+<thead>
+<tr>
+<th>类别ID</th>
+<th>类别名称</th>
+<th>阈值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>abstract</td>
+<td>0.5</td>
+<td>摘要</td>
+</tr>
+<tr>
+<td>1</td>
+<td>algorithm</td>
+<td>0.5</td>
+<td>算法</td>
+</tr>
+<tr>
+<td>2</td>
+<td>aside_text</td>
+<td>0.5</td>
+<td>旁注文本</td>
+</tr>
+<tr>
+<td>3</td>
+<td>chart</td>
+<td>0.5</td>
+<td>图表</td>
+</tr>
+<tr>
+<td>4</td>
+<td>content</td>
+<td>0.5</td>
+<td>内容区域</td>
+</tr>
+<tr>
+<td>5</td>
+<td>formula</td>
+<td>0.4</td>
+<td>公式</td>
+</tr>
+<tr>
+<td>6</td>
+<td>doc_title</td>
+<td>0.4</td>
+<td>文档标题</td>
+</tr>
+<tr>
+<td>7</td>
+<td>figure_title</td>
+<td>0.5</td>
+<td>图标题</td>
+</tr>
+<tr>
+<td>8</td>
+<td>footer</td>
+<td>0.5</td>
+<td>页脚</td>
+</tr>
+<tr>
+<td>9</td>
+<td>footer</td>
+<td>0.5</td>
+<td>页脚（重复）</td>
+</tr>
+<tr>
+<td>10</td>
+<td>footnote</td>
+<td>0.5</td>
+<td>脚注</td>
+</tr>
+<tr>
+<td>11</td>
+<td>formula_number</td>
+<td>0.5</td>
+<td>公式编号</td>
+</tr>
+<tr>
+<td>12</td>
+<td>header</td>
+<td>0.5</td>
+<td>页眉</td>
+</tr>
+<tr>
+<td>13</td>
+<td>header</td>
+<td>0.5</td>
+<td>页眉（重复）</td>
+</tr>
+<tr>
+<td>14</td>
+<td>image</td>
+<td>0.5</td>
+<td>图像</td>
+</tr>
+<tr>
+<td>15</td>
+<td>formula</td>
+<td>0.4</td>
+<td>行内公式</td>
+</tr>
+<tr>
+<td>16</td>
+<td>number</td>
+<td>0.5</td>
+<td>编号</td>
+</tr>
+<tr>
+<td>17</td>
+<td>paragraph_title</td>
+<td>0.4</td>
+<td>段落标题</td>
+</tr>
+<tr>
+<td>18</td>
+<td>reference</td>
+<td>0.5</td>
+<td>参考文献</td>
+</tr>
+<tr>
+<td>19</td>
+<td>reference_content</td>
+<td>0.5</td>
+<td>参考文献内容</td>
+</tr>
+<tr>
+<td>20</td>
+<td>seal</td>
+<td>0.45</td>
+<td>印章</td>
+</tr>
+<tr>
+<td>21</td>
+<td>table</td>
+<td>0.5</td>
+<td>表格</td>
+</tr>
+<tr>
+<td>22</td>
+<td>text</td>
+<td>0.4</td>
+<td>文本</td>
+</tr>
+<tr>
+<td>23</td>
+<td>text</td>
+<td>0.4</td>
+<td>文本（重复）</td>
+</tr>
+<tr>
+<td>24</td>
+<td>vision_footnote</td>
+<td>0.5</td>
+<td>视觉脚注</td>
+</tr>
+</tbody></table>
+<p><strong>阈值设计原则</strong>：</p>
+<ul>
+<li><strong>高阈值（0.5）</strong>：用于结构化元素（表格、图表、标题），确保高精度</li>
+<li><strong>中等阈值（0.4-0.45）</strong>：用于文本和公式，平衡召回率和准确率</li>
+<li><strong>低阈值（0.4）</strong>：用于段落文本，提高召回率</li>
+</ul>
+<h5 id="9-5-2-3-后处理参数"><a href="#9-5-2-3-后处理参数" class="headerlink" title="9.5.2.3 后处理参数"></a>9.5.2.3 后处理参数</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">layout_nms:</span> <span class="hljs-literal">True</span>    <span class="hljs-comment"># 启用非极大值抑制，消除重叠框</span><br><span class="hljs-attr">layout_unclip_ratio:</span> [<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>]  <span class="hljs-comment"># 边界框扩展比例（宽度，高度）</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="9-5-2-4-边界框合并策略"><a href="#9-5-2-4-边界框合并策略" class="headerlink" title="9.5.2.4 边界框合并策略"></a>9.5.2.4 边界框合并策略</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">layout_merge_bboxes_mode:</span><br>  <span class="hljs-attr">0:</span> <span class="hljs-string">&quot;union&quot;</span>   <span class="hljs-comment"># abstract - 并集合并</span><br>  <span class="hljs-attr">1:</span> <span class="hljs-string">&quot;union&quot;</span>   <span class="hljs-comment"># algorithm - 并集合并</span><br>  <span class="hljs-attr">2:</span> <span class="hljs-string">&quot;union&quot;</span>   <span class="hljs-comment"># aside_text - 并集合并</span><br>  <span class="hljs-attr">3:</span> <span class="hljs-string">&quot;large&quot;</span>   <span class="hljs-comment"># chart - 保留大面积框</span><br>  <span class="hljs-attr">4:</span> <span class="hljs-string">&quot;union&quot;</span>   <span class="hljs-comment"># content - 并集合并</span><br>  <span class="hljs-attr">5:</span> <span class="hljs-string">&quot;large&quot;</span>   <span class="hljs-comment"># display_formula - 保留大面积框</span><br>  <span class="hljs-comment"># ... 其他类别</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>合并策略说明</strong>：</p>
+<ul>
+<li><strong><code>&quot;union&quot;</code></strong>：合并重叠框为并集（适合文本区域）</li>
+<li><strong><code>&quot;large&quot;</code></strong>：保留面积最大的框（适合图表、公式等独立元素）</li>
+<li><strong><code>&quot;none&quot;</code></strong>：不合并（保留所有检测框）</li>
+</ul>
+<hr>
+<h4 id="9-5-3-应用配置文件"><a href="#9-5-3-应用配置文件" class="headerlink" title="9.5.3 应用配置文件"></a>9.5.3 应用配置文件</h4><p><strong>若您使用 Docker Compose 部署：</strong></p>
+<p>设置 Compose 文件中的 <code>services.paddleocr-vl-api.volumes</code> 字段，将产线配置文件挂载到 <code>/home/paddleocr</code> 目录。例如：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">services</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">paddleocr-vl-api</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-attribute">...</span><br><span class="hljs-attribute">    volumes</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">pipeline_config_vllm.yaml:/home/paddleocr/pipeline_config.yaml</span><br>...<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在生产环境中，您也可以自行构建镜像，将配置文件打包到镜像中。</p>
+</blockquote>
+<p><strong>若您是手动部署：</strong></p>
+<p>在启动服务时，将 <code>--pipeline</code> 参数指定为自定义配置文件路径。</p>
+<h3 id="9-6-客户端调用"><a href="#9-6-客户端调用" class="headerlink" title="9.6 客户端调用"></a>9.6 客户端调用</h3><h4 id="9-6-1-API-参考"><a href="#9-6-1-API-参考" class="headerlink" title="9.6.1 API 参考"></a>9.6.1 API 参考</h4><h5 id="接口说明"><a href="#接口说明" class="headerlink" title="接口说明"></a>接口说明</h5><ul>
+<li><strong>端点</strong>：<code>POST /layout-parsing</code></li>
+<li><strong>请求&#x2F;响应格式</strong>：JSON</li>
+<li><strong>成功响应码</strong>：200</li>
+</ul>
+<h5 id="请求体字段"><a href="#请求体字段" class="headerlink" title="请求体字段"></a>请求体字段</h5><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>file</code></td>
+<td>string</td>
+<td>是</td>
+<td>图像或 PDF 文件的 URL，或 Base64 编码内容</td>
+</tr>
+<tr>
+<td><code>fileType</code></td>
+<td>int</td>
+<td>否</td>
+<td>文件类型：0‑PDF，1‑图像。默认根据 URL 推断</td>
+</tr>
+<tr>
+<td><code>useDocOrientationClassify</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否启用文档方向分类</td>
+</tr>
+<tr>
+<td><code>useDocUnwarping</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否启用文档展平</td>
+</tr>
+<tr>
+<td><code>useLayoutDetection</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否启用版面检测</td>
+</tr>
+<tr>
+<td><code>useChartRecognition</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否启用图表识别</td>
+</tr>
+<tr>
+<td><code>layoutThreshold</code></td>
+<td>number&#x2F;object</td>
+<td>否</td>
+<td>版面检测阈值</td>
+</tr>
+<tr>
+<td><code>layoutNms</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否启用 NMS</td>
+</tr>
+<tr>
+<td><code>layoutUnclipRatio</code></td>
+<td>number&#x2F;array&#x2F;object</td>
+<td>否</td>
+<td>检测框扩展比例</td>
+</tr>
+<tr>
+<td><code>layoutMergeBboxesMode</code></td>
+<td>string&#x2F;object</td>
+<td>否</td>
+<td>检测框合并模式</td>
+</tr>
+<tr>
+<td><code>promptLabel</code></td>
+<td>string</td>
+<td>否</td>
+<td>提示标签</td>
+</tr>
+<tr>
+<td><code>formatBlockContent</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否格式化块内容</td>
+</tr>
+<tr>
+<td><code>repetitionPenalty</code></td>
+<td>number</td>
+<td>否</td>
+<td>重复惩罚系数</td>
+</tr>
+<tr>
+<td><code>temperature</code></td>
+<td>number</td>
+<td>否</td>
+<td>采样温度</td>
+</tr>
+<tr>
+<td><code>topP</code></td>
+<td>number</td>
+<td>否</td>
+<td>核心采样参数</td>
+</tr>
+<tr>
+<td><code>minPixels</code></td>
+<td>number</td>
+<td>否</td>
+<td>最小像素数</td>
+</tr>
+<tr>
+<td><code>maxPixels</code></td>
+<td>number</td>
+<td>否</td>
+<td>最大像素数</td>
+</tr>
+<tr>
+<td><code>prettifyMarkdown</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否美化 Markdown 输出（默认 true）</td>
+</tr>
+<tr>
+<td><code>showFormulaNumber</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否显示公式编号（默认 false）</td>
+</tr>
+<tr>
+<td><code>visualize</code></td>
+<td>boolean</td>
+<td>否</td>
+<td>是否返回可视化图像（默认遵循配置文件）</td>
+</tr>
+</tbody></table>
+<h5 id="成功响应结构"><a href="#成功响应结构" class="headerlink" title="成功响应结构"></a>成功响应结构</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;logId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;请求UUID&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;errorCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;errorMsg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Success&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;result&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;layoutParsingResults&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;prunedResult&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-comment">/* 简化后的版面解析结果 */</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;markdown&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Markdown文本&quot;</span><span class="hljs-punctuation">,</span><br>          <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;图片路径&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Base64图片&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>          <span class="hljs-attr">&quot;isStart&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>          <span class="hljs-attr">&quot;isEnd&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;outputImages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-comment">/* 可视化图像（Base64）*/</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;inputImage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Base64原始图像&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;dataInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-comment">/* 输入数据信息 */</span> <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="9-6-2-多语言调用示例"><a href="#9-6-2-多语言调用示例" class="headerlink" title="9.6.2 多语言调用示例"></a>9.6.2 多语言调用示例</h4><h5 id="Python-示例"><a href="#Python-示例" class="headerlink" title="Python 示例"></a>Python 示例</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> base64<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> pathlib<br><br>API_URL = <span class="hljs-string">&quot;http://localhost:8080/layout-parsing&quot;</span><br>image_path = <span class="hljs-string">&quot;./demo.jpg&quot;</span><br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(image_path, <span class="hljs-string">&quot;rb&quot;</span>) <span class="hljs-keyword">as</span> file:<br>    image_data = base64.b64encode(file.read()).decode(<span class="hljs-string">&quot;ascii&quot;</span>)<br><br>payload = &#123;<br>    <span class="hljs-string">&quot;file&quot;</span>: image_data,<br>    <span class="hljs-string">&quot;fileType&quot;</span>: <span class="hljs-number">1</span>,<br>&#125;<br><br>response = requests.post(API_URL, json=payload)<br><span class="hljs-keyword">assert</span> response.status_code == <span class="hljs-number">200</span><br>result = response.json()[<span class="hljs-string">&quot;result&quot;</span>]<br><br><span class="hljs-comment"># 处理结果</span><br><span class="hljs-keyword">for</span> i, res <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(result[<span class="hljs-string">&quot;layoutParsingResults&quot;</span>]):<br>    <span class="hljs-built_in">print</span>(res[<span class="hljs-string">&quot;prunedResult&quot;</span>])<br>    <br>    <span class="hljs-comment"># 保存 Markdown</span><br>    md_dir = pathlib.Path(<span class="hljs-string">f&quot;markdown_<span class="hljs-subst">&#123;i&#125;</span>&quot;</span>)<br>    md_dir.mkdir(exist_ok=<span class="hljs-literal">True</span>)<br>    (md_dir / <span class="hljs-string">&quot;doc.md&quot;</span>).write_text(res[<span class="hljs-string">&quot;markdown&quot;</span>][<span class="hljs-string">&quot;text&quot;</span>])<br>    <br>    <span class="hljs-comment"># 保存图片</span><br>    <span class="hljs-keyword">for</span> img_path, img <span class="hljs-keyword">in</span> res[<span class="hljs-string">&quot;markdown&quot;</span>][<span class="hljs-string">&quot;images&quot;</span>].items():<br>        (md_dir / img_path).write_bytes(base64.b64decode(img))<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其他语言（C++、Java、Go、C#、Node.js）的调用示例可参考官方文档或根据上述 Python 示例进行相应实现。</p>
+</blockquote>
+<p><strong>在线API参考：</strong><a target="_blank" rel="noopener" href="https://ai.baidu.com/ai-doc/AISTUDIO/2mh4okm66">https://ai.baidu.com/ai-doc/AISTUDIO/2mh4okm66</a></p>
+<hr>
+<h3 id="9-7-离线部署说明"><a href="#9-7-离线部署说明" class="headerlink" title="9.7 离线部署说明"></a>9.7 离线部署说明</h3><p>若需要在无网络环境中部署，可执行以下步骤：</p>
+<ol>
+<li><p>在联网机器上拉取所需镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker compose pull<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>导出镜像包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker save -o paddleocr-images.tar $(docker images | grep paddleocr | awk <span class="hljs-string">&#x27;&#123;print $1&quot;:&quot;$2&#125;&#x27;</span>)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将镜像包传输至离线机器并导入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker load -i paddleocr-images.tar<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在离线环境中执行 <code>docker compose up</code> 启动服务。</p>
+</li>
+</ol>
+<hr>
+<h2 id="十、常见问题与解决方案"><a href="#十、常见问题与解决方案" class="headerlink" title="十、常见问题与解决方案"></a>十、常见问题与解决方案</h2><h3 id="10-1-GPU-内存不足（如-RTX-5060-8G）"><a href="#10-1-GPU-内存不足（如-RTX-5060-8G）" class="headerlink" title="10.1 GPU 内存不足（如 RTX 5060 8G）"></a>10.1 GPU 内存不足（如 RTX 5060 8G）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ERROR 12-01 02:12:09 [core.py:718] ValueError: Free memory on device (6.77/7.96 GiB) on startup is less than desired GPU memory utilization (0.99, 7.88 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.<br></code></pre></td></tr></table></figure>
+
+<p>调整 <code>gpu-memory-utilization</code> 和 <code>max-num-batched-tokens</code> 参数，降低显存占用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">paddleocr genai_server --model_name PaddleOCR-VL-0.9B --host 0.0.0.0 --port 8118 --backend vllm --backend_config &lt;(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;gpu-memory-utilization: 0.8\nmax-model-len: 7520\nmax-num-batched-tokens: 16384&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="10-2-Docker-服务连接失败（如-Windows）"><a href="#10-2-Docker-服务连接失败（如-Windows）" class="headerlink" title="10.2 Docker 服务连接失败（如 Windows）"></a>10.2 Docker 服务连接失败（如 Windows）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl: (28) Failed to connect to host.docker.internal port 8118 after 21032 ms: Could not connect to server<br></code></pre></td></tr></table></figure>
+
+<p>若从宿主机无法访问服务，请按以下步骤排查：</p>
+<ol>
+<li><p><strong>在容器内测试服务</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it &lt;container_id&gt; curl http://localhost:8118/health<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>若容器内正常，重启容器并映射端口</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --gpus all -p 8118:8118 --user root &lt;image_id&gt; /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p>在容器内启动服务后，再从宿主机测试。</p>
+</li>
+<li><p><strong>检查防火墙与网络策略</strong>：确保宿主机防火墙未阻断 8118 端口。</p>
+</li>
+</ol>
+<h3 id="10-3-容器停止后如何重新启动服务"><a href="#10-3-容器停止后如何重新启动服务" class="headerlink" title="10.3 容器停止后如何重新启动服务"></a>10.3 容器停止后如何重新启动服务</h3><p>如果容器已停止，但希望再次运行服务，可按以下步骤操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看所有容器（包括已停止的）</span><br>docker ps -a<br><span class="hljs-comment"># 启动指定容器</span><br>docker start &lt;容器ID或名称&gt;<br><span class="hljs-comment"># 进入容器交互终端</span><br>docker <span class="hljs-built_in">exec</span> -it &lt;容器ID或名称&gt; /bin/bash<br><span class="hljs-comment"># 在容器内启动 PaddleOCR-VL 服务</span><br><span class="hljs-comment">## 进入容器后，运行以下命令启动 vLLM 推理服务（可根据需要调整参数）：</span><br>paddleocr genai_server --model_name PaddleOCR-VL-0.9B --host 0.0.0.0 --port 8118 --backend vllm --backend_config &lt;(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;gpu-memory-utilization: 0.8\nmax-model-len: 7520\nmax-num-batched-tokens: 32768&#x27;</span>)<br><br><br><br><span class="hljs-comment"># 直接启动并进入容器（一键式）</span><br><span class="hljs-comment">## 若容器已存在但未运行，也可使用以下命令直接启动并进入交互终端：</span><br>docker start &lt;容器ID&gt; &amp;&amp; docker <span class="hljs-built_in">exec</span> -it &lt;容器ID&gt; /bin/bash<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="十一、PaddleOCR-VL-0-9B-SFT-有监督微调"><a href="#十一、PaddleOCR-VL-0-9B-SFT-有监督微调" class="headerlink" title="十一、PaddleOCR-VL-0.9B SFT(有监督微调)"></a>十一、PaddleOCR-VL-0.9B SFT(有监督微调)</h2><h3 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h3><p>虽然 PaddleOCR-VL-0.9B 在常见场景下表现出色，但在许多特定或复杂的业务场景中，其性能会遇到瓶颈。例如：</p>
+<ul>
+<li>特定行业与专业领域<ul>
+<li>金融与财会领域：识别发票、收据、银行对账单、财务报表等</li>
+<li>医疗领域：识别病历、化验单、医生手写处方、药品说明书等</li>
+<li>法律领域：识别合同、法律文书、法庭文件、证书等</li>
+</ul>
+</li>
+<li>非标准化的文本与字体<ul>
+<li>手写体识别：识别手写的表单、笔记、信件、问卷调查等</li>
+<li>艺术字体与设计字体：识别海报、广告牌、产品包装、菜单上的艺术字体等</li>
+<li>古籍与历史文献：识别古代手稿、旧报纸、历史档案等</li>
+</ul>
+</li>
+<li>特定任务与输出格式<ul>
+<li>表格识别与结构化输出：将图像中的表格转换为 Excel、CSV 或 JSON 格式</li>
+<li>数学公式识别：识别教科书、论文中的数学公式，并输出为 LaTeX 等格式</li>
+</ul>
+</li>
+</ul>
+<p>这时，就需要通过 SFT (Supervised Fine-Tuning) 来提升模型的准确性和鲁棒性。</p>
+<h3 id="2-环境配置"><a href="#2-环境配置" class="headerlink" title="2. 环境配置"></a>2. 环境配置</h3><p>请确保在 CUDA12 以上的环境下，安装 ERNIE 与相关依赖，为了避免环境问题，我们推荐基于 Paddle 官方镜像构建容器。</p>
+<h4 id="2-1-构建容器"><a href="#2-1-构建容器" class="headerlink" title="2.1. 构建容器"></a>2.1. 构建容器</h4><p>镜像中已经包含了飞桨框架，无需额外安装。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run --gpus <span class="hljs-literal">all</span> --name erniekit-ft-paddleocr-vl -v $PWD:/paddle --shm-size=<span class="hljs-number">128</span>g --network=host -it ccr-<span class="hljs-number">2</span>vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddle:<span class="hljs-number">3</span>.<span class="hljs-number">2</span>.<span class="hljs-number">0</span>-gpu-cuda12.<span class="hljs-number">6</span>-cudnn9.<span class="hljs-number">5</span> /bin/bash<br><br><span class="hljs-comment"># Windows</span><br><span class="hljs-attribute">docker</span> run --gpus <span class="hljs-literal">all</span> --name erniekit-ft-paddleocr-vl -v <span class="hljs-variable">$&#123;PWD&#125;</span>:/paddle --shm-size=<span class="hljs-number">128</span>g --network=host -it ccr-<span class="hljs-number">2</span>vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddle:<span class="hljs-number">3</span>.<span class="hljs-number">2</span>.<span class="hljs-number">0</span>-gpu-cuda12.<span class="hljs-number">6</span>-cudnn9.<span class="hljs-number">5</span> /bin/bash<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-安装-ERNIEKit"><a href="#2-2-安装-ERNIEKit" class="headerlink" title="2.2. 安装 ERNIEKit"></a>2.2. 安装 ERNIEKit</h4><p>拉取 ERNIEKit 并安装依赖：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs awk">git clone https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/PaddlePaddle/</span>ERNIE -b release/v1.<span class="hljs-number">4</span><br>cd ERNIE<br>python -m pip install -r requirements<span class="hljs-regexp">/gpu/</span>requirements.txt<br>python -m pip install -e .  <span class="hljs-comment"># 以“可编辑”模式安装当前项目包</span><br>python -m pip install tensorboard<br>python -m pip install opencv-python-headless<br>python -m pip install numpy==<span class="hljs-number">1.26</span>.<span class="hljs-number">4</span><br><br><span class="hljs-comment"># 如果下载较慢可尝试</span><br>python -m pip install -r requirements<span class="hljs-regexp">/gpu/</span>requirements.txt -i https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/pypi/</span>simple/<br>python -m pip install -e .  <span class="hljs-comment"># 以“可编辑”模式安装当前项目包</span><br>python -m pip install tensorboard -i https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/pypi/</span>simple/<br>python -m pip install opencv-python-headless -i https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/pypi/</span>simple/<br>python -m pip install numpy==<span class="hljs-number">1.26</span>.<span class="hljs-number">4</span> -i https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/pypi/</span>simple/<br></code></pre></td></tr></table></figure>
+
+<p>更多安装方式请参考 <a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/ERNIE/blob/release/v1.4/docs/erniekit.md#2-installation">ERNIEKit-安装文档</a>。</p>
+<h3 id="3-模型和数据集准备"><a href="#3-模型和数据集准备" class="headerlink" title="3. 模型和数据集准备"></a>3. 模型和数据集准备</h3><h4 id="3-1-模型准备"><a href="#3-1-模型准备" class="headerlink" title="3.1. 模型准备"></a>3.1. 模型准备</h4><p>在 <a target="_blank" rel="noopener" href="https://huggingface.co/PaddlePaddle/PaddleOCR-VL">huggingface</a> 或者 <a target="_blank" rel="noopener" href="https://modelscope.cn/models/PaddlePaddle/PaddleOCR-VL">modelscope</a> 可以下载 PaddleOCR-VL-0.9B 模型。</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">huggingface-cli download PaddlePaddle/PaddleOCR-VL <span class="hljs-params">--local-dir</span> PaddlePaddle/PaddleOCR-VL<br><br><span class="hljs-comment"># 国内尝试</span><br>modelscope download <span class="hljs-params">--model</span> PaddlePaddle/PaddleOCR-VL <span class="hljs-params">--local_dir</span> <span class="hljs-string">./PaddleOCR</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-数据集准备"><a href="#3-2-数据集准备" class="headerlink" title="3.2. 数据集准备"></a>3.2. 数据集准备</h4><p>训练所用的数据集格式，请参考 <a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/ERNIE/blob/release/v1.4/docs/datasets.md#sft-vl-dataset">ERNIEKit - SFT VL Dataset Format</a> 进行准备。数据样本中必需字段：</p>
+<ul>
+<li><code>text_info</code>：文本数据列表，其中每个元素包含一个 <code>text</code> 和一个 <code>tag</code>。<ul>
+<li><code>text</code>：查询 Query 或回复 Response 的文本内容。</li>
+<li><code>tag</code>：掩码标签（<code>no_mask</code> 表示包含在训练中，对应 Response；<code>mask</code> 表示从训练中排除，对应 Query）。</li>
+</ul>
+</li>
+<li><code>image_info</code>：图像数据列表，其中每个元素包含一个 <code>image_url</code> 和一个 <code>matched_text_index</code>。<ul>
+<li><code>image_url</code>：用于在线下载图像的 URL，或本地访问图像的路径。</li>
+<li><code>matched_text_index</code>：在 <code>text_info</code> 中匹配文本的索引。<ul>
+<li>默认值：<code>matched_text_index=0</code> 表示该图像与第一个文本匹配，并将被置于第一个文本之前。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>备注：</p>
+<ul>
+<li>每个训练样本均为 JSON 格式，多个样本之间用换行符分隔。</li>
+<li>请确保在 <code>text_info</code> 中，带 <code>mask</code> 标签的项和带 <code>no_mask</code> 标签的项交替出现。</li>
+</ul>
+<p>为了方便起见，我们也提供了一个快速上手的<a target="_blank" rel="noopener" href="https://paddleformers.bj.bcebos.com/datasets/ocr_vl_sft-train_Bengali.jsonl">孟加拉语训练数据集</a>，可用于微调 PaddleOCR-VL-0.9B 对孟加拉语进行识别，使用以下命令下载：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget https:<span class="hljs-regexp">//</span>paddleformers.bj.bcebos.com<span class="hljs-regexp">/datasets/</span>ocr_vl_sft-train_Bengali.jsonl<br></code></pre></td></tr></table></figure>
+
+<p>孟加拉语训练数据示例：</p>
+<p><img src="/img/paddleocr_bengali_train.png" srcset="/img/loading.gif" lazyload alt="bengali_train_example"></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">&#123;<br>    <span class="hljs-string">&quot;image_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;matched_text_index&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;image_url&quot;</span>: <span class="hljs-string">&quot;./assets/table_example.jps&quot;</span>&#125;,<br>    ],<br>    <span class="hljs-string">&quot;text_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;OCR:&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;mask&quot;</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;দডর মথ বধ বকসট একনজর দখই চনত পরল তর অনমন<span class="hljs-char escape_">\n</span>ঠক পনতই লকয রখছ<span class="hljs-char escape_">\n</span>র নচ থকই চচয বলল কশর, “এইই; পযছ! পযছ!&#x27;<span class="hljs-char escape_">\n</span>ওপর&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;no_mask&quot;</span>&#125;,<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>表格&#x2F;公式&#x2F;图表数据会使用特殊的识别格式，细节请参考<a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/ERNIE/blob/release/v1.4/docs/paddleocr_vl_sft_zh.md#81-%E8%A1%A8%E6%A0%BC%E5%85%AC%E5%BC%8F%E5%9B%BE%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F">8.1. 表格&#x2F;公式&#x2F;图表数据格式</a></p>
+<h3 id="4-训练配置"><a href="#4-训练配置" class="headerlink" title="4. 训练配置"></a>4. 训练配置</h3><p>我们针对孟加拉语示例数据集提供了<a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/ERNIE/blob/release/v1.4/examples/configs/PaddleOCR-VL/sft/run_ocr_vl_sft_16k.yaml">配置文件</a>，其中的关键训练超参数如下：</p>
+<ul>
+<li><code>max_steps=926</code>：训练总步数, 约等于 <code>(D × E) / (G × B × A)</code>。<ul>
+<li><code>D=29605</code>：数据集中训练样本数目。</li>
+<li><code>E=2</code>：训练轮次数目。</li>
+<li><code>G=1</code>：用于训练的 GPU 数目。</li>
+<li><code>B=8</code>：单卡的训练 Batch Size。</li>
+<li><code>A=8</code>：梯度累积步数。</li>
+</ul>
+</li>
+<li><code>warmup_steps=10</code>：线性预热步数, 建议设置成最大步数的 1% <code>0.01 × max_steps</code>。</li>
+<li><code>packing_size=8</code>：序列中打包的样本数目，作用等同于 <code>batch_size</code>。</li>
+<li><code>max_seq_len=16384</code>：最大序列长度，建议设置成训练过程中显存允许的最大值。</li>
+<li><code>gradient_accumulation_steps=8</code>：梯度累积步数。<ul>
+<li>每达到该步数整数倍更新一次模型参数。</li>
+<li>当显存不足时，可以减小 <code>packing_size</code> 并增大 <code>gradient_accumulation_steps</code>。</li>
+<li>用时间换空间策略，可以减少显存占用，但会延长训练时间。</li>
+</ul>
+</li>
+<li><code>learning_rate=5e-6</code>：学习率，即每次参数更新的幅度。</li>
+</ul>
+<h3 id="5-SFT-训练"><a href="#5-SFT-训练" class="headerlink" title="5. SFT 训练"></a>5. SFT 训练</h3><p>使用以下命令行即可启动训练：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">CUDA_VISIBLE_DEVICES</span>=0 \<br>erniekit train examples/configs/PaddleOCR-VL/sft/run_ocr_vl_sft_16k.yaml \<br>        <span class="hljs-attribute">model_name_or_path</span>=PaddlePaddle/PaddleOCR-VL \<br>        <span class="hljs-attribute">train_dataset_path</span>=./ocr_vl_sft-train_Bengali.jsonl \<br></code></pre></td></tr></table></figure>
+
+<p>在 1*A800-80 G 上训练时长约为 2 小时。</p>
+<p>ERNIEKit 默认使用机器上的全部 GPU，可以通过环境变量 <code>CUDA_VISIBLE_DEVICES</code> 设置 ERNIEKit 能够使用的 GPU。</p>
+<p>GPU 的数目 <code>GPU_num</code> 会影响训练超参数 <code>learning_rate &amp; packing_size &amp; gradient_accumulation_steps</code> 配置。理论上，每个更新步使用的样本数目 <code>sample_num = G*B*A</code>，近似与学习率 <code>learning_rate</code> 成正线形关系，因此，当 GPU 数目增加 <code>N</code> 倍变为 <code>N*GPU</code> 时，有两种调整方式：</p>
+<ol>
+<li>保持 <code>sample_num</code> 不变<ul>
+<li>将 <code>packing_size</code> 减少 <code>x</code> 倍，变成 <code>packing_size/x</code></li>
+<li>将 <code>gradient_accumulation_steps</code> 减少 <code>y</code> 倍，变成 <code>gradient_accumulation_steps/y</code></li>
+<li>满足 <code>x*y = N</code> 即可</li>
+</ul>
+</li>
+<li>将 <code>learning_rate</code> 增加 <code>N</code> 倍，变成 <code>N*learning_rate</code></li>
+</ol>
+<p>可以通过 <code>tensorboard</code> 对训练过程可视化，使用以下命令行即可启动（下方命令将端口 port 设置为 <code>8084</code>，需要根据实际情况设置可用端口）：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">tensorboard <span class="hljs-params">--logdir</span> <span class="hljs-string">./PaddleOCR-VL-SFT-Bengali/tensorboard_logs/</span> <span class="hljs-params">--port</span> 8084<br></code></pre></td></tr></table></figure>
+
+<p>成功启动后该服务后，在浏览器输入 <code>ip:port</code> ，则可以看到训练日志（通过 <code>hostname -i</code> 命令可以查看机器的 ip 地址）。</p>
+<p>损失曲线如下：</p>
+<p><img src="/img/paddleocr_sft_loss.png" srcset="/img/loading.gif" lazyload alt="SFT-loss"></p>
+<h3 id="6-模型结构说明"><a href="#6-模型结构说明" class="headerlink" title="6. 模型结构说明"></a>6. 模型结构说明</h3><p>训练结束后，模型会保存在 <code>output_dir=./PaddleOCR-VL-SFT-Bengali</code> 指定路径下，其中包含：</p>
+<ul>
+<li>preprocessor_config.json：图像预处理配置文件</li>
+<li>config.json：模型配置文件</li>
+<li>model-00001-of-00001.safetensors：模型权重文件<ul>
+<li>保存的模型格式可以通过 <code>save_to_hf</code> 控制，默认是 huggingface safetensors 格式</li>
+</ul>
+</li>
+<li>model.safetensors.index.json &amp; static_name_to_dyg_name.json：模型权重索引文件等，用于辅助模型在多 GPU 上切分与加载</li>
+<li>tokenizer.model &amp; tokenizer_config.json &amp; special_tokens_map.json &amp; added_tokens.json：分词器文件</li>
+<li>train_args.bin：训练参数文件，记录训练使用的参数等</li>
+<li>train_state.json：训练状态文件，记录训练步数和最优指标等</li>
+<li>train_results.json &amp; all_results.json：训练结果文件，记录训练进度&amp;用时&amp;每步耗时&amp;每样本耗时等</li>
+<li>generation.json：生成配置文件</li>
+<li>checkpoint-[save_steps*n]：检查点文件夹，在 <code>save_steps</code> 整数倍保存训练状态，除以上文件外，还会保存 master-weight &amp; optimizer-state &amp; scheduler-state 等，可用于训练中断后恢复训练</li>
+</ul>
+<h3 id="7-推理"><a href="#7-推理" class="headerlink" title="7. 推理"></a>7. 推理</h3><h4 id="7-1-推理环境配置"><a href="#7-1-推理环境配置" class="headerlink" title="7.1. 推理环境配置"></a>7.1. 推理环境配置</h4><p>安装 PaddleOCR 用于推理</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">python</span> -m pip install -U <span class="hljs-string">&quot;paddleocr[doc-parser]&quot;</span><br><span class="hljs-attribute">python</span> -m pip install https://paddle-whl.bj.bcebos.com/nightly/cu126/safetensors/safetensors-<span class="hljs-number">0</span>.<span class="hljs-number">6</span>.<span class="hljs-number">2</span>.dev0-cp38-abi3-linux_x86_64.whl<br><span class="hljs-attribute">python</span> -m pip install --force-reinstall opencv-python-headless<br><span class="hljs-attribute">python</span> -m pip install numpy==<span class="hljs-number">1</span>.<span class="hljs-number">26</span>.<span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="7-2-推理模型准备"><a href="#7-2-推理模型准备" class="headerlink" title="7.2. 推理模型准备"></a>7.2. 推理模型准备</h4><p>从 PaddleOCR-VL 中拷贝必要的推理配置文件到 SFT 训练完成后保存的模型目录中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cp</span> PaddlePaddle/PaddleOCR-VL/chat_template.jinja PaddleOCR-VL-SFT-Bengali<br><span class="hljs-built_in">cp</span> PaddlePaddle/PaddleOCR-VL/inference.yml PaddleOCR-VL-SFT-Bengali<br></code></pre></td></tr></table></figure>
+
+<h4 id="7-3-推理数据集准备"><a href="#7-3-推理数据集准备" class="headerlink" title="7.3. 推理数据集准备"></a>7.3. 推理数据集准备</h4><p>我们提供了<a target="_blank" rel="noopener" href="https://paddleformers.bj.bcebos.com/datasets/ocr_vl_sft-test_Bengali.jsonl">孟加拉语测试数据集</a>，可用于推理来观察微调效果，使用以下命令下载：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget https:<span class="hljs-regexp">//</span>paddleformers.bj.bcebos.com<span class="hljs-regexp">/datasets/</span>ocr_vl_sft-test_Bengali.jsonl<br></code></pre></td></tr></table></figure>
+
+<h4 id="7-4-单样本推理"><a href="#7-4-单样本推理" class="headerlink" title="7.4. 单样本推理"></a>7.4. 单样本推理</h4><p>孟加拉语测试图像：</p>
+<p><img src="/img/paddleocr_bengali_test.png" srcset="/img/loading.gif" lazyload alt="bengali_test_example"></p>
+<p>使用以下命令进行单样本推理：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">paddleocr</span> doc_parser -i https://paddle-model-ecology.bj.bcebos.com/PPOCRVL/dataset/bengali_sft/<span class="hljs-number">5</span>b/<span class="hljs-number">7</span>a/<span class="hljs-number">5</span>b7a5c1c-<span class="hljs-number">207</span>a-<span class="hljs-number">4924</span>-b5f3-<span class="hljs-number">82890</span>dc7b94a.png <span class="hljs-punctuation">\</span><br><span class="hljs-punctuation"></span>    --vl_rec_model_name <span class="hljs-string">&quot;PaddleOCR-VL-0.9B&quot;</span> <span class="hljs-punctuation">\</span><br><span class="hljs-punctuation"></span>    --vl_rec_model_dir <span class="hljs-string">&quot;./PaddleOCR-VL-SFT-Bengali&quot;</span> <span class="hljs-punctuation">\</span><br><span class="hljs-punctuation"></span>    --save_path=<span class="hljs-string">&quot;./PaddleOCR-VL-SFT-Bengali_response&quot;</span><br><br><span class="hljs-comment"># GT = নট চলল রফযনর পঠ সওযর\nহয গলয গলয ভব এখন দটত, মঝ মঝ খবর নয যদও লগ যয\nঝগড\nদরগর কছ চল এল</span><br><span class="hljs-comment"># Excepted Answer = নট চলল রফযনর পঠ সওযর\nহয গলয গলয ভব এখন দটত, মঝ মঝ খবর নয যদও লগ যয\nঝগড\nদরগর কছ চল এল</span><br></code></pre></td></tr></table></figure>
+
+<p>上述命令会在 PaddleOCR-VL-SFT-Bengali_response 目录下保存结果和可视化图片，其中预测结果保存在以 <code>.md</code> 结尾的文件中。更多关于paddleocr工具的推理能力，请参考：<a target="_blank" rel="noopener" href="https://www.paddleocr.ai/latest/version3.x/pipeline_usage/PaddleOCR-VL.html%E3%80%82">https://www.paddleocr.ai/latest/version3.x/pipeline_usage/PaddleOCR-VL.html。</a></p>
+<h3 id="8-注意事项"><a href="#8-注意事项" class="headerlink" title="8. 注意事项"></a>8. 注意事项</h3><h4 id="8-1-表格-公式-图表数据格式"><a href="#8-1-表格-公式-图表数据格式" class="headerlink" title="8.1. 表格&#x2F;公式&#x2F;图表数据格式"></a>8.1. 表格&#x2F;公式&#x2F;图表数据格式</h4><p>特别地，表格&#x2F;公式&#x2F;图表数据使用特殊的识别格式：</p>
+<p>表格数据：OTSL 格式</p>
+<p><img src="/img/paddleocr_table.png" srcset="/img/loading.gif" lazyload alt="table_example"></p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="hljs-template-variable">&#123;</span><br><span class="hljs-template-variable">    &quot;image_info&quot;: [</span><br><span class="hljs-template-variable">        &#123;&quot;matched_text_index&quot;: 0, &quot;image_url&quot;: &quot;./assets/table_example.jps&quot;&#125;</span><span class="language-xml">,</span><br><span class="language-xml">    ],</span><br><span class="language-xml">    &quot;text_info&quot;: [</span><br><span class="language-xml">        </span><span class="hljs-template-variable">&#123;&quot;text&quot;: &quot;Table Recognition:&quot;, &quot;tag&quot;: &quot;mask&quot;&#125;</span><span class="language-xml">,</span><br><span class="language-xml">        </span><span class="hljs-template-variable">&#123;&quot;text&quot;: &quot;&lt;fcel&gt;分组&lt;fcel&gt;频数&lt;fcel&gt;频率&lt;nl&gt;&lt;fcel&gt;[41,51)&lt;fcel&gt;2&lt;fcel&gt;\\( \\frac&#123;2&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[51,61)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>1<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;1&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[61,71)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>4<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;4&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[71,81)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>6<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;6&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[81,91)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>10<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;10&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[91,101)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>5<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;5&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>[101,111)<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>2<span class="hljs-tag">&lt;<span class="hljs-name">fcel</span>&gt;</span>\\( \\frac</span><span class="hljs-template-variable">&#123;2&#125;</span><span class="hljs-template-variable">&#123;30&#125;</span><span class="language-xml"> \\)<span class="hljs-tag">&lt;<span class="hljs-name">nl</span>&gt;</span>&quot;, &quot;tag&quot;: &quot;no_mask&quot;&#125;,</span><br><span class="language-xml">    ]</span><br><span class="language-xml">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>公式数据: Latex格式</p>
+<p><img src="/img/paddleocr_formula.jpg" srcset="/img/loading.gif" lazyload alt="formula_example"></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">&#123;<br>    <span class="hljs-string">&quot;image_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;matched_text_index&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;image_url&quot;</span>: <span class="hljs-string">&quot;./assets/formula_example.jps&quot;</span>&#125;,<br>    ],<br>    <span class="hljs-string">&quot;text_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;Formula Recognition:&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;mask&quot;</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;<span class="hljs-char escape_">\\</span>[t_&#123;n&#125;<span class="hljs-char escape_">\\</span>in[0,<span class="hljs-char escape_">\\</span>infty]<span class="hljs-char escape_">\\</span>]&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;no_mask&quot;</span>&#125;,<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>图表数据：Markdown格式</p>
+<p><img src="/img/paddleocr_chart.png" srcset="/img/loading.gif" lazyload alt="chart_example"></p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">&#123;<br>    <span class="hljs-string">&quot;image_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;matched_text_index&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;image_url&quot;</span>: <span class="hljs-string">&quot;./assets/chart_example.png&quot;</span>&#125;,<br>    ],<br>    <span class="hljs-string">&quot;text_info&quot;</span>: [<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;Chart Recognition:&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;mask&quot;</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;  | 22Q3 | 22Q3yoy<span class="hljs-char escape_">\n</span>电商 | 85 | 100%<span class="hljs-char escape_">\n</span>川渝 | 140 | 8%<span class="hljs-char escape_">\n</span>云贵陕 | 95 | 12%<span class="hljs-char escape_">\n</span>外围地区 | 45 | 20%&quot;</span>, <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-string">&quot;no_mask&quot;</span>&#125;,<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h4><p>如果你使用上述命令过程中遇到下面的问题，一般是因为cv2和环境的冲突，可以通过安装 <code>opencv-python-headless</code> 来解决问题</p>
+<p><strong>问题表现</strong></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs stata">Traceback (most recent call last):<br>  <span class="hljs-keyword">File</span> <span class="hljs-string">&quot;&lt;stdin&gt;&quot;</span>, <span class="hljs-keyword">line</span> 1, <span class="hljs-keyword">in</span> &lt;module&gt;<br>  <span class="hljs-keyword">File</span> <span class="hljs-string">&quot;/usr/local/lib/python3.10/dist-packages/cv2/__init__.py&quot;</span>, <span class="hljs-keyword">line</span> 181, <span class="hljs-keyword">in</span> &lt;module&gt;<br>    <span class="hljs-keyword">bootstrap</span>()<br>  <span class="hljs-keyword">File</span> <span class="hljs-string">&quot;/usr/local/lib/python3.10/dist-packages/cv2/__init__.py&quot;</span>, <span class="hljs-keyword">line</span> 153, <span class="hljs-keyword">in</span> <span class="hljs-keyword">bootstrap</span><br>    native_module = importlib.import_module(<span class="hljs-string">&quot;cv2&quot;</span>)<br>  <span class="hljs-keyword">File</span> <span class="hljs-string">&quot;/usr/lib/python3.10/importlib/__init__.py&quot;</span>, <span class="hljs-keyword">line</span> 126, <span class="hljs-keyword">in</span> import_module<br>    <span class="hljs-keyword">return</span> _bootstrap._gcd_import(name[level:], package, level)<br>ImportError: libGL.<span class="hljs-keyword">so</span>.1: cannot <span class="hljs-keyword">open</span> shared object <span class="hljs-keyword">file</span>: <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> or directory<br></code></pre></td></tr></table></figure>
+
+<p><strong>解决方案</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">python</span> -m pip install --force-reinstall opencv-python-headless<br><span class="hljs-attribute">python</span> -m pip install numpy==<span class="hljs-number">1</span>.<span class="hljs-number">26</span>.<span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+<h2 id="十二、参考资料"><a href="#十二、参考资料" class="headerlink" title="十二、参考资料"></a>十二、参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.paddleocr.ai/latest/version3.x/pipeline_usage/PaddleOCR-VL.html">PaddleOCR 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vllm-project/vllm">vLLM GitHub 仓库</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Docker 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/ERNIE/blob/release/v1.4/docs/paddleocr_vl_sft_zh.md">PaddleOCR-VL 模型微调</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南</div>
+      <div>https://qzkq.github.io/2026/01/03/Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/Windows%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E8%AE%BE%E7%BD%AE%E3%80%81%E6%89%B9%E5%A4%84%E7%90%86(.bat)%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%E5%92%8C%E9%80%9A%E8%BF%87conda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8CPython%E7%A8%8B%E5%BA%8F/" title="Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Web%E4%B9%8BJavaScript(jQuery)%E7%AC%94%E8%AE%B0/" title="Web之JavaScript(jQuery)笔记">
+                        <span class="hidden-mobile">Web之JavaScript(jQuery)笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

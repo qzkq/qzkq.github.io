@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@[TOC](Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境) 一、jq1zcat cent_g_20226&#x2F;*.gz | head -n 10000 | jq .event | sort | uniq -c jq 是一个轻量级的json处理命">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/Linux%20jq%20%E3%80%81vim%E4%BB%A5%E5%8F%8ALinux%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85miniconda%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@[TOC](Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境) 一、jq1zcat cent_g_20226&#x2F;*.gz | head -n 10000 | jq .event | sort | uniq -c jq 是一个轻量级的json处理命">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/2d8f37876558b77133414f8aa5a34c86.png">
+<meta property="og:image" content="https://qzkq.github.io/img/52f8ef891a485d48c9a5d11e368e82a5.png">
+<meta property="article:published_time" content="2026-01-01T00:14:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.361Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/2d8f37876558b77133414f8aa5a34c86.png">
+  
+  
+  
+  <title>Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:14" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@[TOC](Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境)</p>
+<h2 id="一、jq"><a href="#一、jq" class="headerlink" title="一、jq"></a>一、jq</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">zcat cent_g_20226/*.gz | head <span class="hljs-literal">-n</span> <span class="hljs-number">10000</span> | jq .event | <span class="hljs-built_in">sort</span> | uniq <span class="hljs-literal">-c</span><br></code></pre></td></tr></table></figure>
+<p>jq 是一个轻量级的json处理命令。可以对json数据进行分片、过滤、映射和转换<br><strong>jq . 对json数据进行格式化输出</strong></p>
+<h3 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h3><ul>
+<li>-c 紧凑输出json数据</li>
+<li>-s 读取所有输入到一个数组</li>
+<li>-r 输出原始字符串，而不是一个JSON格式</li>
+<li>-S 排序对象</li>
+</ul>
+<p>1、<strong>紧凑输出json数据</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-literal">-c</span> . test.json<br>[&#123;<span class="hljs-string">&quot;lon&quot;</span>:<span class="hljs-number">113.30765</span>,<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;广州市&quot;</span>,<span class="hljs-string">&quot;code&quot;</span>:<span class="hljs-string">&quot;4401&quot;</span>,<span class="hljs-string">&quot;lat&quot;</span>:<span class="hljs-number">23.422825</span>&#125;,&#123;<span class="hljs-string">&quot;lon&quot;</span>:<span class="hljs-number">113.59446</span>,<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;韶关市&quot;</span>,<span class="hljs-string">&quot;code&quot;</span>:<span class="hljs-string">&quot;4402&quot;</span>,<span class="hljs-string">&quot;lat&quot;</span>:<span class="hljs-number">24.80296</span>&#125;]<br></code></pre></td></tr></table></figure>
+
+<p>2、<strong>读取所有输出到一个数组</strong>(也就是所在json数据最外层套一个数组)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;safd&quot;:&quot;fsafd&quot;&#125;&#x27;</span><br>&#123;<span class="hljs-string">&quot;safd&quot;</span>:<span class="hljs-string">&quot;fsafd&quot;</span>&#125;<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;safd&quot;:&quot;fsafd&quot;&#125;&#x27;</span> | jq <span class="hljs-literal">-r</span> .<br>&#123;<br>  <span class="hljs-string">&quot;safd&quot;</span>: <span class="hljs-string">&quot;fsafd&quot;</span><br>&#125;<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;safd&quot;:&quot;fsafd&quot;&#125;&#x27;</span> | jq <span class="hljs-literal">-s</span> .<br>[<br>  &#123;<br>    <span class="hljs-string">&quot;safd&quot;</span>: <span class="hljs-string">&quot;fsafd&quot;</span><br>  &#125;<br>]<br></code></pre></td></tr></table></figure>
+<p>3、<strong>输出原始字符串，而不是一个JSON格式</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;safd&quot;:&quot;fsafd&quot;&#125;&#x27;</span> | jq  .[]<br><span class="hljs-string">&quot;fsafd&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;safd&quot;:&quot;fsafd&quot;&#125;&#x27;</span> | jq <span class="hljs-literal">-r</span> .[]<br>fsafd<br></code></pre></td></tr></table></figure>
+<p>4、<strong>排序对象</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq . test.json <br>[<br>  &#123;<br>    <span class="hljs-string">&quot;lon&quot;</span>: <span class="hljs-number">113.30765</span>,<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;广州市&quot;</span>,<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;4401&quot;</span>,<br>    <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">23.422825</span><br>  &#125;,<br>  &#123;<br>    <span class="hljs-string">&quot;lon&quot;</span>: <span class="hljs-number">113.59446</span>,<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;韶关市&quot;</span>,<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;4402&quot;</span>,<br>    <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">24.80296</span><br>  &#125;<br>]<br><br>jq <span class="hljs-literal">-S</span> . test.json <br>[<br>  &#123;<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;4401&quot;</span>,<br>    <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">23.422825</span>,<br>    <span class="hljs-string">&quot;lon&quot;</span>: <span class="hljs-number">113.30765</span>,<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;广州市&quot;</span><br>  &#125;,<br>  &#123;<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;4402&quot;</span>,<br>    <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">24.80296</span>,<br>    <span class="hljs-string">&quot;lon&quot;</span>: <span class="hljs-number">113.59446</span>,<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;韶关市&quot;</span><br>  &#125;<br>]<br></code></pre></td></tr></table></figure>
+<p>5、获取上面地理json数据里的name值</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-string">&#x27;.[]|&#123;name&#125;&#x27;</span> test.json <br>&#123;<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;广州市&quot;</span><br>&#125;<br>&#123;<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;韶关市&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>6、获取第一个name值</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-string">&#x27;.[0]|&#123;name&#125;&#x27;</span> test.json <br>&#123;<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;广州市&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>7、只打印出第一个map的值：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-string">&#x27;.[0]|.[]&#x27;</span> test.json <br><span class="hljs-number">113.30765</span><br><span class="hljs-string">&quot;广州市&quot;</span><br><span class="hljs-string">&quot;4401&quot;</span><br><span class="hljs-number">23.422825</span><br></code></pre></td></tr></table></figure>
+<p>8、打印出一个map的name值</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-string">&#x27;.[0]|.name&#x27;</span> test.json <br><span class="hljs-string">&quot;广州市&quot;</span><br></code></pre></td></tr></table></figure>
+<p>9、打印出一个map的name值并用普通字符串显示</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">jq <span class="hljs-literal">-r</span> <span class="hljs-string">&#x27;.[0]|.name&#x27;</span> test.json <br>广州市<br></code></pre></td></tr></table></figure>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>测试json数据，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123;<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xueyuan&quot;</span>,<br>    <span class="hljs-string">&quot;age&quot;</span>: 21,<br>    <span class="hljs-string">&quot;birthday&quot;</span>: <span class="hljs-string">&quot;10th August&quot;</span>,<br>    <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span>,<br>    <span class="hljs-string">&quot;skills&quot;</span> : [<br>        <span class="hljs-string">&quot;C/C++&quot;</span>,<br>        <span class="hljs-string">&quot;Python&quot;</span>,<br>        <span class="hljs-string">&quot;Golang&quot;</span>,<br>        <span class="hljs-string">&quot;Node.js&quot;</span><br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>使用python的json库把它处理为一个字符串，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123;<span class="hljs-string">&quot;skills&quot;</span>: [<span class="hljs-string">&quot;C/C++&quot;</span>, <span class="hljs-string">&quot;Python&quot;</span>, <span class="hljs-string">&quot;Golang&quot;</span>, <span class="hljs-string">&quot;Node.js&quot;</span>], <span class="hljs-string">&quot;age&quot;</span>: 21, <span class="hljs-string">&quot;birthday&quot;</span>: <span class="hljs-string">&quot;10th August&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xueyuan&quot;</span>, <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个格式是我们在实际生产中经常看到的格式，比如我们使用curl请求一个接口，返回了一个json，比如我们在自己的项目中测试输出了一个json数据，这种格式往往可读性较差，我们需要进行处理后才能查看。<br>要转换成python处理前的那一种易读形式很简单，执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.&#x27;</span><br><span class="hljs-comment">#也可以写作 cat json2.data | jq .</span><br><span class="hljs-comment">#不加引号，但是为了标准最好写上，因为某些时候不加会有问题.</span><br></code></pre></td></tr></table></figure>
+<p>jq把数据转换成易读格式，还添加了颜色高亮说明，其中key和value使用了不同的颜色。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123;<br>  <span class="hljs-string">&quot;skills&quot;</span>: [<br>    <span class="hljs-string">&quot;C/C++&quot;</span>,<br>    <span class="hljs-string">&quot;Python&quot;</span>,<br>    <span class="hljs-string">&quot;Golang&quot;</span>,<br>    <span class="hljs-string">&quot;Node.js&quot;</span><br>  ],<br>  <span class="hljs-string">&quot;age&quot;</span>: 21,<br>  <span class="hljs-string">&quot;birthday&quot;</span>: <span class="hljs-string">&quot;10th August&quot;</span>,<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xueyuan&quot;</span>,<br>  <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果json数据很大，我们只想看其中某个字段数据，那么使用如下语法:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#key是字段名称</span><br>jq <span class="hljs-string">&#x27;.&lt;key&gt;&#x27;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq .skills<br>[<br>  <span class="hljs-string">&quot;C/C++&quot;</span>,<br>  <span class="hljs-string">&quot;Python&quot;</span>,<br>  <span class="hljs-string">&quot;Golang&quot;</span>,<br>  <span class="hljs-string">&quot;Node.js&quot;</span><br>]<br><br><span class="hljs-built_in">cat</span> test.json | jq .name<br><span class="hljs-string">&quot;xueyuan&quot;</span><br></code></pre></td></tr></table></figure>
+<p>当某个字段是一个列表，jq可以对其进行切片</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jq <span class="hljs-string">&#x27;.&lt;list-key&gt;[s:e]&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[0]&#x27;</span><br><span class="hljs-string">&quot;C/C++&quot;</span><br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[0:3]&#x27;</span><br>[<br>  <span class="hljs-string">&quot;C/C++&quot;</span>,<br>  <span class="hljs-string">&quot;Python&quot;</span>,<br>  <span class="hljs-string">&quot;Golang&quot;</span><br>]<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[:3]&#x27;</span><br>[<br>  <span class="hljs-string">&quot;C/C++&quot;</span>,<br>  <span class="hljs-string">&quot;Python&quot;</span>,<br>  <span class="hljs-string">&quot;Golang&quot;</span><br>]<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[:]&#x27;</span><br>jq: error: syntax error, unexpected <span class="hljs-string">&#x27;]&#x27;</span> (Unix shell quoting issues?) at &lt;top-level&gt;, line 1:<br>.skills[:]<br>jq: 1 compile error<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[2:]&#x27;</span><br>[<br>  <span class="hljs-string">&quot;Golang&quot;</span>,<br>  <span class="hljs-string">&quot;Node.js&quot;</span><br>]<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills[]&#x27;</span><br><span class="hljs-string">&quot;C/C++&quot;</span><br><span class="hljs-string">&quot;Python&quot;</span><br><span class="hljs-string">&quot;Golang&quot;</span><br><span class="hljs-string">&quot;Node.js&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>注意和python列表切片方式进行区分。区别一下’.skills’和’.skills[]’两种，可以看到前者输出是一个列表，后者是非json格式的列表成员。</p>
+<h3 id="用法详解"><a href="#用法详解" class="headerlink" title="用法详解"></a>用法详解</h3><p>jq从linux管道或者文件中获取文本输入，如果文本不满足json格式，那么jq会报错，可以用这个方法来检查一个文本是否满足json检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jq <span class="hljs-string">&#x27;.&#x27;</span> json_file &gt; /dev/null<br></code></pre></td></tr></table></figure>
+<p>jq使用filter来处理json文本，并输出filter处理后的内容到标准输出，filter是用来过滤满足需求的字段的，比如最简单的filter ‘.’，这个表示无过滤策略，因此会输出全部json文本。</p>
+<p><strong>key filter</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;.&lt;key&gt;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>过滤满足key的字段名，输出这个key的值。</p>
+<p><strong>key-value filter</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;&lt;key&gt;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>输出key和value，区别key filter，如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;&#123;age&#125;&#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;age&quot;</span>: 21<br>&#125;<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.age&#x27;</span><br>21<br></code></pre></td></tr></table></figure>
+<p>因为key-value必须归属于某个对象，所以添加外层{}。</p>
+<p><strong>index filter</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;.&lt;list-key&gt;[index]&#x27;</span><br><span class="hljs-string">&#x27;.&lt;list-key&gt;[index1, index2]&#x27;</span><br><span class="hljs-string">&#x27;.&lt;list-key&gt;[s:e]&#x27;</span><br><span class="hljs-string">&#x27;.&lt;list-key&gt;[:e]&#x27;</span><br><span class="hljs-string">&#x27;.&lt;list-key&gt;[s:]&#x27;</span><br><span class="hljs-string">&#x27;.&lt;list-key&gt;[]&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>数组索引和切片，用来操作列表元素。</p>
+<p><strong>嵌套层级filter</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;.key1.key2.key3&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>用于嵌套的json数据filter。</p>
+<p><strong>多个filter</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;.key1, .key2, .key3&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>使用英文单字节逗号分隔filter，用于在一个filter中过滤多个字段。</p>
+<p><strong>filter管道</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&#x27;filter1 | filter2 | filter3&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jq <span class="hljs-string">&#x27;.contact | .phone | .home&#x27;</span> people.json<br></code></pre></td></tr></table></figure>
+<p>由于大部分filter之后，输出仍然是一个json数据，所以可以将filter通过管道连接。</p>
+<p><strong>重新组织filter后输出的数据</strong><br>有时候我们需要重新构造json的结构，比如去掉某一层嵌套，比如取某几个字段组成一个新的json，这时候我们需要重新改变json的结构，我们可以使用[]和{}来重新组织json。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#把输出组织成一个列表</span><br>jq <span class="hljs-string">&#x27;[filter1, filter2, filter3]&#x27;</span> data.json<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;[.age,.name]&#x27;</span><br>[<br>  21,<br>  <span class="hljs-string">&quot;xueyuan&quot;</span><br>]<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#把输出组织为新的json对象</span><br>jq <span class="hljs-string">&#x27;&#123;filter1, filter2, filter3&#125;&#x27;</span> data.json<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;&#123;age,name,email,skills: .skills[2:]&#125;&#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;age&quot;</span>: 21,<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xueyuan&quot;</span>,<br>  <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span>,<br>  <span class="hljs-string">&quot;skills&quot;</span>: [<br>    <span class="hljs-string">&quot;Golang&quot;</span>,<br>    <span class="hljs-string">&quot;Node.js&quot;</span><br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>递归展开json结构</strong><br>有时候我们需要在一个json里边查找某个字段，但是确不知道这个字段在哪个嵌套里边，如果嵌套很深那么很难找到，jq可以把嵌套展开打平之后再查找。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#展开嵌套</span><br>jq <span class="hljs-string">&#x27;..&#x27;</span> data.json<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;..&#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;skills&quot;</span>: [<br>    <span class="hljs-string">&quot;C/C++&quot;</span>,<br>    <span class="hljs-string">&quot;Python&quot;</span>,<br>    <span class="hljs-string">&quot;Golang&quot;</span>,<br>    <span class="hljs-string">&quot;Node.js&quot;</span><br>  ],<br>  <span class="hljs-string">&quot;age&quot;</span>: 21,<br>  <span class="hljs-string">&quot;birthday&quot;</span>: <span class="hljs-string">&quot;10th August&quot;</span>,<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xueyuan&quot;</span>,<br>  <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span><br>&#125;<br>[<br>  <span class="hljs-string">&quot;C/C++&quot;</span>,<br>  <span class="hljs-string">&quot;Python&quot;</span>,<br>  <span class="hljs-string">&quot;Golang&quot;</span>,<br>  <span class="hljs-string">&quot;Node.js&quot;</span><br>]<br><span class="hljs-string">&quot;C/C++&quot;</span><br><span class="hljs-string">&quot;Python&quot;</span><br><span class="hljs-string">&quot;Golang&quot;</span><br><span class="hljs-string">&quot;Node.js&quot;</span><br>21<br><span class="hljs-string">&quot;10th August&quot;</span><br><span class="hljs-string">&quot;xueyuan&quot;</span><br><span class="hljs-string">&quot;im.hexueyuan@outlook.com&quot;</span><br></code></pre></td></tr></table></figure>
+<p>展开之后结合管道再次filter可以查找key。</p>
+<p><strong>length filter</strong><br>计算元素长度，对于对象，length表示对象里的元素个数，对于string，length表示string字符数，对于列表，表示列表元素个数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;. | length&#x27;</span><br>5<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.age | length&#x27;</span><br>21<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.name | length&#x27;</span><br>7<br><br><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;.skills | length&#x27;</span><br>4<br></code></pre></td></tr></table></figure>
+<p><strong>keys filter</strong><br>输出全部的key，列表形式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> test.json | jq <span class="hljs-string">&#x27;. | keys&#x27;</span><br>[<br>  <span class="hljs-string">&quot;age&quot;</span>,<br>  <span class="hljs-string">&quot;birthday&quot;</span>,<br>  <span class="hljs-string">&quot;email&quot;</span>,<br>  <span class="hljs-string">&quot;name&quot;</span>,<br>  <span class="hljs-string">&quot;skills&quot;</span><br>]<br></code></pre></td></tr></table></figure>
+<p><strong>检查某个key是否存在</strong><br>如果输入是一个对象，那么对象的元素是以”key-value”形式存在的，使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jq <span class="hljs-string">&#x27;has(&quot;key-name&quot;)&#x27;</span> data.json<br></code></pre></td></tr></table></figure>
+<p>检查json对象是否含有某个key。</p>
+<p><strong>列表遍历</strong><br>jq支持使用map()或者map_values()遍历列表，或者对象的值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:3&#125;&#x27;</span> | jq <span class="hljs-string">&#x27;map_values(1 + .)&#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;a&quot;</span>: 2,<br>  <span class="hljs-string">&quot;b&quot;</span>: 3,<br>  <span class="hljs-string">&quot;c&quot;</span>: 4<br>&#125;<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;[1,2,3]&#x27;</span> | jq <span class="hljs-string">&#x27;map(1 + .)&#x27;</span><br>[<br>  2,<br>  3,<br>  4<br>]<br></code></pre></td></tr></table></figure>
+
+<p><strong>删除某个key</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jq <span class="hljs-string">&#x27;del(filter)&#x27;</span> json.data<br></code></pre></td></tr></table></figure>
+<p>使用del()删除filter描述的key-value。</p>
+<p><strong>jq支持管道线 |，它如同linux命令中的管道线——把前面命令的输出当作是后面命令的输入。</strong></p>
+<h2 id="二、vim"><a href="#二、vim" class="headerlink" title="二、vim"></a>二、vim</h2><p>退出编辑模式：按esc键</p>
+<h3 id="命令行模式下相关命令"><a href="#命令行模式下相关命令" class="headerlink" title="命令行模式下相关命令"></a>命令行模式下相关命令</h3><h4 id="1-移动光标"><a href="#1-移动光标" class="headerlink" title="1.移动光标"></a>1.移动光标</h4><ul>
+<li>h: ← 左移 ​ </li>
+<li>l: → 右移 ​ </li>
+<li>j: ↓ 下移 ​ </li>
+<li>k: ↑ 上移 ​ </li>
+<li>gg: 光标移动文件开头 ​ </li>
+<li>G: 光标移动到文件末尾 ​</li>
+<li>^: 光标移动到行头</li>
+<li>0: 光标移动到行首 ​ </li>
+<li>$: 光标移动到行尾 ​ </li>
+<li>123G：跳转到第123行</li>
+</ul>
+<h4 id="2-删除字符"><a href="#2-删除字符" class="headerlink" title="2.删除字符"></a>2.删除字符</h4><ul>
+<li>x: 删除光标后一个字符,相当于 Del ​ </li>
+<li>X: 删除光标前一个字符,相当于 Backspace ​ </li>
+<li>dd: 删除光标所在行 ​ </li>
+<li>n dd 删除光标(含)后多少行 ​</li>
+</ul>
+<h4 id="3-撤销操作"><a href="#3-撤销操作" class="headerlink" title="3.撤销操作"></a>3.撤销操作</h4><ul>
+<li>u: 撤销上一步</li>
+<li>Ctr-r: 反撤销</li>
+</ul>
+<h4 id="4-复制粘贴"><a href="#4-复制粘贴" class="headerlink" title="4.复制粘贴"></a>4.复制粘贴</h4><ul>
+<li>yy: 复制光标当前行,n yy 复制光标所在行(含)后多少行 ​ </li>
+<li>p: 在光标所在位置向下新开辟一行,粘贴 ​ </li>
+<li>P: 从光标所在行, 开始粘贴</li>
+</ul>
+<h4 id="5-可视模式"><a href="#5-可视模式" class="headerlink" title="5.可视模式"></a>5.可视模式</h4><ul>
+<li>v：按字移动 ​ </li>
+<li>配合 h、j、k、l 使用 ​ </li>
+<li>使用y复制选中内容</li>
+</ul>
+<h4 id="6-查找操作"><a href="#6-查找操作" class="headerlink" title="6.查找操作"></a>6.查找操作</h4><ul>
+<li>​&#x2F;hello -&gt; 从光标所在位置向后查找 hello ​ </li>
+<li>n: 下一个 ​ </li>
+<li>N：上一个 ​ </li>
+<li>?hello -&gt; 从光标所在位置向前查找 hello ​ </li>
+<li>n: 上一个 ​ </li>
+<li>N：下一个 ​</li>
+</ul>
+<h4 id="7-替换操作"><a href="#7-替换操作" class="headerlink" title="7.替换操作"></a>7.替换操作</h4><ul>
+<li>​ r: 替换当前字符</li>
+</ul>
+<h4 id="8-文本行移动"><a href="#8-文本行移动" class="headerlink" title="8.文本行移动"></a>8.文本行移动</h4><ul>
+<li>&gt;&gt;: 文本行右移 ​ </li>
+<li>&lt;&lt;: 文本行左移</li>
+</ul>
+<h4 id="9-Man-Page"><a href="#9-Man-Page" class="headerlink" title="9.Man Page"></a>9.Man Page</h4><ul>
+<li>​光标移动到函数上,Shift-k 光标移动到函数上 ​</li>
+</ul>
+<h3 id="文本模式下相关命令"><a href="#文本模式下相关命令" class="headerlink" title="文本模式下相关命令"></a>文本模式下相关命令</h3><h4 id="1-进入输入模式"><a href="#1-进入输入模式" class="headerlink" title="1. 进入输入模式"></a>1. 进入输入模式</h4><ul>
+<li>​i: 插入光标前一个字符 ​ </li>
+<li>I: 插入行首 ​ </li>
+<li>a: 插入光标后一个字符 ​ </li>
+<li>A: 插入行未 ​ </li>
+<li>o: 向下新开一行,插入行首 ​</li>
+<li>O: 向上新开一行,插入行首 ​ </li>
+<li>s: 删除光标所在的字符 ​ </li>
+<li>S：删除当前行</li>
+</ul>
+<h3 id="末行模式下相关命令"><a href="#末行模式下相关命令" class="headerlink" title="末行模式下相关命令"></a>末行模式下相关命令</h3><h4 id="1-行跳转"><a href="#1-行跳转" class="headerlink" title="1.行跳转"></a>1.行跳转</h4><ul>
+<li>​ :123 -&gt; 跳转到第123行</li>
+</ul>
+<h4 id="2-替换"><a href="#2-替换" class="headerlink" title="2.替换"></a>2.替换</h4><p>(1) 替换一行</p>
+<ul>
+<li>: s&#x2F;abc&#x2F;123 ​ </li>
+<li>-&gt; 将当前行中的第一个abc替换为123 ​ </li>
+<li>: s&#x2F;abc&#x2F;123&#x2F;g ​ </li>
+<li>-&gt;将当前行中的abc全部替换为123</li>
+</ul>
+<p>(2) ​替换全部</p>
+<ul>
+<li>​ :%s&#x2F;abc&#x2F;123 ​ </li>
+<li>-&gt; 将所有行中的第一个abc替换为123 ​ </li>
+<li>:%s&#x2F;abc&#x2F;123&#x2F;g ​ </li>
+<li>-&gt; 将所有行中的abc全部替换为123</li>
+</ul>
+<p>(3)替换指定行</p>
+<ul>
+<li>​ :10,30s&#x2F;abc&#x2F;123&#x2F;g ​ </li>
+<li>-&gt; 将10-30行中的abc全部替换为123</li>
+</ul>
+<h4 id="3-执行shell命令"><a href="#3-执行shell命令" class="headerlink" title="3.执行shell命令"></a>3.执行shell命令</h4><ul>
+<li>​ 末行模式里输入!,后面跟命令</li>
+</ul>
+<h4 id="4-分屏操作"><a href="#4-分屏操作" class="headerlink" title="4.分屏操作"></a>4.分屏操作</h4><p>(1) 进入分屏模式</p>
+<ul>
+<li>​命令：sp 将屏幕分为两部分 –&gt; 水平 ​ </li>
+<li>命令：vsp 将屏幕分为两部分 –&gt; 垂直 ​ </li>
+<li>命令：sp(vsp) + 文件名 水平或垂直拆分窗口显示两个不同的文件</li>
+</ul>
+<p>(2) 退出分屏模式</p>
+<ul>
+<li>命令：wqall 保存并退出所有屏幕 ​ </li>
+<li>命令：wq保存并退出光标所在的屏幕 ​ </li>
+<li>Ctrl+ww 切换两个屏幕</li>
+</ul>
+<p><strong>在一般模式当中，输入『 <code>: / ?</code>』3 个中的任何一个按钮，就可以将光标移动到最底下那一行。<br>在这个模式当中， 可以提供你『搜寻资料』的动作，而读取、存盘、大量取代字符、离开 vi 、显示行号等动作是在此模式中达成的!</strong></p>
+<ul>
+<li>:w 保存</li>
+<li>:q 退出</li>
+<li>:! 强制执行</li>
+<li>:set nu 显示行号</li>
+<li>:set nonu 关闭行号</li>
+<li>ZZ(shift+zz) 没有修改文件直接退出，如果修改了文件保存退出</li>
+<li>:nohl 去除高亮显示</li>
+<li>:wq! 强制保存退出</li>
+</ul>
+<p> <img src="/img/2d8f37876558b77133414f8aa5a34c86.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/52f8ef891a485d48c9a5d11e368e82a5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Cheat1173010256/article/details/118230562">https://blog.csdn.net/Cheat1173010256/article/details/118230562</a></p>
+<h2 id="三、LInux集群安装miniconda并配置虚拟环境"><a href="#三、LInux集群安装miniconda并配置虚拟环境" class="headerlink" title="三、LInux集群安装miniconda并配置虚拟环境"></a>三、LInux集群安装miniconda并配置虚拟环境</h2><h3 id="1-下载软件"><a href="#1-下载软件" class="headerlink" title="1.下载软件"></a>1.下载软件</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">wget</span> <span class="hljs-literal">-c</span> https://repo.continuum.io/miniconda/Miniconda3<span class="hljs-literal">-latest-Linux-x86_64</span>.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sh Miniconda3<span class="hljs-literal">-latest-Linux-x86_64</span>.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-激活"><a href="#3-激活" class="headerlink" title="3.激活"></a>3.激活</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">source ./miniconda3/bin/activate<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-添加频道"><a href="#4-添加频道" class="headerlink" title="4.添加频道"></a>4.添加频道</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda config <span class="hljs-literal">--add</span> channels bioconda<br>conda config <span class="hljs-literal">--add</span> channels conda<span class="hljs-literal">-forge</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-添加镜像（清华源）"><a href="#5-添加镜像（清华源）" class="headerlink" title="5.添加镜像（清华源）"></a>5.添加镜像（清华源）</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda config <span class="hljs-literal">--add</span> channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/<br>conda config <span class="hljs-literal">--add</span> channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/<br>conda config <span class="hljs-literal">--add</span> channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda<span class="hljs-literal">-forge</span>/<br>conda config <span class="hljs-literal">--add</span> channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/<br>conda config <span class="hljs-literal">--set</span> show_channel_urls yes<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-查看"><a href="#6-查看" class="headerlink" title="6.查看"></a>6.查看</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda config <span class="hljs-literal">--get</span> channels<br>or<br><span class="hljs-built_in">cat</span> ~/.condarc<br></code></pre></td></tr></table></figure>
+<h3 id="7-环境管理"><a href="#7-环境管理" class="headerlink" title="7.环境管理"></a>7.环境管理</h3><p><strong>查看已安装的python环境</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda info <span class="hljs-literal">-e</span>  <span class="hljs-comment">#conda info --envs</span><br>conda env list<br><span class="hljs-comment">#当前环境会通过一个星号 (*) 标识</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>创建环境</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment">#基于python3.6版本创建一个名字为test的python独立环境</span><br>conda create <span class="hljs-literal">--name</span> test python=<span class="hljs-number">3.7</span> <br><br><span class="hljs-comment">#指定python3版本</span><br>conda create <span class="hljs-literal">-n</span> test2 python=<span class="hljs-number">3</span><br><br><span class="hljs-comment">#指定环境路径</span><br>conda create <span class="hljs-literal">--prefix</span>=/path/to/py37 python=<span class="hljs-number">3.7</span> <span class="hljs-comment">#注-p/--prefix和-n/--name参数不能同时用</span><br><br><span class="hljs-comment">#如果不指定python，安装会默认为conda自带的python版本，即如果是conda3，就是python3.</span><br><span class="hljs-comment">#最好是每个环境指定python，尤其是和自己使用的保持一致</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>启动或关闭环境</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment">#激活环境</span><br>source activate（后接环境名，不加默认为base）<br>source activate test<br><span class="hljs-comment">#退出环境</span><br>source deactivate test<br><span class="hljs-comment">#PS：若未加入环境变量，需进入conda的bin目录下执行</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>删除环境</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda env remove <span class="hljs-literal">-n</span> test<br>conda remove <span class="hljs-literal">-n</span> test <span class="hljs-literal">--all</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>重命名环境</strong><br>即先克隆，再删除</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">conda create <span class="hljs-literal">-n</span> python2 <span class="hljs-literal">--clone</span> py2<br>conda remove <span class="hljs-literal">-n</span> py2 <span class="hljs-literal">--all</span><br></code></pre></td></tr></table></figure>
+<p><strong>关闭环境</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">conda deactivate<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）</div>
+      <div>https://qzkq.github.io/2026/01/01/Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Linux%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/" title="Linux常用基本命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux常用基本命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/LightGBM%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="LightGBM原生接口和Sklearn接口参数详解">
+                        <span class="hidden-mobile">LightGBM原生接口和Sklearn接口参数详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

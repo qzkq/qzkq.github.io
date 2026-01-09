@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](概率预测之NGBoost（Natural Gradient Boosting）回归和线性分位数回归) 概率预测是一种预测方法，它不仅提供一个具体的预测值（如点预测），还提供预测值的概率分布或置信区间。这种方法能够更好地捕捉预测的不确定性，适用于需要了解预测结果可靠性的场景。 NGBoostNGBoost（Natural Gradient Boosting）是一个用于提升树的分位数回">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E6%A6%82%E7%8E%87%E9%A2%84%E6%B5%8B%E4%B9%8BNGBoost%EF%BC%88Natural%20Gradient%20Boosting%EF%BC%89%E5%9B%9E%E5%BD%92%E5%92%8C%E5%88%86%E4%BD%8D%E6%95%B0%EF%BC%88Quantile%20Regression%EF%BC%89%E5%9B%9E%E5%BD%92/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](概率预测之NGBoost（Natural Gradient Boosting）回归和线性分位数回归) 概率预测是一种预测方法，它不仅提供一个具体的预测值（如点预测），还提供预测值的概率分布或置信区间。这种方法能够更好地捕捉预测的不确定性，适用于需要了解预测结果可靠性的场景。 NGBoostNGBoost（Natural Gradient Boosting）是一个用于提升树的分位数回">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-05T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.357Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="NGBoost">
+<meta property="article:tag" content="分位数回归">
+<meta property="article:tag" content="回归">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="概率预测">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:00" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](概率预测之NGBoost（Natural Gradient Boosting）回归和线性分位数回归)</p>
+<p>概率预测是一种预测方法，它不仅提供一个具体的预测值（如点预测），还提供预测值的概率分布或置信区间。这种方法能够更好地捕捉预测的不确定性，适用于需要了解预测结果可靠性的场景。</p>
+<h1 id="NGBoost"><a href="#NGBoost" class="headerlink" title="NGBoost"></a>NGBoost</h1><p>NGBoost（Natural Gradient Boosting）是一个用于提升树的分位数回归和概率预测的强大库。它通过自然梯度提升方法来优化分位数损失函数，从而能够提供更准确的概率预测和分位数回归。</p>
+<h2 id="NGBoost超参数解释"><a href="#NGBoost超参数解释" class="headerlink" title="NGBoost超参数解释"></a>NGBoost超参数解释</h2><ol>
+<li>n_estimators<br>含义：提升树的数量。<br>作用：控制模型的复杂度和拟合能力。增加树的数量可以提高模型性能，但也可能导致过拟合。<br>默认值：通常为50或100。</li>
+<li>learning_rate<br>含义：学习率，用于缩放每棵树的贡献。<br>作用：降低每棵树的影响以防止过拟合，同时通过更多的树逐步逼近目标。<br>默认值：0.1。</li>
+<li>minibatch_frac<br>含义：每次迭代时使用的样本比例（类似于随机梯度下降中的批量大小）。<br>作用：减少计算量并引入随机性，有助于防止过拟合。<br>默认值：1.0（使用所有样本）。</li>
+<li>col_sample<br>含义：每次迭代时使用的特征比例。<br>作用：通过减少特征数量引入随机性，防止过拟合。<br>默认值：1.0（使用所有特征）。</li>
+<li>base<br>含义：基础估计器（弱学习器），通常是决策树。<br>作用：指定模型的基础结构，默认为DecisionTreeRegressor。<br>默认值：max_depth&#x3D;3 的决策树。</li>
+<li>Dist<br>含义：目标变量的概率分布类型。<br>作用：定义目标变量的分布形式，如正态分布 (Normal)、伯努利分布 (Bernoulli) 等。<br>默认值：根据任务自动选择。</li>
+<li>Score<br>含义：评分函数，用于评估当前模型的拟合效果。<br>作用：指导模型优化方向，例如负对数似然 (LogScore) 或偏差方差分解 (CRPScore)。<br>默认值：LogScore。</li>
+<li>natural_gradient<br>含义：是否使用自然梯度下降。<br>作用：启用自然梯度下降可以加速收敛并减少训练过程中的振荡。<br>默认值：True。</li>
+<li>verbose<br>含义：控制训练过程中的日志输出。<br>作用：调试和监控模型训练过程。<br>默认值：True。</li>
+<li>random_state<br>含义：随机种子，确保结果可复现。<br>作用：设置随机数生成器的种子。<br>默认值：None。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> xgboost <span class="hljs-keyword">import</span> XGBRegressor<br><br><span class="hljs-comment"># 使用XGBoost作为基学习器</span><br>model = NGBRegressor(base=XGBRegressor(max_depth=<span class="hljs-number">3</span>, n_estimators=<span class="hljs-number">10</span>))<br><br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LinearRegression<br><br><span class="hljs-comment"># 使用线性回归作为基学习器</span><br>model = NGBRegressor(base=LinearRegression())<br><br><span class="hljs-keyword">from</span> sklearn.svm <span class="hljs-keyword">import</span> SVR<br><br><span class="hljs-comment"># 使用支持向量机作为基学习器</span><br>model = NGBRegressor(base=SVR(kernel=<span class="hljs-string">&#x27;rbf&#x27;</span>))<br></code></pre></td></tr></table></figure>
+<h2 id="NGBoost-fit"><a href="#NGBoost-fit" class="headerlink" title="NGBoost.fit"></a>NGBoost.fit</h2><ul>
+<li><p>X<br>类型：array-like 或 pandas.DataFrame<br>含义：训练数据的特征矩阵，形状为 (n_samples, n_features)。<br>作用：模型将基于这些特征进行学习。</p>
+</li>
+<li><p>Y<br>类型：array-like<br>含义：目标变量（标签），形状为 (n_samples,)。<br>作用：模型的目标是拟合这些标签值。</p>
+</li>
+<li><p>X_val&#x3D;None<br>类型：array-like 或 pandas.DataFrame<br>含义：验证集的特征矩阵。<br>作用：如果提供验证集，则可以在训练过程中监控模型在验证集上的表现。</p>
+</li>
+<li><p>Y_val&#x3D;None<br>类型：array-like<br>含义：验证集的目标变量。<br>作用：与 X_val 配合使用，用于评估模型的泛化能力。</p>
+</li>
+<li><p>early_stopping_rounds&#x3D;None<br>类型：int<br>含义：早停轮数。<br>作用：如果在连续 early_stopping_rounds 轮中，验证集上的性能没有提升，则提前停止训练。用于防止过拟合。</p>
+</li>
+<li><p>sample_weight&#x3D;None<br>类型：array-like<br>含义：样本权重，形状为 (n_samples,)。<br>作用：为每个样本分配不同的权重，影响模型的学习过程。</p>
+</li>
+</ul>
+<h2 id="score-X-Y"><a href="#score-X-Y" class="headerlink" title="score(X, Y)"></a>score(X, Y)</h2><ul>
+<li>含义：计算模型在给定数据上的评分。</li>
+<li>返回值：负对数似然（Negative Log-Likelihood, NLL）或其他指定的评分函数值。</li>
+</ul>
+<h2 id="staged-predict-X"><a href="#staged-predict-X" class="headerlink" title="staged_predict(X)"></a>staged_predict(X)</h2><ul>
+<li>含义：逐步生成预测结果，类似于梯度提升中的逐轮预测。</li>
+<li>参数：<ul>
+<li>X：特征矩阵。</li>
+<li>返回值：一个生成器，逐步返回每轮迭代后的预测结果。</li>
+<li>适用场景：观察模型在不同迭代次数下的表现。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i, preds <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(model.staged_predict(X_test)):<br>      <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;第 <span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span> 轮预测: <span class="hljs-subst">&#123;preds[:<span class="hljs-number">5</span>]&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="feature-importances"><a href="#feature-importances" class="headerlink" title="feature_importances_"></a>feature_importances_</h2><ul>
+<li>含义：返回特征的重要性（基于基学习器的贡献）。</li>
+<li>返回值：一个数组，表示每个特征的重要性。</li>
+<li>注意：仅当基学习器为决策树时有效。</li>
+</ul>
+<h2 id="pred-dist-方法来获取概率分布对象"><a href="#pred-dist-方法来获取概率分布对象" class="headerlink" title="pred_dist 方法来获取概率分布对象"></a>pred_dist 方法来获取概率分布对象</h2><ul>
+<li>mean(): 获取均值。</li>
+<li>median(): 获取中位数。</li>
+<li>interval(alpha): 获取指定置信水平的置信区间。</li>
+<li>pdf(x): 获取概率密度函数（PDF）在 x 处的值。</li>
+<li>cdf(x): 获取累积分布函数（CDF）在 x 处的值。</li>
+<li>ppf(q): 获取分位数函数（PPF）在 q 处的值。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> lightgbm <span class="hljs-keyword">as</span> lgb<br><span class="hljs-keyword">from</span> sklearn.base <span class="hljs-keyword">import</span> BaseEstimator, RegressorMixin<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> ngboost <span class="hljs-keyword">import</span> NGBRegressor<br><span class="hljs-keyword">from</span> ngboost.scores <span class="hljs-keyword">import</span> LogScore<br><span class="hljs-keyword">from</span> ngboost.distns <span class="hljs-keyword">import</span> Normal<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> make_regression<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> mean_absolute_error<br><br><span class="hljs-comment"># 定义适配器类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LGBMRegressorAdapter</span>(BaseEstimator, RegressorMixin):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, **kwargs</span>):<br>        <span class="hljs-variable language_">self</span>.lgbm = lgb.LGBMRegressor(**kwargs)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">fit</span>(<span class="hljs-params">self, X, y</span>):<br>        <span class="hljs-variable language_">self</span>.lgbm.fit(X, y)<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span><br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.lgbm.predict(X)<br><br><span class="hljs-comment"># 生成模拟数据</span><br>X, Y = make_regression(n_samples=<span class="hljs-number">1000</span>, n_features=<span class="hljs-number">10</span>, noise=<span class="hljs-number">0.5</span>, random_state=<span class="hljs-number">42</span>)<br>X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">42</span>)<br><br><span class="hljs-comment"># 初始化 LGBMRegressorAdapter</span><br>lgbm_base = LGBMRegressorAdapter(n_estimators=<span class="hljs-number">10</span>, max_depth=<span class="hljs-number">3</span>, learning_rate=<span class="hljs-number">0.1</span>)<br><br><span class="hljs-comment"># 初始化 NGBoost 模型，使用 LGBM 作为基学习器，并使用 LogScore 和 Normal</span><br>model = NGBRegressor(<br>    base=lgbm_base,<br>    Dist=Normal,<br>    Score=LogScore,<br>    n_estimators=<span class="hljs-number">200</span>,<br>    learning_rate=<span class="hljs-number">0.1</span>,<br>    verbose=<span class="hljs-literal">True</span><br>)<br><br><span class="hljs-comment"># 训练模型</span><br>model.fit(<br>    X_train, Y_train,<br>    X_val=X_test, Y_val=Y_test,<br>    early_stopping_rounds=<span class="hljs-number">10</span>,<br>    refit=<span class="hljs-literal">True</span><br>)<br><br><span class="hljs-comment"># 预测</span><br>predictions = model.predict(X_test)<br><br><span class="hljs-comment"># 计算 MAE</span><br>mae = mean_absolute_error(Y_test, predictions)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Test MAE: <span class="hljs-subst">&#123;mae&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 获取概率分布对象</span><br>distributions = model.pred_dist(X_test)<br><br><span class="hljs-comment"># 示例：获取前5个样本的统计信息</span><br><span class="hljs-keyword">for</span> i, dist <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(distributions[:<span class="hljs-number">5</span>]):<br>    mean_val = dist.mean()<br>    median_val = dist.median()<br>    lower, upper = dist.interval(<span class="hljs-number">0.95</span>)<br>    pdf_val = dist.pdf(mean_val)  <span class="hljs-comment"># PDF at the mean</span><br>    cdf_val = dist.cdf(mean_val)  <span class="hljs-comment"># CDF at the mean</span><br>    ppf_val = dist.ppf(<span class="hljs-number">0.5</span>)       <span class="hljs-comment"># PPF at 0.5 (median)</span><br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;样本 <span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  均值: <span class="hljs-subst">&#123;mean_val&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  中位数: <span class="hljs-subst">&#123;median_val&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  95% 置信区间: [<span class="hljs-subst">&#123;lower&#125;</span>, <span class="hljs-subst">&#123;upper&#125;</span>]&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  PDF at mean: <span class="hljs-subst">&#123;pdf_val&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  CDF at mean: <span class="hljs-subst">&#123;cdf_val&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  PPF at 0.5: <span class="hljs-subst">&#123;ppf_val&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>()<br><br><span class="hljs-comment"># 以下等价</span><br>mean_val = dist.mean()<br>median_val = dist.median()<br>ppf_val = dist.ppf(<span class="hljs-number">0.5</span>)       <span class="hljs-comment"># PPF at 0.5 (median)</span><br>distributions = model.predict(X_test)<br></code></pre></td></tr></table></figure>
+<h1 id="分位数回归（Quantile-Regression）"><a href="#分位数回归（Quantile-Regression）" class="headerlink" title="分位数回归（Quantile Regression）"></a>分位数回归（Quantile Regression）</h1><p>分位数回归（Quantile Regression）是一种统计方法，用于估计目标变量在不同分位数上的条件分布。</p>
+<h2 id="smf-quantreg-对多变量数据进行分位数回归分析"><a href="#smf-quantreg-对多变量数据进行分位数回归分析" class="headerlink" title="smf.quantreg 对多变量数据进行分位数回归分析"></a>smf.quantreg 对多变量数据进行分位数回归分析</h2><p>smf.quantreg 是 statsmodels 库中的一个模块，用于进行分位数回归（Quantile Regression）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> statsmodels.formula.api <span class="hljs-keyword">as</span> smf<br><br><span class="hljs-comment"># 创建示例数据集</span><br>data = &#123;<br>    <span class="hljs-string">&#x27;y&#x27;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>],<br>    <span class="hljs-string">&#x27;x1&#x27;</span>: [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>, <span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">90</span>, <span class="hljs-number">100</span>],<br>    <span class="hljs-string">&#x27;x2&#x27;</span>: [<span class="hljs-number">15</span>, <span class="hljs-number">25</span>, <span class="hljs-number">35</span>, <span class="hljs-number">45</span>, <span class="hljs-number">55</span>, <span class="hljs-number">65</span>, <span class="hljs-number">75</span>, <span class="hljs-number">85</span>, <span class="hljs-number">95</span>, <span class="hljs-number">105</span>]<br>&#125;<br>df = pd.DataFrame(data)<br><br><span class="hljs-comment"># 指定分位数</span><br>quantile = <span class="hljs-number">0.5</span><br><br><span class="hljs-comment"># 定义模型公式</span><br>formula = <span class="hljs-string">&#x27;y ~ x1 + x2&#x27;</span><br><br><span class="hljs-comment"># 拟合模型</span><br>model = smf.quantreg(formula, df)<br>result = model.fit(q=quantile)<br><br><span class="hljs-comment"># 查看回归结果</span><br><span class="hljs-built_in">print</span>(result.summary())<br></code></pre></td></tr></table></figure>
+<h2 id="概率预测指标"><a href="#概率预测指标" class="headerlink" title="概率预测指标"></a>概率预测指标</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># PICP: predicition interval coverage probability</span><br><span class="hljs-comment"># WS: winkler score</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate_PICP_WS</span>(<span class="hljs-params">y_pred_upper, y_pred_lower, y_test, confidence</span>):<br>  <br>  <span class="hljs-comment"># Reshape to 2D array for standardization</span><br>  y_pred_upper = np.reshape(y_pred_upper, (<span class="hljs-built_in">len</span>(y_pred_upper), <span class="hljs-number">1</span>))<br>  y_pred_lower = np.reshape(y_pred_lower, (<span class="hljs-built_in">len</span>(y_pred_lower), <span class="hljs-number">1</span>))<br>  <br>  y_pred_upper = sc_load.inverse_transform(y_pred_upper)<br>  y_pred_lower = sc_load.inverse_transform(y_pred_lower)<br>  y_test = sc_load.inverse_transform(y_test)<br>  <br>  <span class="hljs-comment"># Ravel for ease of computation</span><br>  y_pred_upper = y_pred_upper.ravel()<br>  y_pred_lower = y_pred_lower.ravel()<br>  y_test = y_test.ravel()<br>  <br>  <span class="hljs-comment"># Find out of bound indices for WS</span><br>  idx_oobl = np.where((y_test &lt; y_pred_lower) &gt; <span class="hljs-number">0</span>)<br>  idx_oobu = np.where((y_test &gt; y_pred_upper) &gt; <span class="hljs-number">0</span>)<br>  <br>  PICP = np.<span class="hljs-built_in">sum</span>((y_test &gt; y_pred_lower) &amp; (y_test &lt;= y_pred_upper)) / <span class="hljs-built_in">len</span>(y_test) * <span class="hljs-number">100</span><br>  WS = np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">sum</span>(y_pred_upper - y_pred_lower) + <br>              np.<span class="hljs-built_in">sum</span>(<span class="hljs-number">2</span> * (y_pred_lower[idx_oobl[<span class="hljs-number">0</span>]] - y_test[idx_oobl[<span class="hljs-number">0</span>]]) / confidence) +<br>              np.<span class="hljs-built_in">sum</span>(<span class="hljs-number">2</span> * (y_test[idx_oobu[<span class="hljs-number">0</span>]] - y_pred_upper[idx_oobu[<span class="hljs-number">0</span>]]) / confidence)) / <span class="hljs-built_in">len</span>(y_test)<br>  <br>  <span class="hljs-built_in">print</span> (<span class="hljs-string">&quot;PICP of testing set: &#123;:.2f&#125;%&quot;</span>.<span class="hljs-built_in">format</span>(PICP))<br>  <span class="hljs-built_in">print</span> (<span class="hljs-string">&quot;WS of testing set: &#123;:.2f&#125;&quot;</span>.<span class="hljs-built_in">format</span>(WS))<br>  <br>  <span class="hljs-keyword">return</span> PICP, WS<br></code></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>1.<a target="_blank" rel="noopener" href="https://github.com/statsmodels/statsmodels">https://github.com/statsmodels/statsmodels</a><br>2.新能源电力系统概率预测：基本概念与数学原理_万灿.pdf<br>3.新能源电力系统概率预测理论与方法&#x3D;Theory and Methodology of Probabilistic Forecasting for Renewable Power Systems_万灿,宋永华.pdf<br>4.<a target="_blank" rel="noopener" href="https://github.com/stanfordmlgroup/ngboost">https://github.com/stanfordmlgroup/ngboost</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/NGBoost/" class="print-no-link">#NGBoost</a>
+      
+        <a href="/tags/%E6%A6%82%E7%8E%87%E9%A2%84%E6%B5%8B/" class="print-no-link">#概率预测</a>
+      
+        <a href="/tags/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92/" class="print-no-link">#分位数回归</a>
+      
+        <a href="/tags/%E5%9B%9E%E5%BD%92/" class="print-no-link">#回归</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归</div>
+      <div>https://qzkq.github.io/2026/01/05/概率预测之NGBoost（Natural Gradient Boosting）回归和分位数（Quantile Regression）回归/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B2%B3%E5%8C%97%E7%9C%81%E7%AC%AC%E4%B8%89%E5%B1%8A%E7%A0%94%E7%A9%B6%E7%94%9F%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1B%E9%A2%98%EF%BC%88%E4%BA%8C%E7%AD%89%EF%BC%89%E4%BA%A4%E9%80%9A%E6%A3%80%E6%B5%8B%E5%99%A8%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%8E%A7%E5%88%B6%E5%8F%8A%E9%A2%84%E6%B5%8B/" title="河北省第三届研究生数学建模B题（二等）交通检测器数据质量控制及预测">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">河北省第三届研究生数学建模B题（二等）交通检测器数据质量控制及预测</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8B%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-K%20%E5%9D%87%E5%80%BC%E8%81%9A%E7%B1%BB%E3%80%81%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%EF%BC%88GMM%EF%BC%89%E3%80%81%E8%87%AA%E7%BB%84%E7%BB%87%E6%98%A0%E5%B0%84%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88SOM%EF%BC%89/" title="机器学习面试笔试知识点之非监督学习-K 均值聚类、高斯混合模型（GMM）、自组织映射神经网络（SOM）">
+                        <span class="hidden-mobile">机器学习面试笔试知识点之非监督学习-K 均值聚类、高斯混合模型（GMM）、自组织映射神经网络（SOM）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 一、Folium详解Folium 是一个用于在 Python 中创建交互式地图的库。它基于 Leaflet.js 构建，可以轻松地将地图嵌入到 Jupyter Notebook 或 Web 应用中。以下是 Folium 的一些主要特点和使用方法： 主要特点  交互式地图：支持缩放、平移等交互操作。  多种图层：支持多种地图图层，如 OpenStreetMap、Stamen、CartoD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python根据经纬度在地图上显示（folium详解）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/02/Python%E6%A0%B9%E6%8D%AE%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9C%A8%E5%9C%B0%E5%9B%BE%E4%B8%8A%E6%98%BE%E7%A4%BA%EF%BC%88folium%E8%AF%A6%E8%A7%A3%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 一、Folium详解Folium 是一个用于在 Python 中创建交互式地图的库。它基于 Leaflet.js 构建，可以轻松地将地图嵌入到 Jupyter Notebook 或 Web 应用中。以下是 Folium 的一些主要特点和使用方法： 主要特点  交互式地图：支持缩放、平移等交互操作。  多种图层：支持多种地图图层，如 OpenStreetMap、Stamen、CartoD">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/5fd3f97364fdb977a776f5bafe77a9e0.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5c4a1074ea4349139e9573d04c5f14c2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6644bf94cc994496880299bb0b1b7758.png">
+<meta property="og:image" content="https://qzkq.github.io/img/22c633c5e6f944b09671eabcd6bfe123.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1f3488f4b8dc4b1eb7528b3123057c89.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d10bba3510e948069058a5761826c24f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/187690524dc549f489c570f3576763a5.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5caa36b41f6442bb83467c62e194ce8d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3581899a30ad475ba0de2f33d9ab011b.png">
+<meta property="article:published_time" content="2026-01-02T00:08:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.377Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/5fd3f97364fdb977a776f5bafe77a9e0.png">
+  
+  
+  
+  <title>Python根据经纬度在地图上显示（folium详解） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Python根据经纬度在地图上显示（folium详解）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 08:08" pubdate>
+          2026年1月2日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Python根据经纬度在地图上显示（folium详解）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="Python%E6%A0%B9%E6%8D%AE%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9C%A8%E5%9C%B0%E5%9B%BE%E4%B8%8A%E6%98%BE%E7%A4%BA%EF%BC%88folium%EF%BC%89">TOC</a></p>
+<h1 id="一、Folium详解"><a href="#一、Folium详解" class="headerlink" title="一、Folium详解"></a>一、Folium详解</h1><p>Folium 是一个用于在 Python 中创建交互式地图的库。它基于 Leaflet.js 构建，可以轻松地将地图嵌入到 Jupyter Notebook 或 Web 应用中。以下是 Folium 的一些主要特点和使用方法：</p>
+<p><strong>主要特点</strong></p>
+<ul>
+<li>交互式地图：支持缩放、平移等交互操作。 </li>
+<li>多种图层：支持多种地图图层，如 OpenStreetMap、Stamen、CartoDB 等。 </li>
+<li>标记和弹出窗口：可以在地图上添加标记和弹出窗口，显示详细信息。 </li>
+<li>矢量图层：支持绘制线、多边形等矢量图层。 </li>
+<li>热力图：支持创建热力图，用于可视化数据密度。 </li>
+<li>集成 GeoJSON：支持加载和显示 GeoJSON 数据。</li>
+</ul>
+<h2 id="folium-Map参数简要介绍"><a href="#folium-Map参数简要介绍" class="headerlink" title="folium.Map参数简要介绍"></a>folium.Map参数简要介绍</h2><p>1、location地图中心点 经纬度，list 或者 tuple 格式，顺序为 latitude(纬度), longitude(经度)</p>
+<p>2、zoom_start地图等级 缩放值，默认为 10，值越大比例尺越小，地图放大级别越大</p>
+<p>3、tiles 显示样式，默认*‘OpenStreetMap’*，也就是开启街道显示；也有一些其他的内建地图样式，如’Stamen  Terrain’、’Stamen Toner’、’Mapbox Bright’、’Mapbox Control Room’等；也可以传入’None’来绘制一个没有风格的朴素地图，或传入一个URL来使用其它的自选osm</p>
+<p>4、crs 地理坐标参考系统，默认为”EPSG3857”</p>
+<p>5、width：int型或str型，int型时，传入的是地图宽度的像素值；str型时，传入的是地图宽度的百分比，形式为’xx%’。默认为’100%’</p>
+<p>6、height：控制地图的高度，格式同width</p>
+<p>7、max_zoom：int型，控制地图可以放大程度的上限，默认为18</p>
+<p>8、attr：str型，当在tiles中使用自选URL内的osm时使用，用于给自选osm命名</p>
+<p>9、control_scale：bool型，控制是否在地图上添加比例尺，默认为False即不添加</p>
+<p>10、no_touch：bool型，控制地图是否禁止接受来自设备的触控事件譬如拖拽等，默认为False，即不禁止</p>
+<h2 id="folium-TileLayer参数简要介绍"><a href="#folium-TileLayer参数简要介绍" class="headerlink" title="folium.TileLayer参数简要介绍"></a>folium.TileLayer参数简要介绍</h2><p>folium.TileLayer 是 Folium 库中的一个类，用于在地图上添加不同的图层。这些图层通常是从在线地图服务提供商（如 OpenStreetMap、Stamen、CartoDB 等）获取的瓦片图层。通过使用 folium.TileLayer，你可以轻松地在地图上切换不同的底图，以满足不同的需求。</p>
+<p>1、tiles: (str, default ‘OpenStreetMap’) - 图层的名称或 URL 模板。常见的图层名称包括 ‘OpenStreetMap’, ‘Stamen Terrain’, ‘Stamen Toner’, ‘Stamen Watercolor’, ‘CartoDB positron’, ‘CartoDB dark_matter’ 等。</p>
+<p>2、name: (str, default None) - 图层的名称，用于图层控制。</p>
+<p>3、overlay: (bool, default False) - 是否将此图层作为覆盖层。如果设置为 True，则图层不会默认显示，需要通过图层控制手动启用。</p>
+<p>4、control: (bool, default True) - 是否将此图层添加到图层控制中。</p>
+<p>5、show: (bool, default True) - 是否在初始化时显示此图层。</p>
+<p>6、attr: (str, default None) - 图层的归属信息，通常用于显示版权信息。</p>
+<p>7、subdomains: (str or list, default ‘abc’) - 子域名列表，用于负载均衡。</p>
+<p>8、min_zoom: (int, default 0) - 最小缩放级别。</p>
+<p>9、max_zoom: (int, default 18) - 最大缩放级别。</p>
+<p>10、min_lat: (float, default -Infinity) - 最小纬度。</p>
+<p>11、max_lat: (float, default Infinity) - 最大纬度。</p>
+<p>12、min_lon: (float, default -Infinity) - 最小经度。</p>
+<p>13、max_lon: (float, default Infinity) - 最大经度。</p>
+<p>14、no_wrap: (bool, default False) - 是否禁用经度环绕。</p>
+<p>15、tms: (bool, default False) - 是否使用 TMS 瓦片顺序。</p>
+<p>16、opacity: (float, default 1) - 图层的透明度，范围从 0 到 1。</p>
+<p>17、zindex: (int, default 1) - 图层的 z-index。</p>
+<p>18、detect_retina: (bool, default False) - 是否检测 Retina 屏幕并使用高分辨率瓦片。</p>
+<p>19、tile_size: (int, default 256) - 瓦片的大小（像素）。</p>
+<h2 id="folium-FeatureGroup参数简要介绍"><a href="#folium-FeatureGroup参数简要介绍" class="headerlink" title="folium.FeatureGroup参数简要介绍"></a>folium.FeatureGroup参数简要介绍</h2><p>folium.FeatureGroup 是 Folium 库中的一个类，用于将多个地图元素（如标记、线、多边形等）组合在一起，形成一个逻辑组。通过使用 FeatureGroup，你可以更方便地管理和控制这些元素，例如一次性显示或隐藏整个组，或者为组内的所有元素添加相同的样式或事件处理程序。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>分组管理：将相关的地图元素分组，便于管理和控制。 </li>
+<li>图层控制：通过图层控制面板，可以方便地显示或隐藏整个组。 </li>
+<li>样式统一：可以为组内的所有元素统一设置样式。 </li>
+<li>事件处理：可以为组内的所有元素统一添加事件处理程序。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、name: (str, default None) - 组的名称，用于图层控制。</p>
+<p>2、overlay: (bool, default True) - 是否将此组作为覆盖层。如果设置为 True，则组不会默认显示，需要通过图层控制手动启用。</p>
+<p>3、control: (bool, default True) - 是否将此组添加到图层控制中。</p>
+<p>4、show: (bool, default True) - 是否在初始化时显示此组。</p>
+<h2 id="folium-MarkerCluster参数简要介绍"><a href="#folium-MarkerCluster参数简要介绍" class="headerlink" title="folium.MarkerCluster参数简要介绍"></a>folium.MarkerCluster参数简要介绍</h2><p>folium.MarkerCluster 是 Folium 库中的一个类，用于将多个标记（markers）聚合成一个集群（cluster）。当地图缩放级别较高时，标记会聚集在一起形成一个聚合点，从而避免标记重叠，提高地图的可读性和性能。当用户放大地图时，聚合点会逐渐分解成单个标记。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>标记聚合：将大量标记聚合成一个或多个聚合点，避免标记重叠。 </li>
+<li>提高性能：减少地图上显示的标记数量，提高地图的加载和渲染速度。 </li>
+<li>增强用户体验：用户可以通过缩放地图来查看不同级别的细节。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、name: (str, default None) - 集群的名称，用于图层控制。</p>
+<p>2、overlay: (bool, default True) - 是否将此集群作为覆盖层。如果设置为 True，则集群不会默认显示，需要通过图层控制手动启用。</p>
+<p>3、control: (bool, default True) - 是否将此集群添加到图层控制中。</p>
+<p>4、show: (bool, default True) - 是否在初始化时显示此集群。</p>
+<p>5、icon_create_function: (str, default None) - 自定义聚合图标创建函数，用于控制聚合点的外观。</p>
+<p>6、spiderfy_on_max_zoom: (bool, default True) - 在最大缩放级别时是否展开聚合点。</p>
+<p>7、disable_clustering_at_zoom: (int, default None) - 在指定的缩放级别以上禁用聚合。</p>
+<p>8、max_cluster_radius: (int, default 80) - 聚合点的最大半径（像素）。</p>
+<p>9、chunked_loading: (bool, default False) - 是否启用分块加载，适用于大量标记。</p>
+<p>10、chunk_progress: (str, default None) - 分块加载的进度条样式。</p>
+<p>11、polygon_options: (dict, default None) - 聚合点的多边形选项。</p>
+<h2 id="folium-Marker参数简要介绍"><a href="#folium-Marker参数简要介绍" class="headerlink" title="folium.Marker参数简要介绍"></a>folium.Marker参数简要介绍</h2><p>folium.Marker 是 Folium 库中的一个类，用于在地图上添加标记（marker）。标记可以用来表示特定的位置，并且可以附加弹出窗口（popup）来显示更多信息。通过 folium.Marker，你可以轻松地在地图上添加各种类型的标记，并对其进行自定义。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>位置标记：在地图上标记特定的位置。 </li>
+<li>信息显示：通过弹出窗口显示与标记相关的信息。 </li>
+<li>自定义图标：使用自定义图标来表示标记。 </li>
+<li>事件处理：为标记添加点击、鼠标悬停等事件处理程序。</li>
+</ul>
+<p><strong>主要参数</strong></p>
+<p>1、location: (list or tuple, required) - 标记的位置，格式为 [latitude, longitude]。</p>
+<p>2、popup: (str or folium.Popup, default None) - 标记的弹出窗口内容。</p>
+<p>3、icon: (folium.Icon, default None) - 标记的图标。</p>
+<p>4、draggable: (bool, default False) - 标记是否可拖动。</p>
+<p>5、tooltip: (str or folium.Tooltip, default None) - 标记的工具提示内容。</p>
+<p>6、z_index_offset: (int, default 0) - 标记的 z-index 偏移量。</p>
+<p>7、opacity: (float, default 1) - 标记的透明度，范围从 0 到 1。</p>
+<p>8、rise_on_hover: (bool, default False) - 当鼠标悬停时是否提升标记的层级。</p>
+<p>9、rise_offset: (int, default 250) - 标记提升的层级偏移量。</p>
+<p>10、rotation_angle: (int, default 0) - 标记的旋转角度。</p>
+<p>11、rotation_origin: (str, default ‘center bottom’) - 标记的旋转原点。</p>
+<h2 id="folium-Popup参数简要介绍"><a href="#folium-Popup参数简要介绍" class="headerlink" title="folium.Popup参数简要介绍"></a>folium.Popup参数简要介绍</h2><p>folium.Popup 是 Folium 库中的一个类，用于在地图上的标记或其他元素上显示弹出窗口。弹出窗口可以包含文本、HTML 内容、图片等，为用户提供更多的信息。通过 folium.Popup，你可以轻松地为地图上的标记、线、多边形等元素添加丰富的交互内容。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>信息显示：在标记或其他元素上显示详细信息。 </li>
+<li>富媒体内容：支持文本、HTML、图片等富媒体内容。 </li>
+<li>自定义样式：通过 CSS 自定义弹出窗口的样式。 </li>
+<li>事件处理：为弹出窗口添加点击、关闭等事件处理程序。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、html: (str, required) - 弹出窗口的内容，可以是纯文本或 HTML 字符串。</p>
+<p>2、max_width: (int, default 300) - 弹出窗口的最大宽度（像素）。</p>
+<p>3、min_width: (int, default 50) - 弹出窗口的最小宽度（像素）。</p>
+<p>4、max_height: (int, default None) - 弹出窗口的最大高度（像素），如果设置为 None，则没有最大高度限制。</p>
+<p>5、show: (bool, default False) - 是否在初始化时自动显示弹出窗口。</p>
+<p>6、sticky: (bool, default False) - 是否使弹出窗口在地图移动时保持固定位置。</p>
+<p>7、no_wrap: (bool, default False) - 是否禁用文本换行。</p>
+<p>8、parse_html: (bool, default False) - 是否解析 HTML 内容。</p>
+<h2 id="folium-Icon参数简要介绍"><a href="#folium-Icon参数简要介绍" class="headerlink" title="folium.Icon参数简要介绍"></a>folium.Icon参数简要介绍</h2><p>folium.Icon 是 Folium 库中的一个类，用于自定义地图上标记（marker）的图标。通过 folium.Icon，你可以改变标记的图标样式、颜色、大小等属性，使其更符合你的需求。这使得地图上的标记更加多样化和个性化。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>图标样式：改变标记的图标样式。 </li>
+<li>颜色定制：改变标记的颜色。 </li>
+<li>图标大小：调整标记的大小。 </li>
+<li>图标旋转：旋转标记图标。 </li>
+<li>图标阴影：自定义标记的阴影效果。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、icon_color: (str, default ‘blue’) - 图标颜色，可选值包括 ‘white’, ‘red’, ‘blue’, ‘green’, ‘orange’, ‘purple’, ‘pink’, ‘cadetblue’, ‘gray’, ‘darkred’, ‘lightred’, ‘beige’, ‘darkblue’, ‘lightblue’, ‘darkgreen’, ‘lightgreen’, ‘darkpurple’, ‘lightpurple’, ‘black’。</p>
+<p>2、color: (str, default ‘white’) - 图标背景颜色。</p>
+<p>3、icon: (str, default ‘info-sign’) - 图标样式，使用 Font Awesome 图标库中的图标名称。</p>
+<p>4、prefix: (str, default ‘glyphicon’) - 图标前缀，可选值包括 ‘glyphicon’ 和 ‘fa’（Font Awesome）。</p>
+<p>5、icon_anchor: (tuple, default (12, 41)) - 图标的锚点位置，格式为 (x, y)。</p>
+<p>6、shadow: (bool, default True) - 是否显示图标阴影。</p>
+<p>7、shadow_size: (tuple, default (41, 41)) - 图标阴影的大小，格式为 (width, height)。</p>
+<p>8、shadow_anchor: (tuple, default (12, 41)) - 图标阴影的锚点位置，格式为 (x, y)。</p>
+<p>9、popup_anchor: (tuple, default (1, -34)) - 弹出窗口的锚点位置，格式为 (x, y)。</p>
+<p>10、spin: (bool, default False) - 是否使图标旋转（仅适用于 Font Awesome 图标）。</p>
+<p>11、border_color: (str, default None) - 图标的边框颜色。</p>
+<p>12、border_width: (int, default 3) - 图标的边框宽度。</p>
+<h2 id="folium-LayerControl参数简要介绍"><a href="#folium-LayerControl参数简要介绍" class="headerlink" title="folium.LayerControl参数简要介绍"></a>folium.LayerControl参数简要介绍</h2><p>folium.LayerControl 是 Folium 库中的一个类，用于在地图上添加图层控制面板。图层控制面板允许用户在地图上动态地显示或隐藏不同的图层，从而提供更好的交互体验。通过 folium.LayerControl，你可以轻松地管理多个图层，并让用户根据需要选择显示哪些图层。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>图层管理：管理地图上的多个图层。 </li>
+<li>用户交互：允许用户动态地显示或隐藏图层。 </li>
+<li>分组图层：将图层分组，方便管理和选择。 </li>
+<li>自定义样式：自定义图层控制面板的样式。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、position: (str, default ‘topright’) - 图层控制面板的位置，可选值包括 ‘topleft’, ‘topright’, ‘bottomleft’, ‘bottomright’。</p>
+<p>2、collapsed: (bool, default True) - 图层控制面板是否默认折叠。</p>
+<p>3、autoZIndex: (bool, default True) - 是否自动为每个图层分配 z-index。</p>
+<p>4、hideSingleBase: (bool, default False) - 如果只有一个基础图层，是否隐藏基础图层选择。</p>
+<p>5、overlayPosition: (str, default ‘bottom’) - 叠加图层的位置，可选值包括 ‘top’, ‘bottom’。</p>
+<p>6、baseLayerPosition: (str, default ‘top’) - 基础图层的位置，可选值包括 ‘top’, ‘bottom’。</p>
+<p>7、sortLayers: (bool, default False) - 是否按字母顺序排序图层。</p>
+<p>8、sortFunction: (function, default None) - 自定义图层排序函数。</p>
+<p>9、namedLayers: (bool, default True) - 是否显示图层名称。</p>
+<p>10、collapsedLayers: (list, default []) - 默认折叠的图层列表。</p>
+<h2 id="folium-LatLngPopup参数简要介绍"><a href="#folium-LatLngPopup参数简要介绍" class="headerlink" title="folium.LatLngPopup参数简要介绍"></a>folium.LatLngPopup参数简要介绍</h2><p>folium.LatLngPopup 是 Folium 库中的一个类，用于在地图上显示用户点击位置的经纬度坐标。当用户在地图上点击某个位置时，会弹出一个包含该位置经纬度坐标的弹出窗口。这个功能非常有用，特别是在需要获取地图上特定位置的坐标时。</p>
+<p><strong>主要用途</strong></p>
+<ul>
+<li>获取坐标：显示用户点击位置的经纬度坐标。</li>
+<li>用户交互：增强地图的交互性，提供即时反馈。 </li>
+<li>数据收集：帮助用户快速收集地图上的坐标数据。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、<code>popup: (str, default &#39;Lat: {lat}&lt;br&gt;Lng: {lng}&#39;)</code> - 弹出窗口的内容模板，其中 {lat} 和 {lng} 会被实际的纬度和经度值替换。</p>
+<h2 id="folium-MousePosition参数简要介绍"><a href="#folium-MousePosition参数简要介绍" class="headerlink" title="folium.MousePosition参数简要介绍"></a>folium.MousePosition参数简要介绍</h2><p>folium.MousePosition 是 Folium 库中的一个类，用于在地图上显示鼠标指针当前位置的经纬度坐标。当用户在地图上移动鼠标时，会实时显示鼠标指针所在位置的经纬度坐标。这个功能非常有用，特别是在需要实时获取地图上特定位置的坐标时。<br><strong>主要用途</strong></p>
+<ul>
+<li>实时坐标显示：显示鼠标指针当前位置的经纬度坐标。 </li>
+<li>用户交互：增强地图的交互性，提供即时反馈。 </li>
+<li>数据收集：帮助用户快速收集地图上的坐标数据。</li>
+</ul>
+<p><strong>主要参数</strong><br>1、position: (str, default ‘bottomright’) - 鼠标位置控件的位置，可选值包括 ‘topleft’, ‘topright’, ‘bottomleft’, ‘bottomright’。</p>
+<p>2、separator: (str, default ‘ | ‘) - 经度和纬度之间的分隔符。</p>
+<p>3、empty_string: (str, default ‘Lon: , Lat: ‘) - 当鼠标不在地图上时显示的字符串。</p>
+<p>4、lat_first: (bool, default False) - 是否先显示纬度后显示经度。</p>
+<p>5、num_digits: (int, default 5) - 经纬度的小数位数。</p>
+<p>6、prefix: (str, default ‘’) - 显示在经纬度前面的前缀。</p>
+<p>7、lat_formatter: (function, default None) - 纬度格式化函数。</p>
+<p>8、lng_formatter: (function, default None) - 经度格式化函数。</p>
+<h2 id="folium-GeoJson参数简要介绍"><a href="#folium-GeoJson参数简要介绍" class="headerlink" title="folium.GeoJson参数简要介绍"></a>folium.GeoJson参数简要介绍</h2><p>folium.GeoJson 是 Folium 库中的一个类，用于在地图上显示 GeoJSON 数据。GeoJSON 是一种基于 JSON 的地理空间数据交换格式，常用于表示点、线、多边形等地理要素。</p>
+<p><strong>主要参数</strong><br>1、data: GeoJSON 数据，可以是字典或文件路径。</p>
+<p>2、style_function: 用于定义 GeoJSON 对象样式的函数。</p>
+<p>3、highlight_function: 用于定义鼠标悬停时 GeoJSON 对象样式的函数。</p>
+<p>4、name: 图层名称，用于图层控制。</p>
+<p>5、overlay: 是否作为覆盖层，默认为 True。</p>
+<p>6、control: 是否在图层控制中显示，默认为 True。</p>
+<p>7、show: 是否默认显示图层，默认为 True。</p>
+<p>8、smooth_factor: 平滑因子，用于平滑线条，默认为 1.0。</p>
+<p>9、tooltip: 提示信息，可以是字符串或 folium.GeoJsonTooltip 对象。</p>
+<p>10、popup: 弹出信息，可以是字符串或 folium.GeoJsonPopup 对象。</p>
+<p>11、embed: 是否嵌入 GeoJSON 数据，默认为 True。</p>
+<p>12、zoom_on_click: 是否在点击时缩放，默认为 True。</p>
+<p>13、marker_property: 指定 GeoJSON 特征属性作为标记，默认为 None。</p>
+<p>14、marker: 自定义标记，默认为 None。</p>
+<h2 id="folium-DivIcon参数简要介绍"><a href="#folium-DivIcon参数简要介绍" class="headerlink" title="folium.DivIcon参数简要介绍"></a>folium.DivIcon参数简要介绍</h2><p>folium.DivIcon 是 Folium 库中的一个类，用于创建自定义的 HTML 标记图标。与默认的圆形图标不同，DivIcon 允许你使用自定义的 HTML 内容来创建标记图标，从而实现更丰富的视觉效果。</p>
+<p><strong>主要参数</strong><br>1、icon_size: 图标的大小，以像素为单位，格式为 (width, height)。</p>
+<p>2、icon_anchor: 图标在标记位置的锚点，格式为 (x, y)。默认值为 (0, 0)，表示左上角。</p>
+<p>3、popup_anchor: 弹出框相对于图标的锚点，格式为 (x, y)。默认值为 (0, 0)。</p>
+<p>4、html: 自定义的 HTML 内容，用于创建图标。可以包含任何有效的 HTML 代码。</p>
+<p>5、class_name: 图标的 CSS 类名，用于进一步自定义样式。</p>
+<h2 id="folium-中的-add-child-add-to-和-save-方法简要介绍"><a href="#folium-中的-add-child-add-to-和-save-方法简要介绍" class="headerlink" title="folium 中的 add_child, add_to, 和 save 方法简要介绍"></a>folium 中的 add_child, add_to, 和 save 方法简要介绍</h2><p>在 folium 库中，add_child, add_to, 和 save 是常用的方法，用于构建和保存地图。下面分别对这三个方法进行详细说明。</p>
+<ol>
+<li><p>add_child<br>add_child 方法用于将一个子元素（如标记、图层、控件等）添加到地图或其他父元素中。这个方法通常在内部被其他方法调用，但在某些情况下也可以直接使用。<br><code>parent.add_child(child, name=None, index=None) </code><br>参数<br>child: (Element) - 要添加的子元素。<br>name: (str, optional) - 子元素的名称。<br>index: (int, optional) - 插入子元素的位置索引。</p>
+</li>
+<li><p>add_to<br>add_to 方法用于将一个元素添加到地图或其他父元素中。这个方法通常在创建元素时直接调用，更加简洁和常用。<br><code>element.add_to(parent) </code><br>参数<br>parent: (Element) - 要添加到的父元素。</p>
+</li>
+<li><p>save<br>save 方法用于将地图保存为 HTML 文件。保存后的文件可以在浏览器中打开，查看地图及其所有添加的元素。<br><code>map.save(outfile, close_file=True)</code><br>参数<br>outfile: (str) - 保存的文件路径和名称。<br>close_file: (bool, default True) - 是否关闭文件对象。</p>
+</li>
+</ol>
+<h1 id="二、Python根据经纬度在地图上显示（示例）"><a href="#二、Python根据经纬度在地图上显示（示例）" class="headerlink" title="二、Python根据经纬度在地图上显示（示例）"></a>二、Python根据经纬度在地图上显示（示例）</h1><p><img src="/img/5fd3f97364fdb977a776f5bafe77a9e0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="1-经纬度坐标标记"><a href="#1-经纬度坐标标记" class="headerlink" title="1.经纬度坐标标记"></a>1.经纬度坐标标记</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> folium<br><span class="hljs-keyword">from</span> folium.plugins <span class="hljs-keyword">import</span> MarkerCluster<br><br>data = pd.read_excel(<span class="hljs-string">&#x27;******.xlsx&#x27;</span>)  <span class="hljs-comment"># 读取文件</span><br>data_1 = data[data[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***1&#x27;</span>]<br>data_2 = data[data[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***2&#x27;</span>]<br>data_1.reset_index(inplace=<span class="hljs-literal">True</span>, drop=<span class="hljs-literal">True</span>)<br>data_2.reset_index(inplace=<span class="hljs-literal">True</span>, drop=<span class="hljs-literal">True</span>)<br><span class="hljs-comment"># print(data_1.head())</span><br><span class="hljs-comment"># print(data_2.head())</span><br><span class="hljs-comment"># exit()</span><br>m = folium.Map(location=[<span class="hljs-number">31.97117</span>, <span class="hljs-number">116.49872</span>],  <span class="hljs-comment"># 中心点</span><br>               zoom_start=<span class="hljs-number">8</span>,  <span class="hljs-comment"># 初始地图等级</span><br>               <span class="hljs-comment"># 腾讯地图瓦片</span><br>               tiles=<span class="hljs-string">&#x27;http://rt1.map.gtimg.com/realtimerender?z=&#123;z&#125;&amp;x=&#123;x&#125;&amp;y=&#123;-y&#125;&amp;type=vector&amp;style=6&#x27;</span>,<br>               <span class="hljs-comment"># 默认参数</span><br>               attr=<span class="hljs-string">&#x27;default&#x27;</span>)<br>flag = <span class="hljs-literal">False</span>  <span class="hljs-comment"># 是否使用聚合</span><br><span class="hljs-keyword">if</span> flag:<br>    <span class="hljs-comment"># 创建聚合</span><br>    marker_cluster = MarkerCluster().add_to(m)<br>    <span class="hljs-comment"># for循环添加标记点</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(data_1)):<br>        folium.Marker(location=[data_1.loc[i, <span class="hljs-string">&#x27;纬度&#x27;</span>], data_1.loc[i, <span class="hljs-string">&#x27;经度&#x27;</span>]],  <span class="hljs-comment"># 坐标用[纬度，经度]</span><br>                      popup=folium.Popup(<span class="hljs-built_in">str</span>(data_1.loc[i, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         parse_html=<span class="hljs-literal">True</span>,<br>                                         tooltip=<span class="hljs-built_in">str</span>(data_1.loc[i, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         max_width=<span class="hljs-number">100</span>),  <span class="hljs-comment"># 提示语横向完全显示</span><br>                      icon=folium.Icon(color=<span class="hljs-string">&#x27;red&#x27;</span>)<br>                      ).add_to(marker_cluster)<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(data_2)):<br>        folium.Marker(location=[data_2.loc[j, <span class="hljs-string">&#x27;纬度&#x27;</span>], data_2.loc[j, <span class="hljs-string">&#x27;经度&#x27;</span>]],  <span class="hljs-comment"># 坐标用[纬度，经度]</span><br>                      popup=folium.Popup(<span class="hljs-built_in">str</span>(data_2.loc[j, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         parse_html=<span class="hljs-literal">True</span>,<br>                                         tooltip=<span class="hljs-built_in">str</span>(data_2.loc[j, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         max_width=<span class="hljs-number">100</span>),  <span class="hljs-comment"># 提示语横向完全显示</span><br>                      icon=folium.Icon(color=<span class="hljs-string">&#x27;blue&#x27;</span>)<br>                      ).add_to(marker_cluster)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-comment"># for循环添加标记点</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(data_1)):<br>        folium.Marker(location=[data_1.loc[i, <span class="hljs-string">&#x27;纬度&#x27;</span>], data_1.loc[i, <span class="hljs-string">&#x27;经度&#x27;</span>]],  <span class="hljs-comment"># 坐标用[纬度，经度]</span><br>                      popup=folium.Popup(<span class="hljs-built_in">str</span>(data_1.loc[i, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         parse_html=<span class="hljs-literal">True</span>,<br>                                         tooltip=<span class="hljs-built_in">str</span>(data_1.loc[i, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         max_width=<span class="hljs-number">100</span>),  <span class="hljs-comment"># 提示语横向完全显示</span><br>                      icon=folium.Icon(color=<span class="hljs-string">&#x27;red&#x27;</span>),<br>                      ).add_to(m)<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(data_2)):<br>        folium.Marker(location=[data_2.loc[j, <span class="hljs-string">&#x27;纬度&#x27;</span>], data_2.loc[j, <span class="hljs-string">&#x27;经度&#x27;</span>]],  <span class="hljs-comment"># 坐标用[纬度，经度]</span><br>                      popup=folium.Popup(<span class="hljs-built_in">str</span>(data_2.loc[j, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         parse_html=<span class="hljs-literal">True</span>,<br>                                         tooltip=<span class="hljs-built_in">str</span>(data_2.loc[j, <span class="hljs-string">&#x27;NAME&#x27;</span>]),<br>                                         max_width=<span class="hljs-number">100</span>),  <span class="hljs-comment"># 提示语横向完全显示</span><br>                      icon=folium.Icon(color=<span class="hljs-string">&#x27;blue&#x27;</span>),<br>                      ).add_to(m)<br><span class="hljs-string">&#x27;&#x27;&#x27;为地图对象添加点击显示经纬度的子功能&#x27;&#x27;&#x27;</span><br>m.add_child(folium.LatLngPopup())<br><span class="hljs-comment"># 点击新增</span><br><span class="hljs-comment"># m.add_child(folium.ClickForMarker())</span><br>m.save(<span class="hljs-string">&#x27;坐标分布图.html&#x27;</span>)<br><br></code></pre></td></tr></table></figure>
+<h2 id="2-经纬度坐标分组标记"><a href="#2-经纬度坐标分组标记" class="headerlink" title="2.经纬度坐标分组标记"></a>2.经纬度坐标分组标记</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> folium<br><span class="hljs-keyword">from</span> folium.plugins <span class="hljs-keyword">import</span> MarkerCluster, MousePosition<br><span class="hljs-keyword">from</span> folium <span class="hljs-keyword">import</span> FeatureGroup, LayerControl<br><br><span class="hljs-comment"># tile = &#x27;http://rt1.map.gtimg.com/realtimerender?z=&#123;z&#125;&amp;x=&#123;x&#125;&amp;y=&#123;-y&#125;&amp;type=vector&amp;style=0&#x27;</span><br>tile = <span class="hljs-string">&#x27;https://webst02.is.autonavi.com/appmaptile?style=6&amp;x=&#123;x&#125;&amp;y=&#123;y&#125;&amp;z=&#123;z&#125;&#x27;</span><br><br>df = pd.read_excel(<span class="hljs-string">&#x27;******.xlsx&#x27;</span>)  <span class="hljs-comment"># 读取文件</span><br>df_1 = df[df[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***1&#x27;</span>]<br>df_2 = df[df[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***2&#x27;</span>]<br>df_1.reset_index(inplace=<span class="hljs-literal">True</span>, drop=<span class="hljs-literal">True</span>)<br>df_2.reset_index(inplace=<span class="hljs-literal">True</span>, drop=<span class="hljs-literal">True</span>)<br>distriction = df[<span class="hljs-string">&#x27;所属市&#x27;</span>].drop_duplicates()<br><br>m = folium.Map(location=[<span class="hljs-number">30.97117</span>, <span class="hljs-number">132.49872</span>],  <span class="hljs-comment"># 地图中心点</span><br>               tiles=<span class="hljs-literal">None</span>,<br>               control_scale=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># 显示比例尺</span><br>               zoom_start=<span class="hljs-number">8</span>)  <span class="hljs-comment"># 初始等级</span><br>folium.TileLayer(tiles=tile, attr=<span class="hljs-string">&#x27;default&#x27;</span>, name=<span class="hljs-string">&#x27;省&#x27;</span>).add_to(m)  <span class="hljs-comment"># 地图瓦片添加命名</span><br><br><span class="hljs-comment"># #创建组</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> distriction:<br>    <span class="hljs-built_in">exec</span>(<span class="hljs-built_in">str</span>(i) + <span class="hljs-string">&#x27; = &#x27;</span> + <span class="hljs-string">&#x27;FeatureGroup(name=&quot;&#x27;</span> + <span class="hljs-built_in">str</span>(i) + <span class="hljs-string">&#x27;&quot;,show=False).add_to(m)&#x27;</span>)<br><br><span class="hljs-comment"># 创建聚合</span><br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> distriction:<br>    <span class="hljs-comment"># 是否将临近点聚合</span><br>    <span class="hljs-comment"># exec(str(j) + &#x27;mc = &#x27; + &#x27;MarkerCluster().add_to(&#x27; + str(j) + &#x27;)&#x27;)</span><br>    <span class="hljs-built_in">exec</span>(<span class="hljs-built_in">str</span>(j) + <span class="hljs-string">&#x27;mc = &#x27;</span> + <span class="hljs-built_in">str</span>(j))<br><br><span class="hljs-comment"># for循环添加标记点</span><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(df_1)):<br>    <span class="hljs-built_in">exec</span>(<span class="hljs-string">&#x27;&#x27;&#x27;folium.Marker(location=[df_1.loc[k,&#x27;纬度&#x27;], df_1.loc[k,&#x27;经度&#x27;]],  </span><br><span class="hljs-string">                  popup=folium.Popup(str(df_1.loc[k,&#x27;NAME&#x27;]), </span><br><span class="hljs-string">                                     parse_html=True, </span><br><span class="hljs-string">                                     max_width=150),                #提示语横向完全显示</span><br><span class="hljs-string">                  icon=folium.Icon(color=&#x27;red&#x27;)      </span><br><span class="hljs-string">                 ).add_to(&#x27;&#x27;&#x27;</span> + <span class="hljs-built_in">str</span>(df_1.loc[k, <span class="hljs-string">&#x27;所属市&#x27;</span>]) + <span class="hljs-string">&#x27;mc)&#x27;</span>)<br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(df_2)):<br>    <span class="hljs-built_in">exec</span>(<span class="hljs-string">&#x27;&#x27;&#x27;folium.Marker(location=[df_2.loc[k,&#x27;纬度&#x27;], df_2.loc[k,&#x27;经度&#x27;]],  </span><br><span class="hljs-string">                  popup=folium.Popup(str(df_2.loc[k,&#x27;NAME&#x27;]), </span><br><span class="hljs-string">                                     parse_html=True, </span><br><span class="hljs-string">                                     max_width=150),                #提示语横向完全显示 </span><br><span class="hljs-string">                  icon=folium.Icon(color=&#x27;blue&#x27;)      </span><br><span class="hljs-string">                 ).add_to(&#x27;&#x27;&#x27;</span> + <span class="hljs-built_in">str</span>(df_2.loc[k, <span class="hljs-string">&#x27;所属市&#x27;</span>]) + <span class="hljs-string">&#x27;mc)&#x27;</span>)<br><br>LayerControl(collapsed=<span class="hljs-literal">False</span>).add_to(m)<br><span class="hljs-string">&#x27;&#x27;&#x27;为地图对象添加点击显示经纬度的子功能&#x27;&#x27;&#x27;</span><br>m.add_child(folium.LatLngPopup())<br><span class="hljs-string">&#x27;&#x27;&#x27;在地图上添加鼠标位置插件&#x27;&#x27;&#x27;</span><br>MousePosition().add_to(m)<br>m.save(<span class="hljs-string">&#x27;省市坐标分布图.html&#x27;</span>)  <span class="hljs-comment"># 保存到当前目录下</span><br><br></code></pre></td></tr></table></figure>
+<p><img src="/img/5c4a1074ea4349139e9573d04c5f14c2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://python-visualization.github.io/folium/latest/reference.html">folium官网</a></p>
+<h1 id="三、常用地图瓦片源地址"><a href="#三、常用地图瓦片源地址" class="headerlink" title="三、常用地图瓦片源地址"></a>三、常用地图瓦片源地址</h1><h2 id="1-高德地图（火星坐标）"><a href="#1-高德地图（火星坐标）" class="headerlink" title="1.高德地图（火星坐标）"></a>1.高德地图（火星坐标）</h2><p>高德矢量底图</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&amp;size=1&amp;scale=1&amp;style=7&amp;x=&#123;x&#125;&amp;y=&#123;y&#125;&amp;z=&#123;z&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/6644bf94cc994496880299bb0b1b7758.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>高德卫星影像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://webst01.is.autonavi.com/appmaptile?style=6&amp;x=&#123;x&#125;&amp;y=&#123;y&#125;&amp;z=&#123;z&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/22c633c5e6f944b09671eabcd6bfe123.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>高德路网注记</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://webst01.is.autonavi.com/appmaptile?style=8&amp;x=&#123;x&#125;&amp;y=&#123;y&#125;&amp;z=&#123;z&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/1f3488f4b8dc4b1eb7528b3123057c89.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li>style&#x3D;6：<br>这个参数指定了地图的样式。不同的样式值会返回不同类型的地图瓦片。例如，style&#x3D;6 可能表示某种特定的地图风格，如标准地图、卫星地图等。</li>
+<li>x&#x3D;{x}：<br>这是瓦片的 X 坐标。在瓦片地图中，地球表面被划分为多个瓦片，每个瓦片都有一个唯一的 (x, y) 坐标。</li>
+<li>y&#x3D;{y}：<br>这是瓦片的 Y 坐标。</li>
+<li>z&#x3D;{z}：<br>这是地图的缩放级别（Zoom Level）。缩放级别决定了地图的详细程度，数值越大，地图越详细。</li>
+</ul>
+<h2 id="2-ArcGIS图源（84坐标）"><a href="#2-ArcGIS图源（84坐标）" class="headerlink" title="2.ArcGIS图源（84坐标）"></a>2.ArcGIS图源（84坐标）</h2><p>ArcGIS卫星影像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/&#123;z&#125;/&#123;y&#125;/&#123;x&#125;.png<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/d10bba3510e948069058a5761826c24f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>ArcGIS街道</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://server.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/&#123;z&#125;/&#123;y&#125;/&#123;x&#125;.png<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/187690524dc549f489c570f3576763a5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>实时</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://wayback.maptiles.arcgis.com/arcgis/rest/services/world_imagery/wmts/1.0.0/default028mm/mapserver/tile/45441/&#123;z&#125;/&#123;y&#125;/&#123;x&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/5caa36b41f6442bb83467c62e194ce8d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h1 id="四、常用各省GeoJSON数据"><a href="#四、常用各省GeoJSON数据" class="headerlink" title="四、常用各省GeoJSON数据"></a>四、常用各省GeoJSON数据</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https://geo.datav.aliyun.com/areas_v3/bound/370000_full.json<br></code></pre></td></tr></table></figure>
+
+<p>37000：行政区代码</p>
+<h2 id="常见省份代码"><a href="#常见省份代码" class="headerlink" title="常见省份代码"></a>常见省份代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs bash">北京市: 110000<br>天津市: 120000<br>河北省: 130000<br>山西省: 140000<br>内蒙古自治区: 150000<br>辽宁省: 210000<br>吉林省: 220000<br>黑龙江省: 230000<br>上海市: 310000<br>江苏省: 320000<br>浙江省: 330000<br>安徽省: 340000<br>福建省: 350000<br>江西省: 360000<br>山东省: 370000<br>河南省: 410000<br>湖北省: 420000<br>湖南省: 430000<br>广东省: 440000<br>广西壮族自治区: 450000<br>海南省: 460000<br>重庆市: 500000<br>四川省: 510000<br>贵州省: 520000<br>云南省: 530000<br>西藏自治区: 540000<br>陕西省: 610000<br>甘肃省: 620000<br>青海省: 630000<br>宁夏回族自治区: 640000<br>新疆维吾尔自治区: 650000<br></code></pre></td></tr></table></figure>
+
+<h2 id="按省并显示各地市名称"><a href="#按省并显示各地市名称" class="headerlink" title="按省并显示各地市名称"></a>按省并显示各地市名称</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><code class="hljs bash">import folium<br>import requests<br>import pandas as pd<br>from folium import FeatureGroup, LayerControl<br>from folium.plugins import MarkerCluster, MousePosition<br><br><span class="hljs-comment"># 设置地图瓦片</span><br><span class="hljs-comment"># tile = &#x27;http://rt1.map.gtimg.com/realtimerender?z=&#123;z&#125;&amp;x=&#123;x&#125;&amp;y=&#123;-y&#125;&amp;type=vector&amp;style=0&#x27;</span><br><span class="hljs-comment"># tile = &#x27;https://wayback.maptiles.arcgis.com/arcgis/rest/services/world_imagery/wmts/1.0.0/default028mm/mapserver/tile/45441/&#123;z&#125;/&#123;y&#125;/&#123;x&#125;&#x27;</span><br>tile = <span class="hljs-string">&#x27;https://webst02.is.autonavi.com/appmaptile?style=6&amp;x=&#123;x&#125;&amp;y=&#123;y&#125;&amp;z=&#123;z&#125;&#x27;</span>  <span class="hljs-comment"># 卫星影像图</span><br><br><span class="hljs-comment"># 读取数据</span><br><span class="hljs-built_in">df</span> = pd.read_excel(r<span class="hljs-string">&#x27;./******.xlsx&#x27;</span>)  <span class="hljs-comment"># 读取文件</span><br><br><span class="hljs-comment"># 过滤数据</span><br>df_fd = <span class="hljs-built_in">df</span>[<span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***&#x27;</span>]<br>df_gf = <span class="hljs-built_in">df</span>[<span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;类型&#x27;</span>] == <span class="hljs-string">&#x27;***&#x27;</span>]<br>df_fd.reset_index(inplace=True, drop=True)<br>df_gf.reset_index(inplace=True, drop=True)<br><br><span class="hljs-comment"># 计算地图中心点</span><br>lat_min, lat_max = <span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;纬度&#x27;</span>].min(), <span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;纬度&#x27;</span>].max()<br>lon_min, lon_max = <span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;经度&#x27;</span>].min(), <span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;经度&#x27;</span>].max()<br>lat, lon = (lat_min + lat_max) / 2, (lon_min + lon_max) / 2<br><br><span class="hljs-comment"># 获取**省的 GeoJSON 数据</span><br>url = <span class="hljs-string">&quot;https://geo.datav.aliyun.com/areas_v3/bound/******_full.json&quot;</span><br>response = requests.get(url)<br>geojson_data = response.json()<br><br><span class="hljs-comment"># 创建地图对象</span><br>m = folium.Map(location=[lat, lon],  <span class="hljs-comment"># 地图中心点</span><br>               tiles=None,<br>               control_scale=True,  <span class="hljs-comment"># 显示比例尺</span><br>               zoom_start=7)  <span class="hljs-comment"># 初始等级</span><br>folium.TileLayer(tiles=tile, attr=<span class="hljs-string">&#x27;QZK&#x27;</span>, name=<span class="hljs-string">&#x27;省份&#x27;</span>).add_to(m)  <span class="hljs-comment"># 地图瓦片添加命名</span><br><br><span class="hljs-comment"># 添加地市名称</span><br>folium.GeoJson(geojson_data, name=<span class="hljs-string">&#x27;地市边界&#x27;</span>).add_to(m)<br><br><span class="hljs-comment"># 直接显示地市名称</span><br><span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> geojson_data[<span class="hljs-string">&#x27;features&#x27;</span>]:<br>    city_name = feature[<span class="hljs-string">&#x27;properties&#x27;</span>][<span class="hljs-string">&#x27;name&#x27;</span>]<br>    centroid = feature[<span class="hljs-string">&#x27;properties&#x27;</span>][<span class="hljs-string">&#x27;center&#x27;</span>]<br>    folium.Marker(<br>        location=[centroid[1], centroid[0]],<br>        icon=folium.DivIcon(html=f<span class="hljs-string">&#x27;&lt;div style=&quot;font-size: 12pt; color: black&quot;&gt;&#123;city_name&#125;&lt;/div&gt;&#x27;</span>),<br>        tooltip=city_name<br>    ).add_to(m)<br><br><span class="hljs-comment"># 创建特征组</span><br>distriction = <span class="hljs-built_in">df</span>[<span class="hljs-string">&#x27;***&#x27;</span>].drop_duplicates()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> distriction:<br>    <span class="hljs-built_in">exec</span>(str(i) + <span class="hljs-string">&#x27; = &#x27;</span> + <span class="hljs-string">&#x27;FeatureGroup(name=&quot;&#x27;</span> + str(i) + <span class="hljs-string">&#x27;&quot;,show=False).add_to(m)&#x27;</span>)<br><br><span class="hljs-comment"># 创建聚合</span><br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> distriction:<br>    <span class="hljs-comment"># 是否将临近点聚合</span><br>    <span class="hljs-comment"># exec(str(j) + &#x27;mc = &#x27; + &#x27;MarkerCluster().add_to(&#x27; + str(j) + &#x27;)&#x27;)</span><br>    <span class="hljs-built_in">exec</span>(str(j) + <span class="hljs-string">&#x27;mc = &#x27;</span> + str(j))<br><br><span class="hljs-comment"># for循环添加标记点</span><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(len(df_fd)):<br>    name2code2cap = str(df_fd.loc[k,<span class="hljs-string">&#x27;NAME&#x27;</span>]) + <span class="hljs-string">&quot; &quot;</span> + str(df_fd.loc[k,<span class="hljs-string">&#x27;**&#x27;</span>])  <span class="hljs-comment"># str(df_fd.loc[k,&#x27;**&#x27;]) + &quot; &quot; +</span><br>    <span class="hljs-built_in">exec</span>(<span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;folium.Marker(location=[df_fd.loc[k,&#x27;</span>纬度<span class="hljs-string">&#x27;], df_fd.loc[k,&#x27;</span>经度<span class="hljs-string">&#x27;]],</span><br><span class="hljs-string">                  popup=folium.Popup(name2code2cap,</span><br><span class="hljs-string">                                     parse_html=True,</span><br><span class="hljs-string">                                     max_width=150),                #提示语横向完全显示</span><br><span class="hljs-string">                  icon=folium.Icon(color=&#x27;</span>red<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">                 ).add_to(&#x27;</span><span class="hljs-string">&#x27;&#x27;</span> + str(df_fd.loc[k, <span class="hljs-string">&#x27;***&#x27;</span>]) + <span class="hljs-string">&#x27;mc)&#x27;</span>)<br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(len(df_gf)):<br>    name2code2cap = str(df_gf.loc[k, <span class="hljs-string">&#x27;NAME&#x27;</span>]) + <span class="hljs-string">&quot; &quot;</span> + str(df_gf.loc[k, <span class="hljs-string">&#x27;**&#x27;</span>])  <span class="hljs-comment"># str(df_gf.loc[k, &#x27;**&#x27;]) + &quot; &quot; +</span><br>    <span class="hljs-built_in">exec</span>(<span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;folium.Marker(location=[df_gf.loc[k,&#x27;</span>纬度<span class="hljs-string">&#x27;], df_gf.loc[k,&#x27;</span>经度<span class="hljs-string">&#x27;]],</span><br><span class="hljs-string">                  popup=folium.Popup(name2code2cap,</span><br><span class="hljs-string">                                     parse_html=True,</span><br><span class="hljs-string">                                     max_width=150),                #提示语横向完全显示</span><br><span class="hljs-string">                  icon=folium.Icon(color=&#x27;</span>blue<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">                 ).add_to(&#x27;</span><span class="hljs-string">&#x27;&#x27;</span> + str(df_gf.loc[k, <span class="hljs-string">&#x27;***&#x27;</span>]) + <span class="hljs-string">&#x27;mc)&#x27;</span>)<br><br>LayerControl(collapsed=False).add_to(m)<br><span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;为地图对象添加点击显示经纬度的子功能&#x27;</span><span class="hljs-string">&#x27;&#x27;</span><br>m.add_child(folium.LatLngPopup())<br><span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;在地图上添加鼠标位置插件&#x27;</span><span class="hljs-string">&#x27;&#x27;</span><br>MousePosition().add_to(m)<br>m.save(<span class="hljs-string">&#x27;./坐标分布图.html&#x27;</span>)  <span class="hljs-comment"># 保存到当前目录下</span><br></code></pre></td></tr></table></figure>
+<p><img src="/img/3581899a30ad475ba0de2f33d9ab011b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python根据经纬度在地图上显示（folium详解）</div>
+      <div>https://qzkq.github.io/2026/01/02/Python根据经纬度在地图上显示（folium详解）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%88re%E6%A8%A1%E5%9D%97%EF%BC%89/" title="Python正则表达式（re模块）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python正则表达式（re模块）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%E6%9C%80%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88Gurobi%EF%BC%89/" title="Python最优化算法学习笔记（Gurobi）">
+                        <span class="hidden-mobile">Python最优化算法学习笔记（Gurobi）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

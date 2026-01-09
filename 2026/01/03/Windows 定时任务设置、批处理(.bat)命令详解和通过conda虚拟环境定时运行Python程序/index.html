@@ -1,0 +1,929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](Windows 定时任务设置、批处理bat命令详解和通过conda虚拟环境定时运行Python程序) Windows 定时任务设置详解方法一：通过图形界面创建任务 打开任务计划程序  按 Win+R，输入 taskschd.msc 并回车 或在控制面板中找到”管理工具” → “任务计划程序”   创建基本任务  在右侧操作栏点击”创建基本任务” 输入名称和描述，例如”生产报告生成任">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Windows%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E8%AE%BE%E7%BD%AE%E3%80%81%E6%89%B9%E5%A4%84%E7%90%86(.bat)%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%E5%92%8C%E9%80%9A%E8%BF%87conda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8CPython%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](Windows 定时任务设置、批处理bat命令详解和通过conda虚拟环境定时运行Python程序) Windows 定时任务设置详解方法一：通过图形界面创建任务 打开任务计划程序  按 Win+R，输入 taskschd.msc 并回车 或在控制面板中找到”管理工具” → “任务计划程序”   创建基本任务  在右侧操作栏点击”创建基本任务” 输入名称和描述，例如”生产报告生成任">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/b180ffdc6ab34742ad0d487a01211fa4.png">
+<meta property="article:published_time" content="2026-01-03T00:18:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.402Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/b180ffdc6ab34742ad0d487a01211fa4.png">
+  
+  
+  
+  <title>Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:18" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](Windows 定时任务设置、批处理bat命令详解和通过conda虚拟环境定时运行Python程序)</p>
+<h1 id="Windows-定时任务设置详解"><a href="#Windows-定时任务设置详解" class="headerlink" title="Windows 定时任务设置详解"></a>Windows 定时任务设置详解</h1><h2 id="方法一：通过图形界面创建任务"><a href="#方法一：通过图形界面创建任务" class="headerlink" title="方法一：通过图形界面创建任务"></a>方法一：通过图形界面创建任务</h2><ol>
+<li><p><strong>打开任务计划程序</strong></p>
+<ul>
+<li>按 Win+R，输入 <code>taskschd.msc</code> 并回车</li>
+<li>或在控制面板中找到”管理工具” → “任务计划程序”</li>
+</ul>
+</li>
+<li><p><strong>创建基本任务</strong></p>
+<ul>
+<li>在右侧操作栏点击”创建基本任务”</li>
+<li>输入名称和描述，例如”生产报告生成任务”</li>
+</ul>
+</li>
+<li><p><strong>设置触发器</strong></p>
+<ul>
+<li>选择执行频率：每天、每周或每月</li>
+<li>设置具体时间（如每天凌晨1点）</li>
+</ul>
+</li>
+<li><p><strong>设置操作</strong></p>
+<ul>
+<li>选择”启动程序”</li>
+<li>在”程序或脚本”字段中浏览选择您的 <code>.bat</code> 文件</li>
+<li>在”起始于”字段中输入批处理文件所在目录的路径</li>
+</ul>
+</li>
+<li><p><strong>完成设置</strong></p>
+<ul>
+<li>查看摘要并完成创建</li>
+</ul>
+</li>
+</ol>
+<h2 id="方法二：使用命令行创建（推荐用于自动化部署）"><a href="#方法二：使用命令行创建（推荐用于自动化部署）" class="headerlink" title="方法二：使用命令行创建（推荐用于自动化部署）"></a>方法二：使用命令行创建（推荐用于自动化部署）</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">schtasks /create /tn &quot;生产报告生成任务&quot; /tr &quot;E:\<span class="hljs-built_in">path</span>\to\run_report.bat&quot; /sc daily /st <span class="hljs-number">01</span>:<span class="hljs-number">00</span> /ru SYSTEM /rl HIGHEST<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数详解："><a href="#参数详解：" class="headerlink" title="参数详解："></a>参数详解：</h3><ul>
+<li><code>/tn &quot;任务名称&quot;</code> - 指定任务的名称</li>
+<li><code>/tr &quot;任务运行的程序或命令&quot;</code> - 指定要运行的程序或脚本的路径</li>
+<li><code>/sc 日程计划</code> - 指定计划频率：<ul>
+<li><code>daily</code> - 每天</li>
+<li><code>weekly</code> - 每周</li>
+<li><code>monthly</code> - 每月</li>
+<li><code>onstart</code> - 系统启动时</li>
+<li><code>onlogon</code> - 用户登录时</li>
+<li><code>onidle</code> - 系统空闲时</li>
+</ul>
+</li>
+<li><code>/st HH:MM</code> - 指定开始时间（24小时格式）</li>
+<li><code>/ru 用户名</code> - 指定运行任务的用户账户（使用<code>SYSTEM</code>表示系统账户）</li>
+<li><code>/rl 权限级别</code> - 指定权限级别：<ul>
+<li><code>HIGHEST</code> - 最高权限</li>
+<li><code>LIMITED</code> - 标准权限</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他有用参数："><a href="#其他有用参数：" class="headerlink" title="其他有用参数："></a>其他有用参数：</h3><ul>
+<li><code>/mo 修饰符</code> - 指定任务 within 其计划类型的频率：<ul>
+<li>对于每月任务：<code>/mo 1</code> 表示每1个月</li>
+<li>对于每周任务：<code>/mo 2</code> 表示每2周</li>
+</ul>
+</li>
+<li><code>/d 星期</code> - 指定一周中的某天或某些天（MON、TUE、WED等）</li>
+<li><code>/ed MM/DD/YYYY</code> - 指定任务计划的结束日期</li>
+<li><code>/sd MM/DD/YYYY</code> - 指定任务计划的开始日期</li>
+<li><code>/it</code> - 仅在指定用户登录时才运行任务（与<code>/ru</code>一起使用）</li>
+</ul>
+<h2 id="示例命令"><a href="#示例命令" class="headerlink" title="示例命令"></a>示例命令</h2><ol>
+<li><p><strong>每天凌晨1点运行</strong>：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">schtasks /create /tn &quot;生产报告每日生成&quot; /tr &quot;E:\reports\run_report.bat&quot; /sc daily /st <span class="hljs-number">01</span>:<span class="hljs-number">00</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>每周一早上6点运行</strong>：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">schtasks /create /tn &quot;生产报告每周生成&quot; /tr &quot;E:\reports\run_report.bat&quot; /sc weekly /d MON /st <span class="hljs-number">06</span>:<span class="hljs-number">00</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>每月第一天运行</strong>：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">schtasks /create /tn &quot;生产报告每月生成&quot; /tr &quot;E:\reports\run_report.bat&quot; /sc monthly /mo <span class="hljs-number">1</span> /d <span class="hljs-number">1</span> /st <span class="hljs-number">02</span>:<span class="hljs-number">00</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="管理现有任务"><a href="#管理现有任务" class="headerlink" title="管理现有任务"></a>管理现有任务</h2><ul>
+<li>查看所有任务：<code>schtasks /query</code></li>
+<li>删除任务：<code>schtasks /delete /tn &quot;任务名称&quot;</code></li>
+<li>运行任务：<code>schtasks /run /tn &quot;任务名称&quot;</code></li>
+<li>结束任务：<code>schtasks /end /tn &quot;任务名称&quot;</code></li>
+</ul>
+<h1 id="Windows-批处理-bat-命令详解"><a href="#Windows-批处理-bat-命令详解" class="headerlink" title="Windows 批处理(.bat)命令详解"></a>Windows 批处理(.bat)命令详解</h1><p>批处理文件是包含一系列 DOS 命令的文本文件，用于自动化执行任务。</p>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><h3 id="1-echo"><a href="#1-echo" class="headerlink" title="1. @echo"></a>1. @echo</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bat">@<span class="hljs-built_in">echo</span> off      # 关闭命令回显（不显示执行的命令本身）<br>@<span class="hljs-built_in">echo</span> on       # 开启命令回显<br><span class="hljs-built_in">echo</span> Hello     # 输出文本到屏幕<br><span class="hljs-built_in">echo</span>.          # 输出空行<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-rem-和"><a href="#2-rem-和" class="headerlink" title="2. rem 和 ::"></a>2. rem 和 ::</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem 这是注释    # 官方注释语句</span><br>:: 这也是注释   # 常用但非官方的注释方式<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-pause"><a href="#3-pause" class="headerlink" title="3. pause"></a>3. pause</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">pause</span>          # 暂停执行，显示&quot;请按任意键继续...&quot;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-title"><a href="#4-title" class="headerlink" title="4. title"></a>4. title</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">title</span> 我的批处理程序 # 设置命令窗口的标题<br></code></pre></td></tr></table></figure>
+
+<h2 id="变量操作"><a href="#变量操作" class="headerlink" title="变量操作"></a>变量操作</h2><h3 id="5-set"><a href="#5-set" class="headerlink" title="5. set"></a>5. set</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> var=value      # 定义变量<br><span class="hljs-built_in">set</span> var=           # 清空变量<br><span class="hljs-built_in">set</span> /p var=请输入: # 接收用户输入<br><span class="hljs-built_in">set</span> /a result=<span class="hljs-number">1</span>+<span class="hljs-number">1</span>  # 数学计算<br><span class="hljs-built_in">setlocal</span>           # 开始局部环境变量<br><span class="hljs-built_in">endlocal</span>           # 结束局部环境变量<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-特殊变量"><a href="#6-特殊变量" class="headerlink" title="6. 特殊变量"></a>6. 特殊变量</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bat">%<span class="hljs-number">0</span> - 批处理文件本身<br>%<span class="hljs-number">1</span>, %<span class="hljs-number">2</span>, ... - 命令行参数<br>%* - 所有参数<br><span class="hljs-variable">%CD%</span> - 当前目录<br><span class="hljs-variable">%DATE%</span> - 当前日期<br><span class="hljs-variable">%TIME%</span> - 当前时间<br><span class="hljs-variable">%RANDOM%</span> - 随机数<br><span class="hljs-variable">%ERRORLEVEL%</span> - 上条命令的退出代码<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-参数扩展"><a href="#7-参数扩展" class="headerlink" title="7. 参数扩展"></a>7. 参数扩展</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bat">%~dp0       # 当前批处理文件所在目录的完整路径<br>%~n0        # 当前批处理文件名（不含扩展名）<br>%~x0        # 当前批处理文件扩展名<br></code></pre></td></tr></table></figure>
+
+<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><h3 id="8-if-条件判断"><a href="#8-if-条件判断" class="headerlink" title="8. if 条件判断"></a>8. if 条件判断</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> condition command<br><br>:: 比较字符串<br><span class="hljs-keyword">if</span> &quot;str1&quot;==&quot;str2&quot; command<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> &quot;str1&quot;==&quot;str2&quot; command<br><br>:: 检查文件存在<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">exist</span> filename command<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span> filename command<br><br>:: 检查变量是否定义<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">defined</span> var command<br><br>:: 数值比较<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">equ</span> <span class="hljs-variable">%n2%</span> command  # 等于<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">neq</span> <span class="hljs-variable">%n2%</span> command  # 不等于<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">lss</span> <span class="hljs-variable">%n2%</span> command  # 小于<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">leq</span> <span class="hljs-variable">%n2%</span> command  # 小于等于<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">gtr</span> <span class="hljs-variable">%n2%</span> command  # 大于<br><span class="hljs-keyword">if</span> <span class="hljs-variable">%n1%</span> <span class="hljs-keyword">geq</span> <span class="hljs-variable">%n2%</span> command  # 大于等于<br><br>:: 多行条件<br><span class="hljs-keyword">if</span> condition (<br>    command1<br>    command2<br>) <span class="hljs-keyword">else</span> (<br>    command3<br>    command4<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-for-循环"><a href="#9-for-循环" class="headerlink" title="9. for 循环"></a>9. for 循环</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bat">:: 简单循环<br><span class="hljs-keyword">for</span> <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">%%i</span><br><br>:: 文件循环<br><span class="hljs-keyword">for</span> <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (*.txt) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">%%i</span><br><br>:: 数字范围循环<br><span class="hljs-keyword">for</span> /l <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">%%i</span><br><br>:: 解析文本内容<br><span class="hljs-keyword">for</span> /f &quot;delims= tokens=<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&quot; <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (file.txt) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">%%i</span> <span class="hljs-variable">%%j</span><br><br>:: 解析命令输出<br><span class="hljs-keyword">for</span> /f &quot;delims=&quot; <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (&#x27;<span class="hljs-built_in">dir</span> /b&#x27;) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">%%i</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><h3 id="10-目录操作"><a href="#10-目录操作" class="headerlink" title="10. 目录操作"></a>10. 目录操作</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">cd</span> \<span class="hljs-built_in">path</span>\to\<span class="hljs-built_in">dir</span>     # 切换目录<br><span class="hljs-built_in">cd</span> /d D:\<span class="hljs-built_in">path</span>       # 切换驱动器并目录<br><span class="hljs-built_in">dir</span>                 # 列出文件<br><span class="hljs-built_in">mkdir</span> folder        # 创建目录<br><span class="hljs-built_in">rmdir</span> folder        # 删除目录<br><span class="hljs-built_in">rmdir</span> /s /q folder  # 强制删除目录（无确认）<br></code></pre></td></tr></table></figure>
+
+<h3 id="11-文件操作"><a href="#11-文件操作" class="headerlink" title="11. 文件操作"></a>11. 文件操作</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">copy</span> file1 file2    # 复制文件<br><span class="hljs-built_in">xcopy</span> src dest      # 复制目录<br><span class="hljs-built_in">move</span> file1 file2    # 移动/重命名文件<br><span class="hljs-built_in">del</span> file.txt        # 删除文件<br><span class="hljs-built_in">del</span> /q *.tmp        # 安静模式删除<br><span class="hljs-built_in">type</span> file.txt       # 显示文件内容<br></code></pre></td></tr></table></figure>
+
+<h3 id="12-重定向"><a href="#12-重定向" class="headerlink" title="12. 重定向"></a>12. 重定向</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bat">command &gt; file.txt     # 输出重定向（覆盖）<br>command &gt;&gt; file.txt    # 输出重定向（追加）<br>command &lt; input.txt    # 输入重定向<br>command <span class="hljs-number">2</span>&gt; error.log   # 错误输出重定向<br>command &gt; output.log <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>  # 标准输出和错误都重定向<br></code></pre></td></tr></table></figure>
+
+<h2 id="函数和调用"><a href="#函数和调用" class="headerlink" title="函数和调用"></a>函数和调用</h2><h3 id="13-call"><a href="#13-call" class="headerlink" title="13. call"></a>13. call</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">call</span> another.bat      # 调用另一个批处理文件<br><span class="hljs-keyword">call</span> :<span class="hljs-built_in">label</span> args      # 调用标签作为函数<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-goto"><a href="#14-goto" class="headerlink" title="14. goto"></a>14. goto</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-function">goto label           # 跳转到标签</span><br><span class="hljs-function">:<span class="hljs-title">label</span>               # 定义标签</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="15-函数示例"><a href="#15-函数示例" class="headerlink" title="15. 函数示例"></a>15. 函数示例</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bat">@<span class="hljs-built_in">echo</span> off<br><span class="hljs-keyword">call</span> :myfunction &quot;参数<span class="hljs-number">1</span>&quot; &quot;参数<span class="hljs-number">2</span>&quot;<br><span class="hljs-keyword">goto</span> :eof<br><br>:myfunction<br><span class="hljs-built_in">echo</span> 第一个参数: %~<span class="hljs-number">1</span><br><span class="hljs-built_in">echo</span> 第二个参数: %~<span class="hljs-number">2</span><br><span class="hljs-keyword">goto</span> :eof<br></code></pre></td></tr></table></figure>
+
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h3 id="16-errorlevel"><a href="#16-errorlevel" class="headerlink" title="16. errorlevel"></a>16. errorlevel</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat">command<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">errorlevel</span> <span class="hljs-number">1</span> (<br>    <span class="hljs-built_in">echo</span> 命令执行失败<br>) <span class="hljs-keyword">else</span> (<br>    <span class="hljs-built_in">echo</span> 命令执行成功<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="17-强制出错退出"><a href="#17-强制出错退出" class="headerlink" title="17. 强制出错退出"></a>17. 强制出错退出</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">ver</span> &gt; <span class="hljs-built_in">nul</span>        # 总是成功的命令<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">%errorlevel%</span> # 显示错误级别<br></code></pre></td></tr></table></figure>
+
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><h3 id="18-延迟变量扩展"><a href="#18-延迟变量扩展" class="headerlink" title="18. 延迟变量扩展"></a>18. 延迟变量扩展</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">setlocal</span> enabledelayedexpansion<br><span class="hljs-built_in">set</span> var=<span class="hljs-number">1</span><br><span class="hljs-keyword">for</span> /l <span class="hljs-variable">%%i</span> <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>) <span class="hljs-keyword">do</span> (<br>    <span class="hljs-built_in">set</span> /a var=var+<span class="hljs-number">1</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-variable">!var!</span>     # 使用!而不是%获取实时值<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="19-颜色设置"><a href="#19-颜色设置" class="headerlink" title="19. 颜色设置"></a>19. 颜色设置</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">color</span> <span class="hljs-number">0</span>A          # 背景黑(<span class="hljs-number">0</span>)，文字绿(A)<br></code></pre></td></tr></table></figure>
+
+<h3 id="20-超时等待"><a href="#20-超时等待" class="headerlink" title="20. 超时等待"></a>20. 超时等待</h3><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bat">timeout /t <span class="hljs-number">5</span>      # 等待<span class="hljs-number">5</span>秒<br>timeout /t <span class="hljs-number">5</span> /nobreak # 等待<span class="hljs-number">5</span>秒，不可用Ctrl+C中断<br></code></pre></td></tr></table></figure>
+
+<h2 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h2><ol>
+<li><strong>逐行调试</strong>: 移除 <code>@echo off</code> 查看每条命令执行</li>
+<li><strong>输出变量</strong>: 使用 <code>echo 变量值: %var%</code> 调试</li>
+<li><strong>暂停查看</strong>: 在关键位置添加 <code>pause</code></li>
+<li><strong>日志记录</strong>: 使用 <code>&gt;&gt; log.txt</code> 重定向输出到日志文件</li>
+</ol>
+<h1 id="通过conda虚拟环境定时运行Python程序"><a href="#通过conda虚拟环境定时运行Python程序" class="headerlink" title="通过conda虚拟环境定时运行Python程序"></a>通过conda虚拟环境定时运行Python程序</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs bash">@<span class="hljs-built_in">echo</span> off<br>setlocal enabledelayedexpansion<br><br>rem ==== Miniconda 配置 ====<br>rem 自动检测 Miniconda 安装路径<br><span class="hljs-keyword">if</span> exist <span class="hljs-string">&quot;E:\Miniconda3&quot;</span> (<br>    <span class="hljs-built_in">set</span> <span class="hljs-string">&quot;CONDA_ROOT=E:\Miniconda3&quot;</span><br>) <span class="hljs-keyword">else</span> (<br>    <span class="hljs-built_in">echo</span> 未找到 Miniconda 安装路径<br>    <span class="hljs-built_in">exit</span> /b 1<br>)<br><br><span class="hljs-built_in">set</span> <span class="hljs-string">&quot;ENV_NAME=production_report&quot;</span><br><span class="hljs-built_in">set</span> <span class="hljs-string">&quot;PYTHON_SCRIPT=%~dp0ollama_analysis.py&quot;</span><br><span class="hljs-built_in">set</span> <span class="hljs-string">&quot;LOG_DIR=%~dp0logs&quot;</span><br><span class="hljs-built_in">set</span> <span class="hljs-string">&quot;REPORT_DIR=%~dp0output&quot;</span><br><br>rem ==== 日期处理 ====<br><span class="hljs-keyword">for</span> /f <span class="hljs-string">&quot;tokens=1-3 delims=/ &quot;</span> %%a <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;date /t&#x27;</span>) <span class="hljs-keyword">do</span> (<br>    <span class="hljs-built_in">set</span> DATE_STR=%%c%%a%%b<br>)<br><span class="hljs-built_in">set</span> LOG_FILE=%LOG_DIR%\production_report_%DATE_STR%.<span class="hljs-built_in">log</span><br><br>rem ==== 确保目录存在 ====<br><span class="hljs-keyword">if</span> not exist <span class="hljs-string">&quot;%LOG_DIR%&quot;</span> <span class="hljs-built_in">mkdir</span> <span class="hljs-string">&quot;%LOG_DIR%&quot;</span><br><span class="hljs-keyword">if</span> not exist <span class="hljs-string">&quot;%REPORT_DIR%&quot;</span> <span class="hljs-built_in">mkdir</span> <span class="hljs-string">&quot;%REPORT_DIR%&quot;</span><br><br>rem ==== 激活 Miniconda 环境 ====<br>call <span class="hljs-string">&quot;%CONDA_ROOT%\Scripts\activate.bat&quot;</span> %ENV_NAME%<br><span class="hljs-keyword">if</span> !errorlevel! neq 0 (<br>    <span class="hljs-built_in">echo</span> [%<span class="hljs-keyword">time</span>%] 激活 Miniconda 环境失败 &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span><br>    <span class="hljs-built_in">exit</span> /b 1<br>)<br><br>rem ==== 运行 Python 脚本 ====<br><span class="hljs-built_in">echo</span> [%<span class="hljs-keyword">time</span>%] Miniconda 环境激活成功 &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span><br><span class="hljs-built_in">echo</span> [%<span class="hljs-keyword">time</span>%] 开始运行生产报告生成脚本 &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span><br><br>python <span class="hljs-string">&quot;%PYTHON_SCRIPT%&quot;</span> &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span> 2&gt;&amp;1<br><span class="hljs-built_in">set</span> EXIT_CODE=!errorlevel!<br><br>rem ==== 检查执行结果 ====<br><span class="hljs-keyword">if</span> !EXIT_CODE! equ 0 (<br>    <span class="hljs-built_in">echo</span> [%<span class="hljs-keyword">time</span>%] 报告生成成功 &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span><br>) <span class="hljs-keyword">else</span> (<br>    <span class="hljs-built_in">echo</span> [%<span class="hljs-keyword">time</span>%] 脚本执行失败，错误码: !EXIT_CODE! &gt;&gt; <span class="hljs-string">&quot;%LOG_FILE%&quot;</span><br>)<br><br>endlocal<br><span class="hljs-built_in">exit</span> /b %EXIT_CODE%<br></code></pre></td></tr></table></figure>
+<h2 id="示例说明"><a href="#示例说明" class="headerlink" title="示例说明"></a>示例说明</h2><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat">@<span class="hljs-built_in">echo</span> off<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭命令回显，执行时不显示批处理文件中的命令本身，只显示命令的输出结果</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">setlocal</span> enabledelayedexpansion<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>启用延迟环境变量扩展，允许在代码块内使用 <code>!var!</code> 语法实时获取变量值（而不是预扩展的 <code>%var%</code>）</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== Miniconda 配置 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>rem</code> 表示注释&#x2F;备注，不会执行</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem 自动检测 Miniconda 安装路径</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行，说明下一行代码的作用</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> <span class="hljs-keyword">exist</span> &quot;E:\Miniconda3&quot; (<br>    <span class="hljs-built_in">set</span> &quot;CONDA_ROOT=E:\Miniconda3&quot;<br>) <span class="hljs-keyword">else</span> (<br>    <span class="hljs-built_in">echo</span> 未找到 Miniconda 安装路径<br>    <span class="hljs-keyword">exit</span> /b <span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>检查指定的 Miniconda 安装路径是否存在</li>
+<li>如果存在，设置 <code>CONDA_ROOT</code> 环境变量为该路径</li>
+<li>如果不存在，显示错误信息并使用 <code>exit /b 1</code> 退出批处理并返回错误代码 1</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> &quot;ENV_NAME=production_report&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>设置 Conda 环境名称为 <code>production_report</code></li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> &quot;PYTHON_SCRIPT=%~dp0ollama_analysis.py&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>%~dp0</code> 表示当前批处理文件所在的目录路径</li>
+<li>设置 Python 脚本路径为当前目录下的 <code>ollama_analysis.py</code></li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> &quot;LOG_DIR=%~dp0logs&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>设置日志目录为当前目录下的 <code>logs</code> 文件夹</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> &quot;REPORT_DIR=%~dp0output&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>设置报告输出目录为当前目录下的 <code>output</code> 文件夹</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== 日期处理 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行，说明下一部分代码的作用</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">for</span> /f &quot;tokens=<span class="hljs-number">1</span>-<span class="hljs-number">3</span> delims=/ &quot; <span class="hljs-variable">%%a</span> <span class="hljs-keyword">in</span> (&#x27;<span class="hljs-built_in">date</span> /t&#x27;) <span class="hljs-keyword">do</span> (<br>    <span class="hljs-built_in">set</span> DATE_STR=<span class="hljs-variable">%%c</span><span class="hljs-variable">%%a</span><span class="hljs-variable">%%b</span><br>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>获取当前系统日期并重新格式化为 <code>年月日</code> 格式（如 20230915）</li>
+<li><code>date /t</code> 获取当前日期</li>
+<li><code>tokens=1-3</code> 将日期分割为三部分</li>
+<li><code>delims=/ </code> 使用斜杠和空格作为分隔符</li>
+<li><code>%%c%%a%%b</code> 重新组合日期部分（年、月、日）</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> LOG_FILE=<span class="hljs-variable">%LOG_DIR%</span>\production_report_<span class="hljs-variable">%DATE_STR%</span>.log<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>设置日志文件路径，包含日期字符串</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== 确保目录存在 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span> &quot;<span class="hljs-variable">%LOG_DIR%</span>&quot; <span class="hljs-built_in">mkdir</span> &quot;<span class="hljs-variable">%LOG_DIR%</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果日志目录不存在，则创建该目录</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span> &quot;<span class="hljs-variable">%REPORT_DIR%</span>&quot; <span class="hljs-built_in">mkdir</span> &quot;<span class="hljs-variable">%REPORT_DIR%</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果报告输出目录不存在，则创建该目录</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== 激活 Miniconda 环境 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">call</span> &quot;<span class="hljs-variable">%CONDA_ROOT%</span>\Scripts\activate.bat&quot; <span class="hljs-variable">%ENV_NAME%</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>调用 Miniconda 的激活脚本，激活指定的 Conda 环境</li>
+<li><code>call</code> 用于调用另一个批处理文件并返回到当前批处理</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> <span class="hljs-variable">!errorlevel!</span> <span class="hljs-keyword">neq</span> <span class="hljs-number">0</span> (<br>    <span class="hljs-built_in">echo</span> [<span class="hljs-variable">%time%</span>] 激活 Miniconda 环境失败 &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot;<br>    <span class="hljs-keyword">exit</span> /b <span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>检查上一条命令的退出代码（使用延迟扩展 <code>!errorlevel!</code>）</li>
+<li>如果退出代码不等于 0（表示失败），则将错误信息追加到日志文件并退出</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== 运行 Python 脚本 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">echo</span> [<span class="hljs-variable">%time%</span>] Miniconda 环境激活成功 &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>将成功信息追加到日志文件，包含当前时间</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">echo</span> [<span class="hljs-variable">%time%</span>] 开始运行生产报告生成脚本 &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>将开始运行脚本的信息追加到日志文件</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat">python &quot;<span class="hljs-variable">%PYTHON_SCRIPT%</span>&quot; &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot; <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>运行 Python 脚本</li>
+<li><code>&gt;&gt; &quot;%LOG_FILE%&quot;</code> 将标准输出追加到日志文件</li>
+<li><code>2&gt;&amp;1</code> 将标准错误重定向到标准输出（即错误信息也会写入日志文件）</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">set</span> EXIT_CODE=<span class="hljs-variable">!errorlevel!</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>将 Python 脚本的退出代码保存到变量 <code>EXIT_CODE</code> 中</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-comment">rem ==== 检查执行结果 ====</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注释行</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">if</span> <span class="hljs-variable">!EXIT_CODE!</span> <span class="hljs-keyword">equ</span> <span class="hljs-number">0</span> (<br>    <span class="hljs-built_in">echo</span> [<span class="hljs-variable">%time%</span>] 报告生成成功 &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot;<br>) <span class="hljs-keyword">else</span> (<br>    <span class="hljs-built_in">echo</span> [<span class="hljs-variable">%time%</span>] 脚本执行失败，错误码: <span class="hljs-variable">!EXIT_CODE!</span> &gt;&gt; &quot;<span class="hljs-variable">%LOG_FILE%</span>&quot;<br>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>检查 Python 脚本的退出代码</li>
+<li>如果为 0（成功），记录成功信息</li>
+<li>如果不为 0（失败），记录失败信息和错误代码</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">endlocal</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>结束局部环境变量设置，恢复之前的变量状态</li>
+</ul>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-keyword">exit</span> /b <span class="hljs-variable">%EXIT_CODE%</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>退出批处理文件，并返回 Python 脚本的退出代码</li>
+<li><code>/b</code> 参数表示只退出当前批处理文件，而不退出命令提示符窗口</li>
+</ul>
+<p><img src="/img/b180ffdc6ab34742ad0d487a01211fa4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序</div>
+      <div>https://qzkq.github.io/2026/01/03/Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/XGBoost%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="XGBoost原生接口和Sklearn接口参数详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">XGBoost原生接口和Sklearn接口参数详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Windows%20Docker%E9%83%A8%E7%BD%B2PaddleOCR-VL%EF%BC%9A%E5%9F%BA%E4%BA%8EBlackwell%E6%9E%B6%E6%9E%84GPU%E4%B8%8EvLLM%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BDVLM%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" title="Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南">
+                        <span class="hidden-mobile">Windows Docker部署PaddleOCR-VL：基于Blackwell架构GPU与vLLM的高性能VLM配置指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

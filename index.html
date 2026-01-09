@@ -1,0 +1,1180 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="数学建模和人工智能（机器学习、深度学习和大模型）技术分享">
+<meta property="og:type" content="website">
+<meta property="og:title" content="幸运藏在努力里">
+<meta property="og:url" content="https://qzkq.github.io/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="数学建模和人工智能（机器学习、深度学习和大模型）技术分享">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="数学建模,机器学习,深度学习,大模型,Python">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 90vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.4)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Mathematical Modeling and Artificial Intelligence"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/06/%E9%A3%8E%E7%94%B5%E5%85%89%E4%BC%8F%E5%8A%9F%E7%8E%87%E9%A2%84%E6%B5%8B%E7%AB%9E%E8%B5%9B%E7%B2%BE%E5%8D%8E%E6%80%BB%E7%BB%93%EF%BC%9A%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" target="_self">
+          风电光伏功率预测竞赛精华总结：技术解析与实战经验
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/06/%E9%A3%8E%E7%94%B5%E5%85%89%E4%BC%8F%E5%8A%9F%E7%8E%87%E9%A2%84%E6%B5%8B%E7%AB%9E%E8%B5%9B%E7%B2%BE%E5%8D%8E%E6%80%BB%E7%BB%93%EF%BC%9A%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" target="_self">
+        <div>
+          @TOC 竞赛背景介绍1.1 新能源功率预测的重要性风电和光伏发电作为新能源的重要组成部分,由于其受天气和环境因素的强烈影响,具有明显的间歇性和波动性特征。准确的功率预测对于电力系统的稳定运行至关重要:  电网调度优化: 准确的预测能够有效应对新能源发电的波动性和不确定性,确保电网频率、电压、负荷平衡等关键指标的稳定 降低运营风险: 减少停电风险,提高电力系统的经济性和可靠性 合规要求: 电网公
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-06 08:00" pubdate>
+              2026-01-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">#数学建模</a>
+            
+              <a href="/tags/%E7%AB%9E%E8%B5%9B/">#竞赛</a>
+            
+              <a href="/tags/%E5%8A%9F%E7%8E%87%E9%A2%84%E6%B5%8B/">#功率预测</a>
+            
+              <a href="/tags/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/">#时间序列</a>
+            
+              <a href="/tags/%E9%A3%8E%E7%94%B5/">#风电</a>
+            
+              <a href="/tags/%E5%85%89%E4%BC%8F/">#光伏</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%9A%84python%E5%8C%85requirements.txt%E6%96%87%E4%BB%B6%E7%9A%84%E7%94%9F%E6%88%90%E4%B8%8E%E5%AE%89%E8%A3%85/" target="_self">
+          项目依赖的python包requirements.txt文件的生成与安装
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%9A%84python%E5%8C%85requirements.txt%E6%96%87%E4%BB%B6%E7%9A%84%E7%94%9F%E6%88%90%E4%B8%8E%E5%AE%89%E8%A3%85/" target="_self">
+        <div>
+          https://github.com/QInzhengk/Math-Model-and-Machine-Learning@TOC 项目依赖的python包requirements.txt文件的生成与安装在使用python进行项目开发的时候常常会调用许多包，而这些包又是在不停的更新中的。因此，当前项目所需要的包的功能，在以后包的迭代中可能会被取代或者更新，从而导致在以后的某个时间重启项目的时候无法
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:19" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/pip/">#pip</a>
+            
+              <a href="/tags/requirements-txt/">#requirements.txt</a>
+            
+              <a href="/tags/%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">#依赖管理</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E9%80%9A%E8%BF%87GitHub%20Actions%E7%BB%99%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E6%B5%8B%E8%AF%95%E5%8F%B7%E5%92%8C%E9%92%89%E9%92%89%E7%BE%A4%E5%AE%9A%E6%97%B6%E6%8E%A8%E9%80%81%E6%B6%88%E6%81%AF%EF%BC%88Python%EF%BC%89/" target="_self">
+          通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E9%80%9A%E8%BF%87GitHub%20Actions%E7%BB%99%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E6%B5%8B%E8%AF%95%E5%8F%B7%E5%92%8C%E9%92%89%E9%92%89%E7%BE%A4%E5%AE%9A%E6%97%B6%E6%8E%A8%E9%80%81%E6%B6%88%E6%81%AF%EF%BC%88Python%EF%BC%89/" target="_self">
+        <div>
+          @[TOC](通过GitHub Actions给微信公众测试号和钉钉群定时推送消息（Python）) https://github.com/QInzhengk/Math-Model-and-Machine-Learning简介GitHub Actions 是 GitHub 推出的持续集成服务。  在 GitHub Actions 的仓库中自动化、自定义和执行软件开发工作流程。 您可以发现、创建和
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:18" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/GitHub/">#GitHub</a>
+            
+              <a href="/tags/GitHub-Actions/">#GitHub Actions</a>
+            
+              <a href="/tags/%E5%BE%AE%E4%BF%A1/">#微信</a>
+            
+              <a href="/tags/%E9%92%89%E9%92%89/">#钉钉</a>
+            
+              <a href="/tags/%E5%AE%9A%E6%97%B6%E6%8E%A8%E9%80%81/">#定时推送</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98%EF%BC%9A%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2%EF%BC%8C%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%98%E5%8C%96%EF%BC%88optuna%EF%BC%89%E8%AF%A6%E8%A7%A3/" target="_self">
+          超参数调优：网格搜索，贝叶斯优化（optuna）详解
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98%EF%BC%9A%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2%EF%BC%8C%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%98%E5%8C%96%EF%BC%88optuna%EF%BC%89%E8%AF%A6%E8%A7%A3/" target="_self">
+        <div>
+          @TOC 数据科学：Scipy、Scikit-Learn笔记LightGBM原生接口和Sklearn接口参数详解XGBoost原生接口和Sklearn接口参数详解网格搜索GridSearchCV 是一个在 scikit-learn 库中用于执行网格搜索（grid search）参数调优的方法。网格搜索是一种通过遍历预定义的参数网格来确定机器学习模型最佳超参数组合的技术。它对给定的参数值集合中的所
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:17" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
+            
+              <a href="/tags/%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/">#超参数调优</a>
+            
+              <a href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%98%E5%8C%96/">#贝叶斯优化</a>
+            
+              <a href="/tags/%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2/">#网格搜索</a>
+            
+              <a href="/tags/Optuna/">#Optuna</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%EF%BC%9APyAudio%E3%80%81SoundDevice%E3%80%81Vosk%E3%80%81openai-whisper%E3%80%81Argos-Translate%E3%80%81FunASR%EF%BC%88Python%EF%BC%89/" target="_self">
+          语音识别：PyAudio、SoundDevice、Vosk、openai-whisper、Argos-Translate、FunASR（Python）
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%EF%BC%9APyAudio%E3%80%81SoundDevice%E3%80%81Vosk%E3%80%81openai-whisper%E3%80%81Argos-Translate%E3%80%81FunASR%EF%BC%88Python%EF%BC%89/" target="_self">
+        <div>
+          @TOC PyAudioPyAudio 是 Python 中一个强大的跨平台音频 I&#x2F;O 库。它基于 PortAudio 库（一个免费、跨平台、开源的音频 I&#x2F;O 库），为 Python 提供了录制和播放音频流的接口。 核心功能 音频录制（输入）： 从麦克风、音频接口或其他输入设备捕获音频数据。 音频播放（输出）： 将音频数据发送到扬声器、耳机或其他输出设备。 实时音频流处理
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:16" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" class="category-chain-item">语音识别</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/">#语音识别</a>
+            
+              <a href="/tags/Whisper/">#Whisper</a>
+            
+              <a href="/tags/Vosk/">#Vosk</a>
+            
+              <a href="/tags/PyAudio/">#PyAudio</a>
+            
+              <a href="/tags/SoundDevice/">#SoundDevice</a>
+            
+              <a href="/tags/FunASR/">#FunASR</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB%EF%BC%9Affmpeg-python%E3%80%81ultralytics.YOLO%E3%80%81OpenCV-Python%E3%80%81%E6%A0%87%E5%87%86RTSP%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F/" target="_self">
+          视觉识别：ffmpeg-python、ultralytics.YOLO、OpenCV-Python、标准RTSP地址格式
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB%EF%BC%9Affmpeg-python%E3%80%81ultralytics.YOLO%E3%80%81OpenCV-Python%E3%80%81%E6%A0%87%E5%87%86RTSP%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F/" target="_self">
+        <div>
+          @TOC ffmpeg-pythonffmpeg-python 是一个用于操作 FFmpeg 的 Python 库，它通过 Python 对象和链式调用封装了 FFmpeg 的命令行参数。  核心概念 input()：创建输入流 1input_stream = ffmpeg.input(&#x27;input.mp4&#x27;, ss=10, t=5)  # 从第10秒开始，读取5秒  关键参
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:15" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" class="category-chain-item">计算机视觉</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+            
+              <a href="/tags/YOLO/">#YOLO</a>
+            
+              <a href="/tags/OpenCV/">#OpenCV</a>
+            
+              <a href="/tags/RTSP/">#RTSP</a>
+            
+              <a href="/tags/ffmpeg/">#ffmpeg</a>
+            
+              <a href="/tags/ultralytics/">#ultralytics</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%EF%BC%88Python%EF%BC%9ASelenium%E3%80%81Scrapy%E6%A1%86%E6%9E%B6%EF%BC%9B%E7%88%AC%E8%99%AB%E4%B8%8E%E5%8F%8D%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0%EF%BC%89/" target="_self">
+          网络爬虫（Python：Selenium、Scrapy框架；爬虫与反爬虫笔记）
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%EF%BC%88Python%EF%BC%9ASelenium%E3%80%81Scrapy%E6%A1%86%E6%9E%B6%EF%BC%9B%E7%88%AC%E8%99%AB%E4%B8%8E%E5%8F%8D%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0%EF%BC%89/" target="_self">
+        <div>
+          @TOC SeleniumSelenium是一个模拟浏览器浏览网页的工具，主要用于测试网站的自动化测试工具。 Selenium需要安装浏览器驱动，才能调用浏览器进行自动爬取或自动化测试，常见的包括Chrome、Firefox、IE、PhantomJS等浏览器。 注意：驱动下载解压后，置于Python的安装目录下；然后将Python的安装目录添加到系统环境变量路径（Path）中。 WebDrive
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:14" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" class="category-chain-item">网络爬虫</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
+            
+              <a href="/tags/Selenium/">#Selenium</a>
+            
+              <a href="/tags/Scrapy/">#Scrapy</a>
+            
+              <a href="/tags/%E5%8F%8D%E7%88%AC%E8%99%AB/">#反爬虫</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%EF%BC%88Python%EF%BC%9ARequests%E3%80%81Beautiful%20Soup%E7%AC%94%E8%AE%B0%EF%BC%89/" target="_self">
+          网络爬虫（Python：Requests、Beautiful Soup笔记）
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%EF%BC%88Python%EF%BC%9ARequests%E3%80%81Beautiful%20Soup%E7%AC%94%E8%AE%B0%EF%BC%89/" target="_self">
+        <div>
+          @[TOC](网络爬虫（Python：Requests、Beautiful Soup笔记）) 网络协议简要介绍一。OSI参考模型    七层  功能    应用层 7 提供应用程序间通信   表示层 6 处理数据格式、数据加密等   会话层 5 建立、维护和管理会话   传输层 4 建立主机端到端连接   网络层 3 寻址和路由选择   数据链路层 2 提供介质访问、链路管理等   物理层 1
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:13" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E7%AC%94%E8%AE%B0-Python%E7%88%AC%E8%99%AB%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80%E5%8F%8A%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB/" target="_self">
+          笔记-Python爬虫技术基础及爬取百度新闻
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E7%AC%94%E8%AE%B0-Python%E7%88%AC%E8%99%AB%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80%E5%8F%8A%E7%88%AC%E5%8F%96%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB/" target="_self">
+        <div>
+          @TOC​ 1.1查看网页源代码F12弹出来的东西叫做开发者工具，是进行数据挖掘的利器，对于爬虫来说，只需要会用下图的这两个按钮即可。（1）选择按钮点击一下它，发现它会变成蓝色，然后把鼠标在页面上移动移动，会发现页面上的颜色机会发生改变。当移动鼠标的时候，会发现界面上的颜色会发生变化，并且Elements里的内容就会随之发生变化。(2) Elements元素按钮：“Elements”选项卡里面的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:12" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" class="category-chain-item">网络爬虫</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
+            
+              <a href="/tags/Requests/">#Requests</a>
+            
+              <a href="/tags/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB/">#百度新闻</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E7%AC%94%E8%AE%B0-pd.set_option()%E3%80%81warnings%E3%80%81np.set_printoptions%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" target="_self">
+          笔记-pd.set_option()、warnings、np.set_printoptions参数详解
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E7%AC%94%E8%AE%B0-pd.set_option()%E3%80%81warnings%E3%80%81np.set_printoptions%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" target="_self">
+        <div>
+          微信公众号：数学建模与人工智能 一、pd.set_option()pd.set_option() 函数用于设置 pandas 的各种显示选项。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849import pandas as pd# 设置显示所有列pd.set_op
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:11" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="category-chain-item">数据科学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>
+            
+              <a href="/tags/Python/">#Python</a>
+            
+              <a href="/tags/Pandas/">#Pandas</a>
+            
+              <a href="/tags/pd-set-option/">#pd.set_option</a>
+            
+              <a href="/tags/warnings/">#warnings</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer)%E3%80%81%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0(Reinforcement)%20&amp;%20%E5%A4%9A%E4%BB%BB%E5%8A%A1/" target="_self">
+          深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer)%E3%80%81%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0(Reinforcement)%20&amp;%20%E5%A4%9A%E4%BB%BB%E5%8A%A1/" target="_self">
+        <div>
+          @[TOC](深度学习面试笔试之迁移学习Transfer、强化学习Reinforcement&amp; 多任务) 微信公众号：数学建模与人工智能13.迁移学习(Transfer)1. 什么是迁移学习迁移学习(Transfer Learning)是一种机器学习方法，就是把为任务 A 开发的模型作为初始点，重新使用在为任务 B 开发模型的过程中。迁移学习是通过从已学习的相关任务中转移知识来改进学习的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:10" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+            
+              <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
+            
+              <a href="/tags/%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/">#迁移学习</a>
+            
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">#强化学习</a>
+            
+              <a href="/tags/%E5%A4%9A%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0/">#多任务学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" target="_self">
+          深度学习面试笔试之深度学习的优化方法
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" target="_self">
+        <div>
+          @TOC 1. 训练误差和泛化误差机器学习模型在训练数据集和测试数据集上的表现。如果你改变过实验中的模型结构或者超参数，你也许发现了：当模型在训练数据集上更准确时，它在测试数据集上却不⼀定更准确。这是为什么呢？因为存在着训练误差和泛化误差：  训练误差：模型在训练数据集上表现出的误差。 泛化误差：模型在任意⼀个测试数据样本上表现出的误差的期望，并常常通过测试数据集上的误差来近似。  训练误差的期
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-05 08:09" pubdate>
+              2026-01-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+            
+              <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
+            
+              <a href="/tags/%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">#优化方法</a>
+            
+              <a href="/tags/SGD/">#SGD</a>
+            
+              <a href="/tags/Adam/">#Adam</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

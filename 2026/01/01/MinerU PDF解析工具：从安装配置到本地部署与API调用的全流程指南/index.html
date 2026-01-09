@@ -1,0 +1,1152 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南) MinerU由上海人工智能实验室开源的高质量PDF解析工具，能精准地将包含图片、公式、表格的复杂PDF转换为Markdown和JSON等机器可读的格式。 💻 安装准备在开始安装前，需要做好以下准备工作：  系统环境：确保你的系统是 Windows、Linux 或 macOS。  Python版本：请安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/MinerU%20PDF%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%8E%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%88%B0%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8EAPI%E8%B0%83%E7%94%A8%E7%9A%84%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南) MinerU由上海人工智能实验室开源的高质量PDF解析工具，能精准地将包含图片、公式、表格的复杂PDF转换为Markdown和JSON等机器可读的格式。 💻 安装准备在开始安装前，需要做好以下准备工作：  系统环境：确保你的系统是 Windows、Linux 或 macOS。  Python版本：请安装">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/mineru_cover.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ocr_layout_example.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ocr_span_example.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ocr_poly_coords.png">
+<meta property="article:published_time" content="2026-01-01T00:18:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.370Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/mineru_cover.png">
+  
+  
+  
+  <title>MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:18" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南)<br><img src="/img/mineru_cover.png" srcset="/img/loading.gif" lazyload alt="MinerU"></p>
+<h2 id="MinerU"><a href="#MinerU" class="headerlink" title="MinerU"></a>MinerU</h2><p>由上海人工智能实验室开源的高质量PDF解析工具，能精准地将包含图片、公式、表格的复杂PDF转换为Markdown和JSON等机器可读的格式。</p>
+<h3 id="💻-安装准备"><a href="#💻-安装准备" class="headerlink" title="💻 安装准备"></a>💻 安装准备</h3><p>在开始安装前，需要做好以下准备工作：</p>
+<ul>
+<li><p><strong>系统环境</strong>：确保你的系统是 <strong>Windows、Linux 或 macOS</strong>。</p>
+</li>
+<li><p><strong>Python版本</strong>：请安装 <strong>Python 3.10 到 3.13</strong> 之间的版本，这是稳定运行的前提。</p>
+</li>
+<li><p><strong>虚拟环境（推荐）</strong>：强烈建议使用Conda或Venv创建一个独立的Python虚拟环境，以避免包冲突。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用Conda创建环境示例</span><br>conda create -n mineru_env python=3.11<br>conda activate mineru_env<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>硬件要求</strong>：</p>
+<ul>
+<li><strong>CPU</strong>：推荐8核心以上。</li>
+<li><strong>内存</strong>：推荐32GB。</li>
+<li><strong>GPU（可选）</strong>：如果需要进行GPU加速，推荐使用<strong>NVIDIA Turing架构及以上</strong>（如RTX 20&#x2F;30&#x2F;40系列）且<strong>显存不小于8GB</strong>的显卡，并确保已安装合适版本的CUDA驱动。</li>
+</ul>
+</li>
+</ul>
+<h3 id="📦-详细安装步骤"><a href="#📦-详细安装步骤" class="headerlink" title="📦 详细安装步骤"></a>📦 详细安装步骤</h3><p>MinerU使用 <code>HuggingFace</code> 和 <code>ModelScope</code> 作为模型仓库，用户可以根据需要切换模型源或使用本地模型。</p>
+<ul>
+<li><code>HuggingFace</code> 是默认的模型源，在全球范围内提供了优异的加载速度和极高稳定性。</li>
+<li><code>ModelScope</code> 是中国大陆地区用户的最佳选择，提供了无缝兼容的SDK模块，适用于无法访问<code>HuggingFace</code>的用户。</li>
+</ul>
+<h4 id="方法一：使用pip或uv安装MinerU"><a href="#方法一：使用pip或uv安装MinerU" class="headerlink" title="方法一：使用pip或uv安装MinerU"></a>方法一：使用pip或uv安装MinerU</h4><ol>
+<li><p><strong>安装MinerU</strong><br>在激活的虚拟环境中，执行以下命令安装MinerU。国内用户建议使用国内镜像源以加速下载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用阿里云镜像安装</span><br>pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple<br>pip install uv -i https://mirrors.aliyun.com/pypi/simple<br>uv pip install -U <span class="hljs-string">&quot;mineru[core]&quot;</span> -i https://mirrors.aliyun.com/pypi/simple<br><span class="hljs-comment"># uv 是一个用 Rust 编写的高速 Python 包管理器和项目工作流工具，由 Astral 公司开发（也是 Ruff 的开发者）。它旨在替代 pip、pip-tools、virtualenv、poetry 等工具，提供极快的性能和现代化的开发体验。</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>下载模型</strong><br>MinerU的功能依赖预训练模型，安装后需要下载模型文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 默认从Huggingface下载，国内网络可能较慢</span><br>mineru-models-download<br></code></pre></td></tr></table></figure>
+
+<p><strong>国内用户</strong>，更推荐使用Modelscope源，速度更快：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 通过环境变量切换</span><br><span class="hljs-comment"># 在任何情况下可以通过设置环境变量来切换模型源，这适用于所有命令行工具和API调用。</span><br><span class="hljs-built_in">export</span> MINERU_MODEL_SOURCE=modelscope<br><span class="hljs-comment"># 查看</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$MINERU_MODEL_SOURCE</span><br>mineru-models-download<br><span class="hljs-comment"># 或</span><br>import os<br>os.environ[<span class="hljs-string">&quot;MINERU_MODEL_SOURCE&quot;</span>] = <span class="hljs-string">&quot;modelscope&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>其余方法可参考官网：<a target="_blank" rel="noopener" href="https://opendatalab.github.io/MinerU/zh/quick_start/">快速开始 - MinerU</a></p>
+<h3 id="⚙️-配置本地模型路径"><a href="#⚙️-配置本地模型路径" class="headerlink" title="⚙️ 配置本地模型路径"></a>⚙️ 配置本地模型路径</h3><p>让MINERU使用本地模型，主要通过修改其配置文件来实现。</p>
+<ol>
+<li><p><strong>找到或创建配置文件</strong>：MINERU的配置文件通常是 <code>mineru.json</code> 或 <code>magic-pdf.json</code> 。它可能位于你的用户主目录（例如 <code>C:\Users\用户名\mineru.json</code> ）或项目目录下。如果不存在，你可以根据模板创建一个 。</p>
+</li>
+<li><p><strong>编辑配置文件</strong>：在配置文件中，你需要指定本地模型文件的位置。关键在于正确设置 <code>models-dir</code> 字段 。</p>
+<p>如果你的Pipeline模式和VLM模式模型存放在不同路径，可以这样配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;models-dir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;pipeline&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/path/to/your/pipeline/models&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;vlm&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/path/to/your/vlm/models&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果所有模型都在同一个目录下，可以直接指定根路径：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;models-dir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/path/to/your/all/models&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;bucket_info&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;bucket-name-1&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>            <span class="hljs-string">&quot;ak&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-string">&quot;sk&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-string">&quot;endpoint&quot;</span><br>        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;bucket-name-2&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>            <span class="hljs-string">&quot;ak&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-string">&quot;sk&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-string">&quot;endpoint&quot;</span><br>        <span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;latex-delimiter-config&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;display&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;left&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$$&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;right&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$$&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;inline&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;left&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;right&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;llm-aided-config&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;title_aided&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;api_key&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your_api_key&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;base_url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;qwen3-next-80b-a3b-instruct&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;enable_thinking&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;enable&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><br>        <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;models-dir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;pipeline&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D:\\modelscope\\hub\\models\\OpenDataLab\\PDF-Extract-Kit-1___0&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;vlm&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D:\\modelscope\\hub\\models\\OpenDataLab\\MinerU2___5-2509-1___2B&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;config_version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1.3.1&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="🚀-使用本地模型"><a href="#🚀-使用本地模型" class="headerlink" title="🚀 使用本地模型"></a>🚀 使用本地模型</h3><ul>
+<li><p><strong>设置环境变量</strong>：通过设置环境变量 <code>MINERU_MODEL_SOURCE=local</code>，告诉MINERU从本地路径读取模型 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> MINERU_MODEL_SOURCE=<span class="hljs-built_in">local</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Docker部署时的注意事项</strong>：如果你通过Docker部署，需要在启动容器时，将存放本地模型的目录挂载到容器内部，并在容器内正确设置上述环境变量和配置文件路径 。</p>
+</li>
+</ul>
+<h2 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h2><h3 id="语言支持"><a href="#语言支持" class="headerlink" title="语言支持"></a>语言支持</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 支持的语言</span><br>[<span class="hljs-string">&#x27;ch&#x27;</span>, <span class="hljs-string">&#x27;ch_server&#x27;</span>, <span class="hljs-string">&#x27;ch_lite&#x27;</span>, <span class="hljs-string">&#x27;en&#x27;</span>, <span class="hljs-string">&#x27;korean&#x27;</span>, <span class="hljs-string">&#x27;japan&#x27;</span>, <br> <span class="hljs-string">&#x27;chinese_cht&#x27;</span>, <span class="hljs-string">&#x27;ta&#x27;</span>, <span class="hljs-string">&#x27;te&#x27;</span>, <span class="hljs-string">&#x27;ka&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h2 id="后端选项详解"><a href="#后端选项详解" class="headerlink" title="后端选项详解"></a>后端选项详解</h2><h3 id="Pipeline-后端"><a href="#Pipeline-后端" class="headerlink" title="Pipeline 后端"></a>Pipeline 后端</h3><ul>
+<li><strong>特点</strong>：通用性强，支持多种文档类型</li>
+<li><strong>方法选项</strong>：<ul>
+<li><code>auto</code>：自动选择</li>
+<li><code>txt</code>：文本提取</li>
+<li><code>ocr</code>：OCR识别</li>
+</ul>
+</li>
+</ul>
+<h3 id="VLM-后端（视觉语言模型）"><a href="#VLM-后端（视觉语言模型）" class="headerlink" title="VLM 后端（视觉语言模型）"></a>VLM 后端（视觉语言模型）</h3><ul>
+<li><code>vlm-transformers</code>：通用VLM</li>
+<li><code>vlm-vllm-engine</code>：高性能推理引擎</li>
+<li><code>vlm-http-client</code>：HTTP客户端模式</li>
+<li><code>vlm-mlx-engine</code>：macOS优化引擎</li>
+</ul>
+<h2 id="输出文件类型"><a href="#输出文件类型" class="headerlink" title="输出文件类型"></a>输出文件类型</h2><ol>
+<li><p><strong>可视化文件</strong>：</p>
+<ul>
+<li><code>{filename}_layout.pdf</code> - 布局边界框</li>
+<li><code>{filename}_span.pdf</code> - 文本跨度边界框</li>
+</ul>
+</li>
+<li><p><strong>内容文件</strong>：</p>
+<ul>
+<li><code>{filename}.md</code> - Markdown格式</li>
+<li><code>{filename}_content_list.json</code> - 结构化内容</li>
+</ul>
+</li>
+<li><p><strong>中间文件</strong>：</p>
+<ul>
+<li><code>{filename}_middle.json</code> - 中间结果</li>
+<li><code>{filename}_model.json</code> - 模型原始输出</li>
+</ul>
+</li>
+</ol>
+<h2 id="Python调用示例"><a href="#Python调用示例" class="headerlink" title="Python调用示例"></a>Python调用示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> copy<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><span class="hljs-keyword">from</span> loguru <span class="hljs-keyword">import</span> logger<br><span class="hljs-keyword">from</span> mineru.cli.common <span class="hljs-keyword">import</span> convert_pdf_bytes_to_bytes_by_pypdfium2, prepare_env, read_fn<br><span class="hljs-keyword">from</span> mineru.data.data_reader_writer <span class="hljs-keyword">import</span> FileBasedDataWriter<br><span class="hljs-keyword">from</span> mineru.utils.draw_bbox <span class="hljs-keyword">import</span> draw_layout_bbox, draw_span_bbox<br><span class="hljs-keyword">from</span> mineru.utils.enum_class <span class="hljs-keyword">import</span> MakeMode<br><span class="hljs-keyword">from</span> mineru.backend.vlm.vlm_analyze <span class="hljs-keyword">import</span> doc_analyze <span class="hljs-keyword">as</span> vlm_doc_analyze<br><span class="hljs-keyword">from</span> mineru.backend.pipeline.pipeline_analyze <span class="hljs-keyword">import</span> doc_analyze <span class="hljs-keyword">as</span> pipeline_doc_analyze<br><span class="hljs-keyword">from</span> mineru.backend.pipeline.pipeline_middle_json_mkcontent <span class="hljs-keyword">import</span> union_make <span class="hljs-keyword">as</span> pipeline_union_make<br><span class="hljs-keyword">from</span> mineru.backend.pipeline.model_json_to_middle_json <span class="hljs-keyword">import</span> result_to_middle_json <span class="hljs-keyword">as</span> pipeline_result_to_middle_json<br><span class="hljs-keyword">from</span> mineru.backend.vlm.vlm_middle_json_mkcontent <span class="hljs-keyword">import</span> union_make <span class="hljs-keyword">as</span> vlm_union_make<br><span class="hljs-keyword">from</span> mineru.utils.guess_suffix_or_lang <span class="hljs-keyword">import</span> guess_suffix_by_path<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">do_parse</span>(<span class="hljs-params"></span><br><span class="hljs-params">    output_dir,  <span class="hljs-comment"># Output directory for storing parsing results</span></span><br><span class="hljs-params">    pdf_file_names: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>],  <span class="hljs-comment"># List of PDF file names to be parsed</span></span><br><span class="hljs-params">    pdf_bytes_list: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">bytes</span>],  <span class="hljs-comment"># List of PDF bytes to be parsed</span></span><br><span class="hljs-params">    p_lang_list: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>],  <span class="hljs-comment"># List of languages for each PDF, default is &#x27;ch&#x27; (Chinese)</span></span><br><span class="hljs-params">    backend=<span class="hljs-string">&quot;pipeline&quot;</span>,  <span class="hljs-comment"># The backend for parsing PDF, default is &#x27;pipeline&#x27;</span></span><br><span class="hljs-params">    parse_method=<span class="hljs-string">&quot;auto&quot;</span>,  <span class="hljs-comment"># The method for parsing PDF, default is &#x27;auto&#x27;</span></span><br><span class="hljs-params">    formula_enable=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Enable formula parsing</span></span><br><span class="hljs-params">    table_enable=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Enable table parsing</span></span><br><span class="hljs-params">    server_url=<span class="hljs-literal">None</span>,  <span class="hljs-comment"># Server URL for vlm-http-client backend</span></span><br><span class="hljs-params">    f_draw_layout_bbox=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to draw layout bounding boxes</span></span><br><span class="hljs-params">    f_draw_span_bbox=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to draw span bounding boxes</span></span><br><span class="hljs-params">    f_dump_md=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to dump markdown files</span></span><br><span class="hljs-params">    f_dump_middle_json=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to dump middle JSON files</span></span><br><span class="hljs-params">    f_dump_model_output=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to dump model output files</span></span><br><span class="hljs-params">    f_dump_orig_pdf=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to dump original PDF files</span></span><br><span class="hljs-params">    f_dump_content_list=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># Whether to dump content list files</span></span><br><span class="hljs-params">    f_make_md_mode=MakeMode.MM_MD,  <span class="hljs-comment"># The mode for making markdown content, default is MM_MD</span></span><br><span class="hljs-params">    start_page_id=<span class="hljs-number">0</span>,  <span class="hljs-comment"># Start page ID for parsing, default is 0</span></span><br><span class="hljs-params">    end_page_id=<span class="hljs-literal">None</span>,  <span class="hljs-comment"># End page ID for parsing, default is None (parse all pages until the end of the document)</span></span><br><span class="hljs-params"></span>):<br><br>    <span class="hljs-keyword">if</span> backend == <span class="hljs-string">&quot;pipeline&quot;</span>:<br>        <span class="hljs-keyword">for</span> idx, pdf_bytes <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(pdf_bytes_list):<br>            new_pdf_bytes = convert_pdf_bytes_to_bytes_by_pypdfium2(pdf_bytes, start_page_id, end_page_id)<br>            pdf_bytes_list[idx] = new_pdf_bytes<br><br>        infer_results, all_image_lists, all_pdf_docs, lang_list, ocr_enabled_list = pipeline_doc_analyze(pdf_bytes_list, p_lang_list, parse_method=parse_method, formula_enable=formula_enable,table_enable=table_enable)<br><br>        <span class="hljs-keyword">for</span> idx, model_list <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(infer_results):<br>            model_json = copy.deepcopy(model_list)<br>            pdf_file_name = pdf_file_names[idx]<br>            local_image_dir, local_md_dir = prepare_env(output_dir, pdf_file_name, parse_method)<br>            image_writer, md_writer = FileBasedDataWriter(local_image_dir), FileBasedDataWriter(local_md_dir)<br><br>            images_list = all_image_lists[idx]<br>            pdf_doc = all_pdf_docs[idx]<br>            _lang = lang_list[idx]<br>            _ocr_enable = ocr_enabled_list[idx]<br>            middle_json = pipeline_result_to_middle_json(model_list, images_list, pdf_doc, image_writer, _lang, _ocr_enable, formula_enable)<br><br>            pdf_info = middle_json[<span class="hljs-string">&quot;pdf_info&quot;</span>]<br><br>            pdf_bytes = pdf_bytes_list[idx]<br>            _process_output(<br>                pdf_info, pdf_bytes, pdf_file_name, local_md_dir, local_image_dir,<br>                md_writer, f_draw_layout_bbox, f_draw_span_bbox, f_dump_orig_pdf,<br>                f_dump_md, f_dump_content_list, f_dump_middle_json, f_dump_model_output,<br>                f_make_md_mode, middle_json, model_json, is_pipeline=<span class="hljs-literal">True</span><br>            )<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">if</span> backend.startswith(<span class="hljs-string">&quot;vlm-&quot;</span>):<br>            backend = backend[<span class="hljs-number">4</span>:]<br><br>        f_draw_span_bbox = <span class="hljs-literal">False</span><br>        parse_method = <span class="hljs-string">&quot;vlm&quot;</span><br>        <span class="hljs-keyword">for</span> idx, pdf_bytes <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(pdf_bytes_list):<br>            pdf_file_name = pdf_file_names[idx]<br>            pdf_bytes = convert_pdf_bytes_to_bytes_by_pypdfium2(pdf_bytes, start_page_id, end_page_id)<br>            local_image_dir, local_md_dir = prepare_env(output_dir, pdf_file_name, parse_method)<br>            image_writer, md_writer = FileBasedDataWriter(local_image_dir), FileBasedDataWriter(local_md_dir)<br>            middle_json, infer_result = vlm_doc_analyze(pdf_bytes, image_writer=image_writer, backend=backend, server_url=server_url)<br><br>            pdf_info = middle_json[<span class="hljs-string">&quot;pdf_info&quot;</span>]<br><br>            _process_output(<br>                pdf_info, pdf_bytes, pdf_file_name, local_md_dir, local_image_dir,<br>                md_writer, f_draw_layout_bbox, f_draw_span_bbox, f_dump_orig_pdf,<br>                f_dump_md, f_dump_content_list, f_dump_middle_json, f_dump_model_output,<br>                f_make_md_mode, middle_json, infer_result, is_pipeline=<span class="hljs-literal">False</span><br>            )<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">_process_output</span>(<span class="hljs-params"></span><br><span class="hljs-params">        pdf_info,</span><br><span class="hljs-params">        pdf_bytes,</span><br><span class="hljs-params">        pdf_file_name,</span><br><span class="hljs-params">        local_md_dir,</span><br><span class="hljs-params">        local_image_dir,</span><br><span class="hljs-params">        md_writer,</span><br><span class="hljs-params">        f_draw_layout_bbox,</span><br><span class="hljs-params">        f_draw_span_bbox,</span><br><span class="hljs-params">        f_dump_orig_pdf,</span><br><span class="hljs-params">        f_dump_md,</span><br><span class="hljs-params">        f_dump_content_list,</span><br><span class="hljs-params">        f_dump_middle_json,</span><br><span class="hljs-params">        f_dump_model_output,</span><br><span class="hljs-params">        f_make_md_mode,</span><br><span class="hljs-params">        middle_json,</span><br><span class="hljs-params">        model_output=<span class="hljs-literal">None</span>,</span><br><span class="hljs-params">        is_pipeline=<span class="hljs-literal">True</span></span><br><span class="hljs-params"></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;处理输出文件&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> f_draw_layout_bbox:<br>        draw_layout_bbox(pdf_info, pdf_bytes, local_md_dir, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_layout.pdf&quot;</span>)<br><br>    <span class="hljs-keyword">if</span> f_draw_span_bbox:<br>        draw_span_bbox(pdf_info, pdf_bytes, local_md_dir, <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_span.pdf&quot;</span>)<br><br>    <span class="hljs-keyword">if</span> f_dump_orig_pdf:<br>        md_writer.write(<br>            <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_origin.pdf&quot;</span>,<br>            pdf_bytes,<br>        )<br><br>    image_dir = <span class="hljs-built_in">str</span>(os.path.basename(local_image_dir))<br><br>    <span class="hljs-keyword">if</span> f_dump_md:<br>        make_func = pipeline_union_make <span class="hljs-keyword">if</span> is_pipeline <span class="hljs-keyword">else</span> vlm_union_make<br>        md_content_str = make_func(pdf_info, f_make_md_mode, image_dir)<br>        md_writer.write_string(<br>            <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>.md&quot;</span>,<br>            md_content_str,<br>        )<br><br>    <span class="hljs-keyword">if</span> f_dump_content_list:<br>        make_func = pipeline_union_make <span class="hljs-keyword">if</span> is_pipeline <span class="hljs-keyword">else</span> vlm_union_make<br>        content_list = make_func(pdf_info, MakeMode.CONTENT_LIST, image_dir)<br>        md_writer.write_string(<br>            <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_content_list.json&quot;</span>,<br>            json.dumps(content_list, ensure_ascii=<span class="hljs-literal">False</span>, indent=<span class="hljs-number">4</span>),<br>        )<br><br>    <span class="hljs-keyword">if</span> f_dump_middle_json:<br>        md_writer.write_string(<br>            <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_middle.json&quot;</span>,<br>            json.dumps(middle_json, ensure_ascii=<span class="hljs-literal">False</span>, indent=<span class="hljs-number">4</span>),<br>        )<br><br>    <span class="hljs-keyword">if</span> f_dump_model_output:<br>        md_writer.write_string(<br>            <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;pdf_file_name&#125;</span>_model.json&quot;</span>,<br>            json.dumps(model_output, ensure_ascii=<span class="hljs-literal">False</span>, indent=<span class="hljs-number">4</span>),<br>        )<br><br>    logger.info(<span class="hljs-string">f&quot;local output dir is <span class="hljs-subst">&#123;local_md_dir&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_doc</span>(<span class="hljs-params"></span><br><span class="hljs-params">        path_list: <span class="hljs-built_in">list</span>[Path],</span><br><span class="hljs-params">        output_dir,</span><br><span class="hljs-params">        lang=<span class="hljs-string">&quot;ch&quot;</span>,</span><br><span class="hljs-params">        backend=<span class="hljs-string">&quot;pipeline&quot;</span>,</span><br><span class="hljs-params">        method=<span class="hljs-string">&quot;auto&quot;</span>,</span><br><span class="hljs-params">        server_url=<span class="hljs-literal">None</span>,</span><br><span class="hljs-params">        start_page_id=<span class="hljs-number">0</span>,</span><br><span class="hljs-params">        end_page_id=<span class="hljs-literal">None</span></span><br><span class="hljs-params"></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Parameter description:</span><br><span class="hljs-string">        path_list: List of document paths to be parsed, can be PDF or image files.</span><br><span class="hljs-string">        output_dir: Output directory for storing parsing results.</span><br><span class="hljs-string">        lang: Language option, default is &#x27;ch&#x27;, optional values include[&#x27;ch&#x27;, &#x27;ch_server&#x27;, &#x27;ch_lite&#x27;, &#x27;en&#x27;, &#x27;korean&#x27;, &#x27;japan&#x27;, &#x27;chinese_cht&#x27;, &#x27;ta&#x27;, &#x27;te&#x27;, &#x27;ka&#x27;]。</span><br><span class="hljs-string">            Input the languages in the pdf (if known) to improve OCR accuracy.  Optional.</span><br><span class="hljs-string">            Adapted only for the case where the backend is set to &quot;pipeline&quot;</span><br><span class="hljs-string">        backend: the backend for parsing pdf:</span><br><span class="hljs-string">            pipeline: More general.</span><br><span class="hljs-string">            vlm-transformers: More general.</span><br><span class="hljs-string">            vlm-vllm-engine: Faster(engine).</span><br><span class="hljs-string">            vlm-http-client: Faster(client).</span><br><span class="hljs-string">            without method specified, pipeline will be used by default.</span><br><span class="hljs-string">        method: the method for parsing pdf:</span><br><span class="hljs-string">            auto: Automatically determine the method based on the file type.</span><br><span class="hljs-string">            txt: Use text extraction method.</span><br><span class="hljs-string">            ocr: Use OCR method for image-based PDFs.</span><br><span class="hljs-string">            Without method specified, &#x27;auto&#x27; will be used by default.</span><br><span class="hljs-string">            Adapted only for the case where the backend is set to &quot;pipeline&quot;.</span><br><span class="hljs-string">        server_url: When the backend is `http-client`, you need to specify the server_url, for example:`http://127.0.0.1:30000`</span><br><span class="hljs-string">        start_page_id: Start page ID for parsing, default is 0</span><br><span class="hljs-string">        end_page_id: End page ID for parsing, default is None (parse all pages until the end of the document)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">try</span>:<br>        file_name_list = []<br>        pdf_bytes_list = []<br>        lang_list = []<br>        <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> path_list:<br>            file_name = <span class="hljs-built_in">str</span>(Path(path).stem)<br>            pdf_bytes = read_fn(path)<br>            file_name_list.append(file_name)<br>            pdf_bytes_list.append(pdf_bytes)<br>            lang_list.append(lang)<br>        do_parse(<br>            output_dir=output_dir,<br>            pdf_file_names=file_name_list,<br>            pdf_bytes_list=pdf_bytes_list,<br>            p_lang_list=lang_list,<br>            backend=backend,<br>            parse_method=method,<br>            server_url=server_url,<br>            start_page_id=start_page_id,<br>            end_page_id=end_page_id<br>        )<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        logger.exception(e)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;如果您由于网络问题无法下载模型，可以设置环境变量MINERU_MODEL_SOURCE为modelscope使用免代理仓库下载模型&quot;&quot;&quot;</span><br>    os.environ[<span class="hljs-string">&quot;MINERU_MODEL_SOURCE&quot;</span>] = <span class="hljs-string">&quot;local&quot;</span> <span class="hljs-comment">#  &quot;modelscope&quot;</span><br>    <span class="hljs-comment"># args</span><br>    __dir__ = os.path.dirname(os.path.abspath(__file__))<br>    pdf_files_dir = os.path.join(__dir__, <span class="hljs-string">&quot;picture&quot;</span>)<br>    output_dir = os.path.join(__dir__, <span class="hljs-string">&quot;output_MinerU&quot;</span>)<br>    pdf_suffixes = [<span class="hljs-string">&quot;pdf&quot;</span>]<br>    image_suffixes = [<span class="hljs-string">&quot;png&quot;</span>, <span class="hljs-string">&quot;jpeg&quot;</span>, <span class="hljs-string">&quot;jp2&quot;</span>, <span class="hljs-string">&quot;webp&quot;</span>, <span class="hljs-string">&quot;gif&quot;</span>, <span class="hljs-string">&quot;bmp&quot;</span>, <span class="hljs-string">&quot;jpg&quot;</span>]<br><br>    doc_path_list = []<br>    <span class="hljs-keyword">for</span> doc_path <span class="hljs-keyword">in</span> Path(pdf_files_dir).glob(<span class="hljs-string">&#x27;*&#x27;</span>):<br>        <span class="hljs-keyword">if</span> guess_suffix_by_path(doc_path) <span class="hljs-keyword">in</span> pdf_suffixes + image_suffixes:<br>            doc_path_list.append(doc_path)<br><br>    <span class="hljs-string">&quot;&quot;&quot;Use pipeline mode if your environment does not support VLM&quot;&quot;&quot;</span><br>    parse_doc(doc_path_list, output_dir, backend=<span class="hljs-string">&quot;pipeline&quot;</span>)<br><br>    <span class="hljs-string">&quot;&quot;&quot;To enable VLM mode, change the backend to &#x27;vlm-xxx&#x27;&quot;&quot;&quot;</span><br>    <span class="hljs-comment"># parse_doc(doc_path_list, output_dir, backend=&quot;vlm-transformers&quot;)  # more general.</span><br>    <span class="hljs-comment"># parse_doc(doc_path_list, output_dir, backend=&quot;vlm-mlx-engine&quot;)  # faster than transformers in macOS 13.5+.</span><br>    <span class="hljs-comment"># parse_doc(doc_path_list, output_dir, backend=&quot;vlm-vllm-engine&quot;)  # faster(engine).</span><br>    <span class="hljs-comment"># parse_doc(doc_path_list, output_dir, backend=&quot;vlm-http-client&quot;, server_url=&quot;http://127.0.0.1:30000&quot;)  # faster(client).</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="核心函数解析"><a href="#核心函数解析" class="headerlink" title="核心函数解析"></a>核心函数解析</h2><h3 id="1-do-parse-主解析函数"><a href="#1-do-parse-主解析函数" class="headerlink" title="1. do_parse() - 主解析函数"></a>1. <code>do_parse()</code> - 主解析函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python">output_dir：解析结果的输出目录路径<br><br>pdf_file_names：要解析的PDF文件名列表（字符串列表）<br><br>pdf_bytes_list：要解析的PDF字节数据列表（字节列表）<br><br>p_lang_list：每个PDF对应的语言列表，默认是中文(<span class="hljs-string">&#x27;ch&#x27;</span>)<br><br>backend：解析PDF的后端引擎，默认<span class="hljs-string">&#x27;pipeline&#x27;</span><br><br>parse_method：解析方法，默认<span class="hljs-string">&#x27;auto&#x27;</span>（自动选择）<br><br>formula_enable：是否启用公式解析，默认<span class="hljs-literal">True</span><br><br>table_enable：是否启用表格解析，默认<span class="hljs-literal">True</span><br><br>server_url：VLM HTTP客户端后端使用的服务器URL<br><br>f_draw_layout_bbox：是否绘制布局边界框，默认<span class="hljs-literal">True</span><br><br>f_draw_span_bbox：是否绘制文本跨度边界框，默认<span class="hljs-literal">True</span><br><br>f_dump_md：是否输出Markdown文件，默认<span class="hljs-literal">True</span><br><br>f_dump_middle_json：是否输出中间JSON文件，默认<span class="hljs-literal">True</span><br><br>f_dump_model_output：是否输出模型原始输出文件，默认<span class="hljs-literal">True</span><br><br>f_dump_orig_pdf：是否输出原始PDF文件，默认<span class="hljs-literal">True</span><br><br>f_dump_content_list：是否输出内容列表文件，默认<span class="hljs-literal">True</span><br><br>f_make_md_mode：生成Markdown内容的模式，默认是MM_MD<br><br>start_page_id：解析起始页码，默认<span class="hljs-number">0</span>（第一页）<br><br>end_page_id：解析结束页码，默认<span class="hljs-literal">None</span>（解析到文档末尾）<br></code></pre></td></tr></table></figure>
+
+<p><strong>支持两种后端模式：</strong></p>
+<ul>
+<li><strong>pipeline 后端</strong>：通用解析，支持 OCR 和文本提取</li>
+<li><strong>vlm 后端</strong>：基于视觉语言模型，支持多种推理引擎</li>
+</ul>
+<h3 id="2-process-output-输出处理函数"><a href="#2-process-output-输出处理函数" class="headerlink" title="2. _process_output() - 输出处理函数"></a>2. <code>_process_output()</code> - 输出处理函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_process_output</span>(<span class="hljs-params"></span><br><span class="hljs-params">        pdf_info,           <span class="hljs-comment"># PDF信息字典</span></span><br><span class="hljs-params">        pdf_bytes,          <span class="hljs-comment"># PDF字节数据</span></span><br><span class="hljs-params">        pdf_file_name,      <span class="hljs-comment"># PDF文件名</span></span><br><span class="hljs-params">        local_md_dir,       <span class="hljs-comment"># 本地Markdown目录</span></span><br><span class="hljs-params">        local_image_dir,    <span class="hljs-comment"># 本地图像目录</span></span><br><span class="hljs-params">        md_writer,          <span class="hljs-comment"># Markdown写入器</span></span><br><span class="hljs-params">        f_draw_layout_bbox, <span class="hljs-comment"># 是否绘制布局边界框</span></span><br><span class="hljs-params">        f_draw_span_bbox,   <span class="hljs-comment"># 是否绘制跨度边界框</span></span><br><span class="hljs-params">        f_dump_orig_pdf,    <span class="hljs-comment"># 是否转储原始PDF</span></span><br><span class="hljs-params">        f_dump_md,          <span class="hljs-comment"># 是否转储Markdown</span></span><br><span class="hljs-params">        f_dump_content_list,<span class="hljs-comment"># 是否转储内容列表</span></span><br><span class="hljs-params">        f_dump_middle_json, <span class="hljs-comment"># 是否转储中间JSON</span></span><br><span class="hljs-params">        f_dump_model_output,<span class="hljs-comment"># 是否转储模型输出</span></span><br><span class="hljs-params">        f_make_md_mode,     <span class="hljs-comment"># Markdown生成模式</span></span><br><span class="hljs-params">        middle_json,        <span class="hljs-comment"># 中间JSON数据</span></span><br><span class="hljs-params">        model_output=<span class="hljs-literal">None</span>,  <span class="hljs-comment"># 模型原始输出</span></span><br><span class="hljs-params">        is_pipeline=<span class="hljs-literal">True</span>    <span class="hljs-comment"># 是否为pipeline后端</span></span><br><span class="hljs-params"></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;处理输出文件&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-parse-doc-用户接口函数"><a href="#3-parse-doc-用户接口函数" class="headerlink" title="3. parse_doc() - 用户接口函数"></a>3. <code>parse_doc()</code> - 用户接口函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_doc</span>(<span class="hljs-params"></span><br><span class="hljs-params">    path_list: <span class="hljs-built_in">list</span>[Path],      <span class="hljs-comment"># 要解析的文档路径列表</span></span><br><span class="hljs-params">    output_dir,                 <span class="hljs-comment"># 解析结果输出目录</span></span><br><span class="hljs-params">    lang=<span class="hljs-string">&quot;ch&quot;</span>,                  <span class="hljs-comment"># 语言选项，默认是中文</span></span><br><span class="hljs-params">    backend=<span class="hljs-string">&quot;pipeline&quot;</span>,         <span class="hljs-comment"># 解析后端，默认pipeline</span></span><br><span class="hljs-params">    method=<span class="hljs-string">&quot;auto&quot;</span>,              <span class="hljs-comment"># 解析方法，默认auto</span></span><br><span class="hljs-params">    server_url=<span class="hljs-literal">None</span>,            <span class="hljs-comment"># 服务器URL（用于vlm-http-client）</span></span><br><span class="hljs-params">    start_page_id=<span class="hljs-number">0</span>,            <span class="hljs-comment"># 起始页码</span></span><br><span class="hljs-params">    end_page_id=<span class="hljs-literal">None</span>            <span class="hljs-comment"># 结束页码</span></span><br><span class="hljs-params"></span>):<br></code></pre></td></tr></table></figure>
+
+<p>提供简化的用户接口，支持多种语言和解析配置。</p>
+<h2 id="使用Docker部署Mineru"><a href="#使用Docker部署Mineru" class="headerlink" title="使用Docker部署Mineru"></a>使用Docker部署Mineru</h2><h3 id="一、Docker镜像构建"><a href="#一、Docker镜像构建" class="headerlink" title="一、Docker镜像构建"></a>一、Docker镜像构建</h3><h4 id="1-1-下载与构建镜像"><a href="#1-1-下载与构建镜像" class="headerlink" title="1.1 下载与构建镜像"></a>1.1 下载与构建镜像</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://gcore.jsdelivr.net/gh/opendatalab/MinerU@master/docker/china/Dockerfile<br>docker build -t mineru:latest -f Dockerfile .<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-2-Dockerfile配置说明"><a href="#1-2-Dockerfile配置说明" class="headerlink" title="1.2 Dockerfile配置说明"></a>1.2 Dockerfile配置说明</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-comment"># 基础镜像选择（根据GPU架构选择）</span><br><span class="hljs-comment"># 计算能力≥8.0（Ampere及以上架构）</span><br><span class="hljs-keyword">FROM</span> docker.m.daocloud.io/vllm/vllm-openai:v0.<span class="hljs-number">10.1</span>.<span class="hljs-number">1</span><br><br><span class="hljs-comment"># 计算能力&lt;8.0（Turing及更早架构）</span><br><span class="hljs-comment"># FROM docker.m.daocloud.io/vllm/vllm-openai:v0.10.2</span><br><br><span class="hljs-comment"># 配置Ubuntu国内镜像源并安装依赖</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> sed -i <span class="hljs-string">&#x27;s/archive.ubuntu.com/mirrors.aliyun.com/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span><br><span class="language-bash">    sed -i <span class="hljs-string">&#x27;s/security.ubuntu.com/mirrors.aliyun.com/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span><br><span class="language-bash">    apt-get update &amp;&amp; \</span><br><span class="language-bash">    apt-get install -y \</span><br><span class="language-bash">        fonts-noto-core \</span><br><span class="language-bash">        fonts-noto-cjk \</span><br><span class="language-bash">        fontconfig \</span><br><span class="language-bash">        libgl1 &amp;&amp; \</span><br><span class="language-bash">    fc-cache -fv &amp;&amp; \</span><br><span class="language-bash">    apt-get clean &amp;&amp; \</span><br><span class="language-bash">    <span class="hljs-built_in">rm</span> -rf /var/lib/apt/lists/*</span><br><br><span class="hljs-comment"># 安装Mineru核心包</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> python3 -m pip install -U <span class="hljs-string">&#x27;mineru[core]&#x27;</span> -i https://mirrors.aliyun.com/pypi/simple --break-system-packages &amp;&amp; \</span><br><span class="language-bash">    python3 -m pip cache purge</span><br><br><span class="hljs-comment"># 下载模型文件</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> /bin/bash -c <span class="hljs-string">&quot;mineru-models-download -s modelscope -m all&quot;</span></span><br><br><span class="hljs-comment"># 设置入口点</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/bin/bash&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, <span class="hljs-string">&quot;export MINERU_MODEL_SOURCE=local &amp;&amp; exec \&quot;<span class="hljs-variable">$@</span>\&quot;&quot;</span>, <span class="hljs-string">&quot;--&quot;</span>]</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>GPU架构说明</strong>：</p>
+<ul>
+<li>查看GPU计算能力：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus">CUDA GPU列表</a></li>
+<li>vLLM v0.10.1.1 支持计算能力≥8.0的显卡</li>
+<li>vLLM v0.10.2 支持更早架构的显卡</li>
+</ul>
+</blockquote>
+<h3 id="二、启动Docker容器"><a href="#二、启动Docker容器" class="headerlink" title="二、启动Docker容器"></a>二、启动Docker容器</h3><h4 id="2-1-基础启动命令"><a href="#2-1-基础启动命令" class="headerlink" title="2.1 基础启动命令"></a>2.1 基础启动命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run --gpus all --shm-size 32g -p 30000:30000 -p 7860:7860 -p 8000:8000 --ipc=host -it mineru:latest /bin/bash<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-端口映射说明"><a href="#2-2-端口映射说明" class="headerlink" title="2.2 端口映射说明"></a>2.2 端口映射说明</h4><ul>
+<li><code>30000</code>: OpenAI兼容服务器端口</li>
+<li><code>7860</code>: Gradio WebUI端口</li>
+<li><code>8000</code>: FastAPI接口端口</li>
+</ul>
+<h4 id="2-3-vLLM加速要求"><a href="#2-3-vLLM加速要求" class="headerlink" title="2.3 vLLM加速要求"></a>2.3 vLLM加速要求</h4><p>使用vLLM加速VLM模型推理需满足：</p>
+<ol>
+<li><strong>硬件要求</strong>：Volta及以上架构GPU，显存≥8GB</li>
+<li><strong>驱动要求</strong>：NVIDIA驱动支持CUDA 12.8+</li>
+<li><strong>容器配置</strong>：已正确挂载GPU设备</li>
+</ol>
+<h4 id="2-4-容器停止后如何重新启动服务"><a href="#2-4-容器停止后如何重新启动服务" class="headerlink" title="2.4 容器停止后如何重新启动服务"></a>2.4 容器停止后如何重新启动服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动指定容器</span><br>docker start &lt;容器ID或名称&gt;<br><br><span class="hljs-comment"># 进入容器交互终端</span><br>docker <span class="hljs-built_in">exec</span> -it &lt;容器ID或名称&gt; /bin/bash<br></code></pre></td></tr></table></figure>
+<h4 id="2-5-通过配置环境变量来使用本地模型"><a href="#2-5-通过配置环境变量来使用本地模型" class="headerlink" title="2.5 通过配置环境变量来使用本地模型"></a>2.5 通过配置环境变量来使用本地模型</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> MINERU_MODEL_SOURCE=<span class="hljs-built_in">local</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="三、服务启动与使用"><a href="#三、服务启动与使用" class="headerlink" title="三、服务启动与使用"></a>三、服务启动与使用</h3><h4 id="3-1-启动OpenAI兼容服务器"><a href="#3-1-启动OpenAI兼容服务器" class="headerlink" title="3.1 启动OpenAI兼容服务器"></a>3.1 启动OpenAI兼容服务器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 默认启动（自动选择引擎）</span><br>mineru-openai-server<br><br><span class="hljs-comment"># 指定vLLM引擎</span><br>mineru-openai-server --engine vllm --port 30000<br><br><span class="hljs-comment"># 指定lmdeploy引擎</span><br>mineru-openai-server --engine lmdeploy --server-port 30000<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-启动FastAPI服务"><a href="#3-2-启动FastAPI服务" class="headerlink" title="3.2 启动FastAPI服务"></a>3.2 启动FastAPI服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mineru-api --host 0.0.0.0 --port 8000<br></code></pre></td></tr></table></figure>
+
+<p>访问API文档：<code>http://127.0.0.1:8000/docs</code></p>
+<h4 id="3-3-启动Gradio-WebUI"><a href="#3-3-启动Gradio-WebUI" class="headerlink" title="3.3 启动Gradio WebUI"></a>3.3 启动Gradio WebUI</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 通用后端</span><br>mineru-gradio --server-name 0.0.0.0 --server-port 7860<br><br><span class="hljs-comment"># 启用vLLM加速</span><br>mineru-gradio --server-name 0.0.0.0 --server-port 7860 --enable-vllm-engine <span class="hljs-literal">true</span><br><br><span class="hljs-comment"># 启用lmdeploy加速</span><br>mineru-gradio --server-name 0.0.0.0 --server-port 7860 --enable-lmdeploy-engine <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>访问WebUI：<code>http://127.0.0.1:7860</code></p>
+<h4 id="3-4-HTTP客户端调用"><a href="#3-4-HTTP客户端调用" class="headerlink" title="3.4 HTTP客户端调用"></a>3.4 HTTP客户端调用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 连接到OpenAI兼容服务器</span><br>mineru -p &lt;input_path&gt; -o &lt;output_path&gt; -b vlm-http-client -u http://127.0.0.1:30000<br></code></pre></td></tr></table></figure>
+<h4 id="3-5-所有vllm-lmdeploy官方支持的参数都可用通过命令行参数传递给-MinerU，包括以下命令-mineru、mineru-openai-server、mineru-gradio、mineru-api"><a href="#3-5-所有vllm-lmdeploy官方支持的参数都可用通过命令行参数传递给-MinerU，包括以下命令-mineru、mineru-openai-server、mineru-gradio、mineru-api" class="headerlink" title="3.5 所有vllm&#x2F;lmdeploy官方支持的参数都可用通过命令行参数传递给 MinerU，包括以下命令:mineru、mineru-openai-server、mineru-gradio、mineru-api"></a>3.5 所有vllm&#x2F;lmdeploy官方支持的参数都可用通过命令行参数传递给 MinerU，包括以下命令:mineru、mineru-openai-server、mineru-gradio、mineru-api</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mineru-openai-server --engine vllm --port 30000 --gpu-memory-utilization 0.8 --max-model-len 7520 --max-num-batched-tokens 32768<br></code></pre></td></tr></table></figure>
+
+<h2 id="MinerU-在-Docker-中部署时出现-CUDA-错误：flash-attn-兼容性问题与解决方案"><a href="#MinerU-在-Docker-中部署时出现-CUDA-错误：flash-attn-兼容性问题与解决方案" class="headerlink" title="MinerU 在 Docker 中部署时出现 CUDA 错误：flash-attn 兼容性问题与解决方案"></a>MinerU 在 Docker 中部署时出现 CUDA 错误：flash-attn 兼容性问题与解决方案</h2><p>在 Windows 系统下使用 RTX 5060 显卡通过 Docker 部署 MinerU 时，可能出现以下 CUDA 相关错误，导致服务启动失败：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">CUDA error (<span class="hljs-regexp">/__w/</span>xformers<span class="hljs-regexp">/xformers/</span>third_party<span class="hljs-regexp">/flash-attention/</span>hopper/flash_fwd_launch_template.h:<span class="hljs-number">188</span>): invalid argument<br>RuntimeError: Engine core initialization failed. See root cause above.<br></code></pre></td></tr></table></figure>
+
+<p>该错误通常与 <code>vllm-flash-attn</code> 在视觉模块中存在兼容性问题有关，系统已自动回退至 xformers 后端。为解决此问题，可尝试手动安装正确版本的 <code>flash-attn</code>。</p>
+<hr>
+<h3 id="解决方案：安装-flash-attn"><a href="#解决方案：安装-flash-attn" class="headerlink" title="解决方案：安装 flash-attn"></a>解决方案：安装 flash-attn</h3><p>通过以下命令安装指定版本的 flash-attn：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install flash-attn==2.8.3<br><span class="hljs-comment"># --verbose 是 pip 命令的一个可选参数，用于显示详细的安装过程信息。</span><br>pip install flash-attn==2.8.3 --verbose<br></code></pre></td></tr></table></figure>
+
+<p>若安装过程缓慢，可直接从以下链接下载预编译的 wheel 文件，并放入 Docker 容器中安装：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 安装过程信息会显示安装的哪个版本</span><br><span class="hljs-attribute">https</span>://github.com/Dao-AILab/flash-attention/releases/download/v2.<span class="hljs-number">8</span>.<span class="hljs-number">3</span>/flash_attn-<span class="hljs-number">2</span>.<span class="hljs-number">8</span>.<span class="hljs-number">3</span>+cu12torch2.<span class="hljs-number">7</span>cxx11abiTRUE-cp312-cp312-linux_x86_64.whl<br></code></pre></td></tr></table></figure>
+
+<p>下载后，在 Docker 内执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install /path/to/flash_attn-2.8.3+cu12torch2.7cxx11abiTRUE-cp312-cp312-linux_x86_64.whl<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="MinerU-输出文件说明"><a href="#MinerU-输出文件说明" class="headerlink" title="MinerU 输出文件说明"></a>MinerU 输出文件说明</h2><p><code>mineru</code> 命令执行后，除了输出主要的 markdown 文件外，还会生成多个辅助文件用于调试、质检和进一步处理。</p>
+<h3 id="可视化调试文件"><a href="#可视化调试文件" class="headerlink" title="可视化调试文件"></a>可视化调试文件</h3><ul>
+<li><strong>模型输出</strong>(使用原始输出):<ul>
+<li>model.json</li>
+</ul>
+</li>
+<li><strong>调试和验证</strong>(使用可视化文件):<ul>
+<li>layout.pdf</li>
+<li>spans.pdf</li>
+</ul>
+</li>
+<li><strong>内容提取</strong>(使用简化文件):<ul>
+<li>*.md</li>
+<li>content_list.json</li>
+</ul>
+</li>
+<li><strong>二次开发</strong>(使用结构化文件):<ul>
+<li>middle.json</li>
+</ul>
+</li>
+</ul>
+<h4 id="布局分析文件-layout-pdf"><a href="#布局分析文件-layout-pdf" class="headerlink" title="布局分析文件 (layout.pdf)"></a>布局分析文件 (layout.pdf)</h4><p><strong>文件命名格式</strong>：<code>{原文件名}_layout.pdf</code></p>
+<p><strong>功能说明</strong>：</p>
+<ul>
+<li>可视化展示每一页的布局分析结果</li>
+<li>每个检测框右上角的数字表示阅读顺序</li>
+<li>使用不同背景色块区分不同类型的内容块</li>
+</ul>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>检查布局分析是否正确</li>
+<li>确认阅读顺序是否合理</li>
+<li>调试布局相关问题</li>
+</ul>
+<p><img src="/img/ocr_layout_example.png" srcset="/img/loading.gif" lazyload alt="layout 页面示例"></p>
+<h4 id="文本片段文件-spans-pdf"><a href="#文本片段文件-spans-pdf" class="headerlink" title="文本片段文件 (spans.pdf)"></a>文本片段文件 (spans.pdf)</h4><p>仅适用于 pipeline 后端</p>
+<p><strong>文件命名格式</strong>：<code>{原文件名}_spans.pdf</code></p>
+<p><strong>功能说明</strong>：</p>
+<ul>
+<li>根据 span 类型使用不同颜色线框标注页面内容</li>
+<li>用于质量检查和问题排查</li>
+</ul>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>快速排查文本丢失问题</li>
+<li>检查行内公式识别情况</li>
+<li>验证文本分割准确性</li>
+</ul>
+<p><img src="/img/ocr_span_example.png" srcset="/img/loading.gif" lazyload alt="span 页面示例"></p>
+<h3 id="结构化数据文件"><a href="#结构化数据文件" class="headerlink" title="结构化数据文件"></a>结构化数据文件</h3><h4 id="pipeline-后端-输出结果"><a href="#pipeline-后端-输出结果" class="headerlink" title="pipeline 后端 输出结果"></a>pipeline 后端 输出结果</h4><h5 id="模型推理结果-model-json"><a href="#模型推理结果-model-json" class="headerlink" title="模型推理结果 (model.json)"></a>模型推理结果 (model.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_model.json</code></p>
+<h6 id="数据结构定义"><a href="#数据结构定义" class="headerlink" title="数据结构定义"></a>数据结构定义</h6><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field<br><span class="hljs-keyword">from</span> <span class="hljs-keyword">enum</span> <span class="hljs-keyword">import</span> IntEnum<br><br><span class="hljs-keyword">class</span> <span class="hljs-symbol">CategoryType</span>(<span class="hljs-symbol">IntEnum</span>):<br>    &quot;&quot;&quot;内容类别枚举&quot;&quot;&quot;<br>    <span class="hljs-symbol">title</span> = <span class="hljs-symbol">0</span>               # 标题<br>    <span class="hljs-symbol">plain_text</span> = <span class="hljs-symbol">1</span>          # 文本<br>    <span class="hljs-symbol">abandon</span> = <span class="hljs-symbol">2</span>             # 包括页眉页脚页码和页面注释<br>    <span class="hljs-symbol">figure</span> = <span class="hljs-symbol">3</span>              # 图片<br>    <span class="hljs-symbol">figure_caption</span> = <span class="hljs-symbol">4</span>      # 图片描述<br>    <span class="hljs-symbol">table</span> = <span class="hljs-symbol">5</span>               # 表格<br>    <span class="hljs-symbol">table_caption</span> = <span class="hljs-symbol">6</span>       # 表格描述<br>    <span class="hljs-symbol">table_footnote</span> = <span class="hljs-symbol">7</span>      # 表格注释<br>    <span class="hljs-symbol">isolate_formula</span> = <span class="hljs-symbol">8</span>     # 行间公式<br>    <span class="hljs-symbol">formula_caption</span> = <span class="hljs-symbol">9</span>     # 行间公式的标号<br>    <span class="hljs-symbol">embedding</span> = <span class="hljs-symbol">13</span>          # 行内公式<br>    <span class="hljs-symbol">isolated</span> = <span class="hljs-symbol">14</span>           # 行间公式<br>    <span class="hljs-symbol">text</span> = <span class="hljs-symbol">15</span>               # <span class="hljs-symbol">OCR</span> 识别结果<br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">PageInfo</span>(<span class="hljs-symbol">BaseModel</span>):<br>    &quot;&quot;&quot;页面信息&quot;&quot;&quot;<br>    <span class="hljs-symbol">page_no: <span class="hljs-symbol">int</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;页码序号，第一页的序号是 <span class="hljs-symbol">0</span>&quot;, <span class="hljs-symbol">ge</span>=<span class="hljs-symbol">0</span>)<br>    <span class="hljs-symbol">height: <span class="hljs-symbol">int</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;页面高度&quot;, <span class="hljs-symbol">gt</span>=<span class="hljs-symbol">0</span>)<br>    <span class="hljs-symbol">width: <span class="hljs-symbol">int</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;页面宽度&quot;, <span class="hljs-symbol">ge</span>=<span class="hljs-symbol">0</span>)<br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">ObjectInferenceResult</span>(<span class="hljs-symbol">BaseModel</span>):<br>    &quot;&quot;&quot;对象识别结果&quot;&quot;&quot;<br>    <span class="hljs-symbol">category_id: <span class="hljs-symbol">CategoryType</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;类别&quot;, <span class="hljs-symbol">ge</span>=<span class="hljs-symbol">0</span>)<br>    <span class="hljs-symbol">poly: <span class="hljs-symbol">list</span></span>[<span class="hljs-symbol">float</span>] = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;四边形坐标，格式为 [<span class="hljs-symbol">x0,<span class="hljs-symbol">y0</span>,<span class="hljs-symbol">x1</span>,<span class="hljs-symbol">y1</span>,<span class="hljs-symbol">x2</span>,<span class="hljs-symbol">y2</span>,<span class="hljs-symbol">x3</span>,<span class="hljs-symbol">y3</span></span>]&quot;)<br>    <span class="hljs-symbol">score: <span class="hljs-symbol">float</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;推理结果的置信度&quot;)<br>    <span class="hljs-symbol">latex: <span class="hljs-symbol">str</span></span> | <span class="hljs-symbol">None</span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;<span class="hljs-symbol">LaTeX</span> 解析结果&quot;, <span class="hljs-symbol">default</span>=<span class="hljs-symbol">None</span>)<br>    <span class="hljs-symbol">html: <span class="hljs-symbol">str</span></span> | <span class="hljs-symbol">None</span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;<span class="hljs-symbol">HTML</span> 解析结果&quot;, <span class="hljs-symbol">default</span>=<span class="hljs-symbol">None</span>)<br><br><span class="hljs-symbol">class</span> <span class="hljs-symbol">PageInferenceResults</span>(<span class="hljs-symbol">BaseModel</span>):<br>    &quot;&quot;&quot;页面推理结果&quot;&quot;&quot;<br>    <span class="hljs-symbol">layout_dets: <span class="hljs-symbol">list</span></span>[<span class="hljs-symbol">ObjectInferenceResult</span>] = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;页面识别结果&quot;)<br>    <span class="hljs-symbol">page_info: <span class="hljs-symbol">PageInfo</span></span> = <span class="hljs-symbol">Field</span>(<span class="hljs-symbol">description</span>=&quot;页面元信息&quot;)<br><br># 完整的推理结果<br><span class="hljs-symbol">inference_result: <span class="hljs-symbol">list</span></span>[<span class="hljs-symbol">PageInferenceResults</span>] = []<br></code></pre></td></tr></table></figure>
+
+<h6 id="坐标系统说明"><a href="#坐标系统说明" class="headerlink" title="坐标系统说明"></a>坐标系统说明</h6><p><code>poly</code> 坐标格式：<code>[x0, y0, x1, y1, x2, y2, x3, y3]</code></p>
+<ul>
+<li>分别表示左上、右上、右下、左下四点的坐标</li>
+<li>坐标原点在页面左上角</li>
+</ul>
+<p><img src="/img/ocr_poly_coords.png" srcset="/img/loading.gif" lazyload alt="poly 坐标示意图"></p>
+<h6 id="示例数据"><a href="#示例数据" class="headerlink" title="示例数据"></a>示例数据</h6><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs yaml">[<br>    &#123;<br>        <span class="hljs-attr">&quot;layout_dets&quot;:</span> [<br>            &#123;<br>                <span class="hljs-attr">&quot;category_id&quot;:</span> <span class="hljs-number">2</span>,<br>                <span class="hljs-attr">&quot;poly&quot;:</span> [<br>                    <span class="hljs-number">99.1906967163086</span>,<br>                    <span class="hljs-number">100.3119125366211</span>,<br>                    <span class="hljs-number">730.3707885742188</span>,<br>                    <span class="hljs-number">100.3119125366211</span>,<br>                    <span class="hljs-number">730.3707885742188</span>,<br>                    <span class="hljs-number">245.81326293945312</span>,<br>                    <span class="hljs-number">99.1906967163086</span>,<br>                    <span class="hljs-number">245.81326293945312</span><br>                ],<br>                <span class="hljs-attr">&quot;score&quot;:</span> <span class="hljs-number">0.9999997615814209</span><br>            &#125;<br>        ],<br>        <span class="hljs-attr">&quot;page_info&quot;:</span> &#123;<br>            <span class="hljs-attr">&quot;page_no&quot;:</span> <span class="hljs-number">0</span>,<br>            <span class="hljs-attr">&quot;height&quot;:</span> <span class="hljs-number">2339</span>,<br>            <span class="hljs-attr">&quot;width&quot;:</span> <span class="hljs-number">1654</span><br>        &#125;<br>    &#125;,<br>    &#123;<br>        <span class="hljs-attr">&quot;layout_dets&quot;:</span> [<br>            &#123;<br>                <span class="hljs-attr">&quot;category_id&quot;:</span> <span class="hljs-number">5</span>,<br>                <span class="hljs-attr">&quot;poly&quot;:</span> [<br>                    <span class="hljs-number">99.13092803955078</span>,<br>                    <span class="hljs-number">2210.680419921875</span>,<br>                    <span class="hljs-number">497.3183898925781</span>,<br>                    <span class="hljs-number">2210.680419921875</span>,<br>                    <span class="hljs-number">497.3183898925781</span>,<br>                    <span class="hljs-number">2264.78076171875</span>,<br>                    <span class="hljs-number">99.13092803955078</span>,<br>                    <span class="hljs-number">2264.78076171875</span><br>                ],<br>                <span class="hljs-attr">&quot;score&quot;:</span> <span class="hljs-number">0.9999997019767761</span><br>            &#125;<br>        ],<br>        <span class="hljs-attr">&quot;page_info&quot;:</span> &#123;<br>            <span class="hljs-attr">&quot;page_no&quot;:</span> <span class="hljs-number">1</span>,<br>            <span class="hljs-attr">&quot;height&quot;:</span> <span class="hljs-number">2339</span>,<br>            <span class="hljs-attr">&quot;width&quot;:</span> <span class="hljs-number">1654</span><br>        &#125;<br>    &#125;<br>]<br></code></pre></td></tr></table></figure>
+
+<h5 id="中间处理结果-middle-json"><a href="#中间处理结果-middle-json" class="headerlink" title="中间处理结果 (middle.json)"></a>中间处理结果 (middle.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_middle.json</code></p>
+<h6 id="顶层结构"><a href="#顶层结构" class="headerlink" title="顶层结构"></a>顶层结构</h6><table>
+<thead>
+<tr>
+<th align="left">字段名</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>pdf_info</code></td>
+<td align="left"><code>list[dict]</code></td>
+<td align="left">每一页的解析结果数组</td>
+</tr>
+<tr>
+<td align="left"><code>_backend</code></td>
+<td align="left"><code>string</code></td>
+<td align="left">解析模式：<code>pipeline</code> 或 <code>vlm</code></td>
+</tr>
+<tr>
+<td align="left"><code>_version_name</code></td>
+<td align="left"><code>string</code></td>
+<td align="left">MinerU 版本号</td>
+</tr>
+</tbody></table>
+<h6 id="页面信息结构-pdf-info"><a href="#页面信息结构-pdf-info" class="headerlink" title="页面信息结构 (pdf_info)"></a>页面信息结构 (pdf_info)</h6><table>
+<thead>
+<tr>
+<th align="left">字段名</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>preproc_blocks</code></td>
+<td align="left">PDF 预处理后的未分段中间结果</td>
+</tr>
+<tr>
+<td align="left"><code>page_idx</code></td>
+<td align="left">页码，从 0 开始</td>
+</tr>
+<tr>
+<td align="left"><code>page_size</code></td>
+<td align="left">页面的宽度和高度 <code>[width, height]</code></td>
+</tr>
+<tr>
+<td align="left"><code>images</code></td>
+<td align="left">图片块信息列表</td>
+</tr>
+<tr>
+<td align="left"><code>tables</code></td>
+<td align="left">表格块信息列表</td>
+</tr>
+<tr>
+<td align="left"><code>interline_equations</code></td>
+<td align="left">行间公式块信息列表</td>
+</tr>
+<tr>
+<td align="left"><code>discarded_blocks</code></td>
+<td align="left">需要丢弃的块信息</td>
+</tr>
+<tr>
+<td align="left"><code>para_blocks</code></td>
+<td align="left">分段后的内容块结果</td>
+</tr>
+</tbody></table>
+<h6 id="块结构层次"><a href="#块结构层次" class="headerlink" title="块结构层次"></a>块结构层次</h6><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scss">一级块 (table | image)<br>└── 二级块<br>    └── 行 (line)<br>        └── 片段 (span)<br></code></pre></td></tr></table></figure>
+
+<h6 id="一级块字段"><a href="#一级块字段" class="headerlink" title="一级块字段"></a>一级块字段</h6><table>
+<thead>
+<tr>
+<th align="left">字段名</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>type</code></td>
+<td align="left">块类型：<code>table</code> 或 <code>image</code></td>
+</tr>
+<tr>
+<td align="left"><code>bbox</code></td>
+<td align="left">块的矩形框坐标 <code>[x0, y0, x1, y1]</code></td>
+</tr>
+<tr>
+<td align="left"><code>blocks</code></td>
+<td align="left">包含的二级块列表</td>
+</tr>
+</tbody></table>
+<h6 id="二级块字段"><a href="#二级块字段" class="headerlink" title="二级块字段"></a>二级块字段</h6><table>
+<thead>
+<tr>
+<th align="left">字段名</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>type</code></td>
+<td align="left">块类型（详见下表）</td>
+</tr>
+<tr>
+<td align="left"><code>bbox</code></td>
+<td align="left">块的矩形框坐标</td>
+</tr>
+<tr>
+<td align="left"><code>lines</code></td>
+<td align="left">包含的行信息列表</td>
+</tr>
+</tbody></table>
+<h6 id="二级块类型"><a href="#二级块类型" class="headerlink" title="二级块类型"></a>二级块类型</h6><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>image_body</code></td>
+<td align="left">图像本体</td>
+</tr>
+<tr>
+<td align="left"><code>image_caption</code></td>
+<td align="left">图像描述文本</td>
+</tr>
+<tr>
+<td align="left"><code>image_footnote</code></td>
+<td align="left">图像脚注</td>
+</tr>
+<tr>
+<td align="left"><code>table_body</code></td>
+<td align="left">表格本体</td>
+</tr>
+<tr>
+<td align="left"><code>table_caption</code></td>
+<td align="left">表格描述文本</td>
+</tr>
+<tr>
+<td align="left"><code>table_footnote</code></td>
+<td align="left">表格脚注</td>
+</tr>
+<tr>
+<td align="left"><code>text</code></td>
+<td align="left">文本块</td>
+</tr>
+<tr>
+<td align="left"><code>title</code></td>
+<td align="left">标题块</td>
+</tr>
+<tr>
+<td align="left"><code>index</code></td>
+<td align="left">目录块</td>
+</tr>
+<tr>
+<td align="left"><code>list</code></td>
+<td align="left">列表块</td>
+</tr>
+<tr>
+<td align="left"><code>interline_equation</code></td>
+<td align="left">行间公式块</td>
+</tr>
+</tbody></table>
+<h6 id="行和片段结构"><a href="#行和片段结构" class="headerlink" title="行和片段结构"></a>行和片段结构</h6><p><strong>行 (line) 字段</strong>： - <code>bbox</code>：行的矩形框坐标 - <code>spans</code>：包含的片段列表</p>
+<p><strong>片段 (span) 字段</strong>： - <code>bbox</code>：片段的矩形框坐标 - <code>type</code>：片段类型（<code>image</code>、<code>table</code>、<code>text</code>、<code>inline_equation</code>、<code>interline_equation</code>） - <code>content</code> | <code>img_path</code>：文本内容或图片路径</p>
+<h6 id="示例数据-1"><a href="#示例数据-1" class="headerlink" title="示例数据"></a>示例数据</h6><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&#123;<br>    <span class="hljs-string">&quot;pdf_info&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;preproc_blocks&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                        <span class="hljs-number">52</span>,<br>                        <span class="hljs-number">61.956024169921875</span>,<br>                        <span class="hljs-number">294</span>,<br>                        <span class="hljs-number">82.99800872802734</span><br>                    ],<br>                    <span class="hljs-string">&quot;lines&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                <span class="hljs-number">52</span>,<br>                                <span class="hljs-number">61.956024169921875</span>,<br>                                <span class="hljs-number">294</span>,<br>                                <span class="hljs-number">72.0000228881836</span><br>                            ],<br>                            <span class="hljs-string">&quot;spans&quot;</span>: [<br>                                &#123;<br>                                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                        <span class="hljs-number">54.0</span>,<br>                                        <span class="hljs-number">61.956024169921875</span>,<br>                                        <span class="hljs-number">296.2261657714844</span>,<br>                                        <span class="hljs-number">72.0000228881836</span><br>                                    ],<br>                                    <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;dependent on the service headway and the reliability of the departure &quot;</span>,<br>                                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                                    <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">1.0</span><br>                                &#125;<br>                            ]<br>                        &#125;<br>                    ]<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;layout_bboxes&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;layout_bbox&quot;</span>: [<br>                        <span class="hljs-number">52</span>,<br>                        <span class="hljs-number">61</span>,<br>                        <span class="hljs-number">294</span>,<br>                        <span class="hljs-number">731</span><br>                    ],<br>                    <span class="hljs-string">&quot;layout_label&quot;</span>: <span class="hljs-string">&quot;V&quot;</span>,<br>                    <span class="hljs-string">&quot;sub_layout&quot;</span>: []<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span>,<br>            <span class="hljs-string">&quot;page_size&quot;</span>: [<br>                <span class="hljs-number">612.0</span>,<br>                <span class="hljs-number">792.0</span><br>            ],<br>            <span class="hljs-string">&quot;_layout_tree&quot;</span>: [],<br>            <span class="hljs-string">&quot;images&quot;</span>: [],<br>            <span class="hljs-string">&quot;tables&quot;</span>: [],<br>            <span class="hljs-string">&quot;interline_equations&quot;</span>: [],<br>            <span class="hljs-string">&quot;discarded_blocks&quot;</span>: [],<br>            <span class="hljs-string">&quot;para_blocks&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                        <span class="hljs-number">52</span>,<br>                        <span class="hljs-number">61.956024169921875</span>,<br>                        <span class="hljs-number">294</span>,<br>                        <span class="hljs-number">82.99800872802734</span><br>                    ],<br>                    <span class="hljs-string">&quot;lines&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                <span class="hljs-number">52</span>,<br>                                <span class="hljs-number">61.956024169921875</span>,<br>                                <span class="hljs-number">294</span>,<br>                                <span class="hljs-number">72.0000228881836</span><br>                            ],<br>                            <span class="hljs-string">&quot;spans&quot;</span>: [<br>                                &#123;<br>                                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                        <span class="hljs-number">54.0</span>,<br>                                        <span class="hljs-number">61.956024169921875</span>,<br>                                        <span class="hljs-number">296.2261657714844</span>,<br>                                        <span class="hljs-number">72.0000228881836</span><br>                                    ],<br>                                    <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;dependent on the service headway and the reliability of the departure &quot;</span>,<br>                                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                                    <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">1.0</span><br>                                &#125;<br>                            ]<br>                        &#125;<br>                    ]<br>                &#125;<br>            ]<br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;_backend&quot;</span>: <span class="hljs-string">&quot;pipeline&quot;</span>,<br>    <span class="hljs-string">&quot;_version_name&quot;</span>: <span class="hljs-string">&quot;0.6.1&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="内容列表-content-list-json"><a href="#内容列表-content-list-json" class="headerlink" title="内容列表 (content_list.json)"></a>内容列表 (content_list.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_content_list.json</code></p>
+<h6 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a>功能说明</h6><p>这是一个简化版的 <code>middle.json</code>，按阅读顺序平铺存储所有可读内容块，去除了复杂的布局信息，便于后续处理。</p>
+<h6 id="内容类型"><a href="#内容类型" class="headerlink" title="内容类型"></a>内容类型</h6><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>image</code></td>
+<td align="left">图片</td>
+</tr>
+<tr>
+<td align="left"><code>table</code></td>
+<td align="left">表格</td>
+</tr>
+<tr>
+<td align="left"><code>text</code></td>
+<td align="left">文本&#x2F;标题</td>
+</tr>
+<tr>
+<td align="left"><code>equation</code></td>
+<td align="left">行间公式</td>
+</tr>
+</tbody></table>
+<h6 id="文本层级标识"><a href="#文本层级标识" class="headerlink" title="文本层级标识"></a>文本层级标识</h6><p>通过 <code>text_level</code> 字段区分文本层级：</p>
+<ul>
+<li>无 <code>text_level</code> 或 <code>text_level: 0</code>：正文文本</li>
+<li><code>text_level: 1</code>：一级标题</li>
+<li><code>text_level: 2</code>：二级标题</li>
+<li>以此类推…</li>
+</ul>
+<h6 id="通用字段"><a href="#通用字段" class="headerlink" title="通用字段"></a>通用字段</h6><ul>
+<li>所有内容块都包含 <code>page_idx</code> 字段，表示所在页码（从 0 开始）。</li>
+<li>所有内容块都包含 <code>bbox</code> 字段，表示内容块的边界框坐标 <code>[x0, y0, x1, y1]</code> 映射在0-1000范围内的结果。</li>
+</ul>
+<h6 id="示例数据-2"><a href="#示例数据-2" class="headerlink" title="示例数据"></a>示例数据</h6><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">[<br>        &#123;<br>        <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;The response of flow duration curves to afforestation &quot;</span>,<br>        <span class="hljs-string">&quot;text_level&quot;</span>: <span class="hljs-number">1</span>, <br>        <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">            62,</span><br><span class="hljs-built_in">            480,</span><br><span class="hljs-built_in">            946,</span><br>            <span class="hljs-number">904</span><br>        ],<br>        <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;image&quot;</span>,<br>        <span class="hljs-string">&quot;img_path&quot;</span>: <span class="hljs-string">&quot;images/a8ecda1c69b27e4f79fce1589175a9d721cbdc1cf78b4cc06a015f3746f6b9d8.jpg&quot;</span>,<br>        <span class="hljs-string">&quot;image_caption&quot;</span>: [<br>            <span class="hljs-string">&quot;Fig. 1. Annual flow duration curves of daily flows from Pine Creek, Australia, 1989–2000. &quot;</span><br>        ],<br>        <span class="hljs-string">&quot;image_footnote&quot;</span>: [],<br>        <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">            62,</span><br><span class="hljs-built_in">            480,</span><br><span class="hljs-built_in">            946,</span><br>            <span class="hljs-number">904</span><br>        ],<br>        <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">1</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;equation&quot;</span>,<br>        <span class="hljs-string">&quot;img_path&quot;</span>: <span class="hljs-string">&quot;images/181ea56ef185060d04bf4e274685f3e072e922e7b839f093d482c29bf89b71e8.jpg&quot;</span>,<br>        <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;$$\nQ _ &#123; \\% &#125; = f ( P ) + g ( T )\n$$&quot;</span>,<br>        <span class="hljs-string">&quot;text_format&quot;</span>: <span class="hljs-string">&quot;latex&quot;</span>,<br>        <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">            62,</span><br><span class="hljs-built_in">            480,</span><br><span class="hljs-built_in">            946,</span><br>            <span class="hljs-number">904</span><br>        ],<br>        <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">2</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;table&quot;</span>,<br>        <span class="hljs-string">&quot;img_path&quot;</span>: <span class="hljs-string">&quot;images/e3cb413394a475e555807ffdad913435940ec637873d673ee1b039e3bc3496d0.jpg&quot;</span>,<br>        <span class="hljs-string">&quot;table_caption&quot;</span>: [<br>            <span class="hljs-string">&quot;Table 2 Significance of the rainfall and time terms &quot;</span><br>        ],<br>        <span class="hljs-string">&quot;table_footnote&quot;</span>: [<br>            <span class="hljs-string">&quot;indicates that the rainfall term was significant at the $5 \\%$ level, $T$ indicates that the time term was significant at the $5 \\%$ level, \\* represents significance at the $10 \\%$ level, and na denotes too few data points for meaningful analysis. &quot;</span><br>        ],<br>        <span class="hljs-string">&quot;table_body&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>        <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">            62,</span><br><span class="hljs-built_in">            480,</span><br><span class="hljs-built_in">            946,</span><br>            <span class="hljs-number">904</span><br>        ],  <br>        <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">5</span><br>    &#125;<br>]<br></code></pre></td></tr></table></figure>
+
+<h4 id="VLM-后端-输出结果"><a href="#VLM-后端-输出结果" class="headerlink" title="VLM 后端 输出结果"></a>VLM 后端 输出结果</h4><h5 id="模型推理结果-model-json-1"><a href="#模型推理结果-model-json-1" class="headerlink" title="模型推理结果 (model.json)"></a>模型推理结果 (model.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_model.json</code></p>
+<h6 id="文件格式说明"><a href="#文件格式说明" class="headerlink" title="文件格式说明"></a>文件格式说明</h6><ul>
+<li>该文件为 VLM 模型的原始输出结果，包含两层嵌套list，外层表示页面，内层表示该页的内容块</li>
+<li>每个内容块都是一个dict，包含 <code>type</code>、<code>bbox</code>、<code>angle</code>、<code>content</code> 字段</li>
+</ul>
+<h6 id="支持的内容类型"><a href="#支持的内容类型" class="headerlink" title="支持的内容类型"></a>支持的内容类型</h6><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123;<br>    &quot;<span class="hljs-selector-tag">text</span>&quot;: <span class="hljs-string">&quot;文本&quot;</span>,<br>    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题&quot;</span>, <br>    <span class="hljs-string">&quot;equation&quot;</span>: <span class="hljs-string">&quot;行间公式&quot;</span>,<br>    <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;图片&quot;</span>,<br>    <span class="hljs-string">&quot;image_caption&quot;</span>: <span class="hljs-string">&quot;图片描述&quot;</span>,<br>    <span class="hljs-string">&quot;image_footnote&quot;</span>: <span class="hljs-string">&quot;图片脚注&quot;</span>,<br>    <span class="hljs-string">&quot;table&quot;</span>: <span class="hljs-string">&quot;表格&quot;</span>,<br>    <span class="hljs-string">&quot;table_caption&quot;</span>: <span class="hljs-string">&quot;表格描述&quot;</span>,<br>    <span class="hljs-string">&quot;table_footnote&quot;</span>: <span class="hljs-string">&quot;表格脚注&quot;</span>,<br>    <span class="hljs-string">&quot;phonetic&quot;</span>: <span class="hljs-string">&quot;拼音&quot;</span>,<br>    <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;代码块&quot;</span>,<br>    <span class="hljs-string">&quot;code_caption&quot;</span>: <span class="hljs-string">&quot;代码描述&quot;</span>,<br>    <span class="hljs-string">&quot;ref_text&quot;</span>: <span class="hljs-string">&quot;参考文献&quot;</span>,<br>    <span class="hljs-string">&quot;algorithm&quot;</span>: <span class="hljs-string">&quot;算法块&quot;</span>,<br>    <span class="hljs-string">&quot;list&quot;</span>: <span class="hljs-string">&quot;列表&quot;</span>,<br>    <span class="hljs-string">&quot;header&quot;</span>: <span class="hljs-string">&quot;页眉&quot;</span>,<br>    <span class="hljs-string">&quot;footer&quot;</span>: <span class="hljs-string">&quot;页脚&quot;</span>,<br>    <span class="hljs-string">&quot;page_number&quot;</span>: <span class="hljs-string">&quot;页码&quot;</span>,<br>    <span class="hljs-string">&quot;aside_text&quot;</span>: <span class="hljs-string">&quot;装订线旁注&quot;</span>, <br>    <span class="hljs-string">&quot;page_footnote&quot;</span>: <span class="hljs-string">&quot;页面脚注&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h6 id="坐标系统说明-1"><a href="#坐标系统说明-1" class="headerlink" title="坐标系统说明"></a>坐标系统说明</h6><p><code>bbox</code> 坐标格式：<code>[x0, y0, x1, y1]</code></p>
+<ul>
+<li>分别表示左上、右下两点的坐标</li>
+<li>坐标原点在页面左上角</li>
+<li>坐标为相对于原始页面尺寸的百分比，范围在0-1之间</li>
+</ul>
+<h6 id="示例数据-3"><a href="#示例数据-3" class="headerlink" title="示例数据"></a>示例数据</h6><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">[</span><br>        <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;header&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;bbox&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>                <span class="hljs-number">0.077</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.095</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.18</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.181</span><br>            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;angle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;score&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;block_tags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ELSEVIER&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content_tags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;title&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;bbox&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>                <span class="hljs-number">0.157</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.228</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.833</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-number">0.253</span><br>            <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;angle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;score&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;block_tags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The response of flow duration curves to afforestation&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content_tags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><br>        <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="中间处理结果-middle-json-1"><a href="#中间处理结果-middle-json-1" class="headerlink" title="中间处理结果 (middle.json)"></a>中间处理结果 (middle.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_middle.json</code></p>
+<h6 id="文件格式说明-1"><a href="#文件格式说明-1" class="headerlink" title="文件格式说明"></a>文件格式说明</h6><p>vlm 后端的 middle.json 文件结构与 pipeline 后端类似，但存在以下差异：</p>
+<ul>
+<li>list变成二级block，增加<code>sub_type</code>字段区分list类型:<ul>
+<li><code>text</code>（文本类型）</li>
+<li><code>ref_text</code>（引用类型）</li>
+</ul>
+</li>
+<li>增加code类型block，code类型包含两种”sub_type”:<ul>
+<li>分别是<code>code</code>和<code>algorithm</code></li>
+<li>至少有<code>code_body</code>, 可选<code>code_caption</code></li>
+</ul>
+</li>
+<li><code>discarded_blocks</code>内元素type增加以下类型:<ul>
+<li><code>header</code>（页眉）</li>
+<li><code>footer</code>（页脚）</li>
+<li><code>page_number</code>（页码）</li>
+<li><code>aside_text</code>（装订线文本）</li>
+<li><code>page_footnote</code>（脚注）</li>
+</ul>
+</li>
+<li>所有block增加<code>angle</code>字段，用来表示旋转角度，0，90，180，270</li>
+</ul>
+<h6 id="示例数据-4"><a href="#示例数据-4" class="headerlink" title="示例数据"></a>示例数据</h6><ul>
+<li><p>list block 示例</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">&#123;<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">        174,</span><br><span class="hljs-built_in">        155,</span><br><span class="hljs-built_in">        818,</span><br>        <span class="hljs-number">333</span><br>    ],<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>,<br>    <span class="hljs-string">&quot;angle&quot;</span>: <span class="hljs-number">0</span>,<br>    <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">11</span>,<br>    <span class="hljs-string">&quot;blocks&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                174,</span><br><span class="hljs-built_in">                157,</span><br><span class="hljs-built_in">                311,</span><br>                <span class="hljs-number">175</span><br>            ],<br>            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>            <span class="hljs-string">&quot;angle&quot;</span>: <span class="hljs-number">0</span>,<br>            <span class="hljs-string">&quot;lines&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                        174,</span><br><span class="hljs-built_in">                        157,</span><br><span class="hljs-built_in">                        311,</span><br>                        <span class="hljs-number">175</span><br>                    ],<br>                    <span class="hljs-string">&quot;spans&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                                174,</span><br><span class="hljs-built_in">                                157,</span><br><span class="hljs-built_in">                                311,</span><br>                                <span class="hljs-number">175</span><br>                            ],<br>                            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;H.1 Introduction&quot;</span><br>                        &#125;<br>                    ]<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">3</span><br>        &#125;,<br>        &#123;<br>            <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                175,</span><br><span class="hljs-built_in">                182,</span><br><span class="hljs-built_in">                464,</span><br>                <span class="hljs-number">229</span><br>            ],<br>            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>            <span class="hljs-string">&quot;angle&quot;</span>: <span class="hljs-number">0</span>,<br>            <span class="hljs-string">&quot;lines&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                        175,</span><br><span class="hljs-built_in">                        182,</span><br><span class="hljs-built_in">                        464,</span><br>                        <span class="hljs-number">229</span><br>                    ],<br>                    <span class="hljs-string">&quot;spans&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">                                175,</span><br><span class="hljs-built_in">                                182,</span><br><span class="hljs-built_in">                                464,</span><br>                                <span class="hljs-number">229</span><br>                            ],<br>                            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;H.2 Example: Divide by Zero without Exception Handling&quot;</span><br>                        &#125;<br>                    ]<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">4</span><br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;sub_type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>code block 示例</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs nix">&#123;<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;code&quot;</span>,<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>        <span class="hljs-number">114</span>,<br>        <span class="hljs-number">780</span>,<br>        <span class="hljs-number">885</span>,<br>        <span class="hljs-number">1231</span><br>    ],<br>    <span class="hljs-string">&quot;blocks&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                <span class="hljs-number">114</span>,<br>                <span class="hljs-number">780</span>,<br>                <span class="hljs-number">885</span>,<br>                <span class="hljs-number">1231</span><br>            ],<br>            <span class="hljs-string">&quot;lines&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                        <span class="hljs-number">114</span>,<br>                        <span class="hljs-number">780</span>,<br>                        <span class="hljs-number">885</span>,<br>                        <span class="hljs-number">1231</span><br>                    ],<br>                    <span class="hljs-string">&quot;spans&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                <span class="hljs-number">114</span>,<br>                                <span class="hljs-number">780</span>,<br>                                <span class="hljs-number">885</span>,<br>                                <span class="hljs-number">1231</span><br>                            ],<br>                            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;1 // Fig. H.1: DivideByZeroNoExceptionHandling.java  <span class="hljs-char escape_">\n</span>2 // Integer division without exception handling.  <span class="hljs-char escape_">\n</span>3 import java.util.Scanner;  <span class="hljs-char escape_">\n</span>4  <span class="hljs-char escape_">\n</span>5 public class DivideByZeroNoExceptionHandling  <span class="hljs-char escape_">\n</span>6 &#123;  <span class="hljs-char escape_">\n</span>7 // demonstrates throwing an exception when a divide-by-zero occurs  <span class="hljs-char escape_">\n</span>8 public static int quotient( int numerator, int denominator )  <span class="hljs-char escape_">\n</span>9 &#123;  <span class="hljs-char escape_">\n</span>10 return numerator / denominator; // possible division by zero  <span class="hljs-char escape_">\n</span>11 &#125; // end method quotient  <span class="hljs-char escape_">\n</span>12  <span class="hljs-char escape_">\n</span>13 public static void main(String[] args)  <span class="hljs-char escape_">\n</span>14 &#123;  <span class="hljs-char escape_">\n</span>15 Scanner scanner = new Scanner(System.in); // scanner for input  <span class="hljs-char escape_">\n</span>16  <span class="hljs-char escape_">\n</span>17 System.out.print(<span class="hljs-char escape_">\&quot;</span>Please enter an integer numerator: <span class="hljs-char escape_">\&quot;</span>);  <span class="hljs-char escape_">\n</span>18 int numerator = scanner.nextInt();  <span class="hljs-char escape_">\n</span>19 System.out.print(<span class="hljs-char escape_">\&quot;</span>Please enter an integer denominator: <span class="hljs-char escape_">\&quot;</span>);  <span class="hljs-char escape_">\n</span>20 int denominator = scanner.nextInt();  <span class="hljs-char escape_">\n</span>21&quot;</span><br>                        &#125;<br>                    ]<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">17</span>,<br>            <span class="hljs-string">&quot;angle&quot;</span>: <span class="hljs-number">0</span>,<br>            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;code_body&quot;</span><br>        &#125;,<br>        &#123;<br>            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                <span class="hljs-number">867</span>,<br>                <span class="hljs-number">160</span>,<br>                <span class="hljs-number">1280</span>,<br>                <span class="hljs-number">189</span><br>            ],<br>            <span class="hljs-string">&quot;lines&quot;</span>: [<br>                &#123;<br>                    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                        <span class="hljs-number">867</span>,<br>                        <span class="hljs-number">160</span>,<br>                        <span class="hljs-number">1280</span>,<br>                        <span class="hljs-number">189</span><br>                    ],<br>                    <span class="hljs-string">&quot;spans&quot;</span>: [<br>                        &#123;<br>                            <span class="hljs-string">&quot;bbox&quot;</span>: [<br>                                <span class="hljs-number">867</span>,<br>                                <span class="hljs-number">160</span>,<br>                                <span class="hljs-number">1280</span>,<br>                                <span class="hljs-number">189</span><br>                            ],<br>                            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>                            <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;Algorithm 1 Modules for MCTSteg&quot;</span><br>                        &#125;<br>                    ]<br>                &#125;<br>            ],<br>            <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">19</span>,<br>            <span class="hljs-string">&quot;angle&quot;</span>: <span class="hljs-number">0</span>,<br>            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;code_caption&quot;</span><br>        &#125;<br>    ],<br>    <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">17</span>,<br>    <span class="hljs-string">&quot;sub_type&quot;</span>: <span class="hljs-string">&quot;code&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="内容列表-content-list-json-1"><a href="#内容列表-content-list-json-1" class="headerlink" title="内容列表 (content_list.json)"></a>内容列表 (content_list.json)</h5><p><strong>文件命名格式</strong>：<code>{原文件名}_content_list.json</code></p>
+<h6 id="文件格式说明-2"><a href="#文件格式说明-2" class="headerlink" title="文件格式说明"></a>文件格式说明</h6><p>vlm 后端的 content_list.json 文件结构与 pipeline 后端类似，伴随本次middle.json的变化，做了以下调整：</p>
+<ul>
+<li>新增<code>code</code>类型，code类型包含两种”sub_type”:<ul>
+<li>分别是<code>code</code>和<code>algorithm</code></li>
+<li>至少有<code>code_body</code>, 可选<code>code_caption</code></li>
+</ul>
+</li>
+<li>新增<code>list</code>类型，list类型包含两种”sub_type”:<ul>
+<li><code>text</code></li>
+<li><code>ref_text</code></li>
+</ul>
+</li>
+<li>增加所有所有<code>discarded_blocks</code>的输出内容<ul>
+<li><code>header</code></li>
+<li><code>footer</code></li>
+<li><code>page_number</code></li>
+<li><code>aside_text</code></li>
+<li><code>page_footnote</code></li>
+</ul>
+</li>
+</ul>
+<h6 id="示例数据-5"><a href="#示例数据-5" class="headerlink" title="示例数据"></a>示例数据</h6><ul>
+<li><p>code 类型 content</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs nix">&#123;<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;code&quot;</span>,<br>    <span class="hljs-string">&quot;sub_type&quot;</span>: <span class="hljs-string">&quot;algorithm&quot;</span>,<br>    <span class="hljs-string">&quot;code_caption&quot;</span>: [<br>        <span class="hljs-string">&quot;Algorithm 1 Modules for MCTSteg&quot;</span><br>    ],<br>    <span class="hljs-string">&quot;code_body&quot;</span>: <span class="hljs-string">&quot;1: function GETCOORDINATE(d)  <span class="hljs-char escape_">\n</span>2:  $x <span class="hljs-char escape_">\\</span>gets d / l$ ,  $y <span class="hljs-char escape_">\\</span>gets d$  mod  $l$   <span class="hljs-char escape_">\n</span>3: return  $(x, y)$   <span class="hljs-char escape_">\n</span>4: end function  <span class="hljs-char escape_">\n</span>5: function BESTCHILD(v)  <span class="hljs-char escape_">\n</span>6:  $C <span class="hljs-char escape_">\\</span>gets$  child set of  $v$   <span class="hljs-char escape_">\n</span>7:  $v&#x27; <span class="hljs-char escape_">\\</span>gets <span class="hljs-char escape_">\\</span>arg <span class="hljs-char escape_">\\</span>max_&#123;c <span class="hljs-char escape_">\\</span>in C&#125; <span class="hljs-char escape_">\\</span>mathrm&#123;UCTScore&#125;(c)$   <span class="hljs-char escape_">\n</span>8:  $v&#x27;.n <span class="hljs-char escape_">\\</span>gets v&#x27;.n + 1$   <span class="hljs-char escape_">\n</span>9: return  $v&#x27;$   <span class="hljs-char escape_">\n</span>10: end function  <span class="hljs-char escape_">\n</span>11: function BACK PROPAGATE(v)  <span class="hljs-char escape_">\n</span>12: Calculate  $R$  using Equation 11  <span class="hljs-char escape_">\n</span>13: while  $v$  is not a root node do  <span class="hljs-char escape_">\n</span>14:  $v.r <span class="hljs-char escape_">\\</span>gets v.r + R$ ,  $v <span class="hljs-char escape_">\\</span>gets v.p$   <span class="hljs-char escape_">\n</span>15: end while  <span class="hljs-char escape_">\n</span>16: end function  <span class="hljs-char escape_">\n</span>17: function RANDOMSEARCH(v)  <span class="hljs-char escape_">\n</span>18: while  $v$  is not a leaf node do  <span class="hljs-char escape_">\n</span>19: Randomly select an untried action  $a <span class="hljs-char escape_">\\</span>in A(v)$   <span class="hljs-char escape_">\n</span>20: Create a new node  $v&#x27;$   <span class="hljs-char escape_">\n</span>21:  $(x, y) <span class="hljs-char escape_">\\</span>gets <span class="hljs-char escape_">\\</span>mathrm&#123;GETCOORDINATE&#125;(v&#x27;.d)$   <span class="hljs-char escape_">\n</span>22:  $v&#x27;.p <span class="hljs-char escape_">\\</span>gets v$ ,  $v&#x27;.d <span class="hljs-char escape_">\\</span>gets v.d + 1$ ,  $v&#x27;.<span class="hljs-char escape_">\\</span>Gamma <span class="hljs-char escape_">\\</span>gets v.<span class="hljs-char escape_">\\</span>Gamma$   <span class="hljs-char escape_">\n</span>23:  $v&#x27;.<span class="hljs-char escape_">\\</span>gamma_&#123;x,y&#125; <span class="hljs-char escape_">\\</span>gets a$   <span class="hljs-char escape_">\n</span>24: if  $a = -1$  then  <span class="hljs-char escape_">\n</span>25:  $v.lc <span class="hljs-char escape_">\\</span>gets v&#x27;$   <span class="hljs-char escape_">\n</span>26: else if  $a = 0$  then  <span class="hljs-char escape_">\n</span>27:  $v.mc <span class="hljs-char escape_">\\</span>gets v&#x27;$   <span class="hljs-char escape_">\n</span>28: else  <span class="hljs-char escape_">\n</span>29:  $v.rc <span class="hljs-char escape_">\\</span>gets v&#x27;$   <span class="hljs-char escape_">\n</span>30: end if  <span class="hljs-char escape_">\n</span>31:  $v <span class="hljs-char escape_">\\</span>gets v&#x27;$   <span class="hljs-char escape_">\n</span>32: end while  <span class="hljs-char escape_">\n</span>33: return  $v$   <span class="hljs-char escape_">\n</span>34: end function  <span class="hljs-char escape_">\n</span>35: function SEARCH(v)  <span class="hljs-char escape_">\n</span>36: while  $v$  is fully expanded do  <span class="hljs-char escape_">\n</span>37:  $v <span class="hljs-char escape_">\\</span>gets$  BESTCHILD(v)  <span class="hljs-char escape_">\n</span>38: end while  <span class="hljs-char escape_">\n</span>39: if  $v$  is not a leaf node then  <span class="hljs-char escape_">\n</span>40:  $v <span class="hljs-char escape_">\\</span>gets$  RANDOMSEARCH(v)  <span class="hljs-char escape_">\n</span>41: end if  <span class="hljs-char escape_">\n</span>42: return  $v$   <span class="hljs-char escape_">\n</span>43: end function&quot;</span>,<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br>        <span class="hljs-number">510</span>,<br>        <span class="hljs-number">87</span>,<br>        <span class="hljs-number">881</span>,<br>        <span class="hljs-number">740</span><br>    ],<br>    <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>list 类型 content</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">&#123;<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;list&quot;</span>,<br>    <span class="hljs-string">&quot;sub_type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,<br>    <span class="hljs-string">&quot;list_items&quot;</span>: [<br>        <span class="hljs-string">&quot;H.1 Introduction&quot;</span>,<br>        <span class="hljs-string">&quot;H.2 Example: Divide by Zero without Exception Handling&quot;</span>,<br>        <span class="hljs-string">&quot;H.3 Example: Divide by Zero with Exception Handling&quot;</span>,<br>        <span class="hljs-string">&quot;H.4 Summary&quot;</span><br>    ],<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">        174,</span><br><span class="hljs-built_in">        155,</span><br><span class="hljs-built_in">        818,</span><br>        <span class="hljs-number">333</span><br>    ],<br>    <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>discarded 类型 content</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">[&#123;<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;header&quot;</span>,<br>    <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;Journal of Hydrology 310 (2005) 253-265&quot;</span>,<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">        363,</span><br><span class="hljs-built_in">        164,</span><br><span class="hljs-built_in">        623,</span><br>        <span class="hljs-number">177</span><br>    ],<br>    <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span><br>&#125;,<br>&#123;<br>    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;page_footnote&quot;</span>,<br>    <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;* Corresponding author. Address: Forest Science Centre, Department of Sustainability and Environment, P.O. Box 137, Heidelberg, Vic. 3084, Australia. Tel.: +61 3 9450 8719; fax: +61 3 9450 8644.&quot;</span>,<br>    <span class="hljs-string">&quot;bbox&quot;</span>: [<br><span class="hljs-built_in">        71,</span><br><span class="hljs-built_in">        815,</span><br><span class="hljs-built_in">        915,</span><br>        <span class="hljs-number">841</span><br>    ],<br>    <span class="hljs-string">&quot;page_idx&quot;</span>: <span class="hljs-number">0</span><br>&#125;]<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://aiwrite.wps.cn/pdf/parse/web/">MonkeyOCR v1.5</a><br><a target="_blank" rel="noopener" href="https://github.com/Tencent-Hunyuan/HunyuanOCR">HunyuanOCR</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南</div>
+      <div>https://qzkq.github.io/2026/01/01/MinerU PDF解析工具：从安装配置到本地部署与API调用的全流程指南/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Ollama%E8%AF%A6%E8%A7%A3%EF%BC%8C%E6%97%A0%E7%BD%91%E7%8E%AF%E5%A2%83%E5%AF%BC%E5%85%A5%E8%BF%90%E8%A1%8C%E6%9C%AC%E5%9C%B0%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%97%A0%E7%BD%91%E7%8E%AF%E5%A2%83pycharm%E6%8F%92%E4%BB%B6%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%94%A8%E3%80%81Ollama%20Python%20api%E3%80%81coze-studio/" title="Ollama详解，无网环境导入运行本地下载的大模型，无网环境pycharm插件大模型调用、Ollama Python api、coze-studio">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ollama详解，无网环境导入运行本地下载的大模型，无网环境pycharm插件大模型调用、Ollama Python api、coze-studio</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/Markdown%E8%AF%AD%E6%B3%95%E5%92%8C%E8%A1%A8%E6%83%85/" title="Markdown语法和表情">
+                        <span class="hidden-mobile">Markdown语法和表情</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

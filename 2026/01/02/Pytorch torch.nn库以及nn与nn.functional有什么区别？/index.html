@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](Pytorch torch.nn库以及nn与nn.functional有什么区别？) 微信公众号：数学建模与人工智能tocrch.nn库torch.nn是专门为神经网络设计的模块化接口nn构建于autograd之上，可以用来定义和运行神经网络 12345nn.Parameternn.Linear&amp;nn.conv2d等等nn.functionalnn.Modulenn.Seq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch torch.nn库以及nn与nn.functional有什么区别？">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/02/Pytorch%20torch.nn%E5%BA%93%E4%BB%A5%E5%8F%8Ann%E4%B8%8Enn.functional%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](Pytorch torch.nn库以及nn与nn.functional有什么区别？) 微信公众号：数学建模与人工智能tocrch.nn库torch.nn是专门为神经网络设计的模块化接口nn构建于autograd之上，可以用来定义和运行神经网络 12345nn.Parameternn.Linear&amp;nn.conv2d等等nn.functionalnn.Modulenn.Seq">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/60619d23dc3243df8c8a8cb8dfdad8e8.png">
+<meta property="article:published_time" content="2026-01-02T00:17:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.383Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/60619d23dc3243df8c8a8cb8dfdad8e8.png">
+  
+  
+  
+  <title>Pytorch torch.nn库以及nn与nn.functional有什么区别？ - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pytorch torch.nn库以及nn与nn.functional有什么区别？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 08:17" pubdate>
+          2026年1月2日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Pytorch torch.nn库以及nn与nn.functional有什么区别？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](Pytorch torch.nn库以及nn与nn.functional有什么区别？)</p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="tocrch-nn库"><a href="#tocrch-nn库" class="headerlink" title="tocrch.nn库"></a>tocrch.nn库</h1><p><strong>torch.nn是专门为神经网络设计的模块化接口</strong><br><strong>nn构建于autograd之上，可以用来定义和运行神经网络</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">nn.Parameter<br>nn.Linear&amp;nn.conv2d等等<br>nn.functional<br>nn.Module<br>nn.Sequential<br></code></pre></td></tr></table></figure>
+
+<h2 id="nn-Parameter"><a href="#nn-Parameter" class="headerlink" title="nn.Parameter"></a>nn.Parameter</h2><ul>
+<li>定义可训练参数</li>
+<li>self.my_param&#x3D;nn.Parameter(torch.randn(1))</li>
+<li>self.register_parameter</li>
+<li>nn.ParameterList&amp;nn.ParameterDict</li>
+</ul>
+<blockquote>
+<p>这个类实际上是将一个Parameter的List转为ParameterList，如下例所示[nn.Parameter(torch.randn(10, 10)) for i in range(10)]类型是List，List的每个元素是Parameter，然后这个List作为参数传入这个类构造ParameterList类型。<br>ParameterList输入一定是一个Parameter的List，其他类型会报错，在注册时候就会提示元素不是Parameter类型。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">self.params = nn.ParameterList([nn.Parameter(torch.randn(10, 10)) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(10)])<br></code></pre></td></tr></table></figure>
+
+<p>输入参数是个普通字典，然后转换为ParameterDict类型。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">self.params = nn.ParameterDict(&#123; <br>        <span class="hljs-string">&#x27;left&#x27;</span>: nn.Parameter(torch.randn(5, 10)), <br>        <span class="hljs-string">&#x27;right&#x27;</span>: nn.Parameter(torch.randn(5, 10))<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<h2 id="nn-Linear-nn-conv2d-nn-ReLU-nn-maxPool2d-nn-MSELoss等等"><a href="#nn-Linear-nn-conv2d-nn-ReLU-nn-maxPool2d-nn-MSELoss等等" class="headerlink" title="nn.Linear&amp;nn.conv2d&amp;nn.ReLU&amp;nn.maxPool2d&amp;nn.MSELoss等等"></a>nn.Linear&amp;nn.conv2d&amp;nn.ReLU&amp;nn.maxPool2d&amp;nn.MSELoss等等</h2><p><strong>各种神经网络层的定义，继承于nn.Module的子类</strong></p>
+<ul>
+<li>self.conv1&#x3D;nn.Conv2d(1,6(5,5))</li>
+<li>调用时：slef.conv1(x)</li>
+</ul>
+<p><strong>参数为parameter类型</strong></p>
+<ul>
+<li>layer&#x3D;nn.Linear(1,1)</li>
+<li>layer.weight&#x3D;nn.Parameter(torch.FloatTensor([[0]]))</li>
+<li>layer.bias&#x3D;nn.Parameter(torch.FloatTensor([0]))</li>
+</ul>
+<h2 id="nn-functional"><a href="#nn-functional" class="headerlink" title="nn.functional"></a>nn.functional</h2><p><strong>包含torch.nn库中所有函数，包含大量loss和activation function</strong></p>
+<ul>
+<li>torch.nn.functional.conv2d(input,weight,bias&#x3D;None,stride&#x3D;1,padding&#x3D;0,dilation&#x3D;1,groups&#x3D;1)</li>
+<li>没有学习参数的（eg.maxpool,loss_func,activation func）等根据个人选择使用nn.functional.xxx或nn.xxx</li>
+<li>关于dropout层,推荐使用nn.xxx。因为一般情况下只有训练时才用dropout,在eval不需要dropout。使用nn.Dropout,在调用model.eval()后，模型的dropout层都关闭，但用nn.functional.dropout，在调用model.eval()后不会关闭dropout.</li>
+</ul>
+<h2 id="nn与nn-functional有什么区别？"><a href="#nn与nn-functional有什么区别？" class="headerlink" title="nn与nn.functional有什么区别？"></a>nn与nn.functional有什么区别？</h2><ul>
+<li>nn.functional.xxx是函数接口，而nn.Xxx是nn.functional.xxx的类封装，并且<strong>nn.Xxx都继承于一个共同祖先nn.Module。</strong></li>
+<li>nn.Xxx除了具有nn.functional.xxx功能之外，内部附带了nn.Module相关的属性和方法，例如train(), eval(),load_state_dict, state_dict等。</li>
+<li><strong>两者的调用方式不同</strong>。nn.Xxx 需要先实例化并传入参数，然后以函数调用的方式调用实例化的对象并传入输入数据。nn.functional.xxx同时传入输入数据和weight, bias等其他参数 。</li>
+<li>nn.Xxx继承于nn.Module， 能够很好的与nn.Sequential结合使用， 而nn.functional.xxx无法与nn.Sequential结合使用</li>
+<li>nn.Xxx不需要你自己定义和管理weight；而nn.functional.xxx需要你自己定义weight，每次调用的时候都需要手动传入weight, 不利于代码复用。</li>
+</ul>
+<h2 id="nn-Sequential"><a href="#nn-Sequential" class="headerlink" title="nn.Sequential"></a>nn.Sequential</h2><p>一个有序的容器，神经网络模块将按照在传入构造器的顺序依次被添加到计算图中执行，同时以神经网络模块为元素的有序字典也可以作为传入参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Example of using Sequential</span><br>        model = nn.Sequential(<br>                  nn.Conv2d(1,20,5),<br>                  nn.ReLU(),<br>                  nn.Conv2d(20,64,5),<br>                  nn.ReLU()<br>                )<br><br>        <span class="hljs-comment"># Example of using Sequential with OrderedDict</span><br>        model = nn.Sequential(OrderedDict([<br>                  (<span class="hljs-string">&#x27;conv1&#x27;</span>, nn.Conv2d(1,20,5)),<br>                  (<span class="hljs-string">&#x27;relu1&#x27;</span>, nn.ReLU()),<br>                  (<span class="hljs-string">&#x27;conv2&#x27;</span>, nn.Conv2d(20,64,5)),<br>                  (<span class="hljs-string">&#x27;relu2&#x27;</span>, nn.ReLU())<br>                ]))<br></code></pre></td></tr></table></figure>
+
+<h2 id="nn-ModuleList"><a href="#nn-ModuleList" class="headerlink" title="nn.ModuleList"></a>nn.ModuleList</h2><p>它可以以列表的形式来保持多个子模块。</p>
+<blockquote>
+<p>ModuleList能够像python列表一样被索引访问,而且其中的模块会被正确地登记注册,而且它保存的模块可以被所有Module方法可见,之所以不能直接用python列表来保存,是因为PyTorch需要自动跟踪计算图并计算自动梯度,如果直接使用python列表或者python字典来保存module,那么无法正确地自动计算梯度.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">class MyModule(nn.Module):<br>    def __init__(self):<br>        super(MyModule, self).__init__()<br>        self.linears = nn.ModuleList([nn.Linear(10, 10) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(10)])<br> <br>    def forward(self, x):<br>        <span class="hljs-comment"># ModuleList can act as an iterable, or be indexed         using ints</span><br>        <span class="hljs-keyword">for</span> i, l <span class="hljs-keyword">in</span> enumerate(self.linears):<br>            x = self.linears[i // 2](x) + l(x)<br> <br>            <span class="hljs-built_in">return</span> x<br></code></pre></td></tr></table></figure>
+
+<h2 id="nn-ModuleDict"><a href="#nn-ModuleDict" class="headerlink" title="nn.ModuleDict"></a>nn.ModuleDict</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash">class MyModule(nn.Module):<br>    def __init__(self):<br>        super(MyModule, self).__init__()<br>        self.choices = nn.ModuleDict(&#123;<br>                <span class="hljs-string">&#x27;conv&#x27;</span>: nn.Conv2d(10, 10, 3),<br>                <span class="hljs-string">&#x27;pool&#x27;</span>: nn.MaxPool2d(3)<br>        &#125;)<br>        self.activations = nn.ModuleDict([<br>                [<span class="hljs-string">&#x27;lrelu&#x27;</span>, nn.LeakyReLU()],<br>                [<span class="hljs-string">&#x27;prelu&#x27;</span>, nn.PReLU()]<br>        ])<br><br>    def forward(self, x, choice, act):<br>        x = self.choices[choice](x)<br>        x = self.activations[act](x)<br>        <span class="hljs-built_in">return</span> x<br></code></pre></td></tr></table></figure>
+
+<h2 id="nn-Module"><a href="#nn-Module" class="headerlink" title="nn.Module"></a>nn.Module</h2><p>它是一个抽象概念，既可以表示神经网络中的某个层（layer），也可以表示一个包含很多层的神经网络</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">model.parameters()<br>model.buffers()<br>model.state_dict()<br>model.modules() 迭代遍历模型的所有子层,所有子层即指nn.Module子类<br>forward(),to()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/60619d23dc3243df8c8a8cb8dfdad8e8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="Parameters-VS-buffers"><a href="#Parameters-VS-buffers" class="headerlink" title="Parameters VS buffers"></a>Parameters VS buffers</h2><p><strong>一种是反向传播需要被optimizer更新的，称之为 parameter（如权重等）</strong></p>
+<ul>
+<li>self.register_parameter(“param”,param)</li>
+<li>self.param&#x3D;nn.Parameter(torch.randn(1))<br><strong>一种是反向传播不需要被optimizer更新，称之为 buffer（一些阈值之类的）</strong></li>
+<li>self.register_buffer(‘’my_buffer,torch.randn(1))</li>
+</ul>
+<h2 id="模型状态字典-state-dict-load-state-dict"><a href="#模型状态字典-state-dict-load-state-dict" class="headerlink" title="模型状态字典 state_dict() &amp; load_state_dict"></a>模型状态字典 state_dict() &amp; load_state_dict</h2><p>1、state_dict()<br>返回一个包含 Module 实例完整状态的字典，包括参数和缓冲区，字典的键值是参数或缓冲区的名称<br>2、load_state_dict(state_dict, strict&#x3D;True)<br>从 state_dict 中复制参数和缓冲区到 Module 及其子类中</p>
+<ul>
+<li>state_dict：包含参数和缓冲区的 Module 状态字典</li>
+<li>strict：默认 True，是否严格匹配 state_dict 的键值和 Module.state_dict()的键值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">torch.save(obj=model.state_dict().f=<span class="hljs-string">&quot;modles/net.pth&quot;</span>)<br>model.load_state_dict(torch.load(<span class="hljs-string">&quot;models/net.pth&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pytorch torch.nn库以及nn与nn.functional有什么区别？</div>
+      <div>https://qzkq.github.io/2026/01/02/Pytorch torch.nn库以及nn与nn.functional有什么区别？/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/02/Pytorch_%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BF%9D%E5%AD%98_%E5%8A%A0%E8%BD%BD%E3%80%81%E5%B9%B6%E8%A1%8C%E5%8C%96%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F/" title="Pytorch_模型的保存_加载、并行化、分布式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pytorch_模型的保存_加载、并行化、分布式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%EF%BC%9Apip%20%E5%AE%89%E8%A3%85%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E9%80%9F%E5%BA%A6%E5%BE%88%E6%85%A2%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E5%92%8Cconda%E6%8D%A2%E6%BA%90%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84%E6%89%93%E5%BC%80jupyter%20notebook/" title="Python：pip 安装第三方库速度很慢的解决办法，以及离线安装方法和conda换源，以及指定路径打开jupyter notebook">
+                        <span class="hidden-mobile">Python：pip 安装第三方库速度很慢的解决办法，以及离线安装方法和conda换源，以及指定路径打开jupyter notebook</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

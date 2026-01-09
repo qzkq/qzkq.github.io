@@ -1,0 +1,784 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 函数（缩放误差）传统的均方误差（MSE）和平均绝对误差（MAE）对所有预测值给予相同的权重，但在某些场景下，更关心相对误差而非绝对误差。缩放误差通过将误差除以真实值来实现这一目标： 1缩放误差 &#x3D; (真实值 - 预测值) &#x2F; max(真实值, 阈值)  这样设计的优势：  对于大数值和小数值的预测给予相对平等的权重 避免大数值主导损失函数 更适合预测范围变化很大的场景  数学原理损失函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LightGBM、XGBoost和CatBoost自定义损失函数和评估指标">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/LightGBM%E3%80%81XGBoost%E5%92%8CCatBoost%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 函数（缩放误差）传统的均方误差（MSE）和平均绝对误差（MAE）对所有预测值给予相同的权重，但在某些场景下，更关心相对误差而非绝对误差。缩放误差通过将误差除以真实值来实现这一目标： 1缩放误差 &#x3D; (真实值 - 预测值) &#x2F; max(真实值, 阈值)  这样设计的优势：  对于大数值和小数值的预测给予相对平等的权重 避免大数值主导损失函数 更适合预测范围变化很大的场景  数学原理损失函">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/696ee49ea6c548c7a0363694c253b062.png">
+<meta property="article:published_time" content="2026-01-01T00:12:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.359Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="CatBoost">
+<meta property="article:tag" content="参数详解">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="集成学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/696ee49ea6c548c7a0363694c253b062.png">
+  
+  
+  
+  <title>LightGBM、XGBoost和CatBoost自定义损失函数和评估指标 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LightGBM、XGBoost和CatBoost自定义损失函数和评估指标"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:12" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LightGBM、XGBoost和CatBoost自定义损失函数和评估指标</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<br>@<a href="LightGBM%E3%80%81XGBoost%E5%92%8CCatBoost%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87">TOC</a></p>
+<h2 id="函数（缩放误差）"><a href="#函数（缩放误差）" class="headerlink" title="函数（缩放误差）"></a>函数（缩放误差）</h2><p>传统的均方误差（MSE）和平均绝对误差（MAE）对所有预测值给予相同的权重，但在某些场景下，更关心<strong>相对误差</strong>而非绝对误差。缩放误差通过将误差除以真实值来实现这一目标：</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">缩放误差 = (真实值 - 预测值) / <span class="hljs-built_in">max</span>(真实值, 阈值)<br></code></pre></td></tr></table></figure>
+
+<p>这样设计的优势：</p>
+<ul>
+<li>对于大数值和小数值的预测给予相对平等的权重</li>
+<li>避免大数值主导损失函数</li>
+<li>更适合预测范围变化很大的场景</li>
+</ul>
+<h2 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h2><h3 id="损失函数定义"><a href="#损失函数定义" class="headerlink" title="损失函数定义"></a>损失函数定义</h3><p>设损失函数为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">L</span><span class="hljs-params">(y, ŷ)</span></span> = ((<span class="hljs-attribute">y</span> - ŷ) / <span class="hljs-built_in">max</span>(y, threshold))²<br></code></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>y</code> 是真实值</li>
+<li><code>ŷ</code> 是预测值</li>
+<li><code>threshold</code> 是防止除零的最小阈值</li>
+</ul>
+<h3 id="梯度计算"><a href="#梯度计算" class="headerlink" title="梯度计算"></a>梯度计算</h3><p>对于梯度提升算法，我们需要计算损失函数对预测值的一阶导数（梯度）和二阶导数（Hessian）：</p>
+<p>设 <code>d = max(y, threshold)</code>，<code>e = (y - ŷ) / d</code></p>
+<ul>
+<li><strong>一阶导数（梯度）</strong>：<code>∂L/∂ŷ = -2e/d</code></li>
+<li><strong>二阶导数（Hessian）</strong>：<code>∂²L/∂ŷ² = 2/d²</code></li>
+</ul>
+<h3 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h3><p>配套的评估指标使用缩放平均绝对误差（Scaled MAE）：</p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gml">Scaled MAE = <span class="hljs-built_in">mean</span>(|<span class="hljs-variable language_">y</span> - ŷ| / <span class="hljs-built_in">max</span>(<span class="hljs-variable language_">y</span>, threshold))<br></code></pre></td></tr></table></figure>
+
+<h2 id="LightGBM实现"><a href="#LightGBM实现" class="headerlink" title="LightGBM实现"></a>LightGBM实现</h2><h3 id="自定义损失函数"><a href="#自定义损失函数" class="headerlink" title="自定义损失函数"></a>自定义损失函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">custom_loss_squared_lgb</span>(<span class="hljs-params">y_pred, train_data</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    LightGBM自定义缩放均方误差损失函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        y_pred: 预测值数组</span><br><span class="hljs-string">        train_data: LightGBM的Dataset对象</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        tuple: (梯度数组, Hessian数组)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    y_true = train_data.get_label()  <span class="hljs-comment"># 获取真实标签</span><br>    <br>    <span class="hljs-comment"># 计算分母，防止除零</span><br>    denominator = np.maximum(y_true, threshold)<br>    <br>    <span class="hljs-comment"># 计算缩放误差</span><br>    error = (y_true - y_pred) / denominator<br>    <br>    <span class="hljs-comment"># 计算梯度和Hessian</span><br>    grad = -<span class="hljs-number">2</span> * error / denominator<br>    hess = <span class="hljs-number">2</span> / (denominator ** <span class="hljs-number">2</span>)<br>    <br>    <span class="hljs-keyword">return</span> grad, hess<br></code></pre></td></tr></table></figure>
+
+<h3 id="自定义评估指标"><a href="#自定义评估指标" class="headerlink" title="自定义评估指标"></a>自定义评估指标</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">mae_metric_lgb</span>(<span class="hljs-params">preds, train_data</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    LightGBM自定义缩放MAE评估指标</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        preds: 预测值数组</span><br><span class="hljs-string">        train_data: LightGBM的Dataset对象</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        tuple: (指标名称, 指标值, 是否越大越好)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    y_true = train_data.get_label()<br>    denominator = np.maximum(y_true, threshold)<br>    error = np.<span class="hljs-built_in">abs</span>(preds - y_true) / denominator<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;scaled_mae&#x27;</span>, np.mean(error), <span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> lightgbm <span class="hljs-keyword">as</span> lgb<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># 参数配置</span><br>params = &#123;<br>    <span class="hljs-string">&#x27;objective&#x27;</span>: custom_loss_squared_lgb,  <span class="hljs-comment"># 使用自定义损失函数</span><br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>    <span class="hljs-string">&#x27;num_leaves&#x27;</span>: <span class="hljs-number">31</span>,<br>    <span class="hljs-string">&#x27;learning_rate&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;verbosity&#x27;</span>: -<span class="hljs-number">1</span><br>&#125;<br><br><span class="hljs-comment"># 训练模型</span><br>model = lgb.train(<br>    params, <br>    train_set, <br>    valid_sets=[train_set, valid_set],<br>    feval=mae_metric_lgb,  <span class="hljs-comment"># 使用自定义评估指标</span><br>    num_boost_round=<span class="hljs-number">1000</span>,<br>    callbacks=[lgb.early_stopping(<span class="hljs-number">100</span>)]<br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="XGBoost实现"><a href="#XGBoost实现" class="headerlink" title="XGBoost实现"></a>XGBoost实现</h2><h3 id="自定义损失函数-1"><a href="#自定义损失函数-1" class="headerlink" title="自定义损失函数"></a>自定义损失函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">custom_loss_squared_xgb</span>(<span class="hljs-params">y_pred, train_data</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    XGBoost自定义缩放均方误差损失函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        y_pred: 预测值数组</span><br><span class="hljs-string">        train_data: XGBoost的DMatrix对象</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        tuple: (梯度数组, Hessian数组)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    y_true = train_data.get_label()  <span class="hljs-comment"># 获取真实标签</span><br>    <br>    <span class="hljs-comment"># 计算分母，防止除零</span><br>    denominator = np.maximum(y_true, threshold)<br>    <br>    <span class="hljs-comment"># 计算缩放误差</span><br>    error = (y_true - y_pred) / denominator<br>    <br>    <span class="hljs-comment"># 计算梯度和Hessian</span><br>    grad = -<span class="hljs-number">2</span> * error / denominator<br>    hess = <span class="hljs-number">2</span> / (denominator ** <span class="hljs-number">2</span>)<br>    <br>    <span class="hljs-keyword">return</span> grad, hess<br></code></pre></td></tr></table></figure>
+
+<h3 id="自定义评估指标-1"><a href="#自定义评估指标-1" class="headerlink" title="自定义评估指标"></a>自定义评估指标</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">mae_metric_xgb</span>(<span class="hljs-params">y_pred, train_data</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    XGBoost自定义缩放MAE评估指标</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        y_pred: 预测值数组</span><br><span class="hljs-string">        train_data: XGBoost的DMatrix对象</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        tuple: (指标名称, 指标值)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    y_true = train_data.get_label()<br>    denominator = np.maximum(y_true, threshold)<br>    error = np.<span class="hljs-built_in">abs</span>(y_true - y_pred) / denominator<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;custom_mae&#x27;</span>, np.mean(error)<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用方式-1"><a href="#使用方式-1" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> xgboost <span class="hljs-keyword">as</span> xgb<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># 参数配置</span><br>params = &#123;<br>    <span class="hljs-string">&#x27;booster&#x27;</span>: <span class="hljs-string">&#x27;gbtree&#x27;</span>,<br>    <span class="hljs-string">&#x27;learning_rate&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>: <span class="hljs-number">6</span>,<br>    <span class="hljs-string">&#x27;random_state&#x27;</span>: <span class="hljs-number">42</span><br>&#125;<br><br><span class="hljs-comment"># 训练模型</span><br>model = xgb.train(<br>    params,<br>    train_matrix,<br>    num_boost_round=<span class="hljs-number">1000</span>,<br>    evals=[(train_matrix, <span class="hljs-string">&#x27;train&#x27;</span>), (valid_matrix, <span class="hljs-string">&#x27;valid&#x27;</span>)],<br>    obj=custom_loss_squared_xgb,  <span class="hljs-comment"># 自定义损失函数</span><br>    feval=mae_metric_xgb,         <span class="hljs-comment"># 自定义评估指标</span><br>    early_stopping_rounds=<span class="hljs-number">100</span>,<br>    verbose_eval=<span class="hljs-number">50</span><br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="CatBoost实现"><a href="#CatBoost实现" class="headerlink" title="CatBoost实现"></a>CatBoost实现</h2><p>CatBoost的自定义函数需要用类的形式实现。</p>
+<h3 id="自定义损失函数-2"><a href="#自定义损失函数-2" class="headerlink" title="自定义损失函数"></a>自定义损失函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomCatBoostObjective</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;CatBoost自定义缩放均方误差损失函数&quot;&quot;&quot;</span><br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_ders_range</span>(<span class="hljs-params">self, approxes, targets, weights</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算梯度和Hessian</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            approxes: 当前预测值列表</span><br><span class="hljs-string">            targets: 真实标签列表</span><br><span class="hljs-string">            weights: 样本权重列表（可选）</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            list: [(梯度, Hessian), ...] 的列表</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(approxes) == <span class="hljs-built_in">len</span>(targets)<br>        <span class="hljs-keyword">if</span> weights <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(weights) == <span class="hljs-built_in">len</span>(approxes)<br>        <br>        result = []<br>        <span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(targets)):<br>            y_true = targets[index]<br>            y_pred = approxes[index]<br>            <br>            <span class="hljs-comment"># 计算分母，防止除零</span><br>            denominator = <span class="hljs-built_in">max</span>(y_true, threshold)<br>            <br>            <span class="hljs-comment"># 计算缩放误差</span><br>            error = (y_true - y_pred) / denominator<br>            <br>            <span class="hljs-comment"># 计算梯度和Hessian</span><br>            grad = -<span class="hljs-number">2</span> * error / denominator<br>            hess = <span class="hljs-number">2</span> / (denominator ** <span class="hljs-number">2</span>)<br>            <br>            <span class="hljs-comment"># 应用样本权重</span><br>            <span class="hljs-keyword">if</span> weights <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                grad *= weights[index]<br>                hess *= weights[index]<br>            <br>            result.append((grad, hess))<br>        <br>        <span class="hljs-keyword">return</span> result<br></code></pre></td></tr></table></figure>
+
+<h3 id="自定义评估指标-2"><a href="#自定义评估指标-2" class="headerlink" title="自定义评估指标"></a>自定义评估指标</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomCatBoostEval</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;CatBoost自定义缩放MAE评估指标&quot;&quot;&quot;</span><br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">is_max_optimal</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;指标是否越大越好&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate</span>(<span class="hljs-params">self, approxes, targets, weights</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算评估指标</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            approxes: 预测值列表的列表 [[pred1, pred2, ...]]</span><br><span class="hljs-string">            targets: 真实标签列表</span><br><span class="hljs-string">            weights: 样本权重列表（可选）</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            tuple: (误差总和, 权重总和)</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(approxes) == <span class="hljs-number">1</span><br>        <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(targets) == <span class="hljs-built_in">len</span>(approxes[<span class="hljs-number">0</span>])<br>        <br>        error_sum = <span class="hljs-number">0.0</span><br>        weight_sum = <span class="hljs-number">0.0</span><br>        <br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(targets)):<br>            y_true = targets[i]<br>            y_pred = approxes[<span class="hljs-number">0</span>][i]<br>            <br>            <span class="hljs-comment"># 计算缩放误差</span><br>            denominator = <span class="hljs-built_in">max</span>(y_true, threshold)<br>            error = <span class="hljs-built_in">abs</span>(y_true - y_pred) / denominator<br>            <br>            <span class="hljs-comment"># 应用样本权重</span><br>            <span class="hljs-keyword">if</span> weights <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                error *= weights[i]<br>                weight_sum += weights[i]<br>            <span class="hljs-keyword">else</span>:<br>                weight_sum += <span class="hljs-number">1.0</span><br>            <br>            error_sum += error<br>        <br>        <span class="hljs-keyword">return</span> error_sum, weight_sum<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_final_error</span>(<span class="hljs-params">self, error, weight</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;计算最终的评估指标值&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> error / (weight + <span class="hljs-number">1e-38</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用方式-2"><a href="#使用方式-2" class="headerlink" title="使用方式"></a>使用方式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> catboost <span class="hljs-keyword">import</span> CatBoostRegressor, Pool<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># 创建数据池</span><br>train_pool = Pool(X_train, y_train)<br>valid_pool = Pool(X_valid, y_valid)<br><br><span class="hljs-comment"># 参数配置</span><br>params = &#123;<br>    <span class="hljs-string">&#x27;objective&#x27;</span>: CustomCatBoostObjective(),<br>    <span class="hljs-string">&#x27;eval_metric&#x27;</span>: CustomCatBoostEval(),<br>    <span class="hljs-string">&#x27;iterations&#x27;</span>: <span class="hljs-number">1000</span>,<br>    <span class="hljs-string">&#x27;learning_rate&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;depth&#x27;</span>: <span class="hljs-number">6</span>,<br>    <span class="hljs-string">&#x27;random_state&#x27;</span>: <span class="hljs-number">42</span>,<br>    <span class="hljs-string">&#x27;verbose&#x27;</span>: <span class="hljs-literal">False</span><br>&#125;<br><br><span class="hljs-comment"># 训练模型</span><br>model = CatBoostRegressor(**params)<br>model.fit(<br>    train_pool,<br>    eval_set=valid_pool,<br>    early_stopping_rounds=<span class="hljs-number">100</span>,<br>    verbose_eval=<span class="hljs-number">50</span>,<br>    use_best_model=<span class="hljs-literal">True</span><br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="框架对比"><a href="#框架对比" class="headerlink" title="框架对比"></a>框架对比</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>LightGBM</th>
+<th>XGBoost</th>
+<th>CatBoost</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>损失函数形式</strong></td>
+<td>函数</td>
+<td>函数</td>
+<td>类方法</td>
+</tr>
+<tr>
+<td><strong>参数名称</strong></td>
+<td><code>objective</code></td>
+<td><code>obj</code></td>
+<td><code>objective</code></td>
+</tr>
+<tr>
+<td><strong>数据获取</strong></td>
+<td><code>train_data.get_label()</code></td>
+<td><code>dtrain.get_label()</code></td>
+<td>直接传入 <code>targets</code></td>
+</tr>
+<tr>
+<td><strong>评估指标形式</strong></td>
+<td>函数</td>
+<td>函数</td>
+<td>类方法</td>
+</tr>
+<tr>
+<td><strong>评估返回格式</strong></td>
+<td><code>(name, value, is_higher_better)</code></td>
+<td><code>(name, value)</code></td>
+<td><code>error_sum, weight_sum</code></td>
+</tr>
+<tr>
+<td><strong>权重支持</strong></td>
+<td>自动处理</td>
+<td>自动处理</td>
+<td>需手动处理</td>
+</tr>
+<tr>
+<td><strong>实现复杂度</strong></td>
+<td>简单</td>
+<td>简单</td>
+<td>中等</td>
+</tr>
+</tbody></table>
+<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ol>
+<li><strong>新能源功率预测</strong>：风电、光伏功率预测范围从0到满功率</li>
+<li><strong>金融风险评估</strong>：不同规模公司的风险评估</li>
+<li><strong>销售预测</strong>：不同产品类别的销售额预测</li>
+<li><strong>网络流量预测</strong>：不同时段流量变化很大</li>
+</ol>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="1-为什么要设置最小阈值？"><a href="#1-为什么要设置最小阈值？" class="headerlink" title="1. 为什么要设置最小阈值？"></a>1. 为什么要设置最小阈值？</h3><p><strong>问题</strong>：直接用真实值作为分母会遇到什么问题？</p>
+<p><strong>答案</strong>：</p>
+<ul>
+<li>当真实值为0或接近0时，会导致除零错误或梯度爆炸</li>
+<li>设置最小阈值可以保证数值稳定性</li>
+<li>阈值的选择应根据数据的实际分布来确定</li>
+</ul>
+<h3 id="2-梯度和Hessian计算错误怎么办？"><a href="#2-梯度和Hessian计算错误怎么办？" class="headerlink" title="2. 梯度和Hessian计算错误怎么办？"></a>2. 梯度和Hessian计算错误怎么办？</h3><p><strong>问题</strong>：如何验证梯度计算的正确性？</p>
+<p><strong>答案</strong>：可以用数值微分验证：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">verify_gradients</span>(<span class="hljs-params">y_true, y_pred, eps=<span class="hljs-number">1e-6</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;验证梯度计算的正确性&quot;&quot;&quot;</span><br>    <br>    <span class="hljs-comment"># 解析梯度</span><br>    denominator = np.maximum(y_true, threshold)<br>    error = (y_true - y_pred) / denominator<br>    grad_analytical = -<span class="hljs-number">2</span> * error / denominator<br>    <br>    <span class="hljs-comment"># 数值梯度</span><br>    loss_plus = ((y_true - (y_pred + eps)) / denominator) ** <span class="hljs-number">2</span><br>    loss_minus = ((y_true - (y_pred - eps)) / denominator) ** <span class="hljs-number">2</span><br>    grad_numerical = (loss_plus - loss_minus) / (<span class="hljs-number">2</span> * eps)<br>    <br>    <span class="hljs-comment"># 比较</span><br>    diff = np.<span class="hljs-built_in">abs</span>(grad_analytical - grad_numerical)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最大梯度差异: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">max</span>(diff)&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">return</span> np.allclose(grad_analytical, grad_numerical, atol=<span class="hljs-number">1e-5</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-不同框架的性能差异"><a href="#3-不同框架的性能差异" class="headerlink" title="3. 不同框架的性能差异"></a>3. 不同框架的性能差异</h3><p><strong>问题</strong>：三个框架在使用自定义损失函数时的性能如何？</p>
+<p><strong>答案</strong>：</p>
+<ul>
+<li><strong>LightGBM</strong>：通常最快，内存效率高</li>
+<li><strong>XGBoost</strong>：稳定性好，文档完善</li>
+<li><strong>CatBoost</strong>：对类别特征处理好，但自定义函数实现相对复杂</li>
+</ul>
+<h3 id="4-超参数调优建议"><a href="#4-超参数调优建议" class="headerlink" title="4. 超参数调优建议"></a>4. 超参数调优建议</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># LightGBM调优示例</span><br><span class="hljs-keyword">from</span> optuna <span class="hljs-keyword">import</span> create_study<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">objective</span>(<span class="hljs-params">trial</span>):<br>    params = &#123;<br>        <span class="hljs-string">&#x27;objective&#x27;</span>: custom_loss_squared_lgb,<br>        <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>        <span class="hljs-string">&#x27;num_leaves&#x27;</span>: trial.suggest_int(<span class="hljs-string">&#x27;num_leaves&#x27;</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>),<br>        <span class="hljs-string">&#x27;learning_rate&#x27;</span>: trial.suggest_float(<span class="hljs-string">&#x27;learning_rate&#x27;</span>, <span class="hljs-number">0.01</span>, <span class="hljs-number">0.1</span>),<br>        <span class="hljs-string">&#x27;feature_fraction&#x27;</span>: trial.suggest_float(<span class="hljs-string">&#x27;feature_fraction&#x27;</span>, <span class="hljs-number">0.4</span>, <span class="hljs-number">1.0</span>),<br>        <span class="hljs-string">&#x27;bagging_fraction&#x27;</span>: trial.suggest_float(<span class="hljs-string">&#x27;bagging_fraction&#x27;</span>, <span class="hljs-number">0.4</span>, <span class="hljs-number">1.0</span>),<br>        <span class="hljs-string">&#x27;verbosity&#x27;</span>: -<span class="hljs-number">1</span><br>    &#125;<br>    <br>    model = lgb.train(<br>        params,<br>        train_data,<br>        valid_sets=[valid_data],<br>        feval=mae_metric_lgb,<br>        num_boost_round=<span class="hljs-number">1000</span>,<br>        callbacks=[lgb.early_stopping(<span class="hljs-number">100</span>)],<br>        verbose_eval=<span class="hljs-literal">False</span><br>    )<br>    <br>    y_pred = model.predict(X_valid)<br>    scaled_mae = np.mean(np.<span class="hljs-built_in">abs</span>(y_valid - y_pred) / np.maximum(y_valid, threshold))<br>    <span class="hljs-keyword">return</span> scaled_mae<br><br>study = create_study(direction=<span class="hljs-string">&#x27;minimize&#x27;</span>)<br>study.optimize(objective, n_trials=<span class="hljs-number">100</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/696ee49ea6c548c7a0363694c253b062.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/CatBoost/" class="print-no-link">#CatBoost</a>
+      
+        <a href="/tags/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" class="print-no-link">#集成学习</a>
+      
+        <a href="/tags/%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="print-no-link">#参数详解</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LightGBM、XGBoost和CatBoost自定义损失函数和评估指标</div>
+      <div>https://qzkq.github.io/2026/01/01/LightGBM、XGBoost和CatBoost自定义损失函数和评估指标/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/LightGBM%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="LightGBM原生接口和Sklearn接口参数详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LightGBM原生接口和Sklearn接口参数详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/Keras%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E3%80%81Pytorch%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8CSklearn%E7%9A%84MLPRegressor/" title="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor">
+                        <span class="hidden-mobile">Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

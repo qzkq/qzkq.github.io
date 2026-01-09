@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](机器学习面试笔试知识点-贝叶斯网络Bayesian Network、马尔科夫Markov和主题模型T M) 微信公众号：数学建模与人工智能一、贝叶斯网络(Bayesian Network)1.对概率图模型的理解概率图模型是用图来表示变量概率依赖关系的理论，结合概率论与图论的知识，利用图来表示与模型有关的变量的联合概率分布。对于一个实际问题，我们希望能够挖掘隐含在数据中的知识。概率图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9-%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C(Bayesian%20Network)%20%E3%80%81%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB(Markov)%20%E5%92%8C%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B(T%20M)/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](机器学习面试笔试知识点-贝叶斯网络Bayesian Network、马尔科夫Markov和主题模型T M) 微信公众号：数学建模与人工智能一、贝叶斯网络(Bayesian Network)1.对概率图模型的理解概率图模型是用图来表示变量概率依赖关系的理论，结合概率论与图论的知识，利用图来表示与模型有关的变量的联合概率分布。对于一个实际问题，我们希望能够挖掘隐含在数据中的知识。概率图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/274147d6c5e5415eb1098975290b13a4.png">
+<meta property="og:image" content="https://qzkq.github.io/img/21aa388c6a55414c9b5fb1cd724802d7.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f672241103ea4e2c82a81914f91003b8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6e04f50113e94b90bc1d3ae90001e393.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7322b0ecdeec4fdd94ab24f796dbfa4d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/057c71f596d04ed4ad362c62c8f4182b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/88f57d0b791f4176957e3a5b42142935.png">
+<meta property="og:image" content="https://qzkq.github.io/img/51c1a1b1f4d84bc585baf3132f0d97fc.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7dac68e9f8b44f42a81b1f40699a80d8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5e577dd6875e421682ee0d39f42540bd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1c611e5b05eb44b6908a9984c804c846.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7c3def42a7bf452a940e22374037e74d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/8b9cfeb8af3a4b4894c2844662babbfa.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a3b29177f1cc46c9b7b037a492d8c88f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f7c6c67a21964cec91f055eb27a94cd0.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3f58e72536a047279d0c5f01aef376be.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1f085bf99d184f938a297da4c3280c87.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c172a8dbfaad4d9ba75805ea15f6cfe6.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6f99334c8eee4bd58eb54e322f656261.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ff798a5778484f0a9f4d98d7bba905e5.png">
+<meta property="og:image" content="https://qzkq.github.io/img/4573cc04ac074ac4ad779035c9a235cb.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e0b6e0ab8cec4d86bdfd4ee407892a14.png">
+<meta property="og:image" content="https://qzkq.github.io/img/09247178cdbd4eac9b6e757545504043.png">
+<meta property="og:image" content="https://qzkq.github.io/img/23762e10e8a4409eac2b59c7399292b2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/42e89ccee7e4436f9bf1158410d02a2d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/271f418de7fb4918bd7f60da00500b14.png">
+<meta property="og:image" content="https://qzkq.github.io/img/fb3bb498a16848ea9010241423239840.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a0325e30d8c64a63a72c31863eb6963b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/07ff50aee7a9492a9e84027509bff468.png">
+<meta property="og:image" content="https://qzkq.github.io/img/9b084056336f4db18712896be3ffde32.png">
+<meta property="og:image" content="https://qzkq.github.io/img/dd5372ab9c3f4f95aad94046d2b75821.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e4536ad2bc244bf9a1cf82ee8e094c59.png">
+<meta property="og:image" content="https://qzkq.github.io/img/18edda4f8ee04bcba55241e494190573.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7565a9fa964c4f60bc2e3d687e899743.png">
+<meta property="og:image" content="https://qzkq.github.io/img/70d8d3468a5449718306bd3dbf23c001.png">
+<meta property="article:published_time" content="2026-01-04T00:17:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.417Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="主题模型">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="贝叶斯网络">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="马尔科夫">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/274147d6c5e5415eb1098975290b13a4.png">
+  
+  
+  
+  <title>机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M) - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-04 08:17" pubdate>
+          2026年1月4日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          103 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](机器学习面试笔试知识点-贝叶斯网络Bayesian Network、马尔科夫Markov和主题模型T M)</p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="一、贝叶斯网络-Bayesian-Network"><a href="#一、贝叶斯网络-Bayesian-Network" class="headerlink" title="一、贝叶斯网络(Bayesian Network)"></a>一、贝叶斯网络(Bayesian Network)</h1><h2 id="1-对概率图模型的理解"><a href="#1-对概率图模型的理解" class="headerlink" title="1.对概率图模型的理解"></a>1.对概率图模型的理解</h2><p>概率图模型是用图来表示变量概率依赖关系的理论，结合概率论与图论的知识，利用图来表示与模型有关的变量的联合概率分布。<br>对于一个实际问题，我们希望能够挖掘隐含在数据中的知识。概率图模型构建了这样一幅图，用观测结点表示观测到的数据，用隐含结点表示潜在的知识，用边来描述知识与数据的相互关系，<strong>最后基于这样的关系图获得一个概率分布，非常“优雅”地解决了问题。</strong><br>概率图中的节点分为隐含节点和观测节点，边分为有向边和无向边。从概率论的角度，节点对应于随机变量，边对应于随机变量的依赖或相关关系，<strong>其中有向边表示单向的依赖，无向边表示相互依赖关系。</strong><br>概率图模型分为<strong>贝叶斯网络</strong>（Bayesian Network）和<strong>马尔可夫网络</strong>（Markov Network）两大类。贝叶斯网络可以用一个有向图结构表示，马尔可夫网络可以表示成一个无向图的网络结构。更详细地说，概率图模型包括了朴素贝叶斯模型、最大熵模型、隐马尔可夫模型、条件随机场、主题模型等，在机器学习的诸多场景中都有着广泛的应用。 </p>
+<h2 id="2-细数贝叶斯网络"><a href="#2-细数贝叶斯网络" class="headerlink" title="2.细数贝叶斯网络"></a>2.细数贝叶斯网络</h2><p>往台球桌上扔一个球，这个球落会落在何处呢？如果是不偏不倚的把球抛出去，那么此球落在台球桌上的任一位置都有着相同的机会，即球落在台球桌上某一位置的概率服从均匀分布。这种在实验之前定下的属于基本前提性质的分布称为<strong>先验分布，或着无条件分布</strong>。<br>其中，先验信息一般来源于经验跟历史资料。比如林丹跟某选手对决，解说一般会根据林丹历次比赛的成绩对此次比赛的胜负做个大致的判断。再比如，某工厂每天都要对产品进行质检，以评估产品的不合格率θ，经过一段时间后便会积累大量的历史资料，这些历史资料便是先验知识，有了这些先验知识，便在决定对一个产品是否需要每天质检时便有了依据，如果以往的历史资料显示，某产品的不合格率只有0.01%，便可视为信得过产品或免检产品，只每月抽检一两次，从而省去大量的人力物力。<br>而<strong>后验分布</strong>π（θ|X）一般也认为是在给定样本X的情况下的θ条件分布，而使π（θ|X）达到最大的值θMD称为<strong>最大后验估计</strong>，类似于经典统计学中的<strong>极大似然估计。</strong><br>综合起来看，则好比是人类刚开始时对大自然只有少得可怜的先验知识，但随着不断观察、实验获得更多的样本、结果，使得人们对自然界的规律摸得越来越透彻。所以，贝叶斯方法既符合人们日常生活的思考方式，也符合人们认识自然的规律，经过不断的发展，最终占据统计学领域的半壁江山，与经典统计学分庭抗礼。</p>
+<h3 id="2-1贝叶斯定理"><a href="#2-1贝叶斯定理" class="headerlink" title="2.1贝叶斯定理"></a>2.1贝叶斯定理</h3><p><strong>条件概率</strong>（又称后验概率）就是事件A在另外一个事件B已经发生条件下的发生概率。条件概率表示为P(A|B)，读作“在B条件下A的概率”。<br>在同一个样本空间Ω中的事件或者子集A与B，如果随机从Ω中选出的一个元素属于B，那么这个随机选择的元素还属于A的概率就定义为在B的前提下A的条件概率：P(A|B)&#x3D;P(AB)&#x2F;P(B)</p>
+<p><strong>贝叶斯公式</strong>：</p>
+<p><img src="/img/274147d6c5e5415eb1098975290b13a4.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h3 id="2-2贝叶斯网络"><a href="#2-2贝叶斯网络" class="headerlink" title="2.2贝叶斯网络"></a>2.2贝叶斯网络</h3><p>贝叶斯网络(Bayesian network)，又称信念网络(Belief Network)，或有向无环图模型(directed acyclic graphical model)，是一种概率图模型。它是一种模拟人类推理过程中因果关系的不确定性处理模型，其网络拓朴结构是一个有向无环图(DAG)。 </p>
+<p>贝叶斯网络的有向无环图中的节点表示随机变量{  }<br>它们可以是可观察到的变量，或隐变量、未知参数等。认为有因果关系（或非条件独立）的变量或命题则用箭头来连接。若两个节点间以一个单箭头连接在一起，表示其中一个节点是“因(parents)”，另一个是“果(children)”，两节点就会产生一个条件概率值。<br>例如，假设节点E直接影响到节点H，即E→H，则用从E指向H的箭头建立结点E到结点H的有向弧(E,H)，权值(即连接强度)用条件概率P(H|E)来表示，如下图所示：</p>
+<p>简言之，把某个研究系统中涉及的随机变量，根据是否条件独立绘制在一个有向图中，就形成了贝叶斯网络。其主要用来描述随机变量之间的条件依赖，用圈表示随机变量(random variables)，用箭头表示条件依赖(conditional dependencies)。<br>此外，对于任意的随机变量，其联合概率可由各自的局部条件概率分布相乘而得出：</p>
+<h3 id="2-4-1贝叶斯网络的结构形式"><a href="#2-4-1贝叶斯网络的结构形式" class="headerlink" title="2.4.1贝叶斯网络的结构形式"></a>2.4.1贝叶斯网络的结构形式</h3><p><strong>1.head-to-head</strong></p>
+<p><img src="/img/21aa388c6a55414c9b5fb1cd724802d7.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>依上图，所以有：P(a,b,c) &#x3D; P(a)*P(b)*P(c|a,b)成立，即在c未知的条件下，a、b被阻断(blocked)，是独立的，称之为head-to-head条件独立。</p>
+<p><strong>2. tail-to-tail</strong></p>
+<p>考虑c未知，跟c已知这两种情况：</p>
+<ol>
+<li>在c未知的时候，有：P(a,b,c)&#x3D;P(c)*P(a|c)*P(b|c)，此时，没法得出P(a,b) &#x3D; P(a)P(b)，即c未知时，a、b不独立。</li>
+<li>在c已知的时候，有：P(a,b|c)&#x3D;P(a,b,c)&#x2F;P(c)，然后将P(a,b,c)&#x3D;P(c)*P(a|c)*P(b|c)带入式子中，得到：P(a,b|c)&#x3D;P(a,b,c)&#x2F;P(c) &#x3D; P(c)*P(a|c)*P(b|c) &#x2F; P(c) &#x3D; P(a|c)*P(b|c)，即c已知时，a、b独立。</li>
+</ol>
+<p><strong>3. head-to-tail</strong></p>
+<p><img src="/img/f672241103ea4e2c82a81914f91003b8.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>还是分c未知跟c已知这两种情况：</p>
+<ol>
+<li>c未知时，有：P(a,b,c)&#x3D;P(a)*P(c|a)*P(b|c)，但无法推出P(a,b) &#x3D; P(a)P(b)，即c未知时，a、b不独立。</li>
+<li>c已知时，有：P(a,b|c)&#x3D;P(a,b,c)&#x2F;P(c)，且根据P(a,c) &#x3D; P(a)*P(c|a) &#x3D; P(c)*P(a|c)，可化简得到：</li>
+</ol>
+<p><img src="/img/6e04f50113e94b90bc1d3ae90001e393.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   所以，在c给定的条件下，a，b被阻断(blocked)，是独立的，称之为head-to-tail条件独立。<br>   这个head-to-tail其实就是一个链式网络，如下图所示：</p>
+<p><img src="/img/7322b0ecdeec4fdd94ab24f796dbfa4d.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   根据之前对head-to-tail的讲解，我们已经知道，在  给定的条件下，  的分布和  条件独立。意味着啥呢？意味着：的分布状态只和有关，和其他变量条件独立。通俗点说，当前状态只跟上一状态有关，跟上上或上上之前的状态无关。这种顺次演变的随机过程，就叫做<strong>马尔科夫链</strong>（Markov chain）。对于马尔科夫链我们下一节再细讲。</p>
+<h3 id="2-4-2因子图"><a href="#2-4-2因子图" class="headerlink" title="2.4.2因子图"></a>2.4.2因子图</h3><p>将一个具有多变量的全局函数因子分解，得到几个局部函数的乘积，以此为基础得到的一个双向图叫做因子图（Factor Graph）。<br>通俗来讲，所谓因子图就是对函数进行因子分解得到的<strong>一种概率图</strong>。一般内含两种节点：变量节点和函数节点。我们知道，一个全局函数通过因式分解能够分解为多个局部函数的乘积，这些局部函数和对应的变量关系就体现在因子图上。<br>举个例子，现在有一个全局函数，其因式分解方程为：</p>
+<p>其中  为各函数，表示变量之间的关系，可以是条件概率也可以是其他关系。其对应的因子图为：</p>
+<p>在概率图中，求某个变量的边缘分布是常见的问题。这问题有很多求解方法，其中之一就是把贝叶斯网络或马尔科夫随机场转换成因子图，然后用<strong>sum-product算法</strong>求解。换言之，基于因子图可以用sum-product 算法高效的求各个变量的边缘分布。</p>
+<h3 id="2-5朴素贝叶斯"><a href="#2-5朴素贝叶斯" class="headerlink" title="2.5朴素贝叶斯"></a>2.5朴素贝叶斯</h3><p>朴素贝叶斯分类器的训练过程是基于训练集D来估计<strong>先验概率</strong></p>
+<p><strong>朴素贝叶斯分类器不存在数据平滑问题。</strong></p>
+<p>朴素贝叶斯(Naive Bayesian)是经典的机器学习算法之一，也是为数不多的基于概率论的分类算法。朴素贝叶斯原理简单，也很容易实现，多用于文本分类，比如垃圾邮件过滤。<strong>朴素贝叶斯可以看做是贝叶斯网络的特殊情况：即该网络中无边，各个节点都是独立的。</strong><br>朴素贝叶斯朴素在哪里呢？ —— <strong>两个假设</strong>：</p>
+<ul>
+<li>一个特征出现的概率与其他特征（条件）独立；</li>
+<li>每个特征同等重要。</li>
+</ul>
+<p>贝叶斯公式如下：</p>
+<p>下面以一个例子来解释朴素贝叶斯，给定数据如下：</p>
+<p>现在给我们的问题是，如果一对男女朋友，男生想女生求婚，男生的四个特点分别是不帅，性格不好，身高矮，不上进，请你判断一下女生是嫁还是不嫁？<br>这是一个典型的分类问题，转为数学问题就是比较p(嫁|(不帅、性格不好、身高矮、不上进))与p(不嫁|(不帅、性格不好、身高矮、不上进))的概率，谁的概率大，我就能给出嫁或者不嫁的答案！这里我们联系到朴素贝叶斯公式：</p>
+<p>我们需要求p(嫁|(不帅、性格不好、身高矮、不上进),这是我们不知道的，但是通过朴素贝叶斯公式可以转化为好求的三个量，这三个变量都能通过统计的方法求得。<br>等等，为什么这个成立呢？学过概率论的同学可能有感觉了，这个等式成立的条件需要特征之间相互独立吧！对的！这也就是为什么朴素贝叶斯分类有朴素一词的来源**，朴素贝叶斯算法是假设各个特征之间相互独立**，那么这个等式就成立了！</p>
+<p><strong>但是为什么需要假设特征之间相互独立呢？</strong></p>
+<ul>
+<li>我们这么想，假如没有这个假设，那么我们对右边这些概率的估计其实是不可做的，这么说，我们这个例子有4个特征，其中帅包括{帅，不帅}，性格包括{不好，好，爆好}，身高包括{高，矮，中}，上进包括{不上进，上进}，那么四个特征的联合概率分布总共是4维空间，总个数为2<em>3</em>3*2&#x3D;36个。36个，计算机扫描统计还可以，但是现实生活中，往往有非常多的特征，每一个特征的取值也是非常之多，那么通过统计来估计后面概率的值，变得几乎不可做，这也是为什么需要假设特征之间独立的原因。</li>
+<li>假如我们没有假设特征之间相互独立，那么我们统计的时候，就需要在整个特征空间中去找，比如统计p(不帅、性格不好、身高矮、不上进|嫁),我们就需要在嫁的条件下，去找四种特征全满足分别是不帅，性格不好，身高矮，不上进的人的个数，这样的话，由于数据的稀疏性，很容易统计到0的情况。 这样是不合适的。<br>根据上面俩个原因，朴素贝叶斯法对条件概率分布做了条件独立性的假设，由于这是一个较强的假设，朴素贝叶斯也由此得名！这一假设使得朴素贝叶斯法变得简单，但有时会牺牲一定的分类准确率。</li>
+</ul>
+<h3 id="朴素贝叶斯优点："><a href="#朴素贝叶斯优点：" class="headerlink" title="朴素贝叶斯优点："></a>朴素贝叶斯优点：</h3><ul>
+<li>算法逻辑简单,易于实现（算法思路很简单，只要使用贝叶斯公式转化即可！）</li>
+<li>分类过程中时空开销小（假设特征相互独立，只会涉及到二维存储）</li>
+</ul>
+<h3 id="朴素贝叶斯缺点："><a href="#朴素贝叶斯缺点：" class="headerlink" title="朴素贝叶斯缺点："></a>朴素贝叶斯缺点：</h3><p>理论上，朴素贝叶斯模型与其他分类方法相比具有最小的误差率。但是实际上并非总是如此，这是因为朴素贝叶斯模型假设属性之间相互独立，这个假设在实际应用中往往是不成立的，在属性个数比较多或者属性之间相关性较大时，分类效果不好。<br>朴素贝叶斯模型(Naive Bayesian Model)的<strong>朴素(Naive)的含义是”很简单很天真</strong>地假设样本特征彼此独立。这个假设现实中基本上不存在, 但特征相关性很小的实际情况还是很多的, 所以这个模型仍然能够工作得很好。</p>
+<h2 id="3-基于贝叶斯的一些问题"><a href="#3-基于贝叶斯的一些问题" class="headerlink" title="3.基于贝叶斯的一些问题"></a>3.基于贝叶斯的一些问题</h2><h3 id="1-解释朴素贝叶斯算法里面的先验概率、似然估计和边际似然估计？"><a href="#1-解释朴素贝叶斯算法里面的先验概率、似然估计和边际似然估计？" class="headerlink" title="1. 解释朴素贝叶斯算法里面的先验概率、似然估计和边际似然估计？"></a>1. 解释朴素贝叶斯算法里面的先验概率、似然估计和边际似然估计？</h3><ul>
+<li><strong>先验概率</strong>：就是因变量（二分法）在数据集中的比例。这是在你没有任何进一步的信息的时候，是对分类能做出的最接近的猜测。</li>
+<li><strong>似然估计</strong>：似然估计是在其他一些变量的给定的情况下，一个观测值被分类为1的概率。例如，“FREE”这个词在以前的垃圾邮件使用的概率就是似然估计。</li>
+<li><strong>际似然估计</strong>：边际似然估计就是，“FREE”这个词在任何消息中使用的概率。</li>
+</ul>
+<h2 id="4-生成式模型和判别式模型的区别"><a href="#4-生成式模型和判别式模型的区别" class="headerlink" title="4.生成式模型和判别式模型的区别"></a>4.生成式模型和判别式模型的区别</h2><p><strong>判别模型(discriminative model)通过求解条件概率分布P(y|x)或者直接计算y的值来预测y。</strong><br>线性回归（Linear Regression）,逻辑回归（Logistic Regression）,支持向量机（SVM）, 传统神经网络（Traditional Neural Networks）,线性判别分析（Linear Discriminative Analysis），条件随机场（Conditional Random Field）、感知机、决策树、KNN、最大熵模型、高斯过程<br><strong>生成模型（generative model）通过对观测值和标注数据计算联合概率分布P(x,y)来达到判定估算y的目的。</strong><br>朴素贝叶斯（Naive Bayes）, 隐马尔科夫模型（HMM）,贝叶斯网络（Bayesian Networks）和隐含狄利克雷分布（Latent Dirichlet Allocation）、混合高斯模型、马尔科夫随机场、 深度信念网络</p>
+<h1 id="二、马尔科夫-Markov"><a href="#二、马尔科夫-Markov" class="headerlink" title="二、马尔科夫(Markov)"></a>二、马尔科夫(Markov)</h1><h2 id="1-马尔可夫网络、马尔可夫模型、马尔可夫过程、贝叶斯网络的区别"><a href="#1-马尔可夫网络、马尔可夫模型、马尔可夫过程、贝叶斯网络的区别" class="headerlink" title="1.马尔可夫网络、马尔可夫模型、马尔可夫过程、贝叶斯网络的区别"></a>1.马尔可夫网络、马尔可夫模型、马尔可夫过程、贝叶斯网络的区别</h2><p>以下共分六点说明这些概念，分成条目只是方便边阅读边思考，这6点是依次递进的，不要跳跃着看。</p>
+<ol>
+<li>将随机变量作为结点，若两个随机变量相关或者不独立，则将二者连接一条边；若给定若干随机变量，则形成一个有向图，即构成一个<strong>网络</strong>。</li>
+<li>如果该网络是有向无环图，则这个网络称为<strong>贝叶斯网络</strong>。</li>
+<li>如果这个图退化成线性链的方式，则得到马尔可夫模型；因为每个结点都是随机变量，将其看成各个时刻(或空间)的相关变化，以随机过程的视角，则可以看成是<strong>马尔可夫过程</strong>。</li>
+<li>若上述网络是无向的，则是无向图模型，又称<strong>马尔可夫随机场或者马尔可夫网络</strong>。</li>
+<li>如果在给定某些条件的前提下，研究这个马尔可夫随机场，则得到<strong>条件随机场</strong>。</li>
+<li>如果使用条件随机场解决标注问题，并且进一步将条件随机场中的网络拓扑变成线性的，则得到<strong>线性链条件随机场。</strong></li>
+</ol>
+<h2 id="2-马尔可夫模型"><a href="#2-马尔可夫模型" class="headerlink" title="2.马尔可夫模型"></a>2.马尔可夫模型</h2><h3 id="2-1马尔可夫过程"><a href="#2-1马尔可夫过程" class="headerlink" title="2.1马尔可夫过程"></a>2.1马尔可夫过程</h3><p>马尔可夫过程（Markov process）是一类随机过程。它的原始模型马尔可夫链，由俄国数学家A.A.马尔可夫于1907年提出。该过程具有如下特性：在已知目前状态（现在）的条件下，它未来的演变（将来）不依赖于它以往的演变 (过去 )。例如森林中动物头数的变化构成——马尔可夫过程。在现实世界中，有很多过程都是马尔可夫过程，如液体中微粒所作的布朗运动、传染病受感染的人数、车站的候车人数等，都可视为马尔可夫过程。<br>每个状态的转移只依赖于之前的n个状态，这个过程被称为1个n阶的模型，其中n是影响转移状态的数目。最简单的马尔可夫过程就是一阶过程**，每一个状态的转移只依赖于其之前的那一个状态**，这个也叫作<strong>马尔可夫性质</strong>。用数学表达式表示就是下面的样子：<br>假设这个模型的每个状态都只依赖于之前的状态，这个假设被称为<strong>马尔科夫假设</strong>，这个假设可以大大的简化这个问题。显然，这个假设可能是一个非常糟糕的假设，导致很多重要的信息都丢失了。</p>
+<p>假设天气服从<strong>马尔可夫链</strong>：</p>
+<p><img src="/img/057c71f596d04ed4ad362c62c8f4182b.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>从上面这幅图可以看出：</p>
+<ul>
+<li>假如今天是晴天，明天变成阴天的概率是0.1</li>
+<li>假如今天是晴天，明天仍然是晴天的概率是0.9，和上一条概率之和为1，这也符合真实生活的情况。<br><img src="/img/88f57d0b791f4176957e3a5b42142935.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></li>
+</ul>
+<p>由上表我们可以得到马尔可夫链的<strong>状态转移矩阵</strong>：</p>
+<p><img src="/img/51c1a1b1f4d84bc585baf3132f0d97fc.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>因此，一阶马尔可夫过程定义了以下三个部分：</p>
+<ul>
+<li><strong>状态</strong>：晴天和阴天</li>
+<li><strong>初始向量</strong>：定义系统在时间为0的时候的状态的概率</li>
+<li><strong>状态转移矩阵</strong>：每种天气转换的概率</li>
+</ul>
+<p>马尔可夫模型（Markov Model）是一种统计模型，广泛应用在语音识别，词性自动标注，音字转换，概率文法等各个自然语言处理等应用领域。经过长期发展，尤其是在语音识别中的成功应用，使它成为一种通用的统计工具。到目前为止，它一直被认为是实现快速精确的语音识别系统的最成功的方法。</p>
+<h2 id="3-隐马尔可夫模型-HMM"><a href="#3-隐马尔可夫模型-HMM" class="headerlink" title="3.隐马尔可夫模型(HMM)"></a>3.隐马尔可夫模型(HMM)</h2><p>在某些情况下马尔科夫过程不足以描述我们希望发现的模式。回到之前那个天气的例子，一个隐居的人可能不能直观的观察到天气的情况，但是有一些海藻。民间的传说告诉我们海藻的状态在某种概率上是和天气的情况相关的。在这种情况下我们有两个状态集合，一个可以观察到的状态集合（海藻的状态）和一个隐藏的状态（天气的状况）。我们希望能找到一个算法可以根据海藻的状况和马尔科夫假设来预测天气的状况。<br>而这个算法就叫做<strong>隐马尔可夫模型(HMM)</strong>。</p>
+<p>隐马尔可夫模型 (Hidden Markov Model) 是一种统计模型，用来描述一个含有隐含未知参数的马尔可夫过程。<strong>它是结构最简单的动态贝叶斯网，这是一种著名的有向图模型</strong>，主要用于时序数据建模，在语音识别、自然语言处理等领域有广泛应用。</p>
+<h3 id="3-1隐马尔可夫三大问题"><a href="#3-1隐马尔可夫三大问题" class="headerlink" title="3.1隐马尔可夫三大问题"></a>3.1隐马尔可夫三大问题</h3><ol>
+<li>给定模型，如何有效计算产生观测序列的概率？换言之，如何评估模型与观测序列之间的匹配程度？</li>
+<li>给定模型和观测序列，如何找到与此观测序列最匹配的状态序列？换言之，如何根据观测序列推断出隐藏的模型状态？</li>
+<li>给定观测序列，如何调整模型参数使得该序列出现的概率最大？换言之，如何训练模型使其能最好地描述观测数据？</li>
+</ol>
+<p>前两个问题是模式识别的问题：1) 根据隐马尔科夫模型得到一个可观察状态序列的概率(<strong>评价</strong>)；2) 找到一个隐藏状态的序列使得这个序列产生一个可观察状态序列的概率最大(<strong>解码</strong>)。第三个问题就是根据一个可以观察到的状态序列集产生一个隐马尔科夫模型（<strong>学习</strong>）。<br>对应的三大问题解法：</p>
+<ol>
+<li>向前算法(Forward Algorithm)、向后算法(Backward Algorithm)</li>
+<li>维特比算法(Viterbi Algorithm)</li>
+<li>鲍姆-韦尔奇算法(Baum-Welch Algorithm)   (约等于EM算法)</li>
+</ol>
+<p>下面我们以一个场景来说明这些问题的解法到底是什么？<br>小明现在有三天的假期，他为了打发时间，可以在每一天中选择三件事情来做，这三件事情分别是散步、购物、打扫卫生(<strong>对应着可观测序列</strong>)，可是在生活中我们所做的决定一般都受到天气的影响，可能晴天的时候想要去购物或者散步，可能下雨天的时候不想出门，留在家里打扫卫生。而天气(晴天、下雨天)就属于隐藏状态，用一幅概率图来表示这一马尔可夫过程：</p>
+<p><img src="/img/7dac68e9f8b44f42a81b1f40699a80d8.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>那么，我们提出三个问题，分别对应马尔可夫的三大问题：</p>
+<ol>
+<li>已知整个模型，我观测到连续三天做的事情是：散步，购物，收拾。那么，根据模型，计算产生这些行为的概率是多少。</li>
+<li>同样知晓这个模型，同样是这三件事，我想猜，这三天的天气是怎么样的。</li>
+<li>最复杂的，我只知道这三天做了这三件事儿，而其他什么信息都没有。我得建立一个模型，晴雨转换概率，第一天天气情况的概率分布，根据天气情况选择做某事的概率分布。</li>
+</ol>
+<p>下面我们就依据这个场景来一一解答这些问题。</p>
+<h4 id="3-1-1-第一个问题解法"><a href="#3-1-1-第一个问题解法" class="headerlink" title="3.1.1 第一个问题解法"></a>3.1.1 第一个问题解法</h4><p><strong>遍历算法</strong>：<br>这个是最简单的算法了，假设第一天(T&#x3D;1 时刻)是晴天，想要购物，那么就把图上的对应概率相乘就能够得到了。<br>第二天(T&#x3D;2 时刻)要做的事情，在第一天的概率基础上乘上第二天的概率，依次类推，最终得到这三天(T&#x3D;3 时刻)所要做的事情的概率值，这就是遍历算法，简单而又粗暴。但问题是用遍历算法的复杂度会随着观测序列和隐藏状态的增加而成指数级增长。<br>复杂度为：  ，于是就有了第二种算法</p>
+<p><strong>前向算法</strong>：</p>
+<ol>
+<li>假设第一天要购物，那么就计算出第一天购物的概率(包括晴天和雨天)；假设第一天要散步，那么也计算出来，依次枚举。</li>
+<li>假设前两天是购物和散步，也同样计算出这一种的概率；假设前两天是散步和打扫卫生，同样计算，枚举出前两天行为的概率。</li>
+<li>第三步就是计算出前三天行为的概率。<br>细心的读者已经发现了，第二步中要求的概率可以在第一步的基础上进行，同样的，第三步也会依赖于第二步的计算结果。那么这样做就能够<strong>节省很多计算环节，类似于动态规划。</strong><br>这种算法的复杂度为：</li>
+</ol>
+<p><strong>后向算法</strong><br>跟前向算法相反，我们知道总的概率肯定是1，那么B_t&#x3D;1，也就是最后一个时刻的概率合为1，先计算前三天的各种可能的概率，在计算前两天、前一天的数据，跟前向算法相反的计算路径。</p>
+<h4 id="3-1-2-第二个问题解法"><a href="#3-1-2-第二个问题解法" class="headerlink" title="3.1.2 第二个问题解法"></a>3.1.2 第二个问题解法</h4><p><strong>维特比算法(Viterbi)</strong></p>
+<p>维特比算法是现代数字通信中最常用的算法，同时也是很多自然语言处理采用的解码算法。<br>维特比算法是一个特殊但应用最广的<strong>动态规划算法</strong>。利用动态规划，可以解决任何一个图中的最短路径问题。而维特比算法是针对一个特殊的图—篱笆网络（Lattice）的有向图最短路径问题而提出的。它之所以重要，是因为凡是使用隐含马尔可夫模型描述的问题都可以用它来解码，包括今天的数字通信、语音识别、机器翻译、拼音转汉字、分词等。<br>维特比算法一般用于模式识别，通过观测数据来反推出隐藏状态，下面一步步讲解这个算法。<br>因为是要根据观测数据来反推，所以这里要进行一个假设，<strong>假设这三天所做的行为分别是：散步、购物、打扫卫生，那么我们要求的是这三天的天气(路径)分别是什么。</strong></p>
+<ol>
+<li>初始计算第一天下雨和第一天晴天去散步的概率值：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">表示第一天下雨的概率<br>表示中间的状态(下雨)s概率<br>表示下雨并且散步的概率<br>表示下雨天到下雨天的概率<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/5e577dd6875e421682ee0d39f42540bd.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><img src="/img/1c611e5b05eb44b6908a9984c804c846.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   初始路径为：</p>
+<p><img src="/img/7c3def42a7bf452a940e22374037e74d.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><img src="/img/8b9cfeb8af3a4b4894c2844662babbfa.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="2">
+<li>计算第二天下雨和第二天晴天去购物的概率值：</li>
+</ol>
+<p><img src="/img/a3b29177f1cc46c9b7b037a492d8c88f.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   对应路径为： </p>
+<p><img src="/img/f7c6c67a21964cec91f055eb27a94cd0.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="3">
+<li>计算第三天下雨和第三天晴天去打扫卫生的概率值：</li>
+</ol>
+<p><img src="/img/3f58e72536a047279d0c5f01aef376be.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   对应路径为：</p>
+<p><img src="/img/1f085bf99d184f938a297da4c3280c87.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="4">
+<li>比较每一步中   的概率大小，选取<strong>最大值</strong>并找到对应的路径，依次类推就能找到最有可能的<strong>隐藏状态路径</strong>。<br>第一天的概率最大值为   ，对应路径为Sunny，<br>第二天的概率最大值为  ，对应路径为Sunny，<br>第三天的概率最大值为   ，对应路径为Rainy。</li>
+<li>合起来的路径就是Sunny-&gt;Sunny-&gt;Rainy，这就是我们所求。</li>
+</ol>
+<h4 id="3-1-3-第三个问题解法"><a href="#3-1-3-第三个问题解法" class="headerlink" title="3.1.3 第三个问题解法"></a>3.1.3 第三个问题解法</h4><p>鲍姆-韦尔奇算法(Baum-Welch Algorithm)   (约等于EM算法)</p>
+<h2 id="4-马尔可夫网络"><a href="#4-马尔可夫网络" class="headerlink" title="4.马尔可夫网络"></a>4.马尔可夫网络</h2><p>我们已经知道，有向图模型，又称作贝叶斯网络，但在有些情况下，强制对某些结点之间的边增加方向是不合适的。<strong>使用没有方向的无向边，形成了无向图模型</strong>（Undirected Graphical Model,UGM）, 又被称为<strong>马尔可夫随机场或者马尔可夫网络</strong>（Markov Random Field,  MRF or Markov network）。</p>
+<p><img src="/img/c172a8dbfaad4d9ba75805ea15f6cfe6.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>设  和都是联合随机变量，若随机变量Y构成一个无向图 G&#x3D;(V,E)表示的马尔可夫随机场（MRF），则条件概率分布P(Y|X)称为<strong>条件随机场</strong>（Conditional Random Field, 简称CRF。如下图所示，便是一个线性链条件随机场的无向图模型：</p>
+<p><img src="/img/6f99334c8eee4bd58eb54e322f656261.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>在概率图中，求某个变量的边缘分布是常见的问题。这问题有很多求解方法，其中之一就是把贝叶斯网络或马尔可夫随机场转换成因子图，然后用<strong>sum-product算法</strong>求解。换言之，基于因子图可以用sum-product 算法高效的求各个变量的边缘分布。</p>
+<h2 id="5-条件随机场-CRF"><a href="#5-条件随机场-CRF" class="headerlink" title="5.条件随机场(CRF)"></a>5.条件随机场(CRF)</h2><h3 id="一个通俗的例子"><a href="#一个通俗的例子" class="headerlink" title="一个通俗的例子"></a>一个通俗的例子</h3><p>假设你有许多小明同学一天内不同时段的照片，从小明提裤子起床到脱裤子睡觉各个时间段都有（小明是照片控！）。现在的任务是对这些照片进行分类。比如有的照片是吃饭，那就给它打上吃饭的标签；有的照片是跑步时拍的，那就打上跑步的标签；有的照片是开会时拍的，那就打上开会的标签。问题来了，你准备怎么干？<br>一个简单直观的办法就是，不管这些照片之间的时间顺序，想办法训练出一个多元分类器。就是用一些打好标签的照片作为训练数据，训练出一个模型，直接根据照片的特征来分类。例如，如果照片是早上6:00拍的，且画面是黑暗的，那就给它打上睡觉的标签;如果照片上有车，那就给它打上开车的标签。<br>乍一看可以！但实际上，由于我们忽略了这些照片之间的时间顺序这一重要信息，我们的分类器会有缺陷的。举个例子，假如有一张小明闭着嘴的照片，怎么分类？显然难以直接判断，需要参考闭嘴之前的照片，如果之前的照片显示小明在吃饭，那这个闭嘴的照片很可能是小明在咀嚼食物准备下咽，可以给它打上吃饭的标签；如果之前的照片显示小明在唱歌，那这个闭嘴的照片很可能是小明唱歌瞬间的抓拍，可以给它打上唱歌的标签。<br>所以，为了让我们的分类器能够有更好的表现，在为一张照片分类时，我们必须将与它<strong>相邻的照片的标签信息考虑进来</strong>。这——就是条件随机场(CRF)大显身手的地方！这就有点类似于词性标注了，只不过把照片换成了句子而已，本质上是一样的。<br>如同马尔可夫随机场，条件随机场为具有无向的图模型，图中的顶点代表随机变量，顶点间的连线代表随机变量间的相依关系，在条件随机场中，随机变量Y 的分布为条件机率，给定的观察值则为随机变量 X。下图就是一个线性连条件随机场。</p>
+<p><img src="/img/ff798a5778484f0a9f4d98d7bba905e5.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>条件概率分布P(Y|X)称为<strong>条件随机场</strong>。</p>
+<h2 id="6-EM（最大期望算法）算法、HMM、CRF的比较"><a href="#6-EM（最大期望算法）算法、HMM、CRF的比较" class="headerlink" title="6.EM（最大期望算法）算法、HMM、CRF的比较"></a>6.EM（最大期望算法）算法、HMM、CRF的比较</h2><ol>
+<li><strong>EM</strong>算法是用于含有隐变量模型的极大似然估计或者极大后验估计，有两步组成：E步，求期望（expectation）；M步，求极大（maxmization）。本质上EM算法还是一个迭代算法，通过不断用上一代参数对隐变量的估计来对当前变量进行计算，直到收敛。注意：EM算法是对初值敏感的，而且EM是不断求解下界的极大化逼近求解对数似然函数的极大化的算法，也就是说<strong>EM算法不能保证找到全局最优值</strong>。对于EM的导出方法也应该掌握。 </li>
+<li><strong>隐马尔可夫模型</strong>是用于标注问题的生成模型。有几个参数（π，A，B）：初始状态概率向量π，状态转移矩阵A，观测概率矩阵B。称为马尔科夫模型的三要素。马尔科夫三个基本问题：<br>概率计算问题：给定模型和观测序列，计算模型下观测序列输出的概率。–》前向后向算法<br>学习问题：已知观测序列，估计模型参数，即用极大似然估计来估计参数。–》Baum-Welch(也就是EM算法)和极大似然估计。<br>预测问题：已知模型和观测序列，求解对应的状态序列。–》近似算法（贪心算法）和维比特算法（动态规划求最优路径）</li>
+<li>**条件随机场CRF，**给定一组输入随机变量的条件下另一组输出随机变量的条件概率分布密度。条件随机场假设输出变量构成马尔科夫随机场，而我们平时看到的大多是线性链条随机场，也就是由输入对输出进行预测的判别模型。求解方法为极大似然估计或正则化的极大似然估计。 </li>
+<li>之所以总把HMM和CRF进行比较，主要是因为CRF和HMM都利用了图的知识，但是CRF利用的是马尔科夫随机场（无向图），而HMM的基础是贝叶斯网络（有向图）。而且CRF也有：概率计算问题、学习问题和预测问题。大致计算方法和HMM类似，只不过不需要EM算法进行学习问题。</li>
+<li><strong>HMM和CRF对比</strong>：其根本还是在于基本的理念不同，一个是生成模型，一个是判别模型，这也就导致了求解方式的不同。</li>
+</ol>
+<h1 id="三、主题模型-Topic-Model"><a href="#三、主题模型-Topic-Model" class="headerlink" title="三、主题模型(Topic Model)"></a>三、主题模型(Topic Model)</h1><h2 id="1-LDA模型是什么"><a href="#1-LDA模型是什么" class="headerlink" title="1.LDA模型是什么"></a>1.LDA模型是什么</h2><p>LDA可以分为以下5个步骤：</p>
+<ul>
+<li>一个函数：gamma函数。</li>
+<li>四个分布：二项分布、多项分布、beta分布、Dirichlet分布。</li>
+<li>一个概念和一个理念：共轭先验和贝叶斯框架。</li>
+<li>两个模型：pLSA、LDA。</li>
+<li>一个采样：Gibbs采样</li>
+</ul>
+<p>关于LDA有两种含义，一种是线性判别分析（Linear Discriminant Analysis），一种是概率主题模型：<strong>隐含狄利克雷分布（Latent Dirichlet Allocation，简称LDA）</strong>，本文讲后者。<br>LDA是一种主题模型，它可以将文档集中每篇文档的主题以概率分布的形式给出，从而通过分析一些文档抽取出它们的主题（分布）出来后，便可以根据主题（分布）进行主题聚类或文本分类。同时，它是一种典型的词袋模型，即一篇文档是由一组词构成，词与词之间没有先后顺序的关系。此外，一篇文档可以包含多个主题，文档中每一个词都由其中的一个主题生成。<br>人类是怎么生成文档的呢？首先先列出几个主题，然后以一定的概率选择主题，以一定的概率选择这个主题包含的词汇，最终组合成一篇文章。如下图所示(其中不同颜色的词语分别对应上图中不同主题下的词)。</p>
+<p><img src="/img/4573cc04ac074ac4ad779035c9a235cb.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>那么LDA就是跟这个反过来：<strong>根据给定的一篇文档，反推其主题分布。</strong><br>在LDA模型中，一篇文档生成的方式如下：</p>
+<ul>
+<li>从狄利克雷分布  中取样生成文档 i 的主题分布  。</li>
+<li>从主题的多项式分布中取样生成文档i第 j 个词的主题  。</li>
+<li>从狄利克雷分布  中取样生成主题对应的词语分布  。</li>
+<li>从词语的多项式分布 中采样最终生成词语  。</li>
+</ul>
+<p>其中，类似Beta分布是二项式分布的共轭先验概率分布，而狄利克雷分布（Dirichlet分布）是多项式分布的共轭先验概率分布。此外，LDA的图模型结构如下图所示（类似贝叶斯网络结构）：</p>
+<p><img src="/img/e0b6e0ab8cec4d86bdfd4ee407892a14.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h3 id="1-1-5个分布的理解"><a href="#1-1-5个分布的理解" class="headerlink" title="1.1 5个分布的理解"></a>1.1 5个分布的理解</h3><p>先解释一下以上出现的概念。</p>
+<ol>
+<li><strong>二项分布（Binomial distribution）</strong><br>二项分布是从伯努利分布推进的。伯努利分布，又称两点分布或0-1分布，是一个离散型的随机分布，其中的随机变量只有两类取值，非正即负{+，-}。而二项分布即重复n次的伯努利试验，记为  。简言之，只做一次实验，是伯努利分布，重复做了n次，是二项分布。</li>
+<li><strong>多项分布</strong><br>是二项分布扩展到多维的情况。多项分布是指单次试验中的随机变量的取值不再是0-1的，而是有多种离散值可能（1,2,3…,k）。比如投掷6个面的骰子实验，N次实验结果服从K&#x3D;6的多项分布。其中：</li>
+</ol>
+<p><img src="/img/09247178cdbd4eac9b6e757545504043.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="3">
+<li><strong>共轭先验分布</strong><br>在贝叶斯统计中，如果后验分布与先验分布属于同类，则先验分布与后验分布被称为<strong>共轭分布</strong>，而先验分布被称为似然函数的<strong>共轭先验</strong>。</li>
+<li><strong>Beta分布</strong><br>二项分布的共轭先验分布。给定参数  和  ，取值范围为[0,1]的随机变量 x 的概率密度函数：</li>
+</ol>
+<p><img src="/img/23762e10e8a4409eac2b59c7399292b2.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   其中：</p>
+<p><img src="/img/42e89ccee7e4436f9bf1158410d02a2d.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><img src="/img/271f418de7fb4918bd7f60da00500b14.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><strong>注：这便是所谓的gamma函数，下文会具体阐述。</strong></p>
+<ol start="5">
+<li>狄利克雷分布<br>是beta分布在高维度上的推广。Dirichlet分布的密度函数形式跟beta分布的密度函数如出一辙：</li>
+</ol>
+<p><img src="/img/fb3bb498a16848ea9010241423239840.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   其中</p>
+<p><img src="/img/a0325e30d8c64a63a72c31863eb6963b.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p> 至此，我们可以看到二项分布和多项分布很相似，Beta分布和Dirichlet 分布很相似。<br>总之，<strong>可以得到以下几点信息。</strong></p>
+<p>beta分布是二项式分布的共轭先验概率分布：对于非负实数  和  ，我们有如下关系：</p>
+<p><img src="/img/07ff50aee7a9492a9e84027509bff468.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>  其中  对应的是二项分布  的记数。针对于这种观测到的数据符合二项分布，参数的先验分布和后验分布都是Beta分布的情况，就是Beta-Binomial 共轭。<br>狄利克雷分布（Dirichlet分布）是多项式分布的共轭先验概率分布，一般表达式如下：</p>
+<p><img src="/img/9b084056336f4db18712896be3ffde32.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>  针对于这种观测到的数据符合多项分布，参数的先验分布和后验分布都是Dirichlet 分布的情况，就是 Dirichlet-Multinomial 共轭。<br>贝叶斯派思考问题的固定模式：<br>  先验分布  + 样本信息X &#x3D; 后验分布  。</p>
+<h3 id="1-2-3个基础模型的理解"><a href="#1-2-3个基础模型的理解" class="headerlink" title="1.2 3个基础模型的理解"></a>1.2 3个基础模型的理解</h3><p>在讲LDA模型之前，再循序渐进理解基础模型：Unigram model、mixture of unigrams model，以及跟LDA最为接近的pLSA模型。为了方便描述，首先定义一些变量：</p>
+<ul>
+<li>表示词，V示所有单词的个数（固定值）</li>
+<li>表示主题，k主题的个数（预先给定，固定值）。</li>
+<li>表示语料库，其中的M是语料库中的文档数（固定值）。</li>
+<li>表示文档，其中的N表示一个文档中的词数（随机变量）。</li>
+</ul>
+<ol>
+<li>Unigram model<br>对于文档  ，用  表示词  的先验概率，生成文档w的概率为：</li>
+</ol>
+<p><img src="/img/dd5372ab9c3f4f95aad94046d2b75821.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="2">
+<li>Mixture of unigrams model<br>该模型的生成过程是：给某个文档先选择一个主题z,再根据该主题生成文档，该文档中的所有词都来自一个主题。假设主题有  ，生成文档w的概率为：</li>
+</ol>
+<p><img src="/img/e4536ad2bc244bf9a1cf82ee8e094c59.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<ol start="3">
+<li>PLSA模型<br>理解了pLSA模型后，到LDA模型也就一步之遥——给pLSA加上贝叶斯框架，便是LDA。<br>在上面的Mixture of unigrams model中，我们假定一篇文档只有一个主题生成，可实际中，一篇文章往往有多个主题，只是这多个主题各自在文档中出现的概率大小不一样。比如介绍一个国家的文档中，往往会分别从教育、经济、交通等多个主题进行介绍。那么在pLSA中，文档是怎样被生成的呢？<br>假定你一共有K个可选的主题，有V个可选的词，<strong>咱们来玩一个扔骰子的游戏</strong>。</li>
+</ol>
+<p>一、假设你每写一篇文档会制作一颗K面的“文档-主题”骰子（扔此骰子能得到K个主题中的任意一个），和K个V面的“主题-词项” 骰子（每个骰子对应一个主题，K个骰子对应之前的K个主题，且骰子的每一面对应要选择的词项，V个面对应着V个可选的词）。<br>   比如可令K&#x3D;3，即制作1个含有3个主题的“文档-主题”骰子，这3个主题可以是：教育、经济、交通。然后令V &#x3D; 3，制作3个有着3面的“主题-词项”骰子，其中，教育主题骰子的3个面上的词可以是：大学、老师、课程，经济主题骰子的3个面上的词可以是：市场、企业、金融，交通主题骰子的3个面上的词可以是：高铁、汽车、飞机。</p>
+<p><img src="/img/18edda4f8ee04bcba55241e494190573.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选"><br>）<br>二、每写一个词，先扔该“文档-主题”骰子选择主题，得到主题的结果后，使用和主题结果对应的那颗“主题-词项”骰子，扔该骰子选择要写的词。<br>   先扔“文档-主题”的骰子，假设（以一定的概率）得到的主题是教育，所以下一步便是扔教育主题筛子，（以一定的概率）得到教育主题筛子对应的某个词：大学。<br>   上面这个投骰子产生词的过程简化下便是：“<strong>先以一定的概率选取主题，再以一定的概率选取词</strong>”。<br>三、最后，你不停的重复扔“文档-主题”骰子和”主题-词项“骰子，重复N次（产生N个词），完成一篇文档，重复这产生一篇文档的方法M次，则完成M篇文档。<br><strong>上述过程抽象出来即是PLSA的文档生成模型。在这个过程中，我们并未关注词和词之间的出现顺序，所以pLSA是一种词袋方法。生成文档的整个过程便是选定文档生成主题，确定主题生成词。</strong><br>   反过来，既然文档已经产生，那么如何根据已经产生好的文档反推其主题呢？这个利用看到的文档推断其隐藏的主题（分布）的过程（其实也就是产生文档的逆过程），便是<strong>主题建模的目的：自动地发现文档集中的主题（分布）。</strong><br>   文档d和词w是我们得到的样本，可观测得到，所以对于任意一篇文档，其  是已知的。从而可以根据大量已知的文档-词项信息 ，训练出文档-主题  和主题-词项  ，如下公式所示：</p>
+<p><img src="/img/7565a9fa964c4f60bc2e3d687e899743.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   故得到文档中每个词的生成概率为： </p>
+<p><img src="/img/70d8d3468a5449718306bd3dbf23c001.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>   由于  可事先计算求出，而  和未知，所以  就是我们要估计的参数（值），通俗点说，就是要最大化这个θ。<br>   用什么方法进行估计呢，常用的参数估计方法有极大似然估计MLE、最大后验证估计MAP、贝叶斯估计等等。因为该待估计的参数中含有隐变量z，所以我们可以考虑EM算法。</p>
+<h3 id="1-3-LDA模型"><a href="#1-3-LDA模型" class="headerlink" title="1.3 LDA模型"></a>1.3 LDA模型</h3><p>事实上，理解了pLSA模型，也就差不多快理解了LDA模型，因为LDA就是在pLSA的基础上加层贝叶斯框架，即LDA就是pLSA的贝叶斯版本（正因为LDA被贝叶斯化了，所以才需要考虑历史先验知识，才加的两个先验参数）。<br>下面，咱们对比下本文开头所述的LDA模型中一篇文档生成的方式是怎样的：</p>
+<ul>
+<li>按照先验概率  选择一篇文档  。</li>
+<li>从狄利克雷分布（即Dirichlet分布）  中取样生成文档  的主题分布  ，换言之，主题分布 由超参数为 的Dirichlet分布生成。</li>
+<li>从主题的多项式分布 中取样生成文档 第 j 个词的主题  。</li>
+<li>从狄利克雷分布（即Dirichlet分布）  中取样生成主题 对应的词语分布  ，换言之，词语分布 由参数为 的Dirichlet分布生成。</li>
+<li>从词语的多项式分布 中采样最终生成词语  。</li>
+</ul>
+<p>LDA中，选主题和选词依然都是两个随机的过程，依然可能是先从主题分布{教育：0.5，经济：0.3，交通：0.2}中抽取出主题：教育，然后再从该主题对应的词分布{大学：0.5，老师：0.3，课程：0.2}中抽取出词：大学。<br>那PLSA跟LDA的区别在于什么地方呢？区别就在于：<br>PLSA中，主题分布和词分布是唯一确定的，能明确的指出主题分布可能就是{教育：0.5，经济：0.3，交通：0.2}，词分布可能就是{大学：0.5，老师：0.3，课程：0.2}。<br>但在LDA中，主题分布和词分布不再唯一确定不变，即无法确切给出。例如主题分布可能是{教育：0.5，经济：0.3，交通：0.2}，也可能是{教育：0.6，经济：0.2，交通：0.2}，到底是哪个我们不再确定（即不知道），因为它是随机的可变化的。但再怎么变化，也依然服从一定的分布，<strong>即主题分布跟词分布由Dirichlet先验随机确定。正因为LDA是PLSA的贝叶斯版本，所以主题分布跟词分布本身由先验知识随机给定。</strong><br>换言之，LDA在pLSA的基础上给这两参数 加了两个先验分布的参数（贝叶斯化）：一个主题分布的先验分布Dirichlet分布  ，和一个词语分布的先验分布Dirichlet分布  。<br>综上，LDA真的只是pLSA的贝叶斯版本，文档生成后，两者都要根据文档去推断其主题分布和词语分布（即两者本质都是为了估计给定文档生成主题，给定主题生成词语的概率），只是用的参数推断方法不同，在pLSA中用极大似然估计的思想去推断两未知的固定参数，而LDA则把这两参数弄成随机变量，且加入dirichlet先验。<br>所以，pLSA跟LDA的本质区别就在于它们去估计未知参数所采用的思想不同，前者用的是频率派思想，后者用的是贝叶斯派思想。<br>LDA参数估计：<strong>Gibbs采样</strong></p>
+<h2 id="2-怎么确定LDA的topic个数？"><a href="#2-怎么确定LDA的topic个数？" class="headerlink" title="2.怎么确定LDA的topic个数？"></a>2.怎么确定LDA的topic个数？</h2><ul>
+<li>基于经验 主观判断、不断调试、操作性强、最为常用。</li>
+<li>基于困惑度（主要是比较两个模型之间的好坏）。</li>
+<li>使用Log-边际似然函数的方法，这种方法也挺常用的。</li>
+<li>非参数方法：Teh提出的基于狄利克雷过程的HDP法。</li>
+<li>基于主题之间的相似度：计算主题向量之间的余弦距离，KL距离等。</li>
+</ul>
+<h2 id="3-如何用主题模型解决推荐系统中的冷启动问题？"><a href="#3-如何用主题模型解决推荐系统中的冷启动问题？" class="headerlink" title="3.如何用主题模型解决推荐系统中的冷启动问题？"></a>3.如何用主题模型解决推荐系统中的冷启动问题？</h2><p>推荐系统中的冷启动问题是指在没有大量用户数据的情况下如何给用户进行个性化推荐，目的是最优化点击率、转化率或用户 体验（用户停留时间、留存率等）。冷启动问题一般分为用户冷启动、物品冷启动和系统冷启动三大类。</p>
+<ul>
+<li>用户冷启动是指对一个之前没有行为或行为极少的新用户进行推荐；</li>
+<li>物品冷启动是指为一个新上市的商品或电影（这时没有与之相关的 评分或用户行为数据）寻找到具有潜在兴趣的用户；</li>
+<li>系统冷启动是指如何为一个 新开发的网站设计个性化推荐系统。</li>
+</ul>
+<p>解决冷启动问题的方法一般是基于内容的推荐。以Hulu的场景为例，对于用户冷启动来说，我们希望根据用户的注册信息（如：年龄、性别、爱好等）、搜索关键词或者合法站外得到的其他信息（例如用户使用Facebook账号登录，并得到授权，可以得到Facebook中的朋友关系和评论内容）来推测用户的兴趣主题。得到用户的兴趣主题之后，我们就可以找到与该用户兴趣主题相同的其他用户， 通过他们的历史行为来预测用户感兴趣的电影是什么。<br>同样地，对于物品冷启动问题，我们也可以根据电影的导演、演员、类别、关键词等信息推测该电影所属于的主题，然后基于主题向量找到相似的电影，并将新电影推荐给以往喜欢看这 些相似电影的用户。<strong>可以使用主题模型（pLSA、LDA等）得到用户和电影的主题。</strong><br>以用户为例，我们将每个用户看作主题模型中的一篇文档，用户对应的特征 作为文档中的单词，这样每个用户可以表示成一袋子特征的形式。通过主题模型 学习之后，经常共同出现的特征将会对应同一个主题，同时每个用户也会相应地 得到一个主题分布。每个电影的主题分布也可以用类似的方法得到。<br><strong>那么如何解决系统冷启动问题呢</strong>？首先可以得到每个用户和电影对应的主题向量，除此之外，还需要知道用户主题和电影主题之间的偏好程度，也就是哪些主题的用户可能喜欢哪些主题的电影。当系统中没有任何数据时，我们需要一些先验知识来指定，并且由于主题的数目通常比较小，随着系统的上线，收集到少量的数据之后我们就可以对主题之间的偏好程度得到一个比较准确的估计。<br>参考：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C/" class="print-no-link">#贝叶斯网络</a>
+      
+        <a href="/tags/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB/" class="print-no-link">#马尔科夫</a>
+      
+        <a href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/" class="print-no-link">#主题模型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)</div>
+      <div>https://qzkq.github.io/2026/01/04/机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8BK%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95(KNN)%E3%80%81%E6%9C%80%E5%A4%A7%E6%9C%9F%E6%9C%9B%E7%AE%97%E6%B3%95(EM)/" title="机器学习面试笔试知识点之K近邻算法(KNN)、最大期望算法(EM)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">机器学习面试笔试知识点之K近邻算法(KNN)、最大期望算法(EM)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E3%80%81%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92(Logistics%20Regression)%E5%92%8C%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)/" title="机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)">
+                        <span class="hidden-mobile">机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

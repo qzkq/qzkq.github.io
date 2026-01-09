@@ -1,0 +1,889 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC RDD和DataFrame1.SparkSession 介绍SparkSession 本质上是SparkConf、SparkContext、SQLContext、HiveContext和StreamingContext这些环境的集合，避免使用这些来分别执行配置、Spa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pyspark笔记（RDD,DataFrame和Spark SQL）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/02/pyspark%E7%AC%94%E8%AE%B0%EF%BC%88RDD,DataFrame%E5%92%8CSpark%20SQL%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC RDD和DataFrame1.SparkSession 介绍SparkSession 本质上是SparkConf、SparkContext、SQLContext、HiveContext和StreamingContext这些环境的集合，避免使用这些来分别执行配置、Spa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/37b517777b5e1cbbf1f9353402fe9564.png">
+<meta property="article:published_time" content="2026-01-02T00:01:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.373Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/37b517777b5e1cbbf1f9353402fe9564.png">
+  
+  
+  
+  <title>pyspark笔记（RDD,DataFrame和Spark SQL） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="pyspark笔记（RDD,DataFrame和Spark SQL）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 08:01" pubdate>
+          2026年1月2日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">pyspark笔记（RDD,DataFrame和Spark SQL）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@<a href="PySpark">TOC</a></p>
+<h1 id="RDD和DataFrame"><a href="#RDD和DataFrame" class="headerlink" title="RDD和DataFrame"></a>RDD和DataFrame</h1><h2 id="1-SparkSession-介绍"><a href="#1-SparkSession-介绍" class="headerlink" title="1.SparkSession 介绍"></a>1.SparkSession 介绍</h2><p>SparkSession 本质上是SparkConf、SparkContext、SQLContext、HiveContext和StreamingContext这些环境的集合，避免使用这些来分别执行配置、Spark环境、SQL环境、Hive环境和Streaming环境。SparkSession现在是读取数据、处理元数据、配置会话和管理集群资源的入口。</p>
+<h2 id="2-SparkSession创建RDD"><a href="#2-SparkSession创建RDD" class="headerlink" title="2.SparkSession创建RDD"></a>2.SparkSession创建RDD</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql.session <span class="hljs-keyword">import</span> SparkSession<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    spark = SparkSession.builder.master(<span class="hljs-string">&quot;local&quot;</span>) \<br>        .appName(<span class="hljs-string">&quot;My test&quot;</span>) \<br>        .getOrCreate()<br>    sc = spark.sparkContext<br><br>    data = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>]<br>    rdd = sc.parallelize(data)<br></code></pre></td></tr></table></figure>
+<p>SparkSession实例化参数：通过静态类Builder来实例化。Builder 是 SparkSession 的构造器。 通过 Builder, 可以添加各种配置。可以通SparkSession.builder 来创建一个 SparkSession 的实例,并通过 stop 函数来停止 SparkSession。</p>
+<p><strong>Builder 的主要方法如下</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">（<span class="hljs-number">1</span>）appName函数<br>appName(String name)<br>用来设置应用程序名字，会显示在Spark web UI中<br><br>（<span class="hljs-number">2</span>）master函数<br>master(String master)<br>设置Spark master URL 连接，比如<span class="hljs-string">&quot;local&quot;</span> 设置本地运行，<span class="hljs-string">&quot;local[4]&quot;</span>本地运行4cores，或则<span class="hljs-string">&quot;spark://master:7077&quot;</span>运行在spark standalone 集群。<br><br>（<span class="hljs-number">3</span>）config函数<br><br>（<span class="hljs-number">4</span>）getOrCreate函数<br>getOrCreate()<br>获取已经得到的 SparkSession，或则如果不存在则创建一个新的基于builder选项的SparkSession<br><br>（<span class="hljs-number">5</span>）enableHiveSupport函数<br>表示支持Hive，包括 链接持久化Hive metastore, 支持Hive serdes, 和Hive用户自定义函数<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-直接创建DataFrame"><a href="#3-直接创建DataFrame" class="headerlink" title="3.直接创建DataFrame"></a>3.直接创建DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 直接创建Dataframe</span><br>df = spark.createDataFrame([<br>        (<span class="hljs-number">1</span>, <span class="hljs-number">144.5</span>, <span class="hljs-number">5.9</span>, <span class="hljs-number">33</span>, <span class="hljs-string">&#x27;M&#x27;</span>),<br>        (<span class="hljs-number">2</span>, <span class="hljs-number">167.2</span>, <span class="hljs-number">5.4</span>, <span class="hljs-number">45</span>, <span class="hljs-string">&#x27;M&#x27;</span>),<br>        (<span class="hljs-number">3</span>, <span class="hljs-number">124.1</span>, <span class="hljs-number">5.2</span>, <span class="hljs-number">23</span>, <span class="hljs-string">&#x27;F&#x27;</span>),<br>    ], [<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;weight&#x27;</span>, <span class="hljs-string">&#x27;height&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>, <span class="hljs-string">&#x27;gender&#x27;</span>]) <br></code></pre></td></tr></table></figure>
+<h2 id="4-从字典创建DataFrame"><a href="#4-从字典创建DataFrame" class="headerlink" title="4.从字典创建DataFrame"></a>4.从字典创建DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df = spark.createDataFrame([&#123;<span class="hljs-string">&#x27;name&#x27;</span>:<span class="hljs-string">&#x27;Alice&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>:<span class="hljs-number">1</span>&#125;,<br>    &#123;<span class="hljs-string">&#x27;name&#x27;</span>:<span class="hljs-string">&#x27;Polo&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>:<span class="hljs-number">1</span>&#125;]) <br></code></pre></td></tr></table></figure>
+
+<h2 id="4-指定schema创建DataFrame"><a href="#4-指定schema创建DataFrame" class="headerlink" title="4.指定schema创建DataFrame"></a>4.指定schema创建DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">schema = StructType([<br>    StructField(<span class="hljs-string">&quot;id&quot;</span>, LongType(), <span class="hljs-literal">True</span>),   <br>    StructField(<span class="hljs-string">&quot;name&quot;</span>, StringType(), <span class="hljs-literal">True</span>),<br>    StructField(<span class="hljs-string">&quot;age&quot;</span>, LongType(), <span class="hljs-literal">True</span>),<br>    StructField(<span class="hljs-string">&quot;eyeColor&quot;</span>, StringType(), <span class="hljs-literal">True</span>)<br>])<br>df = spark.createDataFrame(csvRDD, schema)<br></code></pre></td></tr></table></figure>
+<h2 id="5-读文件创建DataFrame"><a href="#5-读文件创建DataFrame" class="headerlink" title="5.读文件创建DataFrame"></a>5.读文件创建DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">testDF = spark.read.csv(FilePath, header=<span class="hljs-string">&#x27;true&#x27;</span>, inferSchema=<span class="hljs-string">&#x27;true&#x27;</span>, sep=<span class="hljs-string">&#x27;\t&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="6-从pandas-dataframe创建DataFrame"><a href="#6-从pandas-dataframe创建DataFrame" class="headerlink" title="6.从pandas dataframe创建DataFrame"></a>6.从pandas dataframe创建DataFrame</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> SparkSession<br><br>colors = [<span class="hljs-string">&#x27;white&#x27;</span>,<span class="hljs-string">&#x27;green&#x27;</span>,<span class="hljs-string">&#x27;yellow&#x27;</span>,<span class="hljs-string">&#x27;red&#x27;</span>,<span class="hljs-string">&#x27;brown&#x27;</span>,<span class="hljs-string">&#x27;pink&#x27;</span>]<br>color_df=pd.DataFrame(colors,columns=[<span class="hljs-string">&#x27;color&#x27;</span>])<br>color_df[<span class="hljs-string">&#x27;length&#x27;</span>]=color_df[<span class="hljs-string">&#x27;color&#x27;</span>].apply(<span class="hljs-built_in">len</span>)<br><br>color_df=spark.createDataFrame(color_df)<br>color_df.show()<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-RDD与DataFrame的转换"><a href="#7-RDD与DataFrame的转换" class="headerlink" title="7.RDD与DataFrame的转换"></a>7.RDD与DataFrame的转换</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">RDD转变成DataFrame df.toDF([<span class="hljs-string">&#x27;col1&#x27;</span>,<span class="hljs-string">&#x27;col2&#x27;</span>])<br>DataFrame转变成RDD df.rdd.map(lambda x: (x<span class="hljs-number">.001</span>,x<span class="hljs-number">.002</span>))<br></code></pre></td></tr></table></figure>
+
+<h1 id="DataFrames常用"><a href="#DataFrames常用" class="headerlink" title="DataFrames常用"></a>DataFrames常用</h1><h2 id="Row"><a href="#Row" class="headerlink" title="Row"></a>Row</h2><p>DataFrame 中的一行。可以访问其中的字段：</p>
+<ul>
+<li>类似属性(row.key)</li>
+<li>像字典值(row[key])</li>
+</ul>
+<p><img src="/img/37b517777b5e1cbbf1f9353402fe9564.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="查看列名-行数"><a href="#查看列名-行数" class="headerlink" title="查看列名&#x2F;行数"></a>查看列名&#x2F;行数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看有哪些列 ，同pandas</span><br>df.columns<br><span class="hljs-comment"># [&#x27;color&#x27;, &#x27;length&#x27;]</span><br><br><span class="hljs-comment"># 行数</span><br>df.count()<br><br><span class="hljs-comment"># 列数</span><br><span class="hljs-built_in">len</span>(df.columns)<br></code></pre></td></tr></table></figure>
+<h2 id="统计频繁项目"><a href="#统计频繁项目" class="headerlink" title="统计频繁项目"></a>统计频繁项目</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查找每列出现次数占总的30%以上频繁项目</span><br>df.stat.freqItems([<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;gender&quot;</span>], <span class="hljs-number">0.3</span>).show()<br>+------------+----------------+<br>|id_freqItems|gender_freqItems|<br>+------------+----------------+<br>|      [<span class="hljs-number">5</span>, <span class="hljs-number">3</span>]|          [M, F]|<br>+------------+----------------+<br></code></pre></td></tr></table></figure>
+<h2 id="select选择和切片筛选"><a href="#select选择和切片筛选" class="headerlink" title="select选择和切片筛选"></a>select选择和切片筛选</h2><h3 id="选择几列"><a href="#选择几列" class="headerlink" title="选择几列"></a>选择几列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.select(<span class="hljs-string">&#x27;length&#x27;</span>,<span class="hljs-string">&#x27;color&#x27;</span>).show()<br></code></pre></td></tr></table></figure>
+<h3 id="多列选择和切片"><a href="#多列选择和切片" class="headerlink" title="多列选择和切片"></a>多列选择和切片</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.select(<span class="hljs-string">&#x27;length&#x27;</span>,<span class="hljs-string">&#x27;color&#x27;</span>)<br>        .select(color_df[<span class="hljs-string">&#x27;length&#x27;</span>]&gt;<span class="hljs-number">4</span>).show()<br></code></pre></td></tr></table></figure>
+<h3 id="between-范围选择"><a href="#between-范围选择" class="headerlink" title="between 范围选择"></a>between 范围选择</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.<span class="hljs-built_in">filter</span>(color_df.length.between(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>) )<br>        .select(color_df.color.alias(<span class="hljs-string">&#x27;mid_length&#x27;</span>)).show()<br></code></pre></td></tr></table></figure>
+<h3 id="联合筛选"><a href="#联合筛选" class="headerlink" title="联合筛选"></a>联合筛选</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 这里使用一种是 color_df.length, 另一种是color_df[0]</span><br>color_df.<span class="hljs-built_in">filter</span>(color_df.length&gt;<span class="hljs-number">4</span>)<br>        .<span class="hljs-built_in">filter</span>(color_df[<span class="hljs-number">0</span>]!=<span class="hljs-string">&#x27;white&#x27;</span>).show()<br></code></pre></td></tr></table></figure>
+<h3 id="filter运行类SQL"><a href="#filter运行类SQL" class="headerlink" title="filter运行类SQL"></a>filter运行类SQL</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.<span class="hljs-built_in">filter</span>(<span class="hljs-string">&quot;color=&#x27;green&#x27;&quot;</span>).show()<br><br>color_df.<span class="hljs-built_in">filter</span>(<span class="hljs-string">&quot;color like &#x27;b%&#x27;&quot;</span>).show()<br></code></pre></td></tr></table></figure>
+<h3 id="where方法的SQL"><a href="#where方法的SQL" class="headerlink" title="where方法的SQL"></a>where方法的SQL</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.where(<span class="hljs-string">&quot;color like &#x27;%yellow%&#x27;&quot;</span>).show()<br></code></pre></td></tr></table></figure>
+<h3 id="直接使用SQL语法"><a href="#直接使用SQL语法" class="headerlink" title="直接使用SQL语法"></a>直接使用SQL语法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 首先dataframe注册为临时表，然后执行SQL查询</span><br>color_df.createOrReplaceTempView(<span class="hljs-string">&quot;color_df&quot;</span>)<br>spark.sql(<span class="hljs-string">&quot;select count(1) from color_df&quot;</span>).show()<br></code></pre></td></tr></table></figure>
+<h2 id="新增、修改列"><a href="#新增、修改列" class="headerlink" title="新增、修改列"></a>新增、修改列</h2><h3 id="lit新增一列常量"><a href="#lit新增一列常量" class="headerlink" title="lit新增一列常量"></a>lit新增一列常量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyspark.sql.functions <span class="hljs-keyword">as</span> F<br>df = df.withColumn(<span class="hljs-string">&#x27;mark&#x27;</span>, F.lit(<span class="hljs-number">1</span>))<br></code></pre></td></tr></table></figure>
+<h3 id="聚合后修改"><a href="#聚合后修改" class="headerlink" title="聚合后修改"></a>聚合后修改</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 重新命名聚合后结果的列名(需要修改多个列名就跟多个：withColumnRenamed)</span><br><span class="hljs-comment"># 聚合之后不修改列名则会显示：count(member_name)</span><br>df_res.agg(&#123;<span class="hljs-string">&#x27;member_name&#x27;</span>: <span class="hljs-string">&#x27;count&#x27;</span>, <span class="hljs-string">&#x27;income&#x27;</span>: <span class="hljs-string">&#x27;sum&#x27;</span>, <span class="hljs-string">&#x27;num&#x27;</span>: <span class="hljs-string">&#x27;sum&#x27;</span>&#125;)<br>      .withColumnRenamed(<span class="hljs-string">&quot;count(member_name)&quot;</span>, <span class="hljs-string">&quot;member_num&quot;</span>).show()<br><br><br><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> functions <span class="hljs-keyword">as</span> F<br>df_res.agg(<br>    F.count(<span class="hljs-string">&#x27;member_name&#x27;</span>).alias(<span class="hljs-string">&#x27;mem_num&#x27;</span>),<br>    F.<span class="hljs-built_in">sum</span>(<span class="hljs-string">&#x27;num&#x27;</span>).alias(<span class="hljs-string">&#x27;order_num&#x27;</span>),<br>    F.<span class="hljs-built_in">sum</span>(<span class="hljs-string">&quot;income&quot;</span>).alias(<span class="hljs-string">&#x27;total_income&#x27;</span>)<br>).show()<br><br></code></pre></td></tr></table></figure>
+<h2 id="cast修改列数据类型"><a href="#cast修改列数据类型" class="headerlink" title="cast修改列数据类型"></a>cast修改列数据类型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql.types <span class="hljs-keyword">import</span> IntegerType<br><br><span class="hljs-comment"># 下面两种修改方式等价</span><br>df = df.withColumn(<span class="hljs-string">&quot;height&quot;</span>, df[<span class="hljs-string">&quot;height&quot;</span>].cast(IntegerType()))<br>df = df.withColumn(<span class="hljs-string">&quot;weight&quot;</span>, df.weight.cast(<span class="hljs-string">&#x27;int&#x27;</span>))<br><span class="hljs-built_in">print</span>(df.dtypes)<br></code></pre></td></tr></table></figure>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="混合排序"><a href="#混合排序" class="headerlink" title="混合排序"></a>混合排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.sort(color_df.length.desc(),color_df.color.asc())                               <br>        .show()<br></code></pre></td></tr></table></figure>
+
+<h3 id="orderBy排序"><a href="#orderBy排序" class="headerlink" title="orderBy排序"></a>orderBy排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">color_df.orderBy(<span class="hljs-string">&#x27;length&#x27;</span>,<span class="hljs-string">&#x27;color&#x27;</span>).show()<br></code></pre></td></tr></table></figure>
+<h2 id="缺失值"><a href="#缺失值" class="headerlink" title="缺失值"></a>缺失值</h2><h3 id="计算列中的空值数目"><a href="#计算列中的空值数目" class="headerlink" title="计算列中的空值数目"></a>计算列中的空值数目</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算一列空值数目</span><br>df.<span class="hljs-built_in">filter</span>(df[<span class="hljs-string">&#x27;col_name&#x27;</span>].isNull()).count()<br><br><span class="hljs-comment"># 计算每列空值数目</span><br><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> df.columns:<br>    <span class="hljs-built_in">print</span>(col, <span class="hljs-string">&quot;\t&quot;</span>, <span class="hljs-string">&quot;with null values: &quot;</span>, <br>          df.<span class="hljs-built_in">filter</span>(df[col].isNull()).count())<br></code></pre></td></tr></table></figure>
+
+<h3 id="平均值填充缺失值"><a href="#平均值填充缺失值" class="headerlink" title="平均值填充缺失值"></a>平均值填充缺失值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql.functions <span class="hljs-keyword">import</span> when<br><span class="hljs-keyword">import</span> pyspark.sql.functions <span class="hljs-keyword">as</span> F<br><br><span class="hljs-comment"># 计算各个数值列的平均值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mean_of_pyspark_columns</span>(<span class="hljs-params">df, numeric_cols</span>):<br>    col_with_mean = []<br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> numeric_cols:<br>        mean_value = df.select(F.avg(df[col]))<br>        avg_col = mean_value.columns[<span class="hljs-number">0</span>]<br>        res = mean_value.rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> row: row[avg_col]).collect()<br>        col_with_mean.append([col, res[<span class="hljs-number">0</span>]])<br>    <span class="hljs-keyword">return</span> col_with_mean<br><br><span class="hljs-comment"># 用平均值填充缺失值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fill_missing_with_mean</span>(<span class="hljs-params">df, numeric_cols</span>):<br>    col_with_mean = mean_of_pyspark_columns(df, numeric_cols)<br>    <span class="hljs-keyword">for</span> col, mean <span class="hljs-keyword">in</span> col_with_mean:<br>        df = df.withColumn(col, when(df[col].isNull() == <span class="hljs-literal">True</span>, F.lit(mean)).otherwise(df[col]))<br>    <span class="hljs-keyword">return</span> df<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># df需要自行创建</span><br>    numeric_cols = [<span class="hljs-string">&#x27;age2&#x27;</span>, <span class="hljs-string">&#x27;height2&#x27;</span>]  <span class="hljs-comment"># 需要填充空值的列</span><br>    df = fill_missing_with_mean(df, numeric_cols)  <span class="hljs-comment"># 空值填充</span><br>    df.show()<br></code></pre></td></tr></table></figure>
+<h2 id="替换值"><a href="#替换值" class="headerlink" title="替换值"></a>替换值</h2><h3 id="replace-全量替换"><a href="#replace-全量替换" class="headerlink" title="replace 全量替换"></a>replace 全量替换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 替换pyspark dataframe中的任何值，而无需选择特定列</span><br>df = df.replace（<span class="hljs-string">&#x27;？&#x27;</span>，<span class="hljs-literal">None</span>）<br>df = df.replace（<span class="hljs-string">&#x27;ckd \t&#x27;</span>，<span class="hljs-string">&#x27;ckd&#x27;</span>）<br></code></pre></td></tr></table></figure>
+<h3 id="functions-部分替换"><a href="#functions-部分替换" class="headerlink" title="functions 部分替换"></a>functions 部分替换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 只替换特定列中的值,则不能使用replace.而使用pyspark.sql.functions</span><br><span class="hljs-comment"># 用classck的notckd替换no</span><br><span class="hljs-keyword">import</span> pyspark.sql.functions <span class="hljs-keyword">as</span> F<br>df = df.withColumn(<span class="hljs-string">&#x27;class&#x27;</span>,<br>                   F.when(df[<span class="hljs-string">&#x27;class&#x27;</span>] == <span class="hljs-string">&#x27;no&#x27;</span>, F.lit(<span class="hljs-string">&#x27;notckd&#x27;</span>))<br>                    .otherwise(df[<span class="hljs-string">&#x27;class&#x27;</span>]))<br></code></pre></td></tr></table></figure>
+
+<h2 id="groupBy-agg-聚合"><a href="#groupBy-agg-聚合" class="headerlink" title="groupBy + agg 聚合"></a>groupBy + agg 聚合</h2><p>作为聚合函数agg，通常是和分组函数groupby一起使用，表示对分组后的数据进行聚合操作；如果没有分组函数，默认是对整个dataframe进行聚合操作。</p>
+<h2 id="explode分割"><a href="#explode分割" class="headerlink" title="explode分割"></a>explode分割</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 为给定数组或映射中的每个元素返回一个新行</span><br><span class="hljs-keyword">from</span> pyspark.sql.functions <span class="hljs-keyword">import</span> split, explode<br><br>df = sc.parallelize([(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&#x27;a b c&#x27;</span>),<br>                     (<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-string">&#x27;d e f&#x27;</span>),<br>                     (<span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-string">&#x27;g h i&#x27;</span>)])<br>        .toDF([<span class="hljs-string">&#x27;col1&#x27;</span>, <span class="hljs-string">&#x27;col2&#x27;</span>, <span class="hljs-string">&#x27;col3&#x27;</span>, <span class="hljs-string">&#x27;col4&#x27;</span>])<br>df.withColumn(<span class="hljs-string">&#x27;col4&#x27;</span>, explode(split(<span class="hljs-string">&#x27;col4&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>))).show()<br>+----+----+----+----+<br>|col1|col2|col3|col4|<br>+----+----+----+----+<br>|   <span class="hljs-number">1</span>|   <span class="hljs-number">2</span>|   <span class="hljs-number">3</span>|   a|<br>|   <span class="hljs-number">1</span>|   <span class="hljs-number">2</span>|   <span class="hljs-number">3</span>|   b|<br>|   <span class="hljs-number">1</span>|   <span class="hljs-number">2</span>|   <span class="hljs-number">3</span>|   c|<br>|   <span class="hljs-number">4</span>|   <span class="hljs-number">5</span>|   <span class="hljs-number">6</span>|   d|<br>|   <span class="hljs-number">4</span>|   <span class="hljs-number">5</span>|   <span class="hljs-number">6</span>|   e|<br>|   <span class="hljs-number">4</span>|   <span class="hljs-number">5</span>|   <span class="hljs-number">6</span>|   f|<br>|   <span class="hljs-number">7</span>|   <span class="hljs-number">8</span>|   <span class="hljs-number">9</span>|   g|<br>|   <span class="hljs-number">7</span>|   <span class="hljs-number">8</span>|   <span class="hljs-number">9</span>|   h|<br>|   <span class="hljs-number">7</span>|   <span class="hljs-number">8</span>|   <span class="hljs-number">9</span>|   i|<br>+----+----+----+----+<br><br><span class="hljs-comment"># 示例二</span><br><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> Row<br><span class="hljs-keyword">from</span> pyspark.sql.functions <span class="hljs-keyword">import</span> explode<br><br>eDF = spark.createDataFrame([Row(<br>    a=<span class="hljs-number">1</span>, <br>    intlist=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <br>    mapfield=&#123;<span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>&#125;)])<br>eDF.select(explode(eDF.intlist).alias(<span class="hljs-string">&quot;anInt&quot;</span>)).show()<br>+-----+<br>|anInt|<br>+-----+<br>|    <span class="hljs-number">1</span>|<br>|    <span class="hljs-number">2</span>|<br>|    <span class="hljs-number">3</span>|<br>+-----+<br></code></pre></td></tr></table></figure>
+<h2 id="isin"><a href="#isin" class="headerlink" title="isin"></a>isin</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 如果自变量的求值包含该表达式的值，则该表达式为true</span><br>df[df.name.isin(<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-string">&quot;Mike&quot;</span>)].collect()<br><span class="hljs-comment"># [Row(age=5, name=&#x27;Bob&#x27;)]</span><br>df[df.age.isin([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])].collect()<br><span class="hljs-comment"># [Row(age=2, name=&#x27;Alice&#x27;)]</span><br></code></pre></td></tr></table></figure>
+<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><h3 id="从hive中读取数据"><a href="#从hive中读取数据" class="headerlink" title="从hive中读取数据"></a>从hive中读取数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> SparkSession<br>myspark = SparkSession.builder \<br>    .appName(<span class="hljs-string">&#x27;compute_customer_age&#x27;</span>) \<br>    .config(<span class="hljs-string">&#x27;spark.executor.memory&#x27;</span>,<span class="hljs-string">&#x27;2g&#x27;</span>) \<br>    .enableHiveSupport() \<br>    .getOrCreate()<br><br>sql = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">      SELECT id as customer_id,name, register_date</span><br><span class="hljs-string">      FROM [db_name].[hive_table_name]</span><br><span class="hljs-string">      limit 100</span><br><span class="hljs-string">      &quot;&quot;&quot;</span><br>df = myspark.sql(sql)<br>df.show(<span class="hljs-number">20</span>)<br><br></code></pre></td></tr></table></figure>
+<h3 id="将数据保存到数据库中"><a href="#将数据保存到数据库中" class="headerlink" title="将数据保存到数据库中"></a>将数据保存到数据库中</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.write.mode(<span class="hljs-string">&quot;overwrite&quot;</span>).saveAsTable(<span class="hljs-string">&quot;test_db.test_table2&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="读写csv-json"><a href="#读写csv-json" class="headerlink" title="读写csv&#x2F;json"></a>读写csv&#x2F;json</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark <span class="hljs-keyword">import</span> SparkContext<br><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> SQLContext<br>sc = SparkContext()<br>sqlContext = SQLContext(sc)<br>csv_content = sqlContext.read.<span class="hljs-built_in">format</span>(<span class="hljs-string">&#x27;com.databricks.spark.csv&#x27;</span>).options(header=<span class="hljs-string">&#x27;true&#x27;</span>, inferschema=<span class="hljs-string">&#x27;true&#x27;</span>).load(<span class="hljs-string">r&#x27;./test.csv&#x27;</span>)<br>csv_content.show(<span class="hljs-number">10</span>)  <span class="hljs-comment">#读取</span><br>df.select(<span class="hljs-string">&quot;year&quot;</span>, <span class="hljs-string">&quot;model&quot;</span>).save(<span class="hljs-string">&quot;newcars.csv&quot;</span>, <span class="hljs-string">&quot;com.databricks.spark.csv&quot;</span>,header=<span class="hljs-string">&quot;true&quot;</span>) <span class="hljs-comment">#保存</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df_sparksession_read = spark.read.csv(<span class="hljs-string">r&quot;E: \数据\欺诈数据集\PS_7_log.csv&quot;</span>,header=<span class="hljs-literal">True</span>)<br>df_sparksession_read.show(<span class="hljs-number">10</span>)<br>或：<br>df_sparksession_read = spark.read.json(<span class="hljs-string">r&quot;E: \数据\欺诈json数据集\PS_7_log.json&quot;</span>,header=<span class="hljs-literal">True</span>)<br>df_sparksession_read.show(<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="pyspark-sql"><a href="#pyspark-sql" class="headerlink" title="pyspark.sql"></a>pyspark.sql</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">pyspark.sql.SQLContext DataFrame和SQL方法的主入口<br>pyspark.sql.DataFrame 将分布式数据集分组到指定列名的数据框中<br>pyspark.sql.Column DataFrame中的列<br>pyspark.sql.Row DataFrame数据的行<br>pyspark.sql.HiveContext 访问Hive数据的主入口<br>pyspark.sql.functions DataFrame可用的内置函数<br>pyspark.sql.types 可用的数据类型列表<br>pyspark.sql.Window 用于处理窗口函数<br></code></pre></td></tr></table></figure>
+<h2 id="pyspark-sql-functions常见内置函数"><a href="#pyspark-sql-functions常见内置函数" class="headerlink" title="pyspark.sql.functions常见内置函数"></a>pyspark.sql.functions常见内置函数</h2><h3 id="1-pyspark-sql-functions-abs-col"><a href="#1-pyspark-sql-functions-abs-col" class="headerlink" title="1.pyspark.sql.functions.abs(col)"></a>1.pyspark.sql.functions.abs(col)</h3><p>计算绝对值。</p>
+<h3 id="2-pyspark-sql-functions-acos-col"><a href="#2-pyspark-sql-functions-acos-col" class="headerlink" title="2.pyspark.sql.functions.acos(col)"></a>2.pyspark.sql.functions.acos(col)</h3><p>计算给定值的反余弦值; 返回的角度在0到π的范围内。</p>
+<h3 id="3-pyspark-sql-functions-add-months-start-months"><a href="#3-pyspark-sql-functions-add-months-start-months" class="headerlink" title="3.pyspark.sql.functions.add_months(start, months)"></a>3.pyspark.sql.functions.add_months(start, months)</h3><p>返回start后months个月的日期。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;d&#x27;</span>])<br>df.select(add_months(df.d, <span class="hljs-number">1</span>).alias(<span class="hljs-string">&#x27;d&#x27;</span>)).collect()<br><br>[Row(d=datetime.date(<span class="hljs-number">2015</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>))]<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-pyspark-sql-functions-array-contains-col-value"><a href="#4-pyspark-sql-functions-array-contains-col-value" class="headerlink" title="4.pyspark.sql.functions.array_contains(col, value)"></a>4.pyspark.sql.functions.array_contains(col, value)</h3><p>集合函数：如果数组包含给定值，则返回True。 收集元素和值必须是相同的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([([<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>],), ([],)], [<span class="hljs-string">&#x27;data&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(array_contains(df.data, <span class="hljs-string">&quot;a&quot;</span>)).collect()<br>[Row(array_contains(data,a)=<span class="hljs-literal">True</span>), Row(array_contains(data,a)=<span class="hljs-literal">False</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-pyspark-sql-functions-ascii-col"><a href="#5-pyspark-sql-functions-ascii-col" class="headerlink" title="5.pyspark.sql.functions.ascii(col)"></a>5.pyspark.sql.functions.ascii(col)</h3><p>计算字符串列的第一个字符的数值。</p>
+<h3 id="6-pyspark-sql-functions-avg-col"><a href="#6-pyspark-sql-functions-avg-col" class="headerlink" title="6.pyspark.sql.functions.avg(col)"></a>6.pyspark.sql.functions.avg(col)</h3><p>聚合函数：返回组中的值的平均值。</p>
+<h3 id="7-pyspark-sql-functions-cbrt-col"><a href="#7-pyspark-sql-functions-cbrt-col" class="headerlink" title="7.pyspark.sql.functions.cbrt(col)"></a>7.pyspark.sql.functions.cbrt(col)</h3><p>计算给定值的立方根。</p>
+<h3 id="9-pyspark-sql-functions-coalesce-cols"><a href="#9-pyspark-sql-functions-coalesce-cols" class="headerlink" title="9.pyspark.sql.functions.coalesce(*cols)"></a>9.pyspark.sql.functions.coalesce(*cols)</h3><p>返回不为空的第一列。</p>
+<h3 id="10-pyspark-sql-functions-col-col"><a href="#10-pyspark-sql-functions-col-col" class="headerlink" title="10.pyspark.sql.functions.col(col)"></a>10.pyspark.sql.functions.col(col)</h3><p>根据给定的列名返回一个列。</p>
+<p><strong>col函数的作用相当于python中的dataframe格式的提取data[‘id’]</strong></p>
+<h3 id="11-pyspark-sql-functions-collect-list-col"><a href="#11-pyspark-sql-functions-collect-list-col" class="headerlink" title="11.pyspark.sql.functions.collect_list(col)"></a>11.pyspark.sql.functions.collect_list(col)</h3><p>聚合函数：返回重复对象的列表。</p>
+<h3 id="12-pyspark-sql-functions-collect-set-col"><a href="#12-pyspark-sql-functions-collect-set-col" class="headerlink" title="12.pyspark.sql.functions.collect_set(col)"></a>12.pyspark.sql.functions.collect_set(col)</h3><p>聚合函数：返回一组消除重复元素的对象。</p>
+<h3 id="13-pyspark-sql-functions-concat-cols"><a href="#13-pyspark-sql-functions-concat-cols" class="headerlink" title="13.pyspark.sql.functions.concat(*cols)"></a>13.pyspark.sql.functions.concat(*cols)</h3><p>将多个输入字符串列连接成一个字符串列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;abcd&#x27;</span>,<span class="hljs-string">&#x27;123&#x27;</span>)], [<span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(concat(df.s, df.d).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-string">u&#x27;abcd123&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-pyspark-sql-functions-concat-ws-sep-cols"><a href="#14-pyspark-sql-functions-concat-ws-sep-cols" class="headerlink" title="14.pyspark.sql.functions.concat_ws(sep, *cols)"></a>14.pyspark.sql.functions.concat_ws(sep, *cols)</h3><p>使用给定的分隔符将多个输入字符串列连接到一个字符串列中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;abcd&#x27;</span>,<span class="hljs-string">&#x27;123&#x27;</span>)], [<span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(concat_ws(<span class="hljs-string">&#x27;-&#x27;</span>, df.s, df.d).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-string">u&#x27;abcd-123&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="15-pyspark-sql-functions-corr-col1-col2"><a href="#15-pyspark-sql-functions-corr-col1-col2" class="headerlink" title="15.pyspark.sql.functions.corr(col1, col2)"></a>15.pyspark.sql.functions.corr(col1, col2)</h3><p>返回col1和col2的皮尔森相关系数的新列。</p>
+<h3 id="16-pyspark-sql-functions-cos-col"><a href="#16-pyspark-sql-functions-cos-col" class="headerlink" title="16.pyspark.sql.functions.cos(col)"></a>16.pyspark.sql.functions.cos(col)</h3><p>计算给定值的余弦。</p>
+<h3 id="17-pyspark-sql-functions-cosh-col"><a href="#17-pyspark-sql-functions-cosh-col" class="headerlink" title="17.pyspark.sql.functions.cosh(col)"></a>17.pyspark.sql.functions.cosh(col)</h3><p>计算给定值的双曲余弦。</p>
+<h3 id="18-pyspark-sql-functions-count-col"><a href="#18-pyspark-sql-functions-count-col" class="headerlink" title="18.pyspark.sql.functions.count(col)"></a>18.pyspark.sql.functions.count(col)</h3><p>聚合函数：返回组中的项数量。</p>
+<h3 id="19-pyspark-sql-functions-countDistinct-col-cols"><a href="#19-pyspark-sql-functions-countDistinct-col-cols" class="headerlink" title="19.pyspark.sql.functions.countDistinct(col, *cols)"></a>19.pyspark.sql.functions.countDistinct(col, *cols)</h3><p>返回一列或多列的去重计数的新列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>l=[(<span class="hljs-string">&#x27;Alice&#x27;</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">&#x27;Bob&#x27;</span>,<span class="hljs-number">5</span>)]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame(l,[<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.agg(countDistinct(df.age, df.name).alias(<span class="hljs-string">&#x27;c&#x27;</span>)).collect()<br>[Row(c=<span class="hljs-number">2</span>)]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.agg(countDistinct(<span class="hljs-string">&quot;age&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>).alias(<span class="hljs-string">&#x27;c&#x27;</span>)).collect()<br>[Row(c=<span class="hljs-number">2</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="20-pyspark-sql-functions-current-date"><a href="#20-pyspark-sql-functions-current-date" class="headerlink" title="20.pyspark.sql.functions.current_date()"></a>20.pyspark.sql.functions.current_date()</h3><p>以日期列的形式返回当前日期。</p>
+<h3 id="21-pyspark-sql-functions-current-timestamp"><a href="#21-pyspark-sql-functions-current-timestamp" class="headerlink" title="21.pyspark.sql.functions.current_timestamp()"></a>21.pyspark.sql.functions.current_timestamp()</h3><p>将当前时间戳作为时间戳列返回。</p>
+<h3 id="22-pyspark-sql-functions-date-add-start-days"><a href="#22-pyspark-sql-functions-date-add-start-days" class="headerlink" title="22.pyspark.sql.functions.date_add(start, days)"></a>22.pyspark.sql.functions.date_add(start, days)</h3><p>返回start后days天的日期</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(date_add(df.d, <span class="hljs-number">1</span>).alias(<span class="hljs-string">&#x27;d&#x27;</span>)).collect()<br>[Row(d=datetime.date(<span class="hljs-number">2015</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>))]<br></code></pre></td></tr></table></figure>
+
+<h3 id="23-pyspark-sql-functions-date-format-date-format"><a href="#23-pyspark-sql-functions-date-format-date-format" class="headerlink" title="23.pyspark.sql.functions.date_format(date, format)"></a>23.pyspark.sql.functions.date_format(date, format)</h3><p>将日期&#x2F;时间戳&#x2F;字符串转换为由第二个参数给定日期格式指定格式的字符串值。<br>一个模式可能是例如dd.MM.yyyy，可能会返回一个字符串，如“18 .03.1993”。 可以使用Java类java.text.SimpleDateFormat的所有模式字母。<br>注意：尽可能使用像年份这样的专业功能。 这些受益于专门的实施。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(date_format(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;MM/dd/yyy&#x27;</span>).alias(<span class="hljs-string">&#x27;date&#x27;</span>)).collect()<br>[Row(date=<span class="hljs-string">u&#x27;04/08/2015&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="24-pyspark-sql-functions-date-sub-start-days"><a href="#24-pyspark-sql-functions-date-sub-start-days" class="headerlink" title="24.pyspark.sql.functions.date_sub(start, days)"></a>24.pyspark.sql.functions.date_sub(start, days)</h3><p>返回start前days天的日期</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(date_sub(df.d, <span class="hljs-number">1</span>).alias(<span class="hljs-string">&#x27;d&#x27;</span>)).collect()<br>[Row(d=datetime.date(<span class="hljs-number">2015</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>))]<br></code></pre></td></tr></table></figure>
+
+<h3 id="25-pyspark-sql-functions-datediff-end-start"><a href="#25-pyspark-sql-functions-datediff-end-start" class="headerlink" title="25.pyspark.sql.functions.datediff(end, start)"></a>25.pyspark.sql.functions.datediff(end, start)</h3><p>返回从start到end的天数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,<span class="hljs-string">&#x27;2015-05-10&#x27;</span>)], [<span class="hljs-string">&#x27;d1&#x27;</span>, <span class="hljs-string">&#x27;d2&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(datediff(df.d2, df.d1).alias(<span class="hljs-string">&#x27;diff&#x27;</span>)).collect()<br>[Row(diff=<span class="hljs-number">32</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="26-pyspark-sql-functions-dayofmonth-col"><a href="#26-pyspark-sql-functions-dayofmonth-col" class="headerlink" title="26.pyspark.sql.functions.dayofmonth(col)"></a>26.pyspark.sql.functions.dayofmonth(col)</h3><p>将给定日期的月份的天解压为整数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(dayofmonth(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;day&#x27;</span>)).collect()<br>[Row(day=<span class="hljs-number">8</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="27-pyspark-sql-functions-dayofyear-col"><a href="#27-pyspark-sql-functions-dayofyear-col" class="headerlink" title="27.pyspark.sql.functions.dayofyear(col)"></a>27.pyspark.sql.functions.dayofyear(col)</h3><p>将给定日期的年份中的某一天提取为整数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(dayofyear(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;day&#x27;</span>)).collect()<br>[Row(day=<span class="hljs-number">98</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="28-pyspark-sql-functions-desc-col"><a href="#28-pyspark-sql-functions-desc-col" class="headerlink" title="28.pyspark.sql.functions.desc(col)"></a>28.pyspark.sql.functions.desc(col)</h3><p>基于给定列名称的降序返回一个排序表达式。</p>
+<h3 id="29-pyspark-sql-functions-exp-col"><a href="#29-pyspark-sql-functions-exp-col" class="headerlink" title="29.pyspark.sql.functions.exp(col)"></a>29.pyspark.sql.functions.exp(col)</h3><p>计算给定值的指数。</p>
+<h3 id="30-pyspark-sql-functions-expm1-col"><a href="#30-pyspark-sql-functions-expm1-col" class="headerlink" title="30.pyspark.sql.functions.expm1(col)"></a>30.pyspark.sql.functions.expm1(col)</h3><p>计算给定值的指数减1。</p>
+<h3 id="31-pyspark-sql-functions-factorial-col"><a href="#31-pyspark-sql-functions-factorial-col" class="headerlink" title="31.pyspark.sql.functions.factorial(col)"></a>31.pyspark.sql.functions.factorial(col)</h3><p>计算给定值的阶乘。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">5</span>,)], [<span class="hljs-string">&#x27;n&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(factorial(df.n).alias(<span class="hljs-string">&#x27;f&#x27;</span>)).collect()<br>[Row(f=<span class="hljs-number">120</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="34-pyspark-sql-functions-format-string-format-cols"><a href="#34-pyspark-sql-functions-format-string-format-cols" class="headerlink" title="34.pyspark.sql.functions.format_string(format, *cols)"></a>34.pyspark.sql.functions.format_string(format, *cols)</h3><p>以printf样式格式化参数，并将结果作为字符串列返回。<br>参数:●  format – 要格式化的格式<br>         ●  cols - 要格式化的列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> pyspark.sql.functions <span class="hljs-keyword">import</span> *<br><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;hello&quot;</span>)], [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(format_string(<span class="hljs-string">&#x27;%d %s&#x27;</span>, df.a, df.b).alias(<span class="hljs-string">&#x27;v&#x27;</span>)).collect()<br>[Row(v=<span class="hljs-string">u&#x27;5 hello&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="35-pyspark-sql-functions-hex-col"><a href="#35-pyspark-sql-functions-hex-col" class="headerlink" title="35.pyspark.sql.functions.hex(col)"></a>35.pyspark.sql.functions.hex(col)</h3><p>计算给定列的十六进制值，可以是StringType，BinaryType，IntegerType或LongType</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>sqlContext.createDataFrame([(<span class="hljs-string">&#x27;ABC&#x27;</span>, <span class="hljs-number">3</span>)], [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>]).select(<span class="hljs-built_in">hex</span>(<span class="hljs-string">&#x27;a&#x27;</span>), <span class="hljs-built_in">hex</span>(<span class="hljs-string">&#x27;b&#x27;</span>)).collect()<br>[Row(<span class="hljs-built_in">hex</span>(a)=<span class="hljs-string">u&#x27;414243&#x27;</span>, <span class="hljs-built_in">hex</span>(b)=<span class="hljs-string">u&#x27;3&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="36-pyspark-sql-functions-hour-col"><a href="#36-pyspark-sql-functions-hour-col" class="headerlink" title="36.pyspark.sql.functions.hour(col)"></a>36.pyspark.sql.functions.hour(col)</h3><p>将给定日期的小时数提取为整数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08 13:08:15&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(hour(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;hour&#x27;</span>)).collect()<br>[Row(hour=<span class="hljs-number">13</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="38-pyspark-sql-functions-initcap-col"><a href="#38-pyspark-sql-functions-initcap-col" class="headerlink" title="38.pyspark.sql.functions.initcap(col)"></a>38.pyspark.sql.functions.initcap(col)</h3><p>在句子中将每个单词的第一个字母翻译成大写。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>sqlContext.createDataFrame([(<span class="hljs-string">&#x27;ab cd&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>]).select(initcap(<span class="hljs-string">&quot;a&quot;</span>).alias(<span class="hljs-string">&#x27;v&#x27;</span>)).collect()<br>[Row(v=<span class="hljs-string">u&#x27;Ab Cd&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="39-pyspark-sql-functions-isnan-col"><a href="#39-pyspark-sql-functions-isnan-col" class="headerlink" title="39.pyspark.sql.functions.isnan(col)"></a>39.pyspark.sql.functions.isnan(col)</h3><p>如果列是NaN，则返回true的表达式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">1.0</span>, <span class="hljs-built_in">float</span>(<span class="hljs-string">&#x27;nan&#x27;</span>)), (<span class="hljs-built_in">float</span>(<span class="hljs-string">&#x27;nan&#x27;</span>), <span class="hljs-number">2.0</span>)], (<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>))<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(isnan(<span class="hljs-string">&quot;a&quot;</span>).alias(<span class="hljs-string">&quot;r1&quot;</span>), isnan(df.a).alias(<span class="hljs-string">&quot;r2&quot;</span>)).collect()<br>[Row(r1=<span class="hljs-literal">False</span>, r2=<span class="hljs-literal">False</span>), Row(r1=<span class="hljs-literal">True</span>, r2=<span class="hljs-literal">True</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="40-pyspark-sql-functions-kurtosis-col"><a href="#40-pyspark-sql-functions-kurtosis-col" class="headerlink" title="40.pyspark.sql.functions.kurtosis(col)"></a>40.pyspark.sql.functions.kurtosis(col)</h3><p>聚合函数：返回组中的值的峰度。</p>
+<h3 id="41-pyspark-sql-functions-last-col"><a href="#41-pyspark-sql-functions-last-col" class="headerlink" title="41.pyspark.sql.functions.last(col)"></a>41.pyspark.sql.functions.last(col)</h3><p>聚合函数：返回组中的最后一个值。</p>
+<h3 id="42-pyspark-sql-functions-last-day-date"><a href="#42-pyspark-sql-functions-last-day-date" class="headerlink" title="42.pyspark.sql.functions.last_day(date)"></a>42.pyspark.sql.functions.last_day(date)</h3><p>返回给定日期所属月份的最后一天。</p>
+<h3 id="43-pyspark-sql-functions-lit-col"><a href="#43-pyspark-sql-functions-lit-col" class="headerlink" title="43.pyspark.sql.functions.lit(col)"></a>43.pyspark.sql.functions.lit(col)</h3><p>创建一个文字值的列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> Row<br><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> functions <span class="hljs-keyword">as</span> sf<br>rdd = sc.parallelize([Row(name=<span class="hljs-string">&#x27;Alice&#x27;</span>, level=<span class="hljs-string">&#x27;a&#x27;</span>, age=<span class="hljs-number">5</span>, height=<span class="hljs-number">80</span>),Row(name=<span class="hljs-string">&#x27;Bob&#x27;</span>, level=<span class="hljs-string">&#x27;a&#x27;</span>, age=<span class="hljs-number">5</span>, height=<span class="hljs-number">80</span>),Row(name=<span class="hljs-string">&#x27;Cycy&#x27;</span>, level=<span class="hljs-string">&#x27;b&#x27;</span>, age=<span class="hljs-number">10</span>, height=<span class="hljs-number">80</span>),Row(name=<span class="hljs-string">&#x27;Didi&#x27;</span>, level=<span class="hljs-string">&#x27;b&#x27;</span>, age=<span class="hljs-number">12</span>, height=<span class="hljs-number">75</span>),Row(name=<span class="hljs-string">&#x27;EiEi&#x27;</span>, level=<span class="hljs-string">&#x27;b&#x27;</span>, age=<span class="hljs-number">10</span>, height=<span class="hljs-number">70</span>)])<br>df = rdd.toDF()<br><span class="hljs-built_in">print</span> df.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+---+------+-----+-----+</span><br><span class="hljs-string">|age|height|level| name|</span><br><span class="hljs-string">+---+------+-----+-----+</span><br><span class="hljs-string">|  5|    80|    a|Alice|</span><br><span class="hljs-string">|  5|    80|    a|  Bob|</span><br><span class="hljs-string">| 10|    80|    b| Cycy|</span><br><span class="hljs-string">| 12|    75|    b| Didi|</span><br><span class="hljs-string">| 10|    70|    b| EiEi|</span><br><span class="hljs-string">+---+------+-----+-----+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>df2 = df.select(<span class="hljs-string">&quot;name&quot;</span>, (df.age+<span class="hljs-number">1</span>).alias(<span class="hljs-string">&quot;new_age&quot;</span>), sf.lit(<span class="hljs-number">2</span>))<br><span class="hljs-built_in">print</span> df2.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+-----+-------+---+</span><br><span class="hljs-string">| name|new_age|  2|</span><br><span class="hljs-string">+-----+-------+---+</span><br><span class="hljs-string">|Alice|      6|  2|</span><br><span class="hljs-string">|  Bob|      6|  2|</span><br><span class="hljs-string">| Cycy|     11|  2|</span><br><span class="hljs-string">| Didi|     13|  2|</span><br><span class="hljs-string">| EiEi|     11|  2|</span><br><span class="hljs-string">+-----+-------+---+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-comment"># 也可以重命名</span><br>df2 = df.select(<span class="hljs-string">&quot;name&quot;</span>, (df.age+<span class="hljs-number">1</span>).alias(<span class="hljs-string">&quot;new_age&quot;</span>), sf.lit(<span class="hljs-number">2</span>).alias(<span class="hljs-string">&quot;constant&quot;</span>))<br><span class="hljs-built_in">print</span> df2.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+-----+-------+--------+</span><br><span class="hljs-string">| name|new_age|constant|</span><br><span class="hljs-string">+-----+-------+--------+</span><br><span class="hljs-string">|Alice|      6|       2|</span><br><span class="hljs-string">|  Bob|      6|       2|</span><br><span class="hljs-string">| Cycy|     11|       2|</span><br><span class="hljs-string">| Didi|     13|       2|</span><br><span class="hljs-string">| EiEi|     11|       2|</span><br><span class="hljs-string">+-----+-------+--------+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="44-pyspark-sql-functions-log-arg1-arg2-None"><a href="#44-pyspark-sql-functions-log-arg1-arg2-None" class="headerlink" title="44.pyspark.sql.functions.log(arg1, arg2&#x3D;None)"></a>44.pyspark.sql.functions.log(arg1, arg2&#x3D;None)</h3><p>返回第二个参数的第一个基于参数的对数。<br>如果只有一个参数，那么这个参数就是自然对数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(log(<span class="hljs-number">10.0</span>, df.age).alias(<span class="hljs-string">&#x27;ten&#x27;</span>)).<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> l: <span class="hljs-built_in">str</span>(l.ten)[:<span class="hljs-number">7</span>]).collect()<br>[<span class="hljs-string">&#x27;0.30102&#x27;</span>, <span class="hljs-string">&#x27;0.69897&#x27;</span>]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(log(df.age).alias(<span class="hljs-string">&#x27;e&#x27;</span>)).<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> l: <span class="hljs-built_in">str</span>(l.e)[:<span class="hljs-number">7</span>]).collect()<br>[<span class="hljs-string">&#x27;0.69314&#x27;</span>, <span class="hljs-string">&#x27;1.60943&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="45-pyspark-sql-functions-log1p-col"><a href="#45-pyspark-sql-functions-log1p-col" class="headerlink" title="45.pyspark.sql.functions.log1p(col)"></a>45.pyspark.sql.functions.log1p(col)</h3><p>计算给定值的自然对数加1。</p>
+<h3 id="46-pyspark-sql-functions-log2-col"><a href="#46-pyspark-sql-functions-log2-col" class="headerlink" title="46.pyspark.sql.functions.log2(col)"></a>46.pyspark.sql.functions.log2(col)</h3><p>返回参数的基数为2的对数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>sqlContext.createDataFrame([(<span class="hljs-number">4</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>]).select(log2(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;log2&#x27;</span>)).collect()<br>[Row(log2=<span class="hljs-number">2.0</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="47-pyspark-sql-functions-lower-col"><a href="#47-pyspark-sql-functions-lower-col" class="headerlink" title="47.pyspark.sql.functions.lower(col)"></a>47.pyspark.sql.functions.lower(col)</h3><p>将字符串列转换为小写。</p>
+<h3 id="48-pyspark-sql-functions-ltrim-col"><a href="#48-pyspark-sql-functions-ltrim-col" class="headerlink" title="48.pyspark.sql.functions.ltrim(col)"></a>48.pyspark.sql.functions.ltrim(col)</h3><p>从左端修剪指定字符串值的空格。</p>
+<h3 id="49-pyspark-sql-functions-minute-col"><a href="#49-pyspark-sql-functions-minute-col" class="headerlink" title="49.pyspark.sql.functions.minute(col)"></a>49.pyspark.sql.functions.minute(col)</h3><p>提取给定日期的分钟数为整数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08 13:08:15&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(minute(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;minute&#x27;</span>)).collect()<br>[Row(minute=<span class="hljs-number">8</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="51-pyspark-sql-functions-month-col"><a href="#51-pyspark-sql-functions-month-col" class="headerlink" title="51.pyspark.sql.functions.month(col)"></a>51.pyspark.sql.functions.month(col)</h3><p>将给定日期的月份提取为整数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(month(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;month&#x27;</span>)).collect()<br>[Row(month=<span class="hljs-number">4</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="52-pyspark-sql-functions-months-between-date1-date2"><a href="#52-pyspark-sql-functions-months-between-date1-date2" class="headerlink" title="52.pyspark.sql.functions.months_between(date1, date2)"></a>52.pyspark.sql.functions.months_between(date1, date2)</h3><p>返回date1和date2之间的月数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;1997-02-28 10:30:00&#x27;</span>, <span class="hljs-string">&#x27;1996-10-30&#x27;</span>)], [<span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(months_between(df.t, df.d).alias(<span class="hljs-string">&#x27;months&#x27;</span>)).collect()<br>[Row(months=<span class="hljs-number">3.9495967</span>...)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="53-pyspark-sql-functions-rand-seed-None"><a href="#53-pyspark-sql-functions-rand-seed-None" class="headerlink" title="53.pyspark.sql.functions.rand(seed&#x3D;None)"></a>53.pyspark.sql.functions.rand(seed&#x3D;None)</h3><p>生成一个随机列，其中包含均匀分布在 [0.0, 1.0) 中的独立且同分布 (i.i.d.) 样本。</p>
+<h3 id="54-pyspark-sql-functions-randn-seed-None"><a href="#54-pyspark-sql-functions-randn-seed-None" class="headerlink" title="54.pyspark.sql.functions.randn(seed&#x3D;None)"></a>54.pyspark.sql.functions.randn(seed&#x3D;None)</h3><p>从标准正态分布生成具有独立且同分布 (i.i.d.) 样本的列。</p>
+<h3 id="55-pyspark-sql-functions-reverse-col"><a href="#55-pyspark-sql-functions-reverse-col" class="headerlink" title="55.pyspark.sql.functions.reverse(col)"></a>55.pyspark.sql.functions.reverse(col)</h3><p>反转字符串列并将其作为新的字符串列返回</p>
+<h3 id="56-pyspark-sql-functions-rtrim-col"><a href="#56-pyspark-sql-functions-rtrim-col" class="headerlink" title="56.pyspark.sql.functions.rtrim(col)"></a>56.pyspark.sql.functions.rtrim(col)</h3><p>从右端修剪指定字符串值的空格</p>
+<h3 id="57-pyspark-sql-functions-skewness-col"><a href="#57-pyspark-sql-functions-skewness-col" class="headerlink" title="57.pyspark.sql.functions.skewness(col)"></a>57.pyspark.sql.functions.skewness(col)</h3><p>聚合函数：返回组中值的偏度</p>
+<h3 id="58-pyspark-sql-functions-sort-array-col-asc-True"><a href="#58-pyspark-sql-functions-sort-array-col-asc-True" class="headerlink" title="58.pyspark.sql.functions.sort_array(col, asc&#x3D;True)"></a>58.pyspark.sql.functions.sort_array(col, asc&#x3D;True)</h3><p>集合函数：按升序对给定列的输入数组进行排序。<br>参数:col – 列或表达式名称</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([([<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>],),([<span class="hljs-number">1</span>],),([],)], [<span class="hljs-string">&#x27;data&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(sort_array(df.data).alias(<span class="hljs-string">&#x27;r&#x27;</span>)).collect()<br>[Row(r=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]), Row(r=[<span class="hljs-number">1</span>]), Row(r=[])]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(sort_array(df.data, asc=<span class="hljs-literal">False</span>).alias(<span class="hljs-string">&#x27;r&#x27;</span>)).collect()<br>[Row(r=[<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>]), Row(r=[<span class="hljs-number">1</span>]), Row(r=[])]<br></code></pre></td></tr></table></figure>
+
+<h3 id="59-pyspark-sql-functions-split-str-pattern"><a href="#59-pyspark-sql-functions-split-str-pattern" class="headerlink" title="59.pyspark.sql.functions.split(str, pattern)"></a>59.pyspark.sql.functions.split(str, pattern)</h3><p>将模式分割（模式是正则表达式）。<br>注：pattern是一个字符串表示正则表达式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;ab12cd&#x27;</span>,)], [<span class="hljs-string">&#x27;s&#x27;</span>,])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(split(df.s, <span class="hljs-string">&#x27;[0-9]+&#x27;</span>).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=[<span class="hljs-string">u&#x27;ab&#x27;</span>, <span class="hljs-string">u&#x27;cd&#x27;</span>])]<br></code></pre></td></tr></table></figure>
+
+<h3 id="60-pyspark-sql-functions-sqrt-col"><a href="#60-pyspark-sql-functions-sqrt-col" class="headerlink" title="60.pyspark.sql.functions.sqrt(col)"></a>60.pyspark.sql.functions.sqrt(col)</h3><p>计算指定浮点值的平方根</p>
+<h3 id="61-pyspark-sql-functions-stddev-col"><a href="#61-pyspark-sql-functions-stddev-col" class="headerlink" title="61.pyspark.sql.functions.stddev(col)"></a>61.pyspark.sql.functions.stddev(col)</h3><p>聚合函数：返回组中表达式的无偏样本标准差</p>
+<h3 id="62-pyspark-sql-functions-sumDistinct-col"><a href="#62-pyspark-sql-functions-sumDistinct-col" class="headerlink" title="62.pyspark.sql.functions.sumDistinct(col)"></a>62.pyspark.sql.functions.sumDistinct(col)</h3><p>聚合函数：返回表达式中不同值的总和</p>
+<h3 id="63-pyspark-sql-functions-to-date-col"><a href="#63-pyspark-sql-functions-to-date-col" class="headerlink" title="63.pyspark.sql.functions.to_date(col)"></a>63.pyspark.sql.functions.to_date(col)</h3><p>将StringType或TimestampType的列转换为DateType</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;1997-02-28 10:30:00&#x27;</span>,)], [<span class="hljs-string">&#x27;t&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(to_date(df.t).alias(<span class="hljs-string">&#x27;date&#x27;</span>)).collect()<br>[Row(date=datetime.date(<span class="hljs-number">1997</span>, <span class="hljs-number">2</span>, <span class="hljs-number">28</span>))]<br></code></pre></td></tr></table></figure>
+
+<h3 id="64-pyspark-sql-functions-trim-col"><a href="#64-pyspark-sql-functions-trim-col" class="headerlink" title="64.pyspark.sql.functions.trim(col)"></a>64.pyspark.sql.functions.trim(col)</h3><p>修剪指定字符串列的两端空格。</p>
+<h3 id="65-pyspark-sql-functions-trunc-date-format"><a href="#65-pyspark-sql-functions-trunc-date-format" class="headerlink" title="65.pyspark.sql.functions.trunc(date, format)"></a>65.pyspark.sql.functions.trunc(date, format)</h3><p>返回截断到格式指定单位的日期</p>
+<p>参数: format – ‘year’, ‘YYYY’, ‘yy’ or ‘month’, ‘mon’, ‘mm’</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;1997-02-28&#x27;</span>,)], [<span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(trunc(df.d, <span class="hljs-string">&#x27;year&#x27;</span>).alias(<span class="hljs-string">&#x27;year&#x27;</span>)).collect()<br>[Row(year=datetime.date(<span class="hljs-number">1997</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>))]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(trunc(df.d, <span class="hljs-string">&#x27;mon&#x27;</span>).alias(<span class="hljs-string">&#x27;month&#x27;</span>)).collect()<br>[Row(month=datetime.date(<span class="hljs-number">1997</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>))]<br></code></pre></td></tr></table></figure>
+
+<h3 id="66-pyspark-sql-functions-var-samp-col"><a href="#66-pyspark-sql-functions-var-samp-col" class="headerlink" title="66.pyspark.sql.functions.var_samp(col)"></a>66.pyspark.sql.functions.var_samp(col)</h3><p>聚合函数：返回组中值的无偏差</p>
+<h3 id="67-pyspark-sql-functions-variance-col"><a href="#67-pyspark-sql-functions-variance-col" class="headerlink" title="67.pyspark.sql.functions.variance(col)"></a>67.pyspark.sql.functions.variance(col)</h3><p>聚合函数：返回组中值的总体方差</p>
+<h3 id="68-pyspark-sql-functions-array-cols"><a href="#68-pyspark-sql-functions-array-cols" class="headerlink" title="68.pyspark.sql.functions.array(*cols)"></a>68.pyspark.sql.functions.array(*cols)</h3><p>创建一个新的数组列。<br>参数: cols – 列名（字符串）列表或具有相同数据类型的列表达式列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(array(<span class="hljs-string">&#x27;age&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>).alias(<span class="hljs-string">&quot;arr&quot;</span>)).collect()<br>[Row(arr=[<span class="hljs-number">2</span>, <span class="hljs-number">2</span>]), Row(arr=[<span class="hljs-number">5</span>, <span class="hljs-number">5</span>])]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(array([df.age, df.age]).alias(<span class="hljs-string">&quot;arr&quot;</span>)).collect()<br>[Row(arr=[<span class="hljs-number">2</span>, <span class="hljs-number">2</span>]), Row(arr=[<span class="hljs-number">5</span>, <span class="hljs-number">5</span>])]<br></code></pre></td></tr></table></figure>
+<h3 id="69-pyspark-sql-functions-bin-col"><a href="#69-pyspark-sql-functions-bin-col" class="headerlink" title="69.pyspark.sql.functions.bin(col)"></a>69.pyspark.sql.functions.bin(col)</h3><p>返回给定列的二进制值的字符串表示形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>l=[(<span class="hljs-string">&#x27;Alice&#x27;</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">&#x27;Bob&#x27;</span>,<span class="hljs-number">5</span>)]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame(l,[<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(<span class="hljs-built_in">bin</span>(df.age).alias(<span class="hljs-string">&#x27;c&#x27;</span>)).collect()<br>[Row(c=<span class="hljs-string">u&#x27;10&#x27;</span>), Row(c=<span class="hljs-string">u&#x27;101&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="70-pyspark-sql-functions-conv-col-fromBase-toBase"><a href="#70-pyspark-sql-functions-conv-col-fromBase-toBase" class="headerlink" title="70.pyspark.sql.functions.conv(col, fromBase, toBase)"></a>70.pyspark.sql.functions.conv(col, fromBase, toBase)</h3><p>将字符串列中的数字从一个基数转换为另一个基数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&quot;010101&quot;</span>,)], [<span class="hljs-string">&#x27;n&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(conv(df.n, <span class="hljs-number">2</span>, <span class="hljs-number">16</span>).alias(<span class="hljs-string">&#x27;hex&#x27;</span>)).collect()<br>[Row(<span class="hljs-built_in">hex</span>=<span class="hljs-string">u&#x27;15&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="71-pyspark-sql-functions-expr-str"><a href="#71-pyspark-sql-functions-expr-str" class="headerlink" title="71.pyspark.sql.functions.expr(str)"></a>71.pyspark.sql.functions.expr(str)</h3><p>将表达式字符串分析到它表示的列中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>l=[(<span class="hljs-string">&#x27;Alice&#x27;</span>,<span class="hljs-number">2</span>),(<span class="hljs-string">&#x27;Bob&#x27;</span>,<span class="hljs-number">5</span>)]<br><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame(l,[<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;age&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(expr(<span class="hljs-string">&quot;length(name)&quot;</span>)).collect()<br>[Row(length(name)=<span class="hljs-number">5</span>), Row(length(name)=<span class="hljs-number">3</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="72-pyspark-sql-functions-from-utc-timestamp-timestamp-tz"><a href="#72-pyspark-sql-functions-from-utc-timestamp-timestamp-tz" class="headerlink" title="72.pyspark.sql.functions.from_utc_timestamp(timestamp, tz)"></a>72.pyspark.sql.functions.from_utc_timestamp(timestamp, tz)</h3><p>假设时间戳是UTC，并转换为给定的时区</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;1997-02-28 10:30:00&#x27;</span>,)], [<span class="hljs-string">&#x27;t&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(from_utc_timestamp(df.t, <span class="hljs-string">&quot;PST&quot;</span>).alias(<span class="hljs-string">&#x27;t&#x27;</span>)).collect()<br>[Row(t=datetime.datetime(<span class="hljs-number">1997</span>, <span class="hljs-number">2</span>, <span class="hljs-number">28</span>, <span class="hljs-number">2</span>, <span class="hljs-number">30</span>))]<br></code></pre></td></tr></table></figure>
+<h3 id="73-pyspark-sql-functions-greatest-cols"><a href="#73-pyspark-sql-functions-greatest-cols" class="headerlink" title="73.pyspark.sql.functions.greatest(*cols)"></a>73.pyspark.sql.functions.greatest(*cols)</h3><p>返回列名称列表的最大值，跳过空值。 该功能至少需要2个参数。 如果所有参数都为空，它将返回null</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>)], [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(greatest(df.a, df.b, df.c).alias(<span class="hljs-string">&quot;greatest&quot;</span>)).collect()<br>[Row(greatest=<span class="hljs-number">4</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="74-pyspark-sql-functions-instr-str-substr"><a href="#74-pyspark-sql-functions-instr-str-substr" class="headerlink" title="74.pyspark.sql.functions.instr(str, substr)"></a>74.pyspark.sql.functions.instr(str, substr)</h3><p>找到给定字符串中第一次出现substr列的位置。 如果其中任一参数为null，则返回null。<br>注：位置不是从零开始的，但是基于1的索引，如果在str中找不到substr，则返回0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;abcd&#x27;</span>,)], [<span class="hljs-string">&#x27;s&#x27;</span>,])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(instr(df.s, <span class="hljs-string">&#x27;b&#x27;</span>).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-number">2</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="75-pyspark-sql-functions-isnull-col"><a href="#75-pyspark-sql-functions-isnull-col" class="headerlink" title="75.pyspark.sql.functions.isnull(col)"></a>75.pyspark.sql.functions.isnull(col)</h3><p>如果列为null，则返回true的表达式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">1</span>, <span class="hljs-literal">None</span>), (<span class="hljs-literal">None</span>, <span class="hljs-number">2</span>)], (<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>))<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(isnull(<span class="hljs-string">&quot;a&quot;</span>).alias(<span class="hljs-string">&quot;r1&quot;</span>), isnull(df.a).alias(<span class="hljs-string">&quot;r2&quot;</span>)).collect()<br>[Row(r1=<span class="hljs-literal">False</span>, r2=<span class="hljs-literal">False</span>), Row(r1=<span class="hljs-literal">True</span>, r2=<span class="hljs-literal">True</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="76-pyspark-sql-functions-least-cols"><a href="#76-pyspark-sql-functions-least-cols" class="headerlink" title="76.pyspark.sql.functions.least(*cols)"></a>76.pyspark.sql.functions.least(*cols)</h3><p>返回列名称列表的最小值，跳过空值。 该功能至少需要2个参数。 如果所有参数都为空，它将返回null</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>)], [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(least(df.a, df.b, df.c).alias(<span class="hljs-string">&quot;least&quot;</span>)).collect()<br>[Row(least=<span class="hljs-number">1</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="77-pyspark-sql-functions-length-col"><a href="#77-pyspark-sql-functions-length-col" class="headerlink" title="77.pyspark.sql.functions.length(col)"></a>77.pyspark.sql.functions.length(col)</h3><p>计算字符串或二进制表达式的长度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>sqlContext.createDataFrame([(<span class="hljs-string">&#x27;ABC&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>]).select(length(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;length&#x27;</span>)).collect()<br>[Row(length=<span class="hljs-number">3</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="78-pyspark-sql-functions-locate-substr-str-pos-0"><a href="#78-pyspark-sql-functions-locate-substr-str-pos-0" class="headerlink" title="78.pyspark.sql.functions.locate(substr, str, pos&#x3D;0)"></a>78.pyspark.sql.functions.locate(substr, str, pos&#x3D;0)</h3><p>找到第一个出现的位置在位置pos后面的字符串列中。<br>注：位置不是从零开始，而是从1开始。 如果在str中找不到substr，则返回0。<br>参数: substr – 一个字符串<br>         str – 一个StringType的列<br>         pos – 起始位置（基于零）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;abcd&#x27;</span>,)], [<span class="hljs-string">&#x27;s&#x27;</span>,])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(locate(<span class="hljs-string">&#x27;b&#x27;</span>, df.s, <span class="hljs-number">1</span>).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-number">2</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="79-pyspark-sql-functions-max-col"><a href="#79-pyspark-sql-functions-max-col" class="headerlink" title="79.pyspark.sql.functions.max(col)"></a>79.pyspark.sql.functions.max(col)</h3><p>聚合函数：返回组中表达式的最大值。</p>
+<h3 id="80-pyspark-sql-functions-mean-col"><a href="#80-pyspark-sql-functions-mean-col" class="headerlink" title="80.pyspark.sql.functions.mean(col)"></a>80.pyspark.sql.functions.mean(col)</h3><p>聚合函数：返回组中的值的平均值</p>
+<h3 id="81-pyspark-sql-functions-min-col"><a href="#81-pyspark-sql-functions-min-col" class="headerlink" title="81.pyspark.sql.functions.min(col)"></a>81.pyspark.sql.functions.min(col)</h3><p>聚合函数：返回组中表达式的最小值。</p>
+<h3 id="82-pyspark-sql-functions-next-day-date-dayOfWeek"><a href="#82-pyspark-sql-functions-next-day-date-dayOfWeek" class="headerlink" title="82.pyspark.sql.functions.next_day(date, dayOfWeek)"></a>82.pyspark.sql.functions.next_day(date, dayOfWeek)</h3><p>返回晚于日期列值的第一个日期<br>星期几参数不区分大小写，并接受：“Mon”, “Tue”, “Wed”, “Thu”, “Fri”, “Sat”, “Sun”.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-07-27&#x27;</span>,)], [<span class="hljs-string">&#x27;d&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(next_day(df.d, <span class="hljs-string">&#x27;Sun&#x27;</span>).alias(<span class="hljs-string">&#x27;date&#x27;</span>)).collect()<br>[Row(date=datetime.date(<span class="hljs-number">2015</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>))]<br></code></pre></td></tr></table></figure>
+<h3 id="83-pyspark-sql-functions-repeat-col-n"><a href="#83-pyspark-sql-functions-repeat-col-n" class="headerlink" title="83.pyspark.sql.functions.repeat(col, n)"></a>83.pyspark.sql.functions.repeat(col, n)</h3><p>重复一个字符串列n次，并将其作为新的字符串列返回</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;ab&#x27;</span>,)], [<span class="hljs-string">&#x27;s&#x27;</span>,])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(repeat(df.s, <span class="hljs-number">3</span>).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-string">u&#x27;ababab&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="84-pyspark-sql-functions-round-col-scale-0"><a href="#84-pyspark-sql-functions-round-col-scale-0" class="headerlink" title="84.pyspark.sql.functions.round(col, scale&#x3D;0)"></a>84.pyspark.sql.functions.round(col, scale&#x3D;0)</h3><p>如果scale&gt; &#x3D; 0，将e的值舍入为小数点的位数，或者在scale &lt;0的时候将其舍入到整数部分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>sqlContext.createDataFrame([(<span class="hljs-number">2.546</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>]).select(<span class="hljs-built_in">round</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1</span>).alias(<span class="hljs-string">&#x27;r&#x27;</span>)).collect()<br>[Row(r=<span class="hljs-number">2.5</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="85-pyspark-sql-functions-row-number"><a href="#85-pyspark-sql-functions-row-number" class="headerlink" title="85.pyspark.sql.functions.row_number()"></a>85.pyspark.sql.functions.row_number()</h3><p>窗口函数：返回窗口分区内从1开始的连续编号。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql.window <span class="hljs-keyword">import</span> Window<br>df_r = df.withColumn(<span class="hljs-string">&#x27;row_number&#x27;</span>, sf.row_number().over(Window.partitionBy(<span class="hljs-string">&quot;level&quot;</span>).orderBy(<span class="hljs-string">&quot;age&quot;</span>)).alias(<span class="hljs-string">&quot;rowNum&quot;</span>))<br><span class="hljs-comment"># 其他写法</span><br>df_r = df.withColumn(<span class="hljs-string">&#x27;row_number&#x27;</span>, sf.row_number().over(Window.partitionBy(df.level).orderBy(df.age)).alias(<span class="hljs-string">&quot;rowNum&quot;</span>))<br><span class="hljs-built_in">print</span> df_r.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+---+------+-----+-----+----------+                                             </span><br><span class="hljs-string">|age|height|level| name|row_number|</span><br><span class="hljs-string">+---+------+-----+-----+----------+</span><br><span class="hljs-string">| 10|    80|    b| Cycy|         1|</span><br><span class="hljs-string">| 10|    70|    b| EiEi|         2|</span><br><span class="hljs-string">| 12|    75|    b| Didi|         3|</span><br><span class="hljs-string">|  5|    80|    a|  Bob|         1|</span><br><span class="hljs-string">|  5|    80|    a|Alice|         2|</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>表示逆序，或者根据多个字段分组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">df_r = df.withColumn(<span class="hljs-string">&#x27;row_number&#x27;</span>, sf.row_number().over(Window.partitionBy(df.level, df.age).orderBy(sf.desc(<span class="hljs-string">&quot;name&quot;</span>))).alias(<span class="hljs-string">&quot;rowNum&quot;</span>))<br><span class="hljs-comment"># 另一种写法</span><br>df_r = df.withColumn(<span class="hljs-string">&#x27;row_number&#x27;</span>, sf.row_number().over(Window.partitionBy(<span class="hljs-string">&quot;level&quot;</span>, <span class="hljs-string">&quot;age&quot;</span>).orderBy(sf.desc(<span class="hljs-string">&quot;name&quot;</span>))).alias(<span class="hljs-string">&quot;rowNum&quot;</span>))<br><span class="hljs-built_in">print</span> df_r.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+---+------+-----+-----+----------+</span><br><span class="hljs-string">|age|height|level| name|row_number|</span><br><span class="hljs-string">+---+------+-----+-----+----------+</span><br><span class="hljs-string">|  5|    80|    a|  Bob|         1|</span><br><span class="hljs-string">|  5|    80|    a|Alice|         2|</span><br><span class="hljs-string">| 10|    70|    b| EiEi|         1|</span><br><span class="hljs-string">| 10|    80|    b| Cycy|         2|</span><br><span class="hljs-string">| 12|    75|    b| Didi|         1|</span><br><span class="hljs-string">+---+------+-----+-----+----------+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="86-pyspark-sql-functions-second-col"><a href="#86-pyspark-sql-functions-second-col" class="headerlink" title="86.pyspark.sql.functions.second(col)"></a>86.pyspark.sql.functions.second(col)</h3><p>将给定日期的秒数提取为整数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08 13:08:15&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(second(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;second&#x27;</span>)).collect()<br>[Row(second=<span class="hljs-number">15</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="87-pyspark-sql-functions-size-col"><a href="#87-pyspark-sql-functions-size-col" class="headerlink" title="87.pyspark.sql.functions.size(col)"></a>87.pyspark.sql.functions.size(col)</h3><p>集合函数：返回存储在列中的数组或映射的长度<br>参数:col – 列或表达式名称</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>],),([<span class="hljs-number">1</span>],),([],)], [<span class="hljs-string">&#x27;data&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(size(df.data)).collect()<br>[Row(size(data)=<span class="hljs-number">3</span>), Row(size(data)=<span class="hljs-number">1</span>), Row(size(data)=<span class="hljs-number">0</span>)]<br></code></pre></td></tr></table></figure>
+
+<h3 id="88-pyspark-sql-functions-substring-str-pos-len"><a href="#88-pyspark-sql-functions-substring-str-pos-len" class="headerlink" title="88.pyspark.sql.functions.substring(str, pos, len)"></a>88.pyspark.sql.functions.substring(str, pos, len)</h3><p>子字符串从pos开始，长度为len，当str是字符串类型时，或者返回从字节pos开始的字节数组的片段，当str是二进制类型时，长度<br>为len</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;abcd&#x27;</span>,)], [<span class="hljs-string">&#x27;s&#x27;</span>,])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(substring(df.s, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>).alias(<span class="hljs-string">&#x27;s&#x27;</span>)).collect()<br>[Row(s=<span class="hljs-string">u&#x27;ab&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="89-pyspark-sql-functions-sum-col"><a href="#89-pyspark-sql-functions-sum-col" class="headerlink" title="89.pyspark.sql.functions.sum(col)"></a>89.pyspark.sql.functions.sum(col)</h3><p>聚合函数：返回表达式中所有值的总和。</p>
+<h3 id="90-pyspark-sql-functions-to-utc-timestamp-timestamp-tz"><a href="#90-pyspark-sql-functions-to-utc-timestamp-timestamp-tz" class="headerlink" title="90.pyspark.sql.functions.to_utc_timestamp(timestamp, tz)"></a>90.pyspark.sql.functions.to_utc_timestamp(timestamp, tz)</h3><p>假定给定的时间戳在给定的时区并转换为UTC</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;1997-02-28 10:30:00&#x27;</span>,)], [<span class="hljs-string">&#x27;t&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(to_utc_timestamp(df.t, <span class="hljs-string">&quot;PST&quot;</span>).alias(<span class="hljs-string">&#x27;t&#x27;</span>)).collect()<br>[Row(t=datetime.datetime(<span class="hljs-number">1997</span>, <span class="hljs-number">2</span>, <span class="hljs-number">28</span>, <span class="hljs-number">18</span>, <span class="hljs-number">30</span>))]<br></code></pre></td></tr></table></figure>
+<h3 id="91-pyspark-sql-functions-year-col"><a href="#91-pyspark-sql-functions-year-col" class="headerlink" title="91.pyspark.sql.functions.year(col)"></a>91.pyspark.sql.functions.year(col)</h3><p>将给定日期的年份提取为整数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df = sqlContext.createDataFrame([(<span class="hljs-string">&#x27;2015-04-08&#x27;</span>,)], [<span class="hljs-string">&#x27;a&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(year(<span class="hljs-string">&#x27;a&#x27;</span>).alias(<span class="hljs-string">&#x27;year&#x27;</span>)).collect()<br>[Row(year=<span class="hljs-number">2015</span>)]<br></code></pre></td></tr></table></figure>
+<h3 id="92-pyspark-sql-functions-when-condition-value"><a href="#92-pyspark-sql-functions-when-condition-value" class="headerlink" title="92.pyspark.sql.functions.when(condition, value)"></a>92.pyspark.sql.functions.when(condition, value)</h3><p>评估条件列表并返回多个可能的结果表达式之一。 如果不调用Column.otherwise（），则不匹配条件返回None</p>
+<p>参数:condition – 一个布尔的列表达式.<br>        value – 一个文字值或一个Column表达式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(when(df[<span class="hljs-string">&#x27;age&#x27;</span>] == <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).otherwise(<span class="hljs-number">4</span>).alias(<span class="hljs-string">&quot;age&quot;</span>)).collect()<br>[Row(age=<span class="hljs-number">3</span>), Row(age=<span class="hljs-number">4</span>)]<br><br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(when(df.age == <span class="hljs-number">2</span>, df.age + <span class="hljs-number">1</span>).alias(<span class="hljs-string">&quot;age&quot;</span>)).collect()<br>[Row(age=<span class="hljs-number">3</span>), Row(age=<span class="hljs-literal">None</span>)]<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">df3 = df.withColumn(<span class="hljs-string">&quot;when&quot;</span>, sf.when(df.age&lt;<span class="hljs-number">7</span>, <span class="hljs-string">&quot;kindergarten&quot;</span>).when((df.age&gt;=<span class="hljs-number">7</span>)&amp;(df.age&lt;<span class="hljs-number">11</span>), <span class="hljs-string">&#x27;low_grade&#x27;</span>).otherwise(<span class="hljs-string">&quot;high_grade&quot;</span>))<br><span class="hljs-built_in">print</span> df3.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+---+------+-----+-----+------------+</span><br><span class="hljs-string">|age|height|level| name|        when|</span><br><span class="hljs-string">+---+------+-----+-----+------------+</span><br><span class="hljs-string">|  5|    80|    a|Alice|kindergarten|</span><br><span class="hljs-string">|  5|    80|    a|  Bob|kindergarten|</span><br><span class="hljs-string">| 10|    80|    b| Cycy|   low_grade|</span><br><span class="hljs-string">| 12|    75|    b| Didi|  high_grade|</span><br><span class="hljs-string">| 10|    70|    b| EiEi|   low_grade|</span><br><span class="hljs-string">+---+------+-----+-----+------------+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="93-pyspark-sql-functions-udf-f-returnType-StringType"><a href="#93-pyspark-sql-functions-udf-f-returnType-StringType" class="headerlink" title="93.pyspark.sql.functions.udf(f, returnType&#x3D;StringType)"></a>93.pyspark.sql.functions.udf(f, returnType&#x3D;StringType)</h3><p>创建一个表示用户定义函数（UDF）的列表达式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> pyspark.sql.types <span class="hljs-keyword">import</span> IntegerType<br><span class="hljs-meta">&gt;&gt;&gt; </span>slen = udf(<span class="hljs-keyword">lambda</span> s: <span class="hljs-built_in">len</span>(s), IntegerType())<br><span class="hljs-meta">&gt;&gt;&gt; </span>df.select(slen(df.name).alias(<span class="hljs-string">&#x27;slen&#x27;</span>)).collect()<br>[Row(slen=<span class="hljs-number">5</span>), Row(slen=<span class="hljs-number">3</span>)]<br></code></pre></td></tr></table></figure>
+<p>udf只能对每一行进行操作，无法对groupBy后的数据处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyspark.sql <span class="hljs-keyword">import</span> types <span class="hljs-keyword">as</span> st<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">ratio</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">if</span> a <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> b <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> b == <span class="hljs-number">0</span>:<br>        r = -<span class="hljs-number">1.0</span><br>    <span class="hljs-keyword">else</span>:<br>        r = <span class="hljs-number">1.0</span> * a / b<br>    <span class="hljs-keyword">return</span> r<br>col_ratio = udf(ratio, st.DoubleType())<br>df_udf = df.withColumn(<span class="hljs-string">&quot;ratio&quot;</span>, col_ratio(df.age, df.height))<br><span class="hljs-built_in">print</span> df_udf.show()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">+---+------+-----+-----+-------------------+</span><br><span class="hljs-string">|age|height|level| name|              ratio|</span><br><span class="hljs-string">+---+------+-----+-----+-------------------+</span><br><span class="hljs-string">|  5|    80|    a|Alice|             0.0625|</span><br><span class="hljs-string">|  5|    80|    a|  Bob|             0.0625|</span><br><span class="hljs-string">| 10|    80|    b| Cycy|              0.125|</span><br><span class="hljs-string">| 12|    75|    b| Didi|               0.16|</span><br><span class="hljs-string">| 10|    70|    b| EiEi|0.14285714285714285|</span><br><span class="hljs-string">+---+------+-----+-----+-------------------+</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/api/python/reference/index.html">pyspark官方api</a></p>
+<p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/api/python/_modules/pyspark/rdd.html">RDD</a></p>
+<p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/3.0.1/api/python/_modules/pyspark/sql/dataframe.html">DataFrame</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/htbeker/article/details/86233819">https://blog.csdn.net/htbeker/article/details/86233819</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wonglu/p/8390710.html">https://www.cnblogs.com/wonglu/p/8390710.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/42d90f93c262">https://www.jianshu.com/p/42d90f93c262</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wapecheng/article/details/107472312">https://blog.csdn.net/wapecheng/article/details/107472312</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31400717/article/details/105820203">https://blog.csdn.net/qq_31400717&#x2F;article&#x2F;details&#x2F;105820203</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>pyspark笔记（RDD,DataFrame和Spark SQL）</div>
+      <div>https://qzkq.github.io/2026/01/02/pyspark笔记（RDD,DataFrame和Spark SQL）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%20redis%20%E4%BD%BF%E7%94%A8(%E7%AC%94%E8%AE%B0)/" title="Python redis 使用(笔记)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python redis 使用(笔记)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/02/PaddleOCR%E5%85%A8%E7%89%88%E6%9C%AC%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%8C%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8/" title="PaddleOCR全版本完整指南：从入门到精通，全面解析安装部署与高级应用">
+                        <span class="hidden-mobile">PaddleOCR全版本完整指南：从入门到精通，全面解析安装部署与高级应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

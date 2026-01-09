@@ -1,0 +1,717 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="Python笔记1（赋值、浅拷贝和深拷贝、字符串日期转换、argparse、sys、overwrite、eval、json.dumps&#x2F;json.loads、os.system(cmd)、zfill、endswith、open）@TOC 16、函数参数参数定义在python中定义函数的时候，函数名后面的括号里就是用来定义参数的，如果有多个参数的话，那么参数之间直接用逗号, 隔开。定义函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/02/Python%E7%AC%94%E8%AE%B02%EF%BC%88%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E3%80%81%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8%E3%80%81%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E3%80%81%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E3%80%81dir%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="Python笔记1（赋值、浅拷贝和深拷贝、字符串日期转换、argparse、sys、overwrite、eval、json.dumps&#x2F;json.loads、os.system(cmd)、zfill、endswith、open）@TOC 16、函数参数参数定义在python中定义函数的时候，函数名后面的括号里就是用来定义参数的，如果有多个参数的话，那么参数之间直接用逗号, 隔开。定义函">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-02T00:13:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.301Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 08:13" pubdate>
+          2026年1月2日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/126790003">Python笔记1（赋值、浅拷贝和深拷贝、字符串日期转换、argparse、sys、overwrite、eval、json.dumps&#x2F;json.loads、os.system(cmd)、zfill、endswith、open）</a><br>@<a href="Python%E7%AC%94%E8%AE%B02">TOC</a></p>
+<h2 id="16、函数参数"><a href="#16、函数参数" class="headerlink" title="16、函数参数"></a>16、函数参数</h2><p><strong>参数定义</strong><br>在python中定义函数的时候，函数名后面的括号里就是用来定义参数的，如果有多个参数的话，那么参数之间直接用逗号, 隔开。<strong>定义函数的时候在函数名后面的括号里定义的参数叫做形参，而调用函数的时候传入的参数叫做实参，形参是用来接收实参的</strong>。</p>
+<p><strong>参数分类</strong><br>1.位置参数<br>位置参数也称必备参数，是必须按照正确的顺序传到函数中，即调用时的数量和位置必须和定义时是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>(<span class="hljs-params">a,b</span>):<br>    <span class="hljs-built_in">print</span>(a)<br>    <span class="hljs-built_in">print</span>(b)<br>     <br>add_num(<span class="hljs-number">11</span>,<span class="hljs-number">22</span>)<br><span class="hljs-comment">#运行结果</span><br><span class="hljs-number">11</span><br><span class="hljs-number">22</span><br></code></pre></td></tr></table></figure>
+
+<p>2.关键字参数<br>关键字参数是指使用形式参数的名字来确定输入的参数值。通过该方式指定实际参数时，不再需要与形式参数的位置完全一致。只要将参数名写正确即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>(<span class="hljs-params">a,b,c</span>):<br>    <span class="hljs-built_in">print</span>(a)<br>    <span class="hljs-built_in">print</span>(b)<br>    <span class="hljs-built_in">print</span>(c)<br>     <br>add_num(<span class="hljs-number">11</span>,c=<span class="hljs-number">99</span>,b=<span class="hljs-number">33</span>)<br><span class="hljs-comment">#运行结果</span><br><span class="hljs-number">11</span><br><span class="hljs-number">33</span><br><span class="hljs-number">99</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：在定义函数时，指定默认的形式参数必须在所有参数的最后，否则将产生语法错误。<br><strong>可变参数</strong><br>在Python中，还可以定义可变参数。可变参数也称为不定长参数，即传入函数中的实际参数可以是任意多个。定义可变参数时，主要有两种形式：一种是 *parameter，另一种是 **parameter。</p>
+<ol>
+<li>*parameter：这种形式表示接收任意多个实际参数并将其放到一个元组中。如果想要使用一个已经存在的列表作为函数的可变参数，可以在列表的名称前加 “ * ”。</li>
+<li>**parameter：这种形式表示接收任意多个类似于关键字参数一样显式赋值的实际参数，并将其放到一个字典中。如果想要使用一个已经存在的字典作为函数的可变参数，可以在字典的名称前加 “ ** ”。</li>
+<li>在函数的形参中，如果同时有*parameter和**parameter，*parameter必须在**parameter前面。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>(<span class="hljs-params">*args</span>):<br>　　<span class="hljs-built_in">print</span>(args)<br> <br>func(<span class="hljs-number">33</span>,<span class="hljs-number">44</span>,<span class="hljs-number">55</span>,<span class="hljs-number">66</span>,<span class="hljs-number">77</span>)<br>func(*(<span class="hljs-number">33</span>,<span class="hljs-number">44</span>,<span class="hljs-number">55</span>,<span class="hljs-number">66</span>,<span class="hljs-number">77</span>))<br> <br><span class="hljs-comment">#运行结果</span><br>(<span class="hljs-number">33</span>,<span class="hljs-number">44</span>,<span class="hljs-number">55</span>,<span class="hljs-number">66</span>,<span class="hljs-number">77</span>)<br>(<span class="hljs-number">33</span>,<span class="hljs-number">44</span>,<span class="hljs-number">55</span>,<span class="hljs-number">66</span>,<span class="hljs-number">77</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>(<span class="hljs-params">**kwargs</span>):<br>    <span class="hljs-built_in">print</span>(kwargs)<br>func(e=<span class="hljs-number">33</span>,h=<span class="hljs-number">44</span>,f=<span class="hljs-number">55</span>,d=<span class="hljs-number">66</span>,c=<span class="hljs-number">77</span>)<br>func(**&#123;<span class="hljs-string">&#x27;e&#x27;</span>:<span class="hljs-number">33</span>,<span class="hljs-string">&#x27;h&#x27;</span>:<span class="hljs-number">44</span>,<span class="hljs-string">&#x27;d&#x27;</span>:<span class="hljs-number">66</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-number">77</span>&#125;)<br><span class="hljs-comment">#运行结果</span><br>&#123;<span class="hljs-string">&#x27;e&#x27;</span>: <span class="hljs-number">33</span>, <span class="hljs-string">&#x27;h&#x27;</span>: <span class="hljs-number">44</span>, <span class="hljs-string">&#x27;f&#x27;</span>: <span class="hljs-number">55</span>, <span class="hljs-string">&#x27;d&#x27;</span>: <span class="hljs-number">66</span>, <span class="hljs-string">&#x27;c&#x27;</span>: <span class="hljs-number">77</span>&#125;<br>&#123;<span class="hljs-string">&#x27;e&#x27;</span>: <span class="hljs-number">33</span>, <span class="hljs-string">&#x27;h&#x27;</span>: <span class="hljs-number">44</span>, <span class="hljs-string">&#x27;f&#x27;</span>: <span class="hljs-number">55</span>, <span class="hljs-string">&#x27;d&#x27;</span>: <span class="hljs-number">66</span>, <span class="hljs-string">&#x27;c&#x27;</span>: <span class="hljs-number">77</span>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="17、面向对象"><a href="#17、面向对象" class="headerlink" title="17、面向对象"></a>17、面向对象</h2><p><strong>类和对象的定义</strong><br>类是一种用户自定义的数据类型，它由数据和方法组成。数据表示属性，方法表示行为。一个类可以包含多个属性和方法。属性是类的成员变量，可以存储数据。方法是一组操作数据的代码，它们可以实现某些功能或者改变属性的值。</p>
+<p>对象是类的实例。通过类创建的对象具有类定义的所有属性和方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">类名</span>:<br>    类属性 = 值<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, 参数</span>):<br>        <span class="hljs-variable language_">self</span>.属性<span class="hljs-number">1</span> = 参数<span class="hljs-number">1</span><br>        <span class="hljs-variable language_">self</span>.属性<span class="hljs-number">2</span> = 参数<span class="hljs-number">2</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">方法1</span>(<span class="hljs-params">self, 参数</span>):<br>        <span class="hljs-comment"># 方法代码</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">方法2</span>(<span class="hljs-params">self, 参数</span>):<br>        <span class="hljs-comment"># 方法代码</span><br> <br>__init__ 方法是一个特殊的方法，称为构造函数，用于初始化新创建的对象。<br><span class="hljs-variable language_">self</span> 参数代表类的实例，必须作为第一个参数传递给每个实例方法。<br></code></pre></td></tr></table></figure>
+<p><strong>继承</strong><br>继承允许一个类（子类）继承另一个类（父类）的属性和方法。子类可以重写或扩展父类的方法。<br><strong>多态</strong><br>多态是指不同类的对象对同一消息作出不同的响应。在 Python 中，多态通常通过方法重写实现。<br><strong>封装</strong><br>封装是指将数据和操作数据的方法绑定在一起，并隐藏对象的内部实现细节。通过封装，可以保护对象的状态不被外部直接修改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">class BankAccount:<br>    def __init__(self, balance=0):<br>        self.__balance = balance  <span class="hljs-comment"># 私有属性</span><br><br>    def deposit(self, amount):<br>        self.__balance += amount<br><br>    def withdraw(self, amount):<br>        <span class="hljs-keyword">if</span> amount &lt;= self.__balance:<br>            self.__balance -= amount<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;余额不足&quot;</span>)<br><br>    def get_balance(self):<br>        <span class="hljs-built_in">return</span> self.__balance<br></code></pre></td></tr></table></figure>
+
+<p><strong>类中的私有函数与私有变量</strong><br>1、什么是私有函数私有变量<br>无法被实例化后的对象调用的类中的函数与变量<br>类内部可以调用私有函数与变量<br>只希望类内部业务调用使用，不希望被使用者调用<br>2、私有函数与私有变量的定义<br>在变量或函数前添加__(2个下横线)，变量或函数名后面无需添加</p>
+<p>Python中定义函数时，若想在函数内部对函数外的变量进行操作，就需要在函数内部将其声明其为global 变量。添加了global关键字后，则可以在函数内部对函数外的对象进行操作了，也可以改变它的值。</p>
+<h2 id="18、装饰器"><a href="#18、装饰器" class="headerlink" title="18、装饰器"></a>18、装饰器</h2><p>1、重试装饰器</p>
+<p>在数据科学项目和软件开发项目中，有很多我们依赖外部系统的情况。事情并不总是在我们的控制之中。当意外事件发生时，我们可能希望我们的代码等待一段时间，让外部系统自行纠正并重新运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> wraps<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">retry</span>(<span class="hljs-params">max_tries=<span class="hljs-number">3</span>, delay_seconds=<span class="hljs-number">1</span></span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decorator_retry</span>(<span class="hljs-params">func</span>):<br><span class="hljs-meta">        @wraps(<span class="hljs-params">func</span>)</span><br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrapper_retry</span>(<span class="hljs-params">*args, **kwargs</span>):<br>            tries = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">while</span> tries &lt; max_tries:<br>                <span class="hljs-keyword">try</span>:<br>                    <span class="hljs-keyword">return</span> func(*args, **kwargs)<br>                <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                    tries += <span class="hljs-number">1</span><br>                    <span class="hljs-keyword">if</span> tries == max_tries:<br>                        <span class="hljs-keyword">raise</span> e<br>                    time.sleep(delay_seconds)<br>        <span class="hljs-keyword">return</span> wrapper_retry<br>    <span class="hljs-keyword">return</span> decorator_retry<br><span class="hljs-meta">@retry(<span class="hljs-params">max_tries=<span class="hljs-number">5</span>, delay_seconds=<span class="hljs-number">2</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">call_dummy_api</span>():<br>    response = requests.get(<span class="hljs-string">&quot;https://qzkq.github.io/&quot;</span>)<br>    <span class="hljs-keyword">return</span> response<br><span class="hljs-built_in">print</span>(call_dummy_api)<br></code></pre></td></tr></table></figure>
+<p>在上面的代码中，我们尝试获取 API 响应。如果失败，我们将重试相同的任务 5 次。在每次重试之间，我们等待 2 秒。</p>
+<p>2、@logger</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">logger</span>(<span class="hljs-params">function</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrapper</span>(<span class="hljs-params">*args, **kwargs</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;----- <span class="hljs-subst">&#123;function.__name__&#125;</span>: start -----&quot;</span>)<br>        output = function(*args, **kwargs)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;----- <span class="hljs-subst">&#123;function.__name__&#125;</span>: end -----&quot;</span>)<br>        <span class="hljs-keyword">return</span> output<br>    <span class="hljs-keyword">return</span> wrapper<br>    <br><span class="hljs-meta">@logger</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">some_function</span>(<span class="hljs-params">text</span>):<br>    <span class="hljs-built_in">print</span>(text)<br><br>some_function(<span class="hljs-string">&quot;first test&quot;</span>)<br><span class="hljs-comment"># ----- some_function: start -----</span><br><span class="hljs-comment"># first test</span><br><span class="hljs-comment"># ----- some_function: end -----</span><br><br>some_function(<span class="hljs-string">&quot;second test&quot;</span>)<br><span class="hljs-comment"># ----- some_function: start -----</span><br><span class="hljs-comment"># second test</span><br><span class="hljs-comment"># ----- some_function: end -----</span><br></code></pre></td></tr></table></figure>
+<p>3、@timeit<br>该装饰器用来测量函数的执行时间并打印出来。这对调试和监控非常有用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> wraps<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">timeit</span>(<span class="hljs-params">func</span>):<br><span class="hljs-meta">    @wraps(<span class="hljs-params">func</span>)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrapper</span>(<span class="hljs-params">*args, **kwargs</span>):<br>        start = time.perf_counter()<br>        result = func(*args, **kwargs)<br>        end = time.perf_counter()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;func.__name__&#125;</span> took <span class="hljs-subst">&#123;end - start:<span class="hljs-number">.6</span>f&#125;</span> seconds to complete&#x27;</span>)<br>        <span class="hljs-keyword">return</span> result<br>    <span class="hljs-keyword">return</span> wrapper<br><br><span class="hljs-meta">@timeit</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">process_data</span>():<br>    time.sleep(<span class="hljs-number">1</span>)<br><br>process_data()<br><span class="hljs-comment"># process_data took 1.000012 seconds to complete</span><br></code></pre></td></tr></table></figure>
+<p>4、@property<br>@property装饰器用于定义类属性，这些属性本质上是类实例属性的getter、setter和deleter方法。通过使用@property装饰器，可以将方法定义为类属性，并将其作为类属性进行访问，而无需显式调用该方法。如果您想在获取或设置值时添加一些约束和验证逻辑，使用@property装饰器会非常方便。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, r</span>):<br>        <span class="hljs-variable language_">self</span>._rating = r<br><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rating</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>._rating<br><br><span class="hljs-meta">    @rating.setter</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rating</span>(<span class="hljs-params">self, r</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-number">0</span> &lt;= r &lt;= <span class="hljs-number">5</span>:<br>            <span class="hljs-variable language_">self</span>._rating = r<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;The movie rating must be between 0 and 5!&quot;</span>)<br><br>batman = Movie(<span class="hljs-number">2.5</span>)<br>batman.rating<br><span class="hljs-comment"># 2.5</span><br><br>batman.rating = <span class="hljs-number">4</span><br>batman.rating<br><span class="hljs-comment"># 4</span><br><br>batman.rating = <span class="hljs-number">10</span><br><span class="hljs-comment"># ---------------------------------------------------------------------------</span><br><span class="hljs-comment"># ValueError                                Traceback (most recent call last)</span><br><span class="hljs-comment"># Input In [16], in &lt;cell line: 1&gt;()</span><br><span class="hljs-comment"># ----&gt; 1 batman.rating = 10</span><br><span class="hljs-comment"># Input In [11], in Movie.rating(self, r)</span><br><span class="hljs-comment">#      12     self._rating = r</span><br><span class="hljs-comment">#      13 else:</span><br><span class="hljs-comment"># ---&gt; 14     raise ValueError(&quot;The movie rating must be between 0 and 5!&quot;)</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># ValueError: The movie rating must be between 0 and 5!</span><br></code></pre></td></tr></table></figure>
+<h2 id="19、python-类的高级函数"><a href="#19、python-类的高级函数" class="headerlink" title="19、python 类的高级函数"></a>19、python 类的高级函数</h2><p>1.<strong>str</strong><br>__str__的功能，如果定义了该函数，当print当前实例化对象的时候，会返回该函数的return信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span>(<span class="hljs-built_in">object</span>）：<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;这是描述&#x27;</span><br> <br>test = Test()<br><span class="hljs-built_in">print</span>(test)<br></code></pre></td></tr></table></figure>
+<p>2.<strong>getattr</strong><br>功能：当调用的属性或者方法不存在时，会返回该方法定义的信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Test2</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getattr__</span>(<span class="hljs-params">self,key</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;这个key:&#123;&#125;不存在&#x27;</span>.<span class="hljs-built_in">format</span>(key))<br> <br>a = Test2()<br><span class="hljs-built_in">print</span>(a.w)<br></code></pre></td></tr></table></figure>
+<p>3.<strong>setattr</strong><br>功能：拦截当前类中不存在的属性和值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">__setattr__</span>(<span class="hljs-params">self, key, value</span>):<br>    <span class="hljs-variable language_">self</span>.__dict__[key] = value<br>    <span class="hljs-built_in">print</span>(<span class="hljs-variable language_">self</span>.__dict__)<br></code></pre></td></tr></table></figure>
+
+<p>4.<strong>call</strong><br>功能：将一个类变成一个函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Test3</span>(<span class="hljs-title class_ inherited__">object</span>):<br> <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, a</span>):<br>        <span class="hljs-built_in">print</span>(a)<br> <br>t = Test3()<br>t(<span class="hljs-string">&#x27;测试&#x27;</span>)<br><span class="hljs-comment">#打印结果   测试</span><br></code></pre></td></tr></table></figure>
+<p>综合示例（魔法函数）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># t.a.b.c 链式操作</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Test2</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, attr=<span class="hljs-string">&#x27;&#x27;</span></span>):<br>        <span class="hljs-variable language_">self</span>.__attr = attr<br> <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, name</span>):<br>        <span class="hljs-keyword">return</span> name<br> <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getattr__</span>(<span class="hljs-params">self, key</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.__attr:<br>            key = <span class="hljs-string">&#x27;&#123;&#125;.&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-variable language_">self</span>.__attr, key)<br>        <span class="hljs-keyword">else</span>:<br>            key = key<br>        <span class="hljs-built_in">print</span>(key)<br>        <span class="hljs-keyword">return</span> Test2(key)<br> <br>t2 = Test2()<br>name = t2.a.b.c(<span class="hljs-string">&#x27;dewei&#x27;</span>)<br><span class="hljs-built_in">print</span>(name)<br> <br>result = t2.name.age.sex(<span class="hljs-string">&#x27;ok&#x27;</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>a<br>a.b<br>a.b.c<br>dewei<br>name<br>name.age<br>name.age.sex<br>ok</p>
+</blockquote>
+<h2 id="20、捕获异常-通用"><a href="#20、捕获异常-通用" class="headerlink" title="20、捕获异常(通用)"></a>20、捕获异常(通用)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">try</span>:<br>    &lt;代码块&gt;<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    &lt;异常代码块&gt;<br></code></pre></td></tr></table></figure>
+<p> <strong>主动抛出异常</strong><br>可以使用 raise 语句来抛出异常，该语句后面需要带一个对象，该对象必须是派生自 Exception。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]<br><br><span class="hljs-keyword">try</span>:<br>    num = <span class="hljs-number">5</span><br>    <span class="hljs-keyword">if</span> num <span class="hljs-keyword">in</span> nums:<br>        <span class="hljs-built_in">print</span>(num)<br>    <span class="hljs-keyword">else</span>:<br>        myException = Exception(<span class="hljs-string">&quot;变量不在列表内...&quot;</span>)	<span class="hljs-comment"># 创建一个异常对象</span><br>        <span class="hljs-keyword">raise</span> myException	<span class="hljs-comment"># 主动抛出异常</span><br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> err:	<span class="hljs-comment"># 接受异常，err的内容就是错误原因</span><br>    <span class="hljs-built_in">print</span>(err)	<span class="hljs-comment"># 输出异常信息（或者针对异常做其他处理）</span><br></code></pre></td></tr></table></figure>
+<p><strong>自定义异常类</strong></p>
+<ol>
+<li>一定要继承Exception类</li>
+<li>要重新定义 init 和 __str__函数</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]<br><br><span class="hljs-comment"># 继承异常基类 Exception</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">myError</span>(<span class="hljs-title class_ inherited__">Exception</span>):<br><br>    <span class="hljs-comment"># 下面两个魔法函数是必须要写的</span><br><br>    <span class="hljs-comment"># __init__函数负责类变量的初始化(一般是接报错的内容)</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, message</span>):<br>        <span class="hljs-variable language_">self</span>.message = message<br><br>    <span class="hljs-comment"># __str__函数负责根据类对象名称，返回异常信息</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;出现错误：&quot;</span> + <span class="hljs-variable language_">self</span>.message<br><br><span class="hljs-keyword">try</span>:<br>    num = <span class="hljs-number">5</span><br>    <span class="hljs-keyword">if</span> num <span class="hljs-keyword">in</span> nums:<br>        <span class="hljs-built_in">print</span>(num)<br>    <span class="hljs-keyword">else</span>:<br>        myerror = myError(<span class="hljs-string">&quot;数字不在列表内&quot;</span>)  <span class="hljs-comment"># 创建一个自定义异常类型的变量</span><br>        <span class="hljs-keyword">raise</span> myerror  <span class="hljs-comment"># 手动抛出异常</span><br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> err:<br>    <span class="hljs-built_in">print</span>(err)<br></code></pre></td></tr></table></figure>
+
+<p><strong>常见异常</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python">BaseException 所有异常的基类<br>Exception 常见错误的基类<br>ArithmeticError 所有数值计算错误的基类<br>Warning 警告的基类<br><br>AssertError 断言语句（<span class="hljs-keyword">assert</span>）失败<br>AttributeError 尝试访问未知的对象属性<br>DeprecattionWarning 关于被弃用的特征的警告<br>EOFError 用户输入文件末尾标志EOF（Ctrl+d）<br>FloattingPointError 浮点计算错误<br>FutureWarning 关于构造将来语义会有改变的警告<br>GeneratorExit generator.close()方法被调用的时候<br>ImportError 导入模块失败的时候<br>IndexError 索引超出序列的范围<br>KeyError 字典中查找一个不存在的关键字<br>KeyboardInterrupt 用户输入中断键（Ctrl+c）<br>MemoryError 内存溢出（可通过删除对象释放内存）<br>NamerError 尝试访问一个不存在的变量<br>NotImplementedError 尚未实现的方法<br>OSError 操作系统产生的异常（例如打开一个不存在的文件）<br>OverflowError 数值运算超出最大限制<br>OverflowWarning 旧的关于自动提升为长整型（long）的警告<br>PendingDeprecationWarning 关于特征会被遗弃的警告<br>ReferenceError 弱引用（weak reference）试图访问一个已经被垃圾回收机制回收了的对象<br>RuntimeError 一般的运行时错误<br>RuntimeWarning 可疑的运行行为（runtime behavior）的警告<br>StopIteration 迭代器没有更多的值<br>SyntaxError Python的语法错误<br>SyntaxWarning 可疑的语法的警告<br>IndentationError 缩进错误<br>TabError Tab和空格混合使用<br>SystemError Python编译器系统错误<br>SystemExit Python编译器进程被关闭<br>TypeError 不同类型间的无效操作<br>UnboundLocalError 访问一个未初始化的本地变量（NameError的子类）<br>UnicodeError Unicode相关的错误（ValueError的子类）<br>UnicodeEncodeError Unicode编码时的错误（UnicodeError的子类）<br>UnicodeDecodeError Unicode解码时的错误（UnicodeError的子类）<br>UserWarning 用户代码生成的警告<br>ValueError 传入无效的参数<br>ZeroDivisionError 除数为零<br></code></pre></td></tr></table></figure>
+<p><strong>assert断言</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">assert</span> condition, message<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>condition：一个布尔表达式，表示你要断言的条件。如果条件为假，就会触发断言异常。</li>
+<li>message：可选参数，通常是一个字符串，用于在触发断言异常时提供额外的信息，帮助你理解断言失败的原因</li>
+</ul>
+<h2 id="21、Python-dir-函数"><a href="#21、Python-dir-函数" class="headerlink" title="21、Python dir() 函数"></a>21、Python dir() 函数</h2><p>dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。如果参数包含方法__dir__()，该方法将被调用。如果参数不包含__dir__()，该方法将最大限度地收集参数信息。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir）</div>
+      <div>https://qzkq.github.io/2026/01/02/Python笔记2（函数参数、面向对象、装饰器、高级函数、捕获异常、dir）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%E8%AF%BB%E5%86%99xml%EF%BC%88xml%EF%BC%8Clxml%EF%BC%89Edge%20%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8F%92%E4%BB%B6%20WebTab%20-%20%E5%85%8D%E8%B4%B9ChatGPT/" title="Python读写xml（xml，lxml）Edge 浏览器插件 WebTab - 免费ChatGPT">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python读写xml（xml，lxml）Edge 浏览器插件 WebTab - 免费ChatGPT</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/02/Python%E7%AC%94%E8%AE%B01.2%EF%BC%88open%E3%80%81logging%E3%80%81os%E3%80%81shutil%E3%80%81glob%E3%80%81decode%E3%80%81encode%E3%80%81pickle%E3%80%81tqdm%EF%BC%89/" title="Python笔记1.2（open、logging、os、shutil、glob、decode、encode、pickle、tqdm）">
+                        <span class="hidden-mobile">Python笔记1.2（open、logging、os、shutil、glob、decode、encode、pickle、tqdm）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

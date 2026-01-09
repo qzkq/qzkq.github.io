@@ -1,0 +1,764 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOCmlxtend（Machine Learning Extensions）是一个Python库，它为Scikit-learn提供了额外的实用工具和扩展功能。mlxtend旨在为数据科学家和机器学习工程师提供一系列易于使用的高级API，以便于实现一些复杂的机器学习算法和技术，这些在标准的Scikit-learn库中可能没有直接提供。 mlxtend的主要特点和功能 Feature Selec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scikit-learn使用和扩展之mlxtend（Stacking...）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Scikit-learn%E4%BD%BF%E7%94%A8%E5%92%8C%E6%89%A9%E5%B1%95%E4%B9%8Bmlxtend%EF%BC%88Stacking...%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOCmlxtend（Machine Learning Extensions）是一个Python库，它为Scikit-learn提供了额外的实用工具和扩展功能。mlxtend旨在为数据科学家和机器学习工程师提供一系列易于使用的高级API，以便于实现一些复杂的机器学习算法和技术，这些在标准的Scikit-learn库中可能没有直接提供。 mlxtend的主要特点和功能 Feature Selec">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-03T00:08:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.317Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Scikit-learn使用和扩展之mlxtend（Stacking...） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Scikit-learn使用和扩展之mlxtend（Stacking...）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:08" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Scikit-learn使用和扩展之mlxtend（Stacking...）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="mlxtend">TOC</a><br><strong>mlxtend</strong>（Machine Learning Extensions）是一个Python库，它为Scikit-learn提供了额外的实用工具和扩展功能。mlxtend旨在为数据科学家和机器学习工程师提供一系列易于使用的高级API，以便于实现一些复杂的机器学习算法和技术，这些在标准的Scikit-learn库中可能没有直接提供。</p>
+<h2 id="mlxtend的主要特点和功能"><a href="#mlxtend的主要特点和功能" class="headerlink" title="mlxtend的主要特点和功能"></a>mlxtend的主要特点和功能</h2><ul>
+<li><strong>Feature Selection</strong>: 提供了多种特征选择算法，如基于顺序前进选择（Sequential Forward Selection）、顺序后退消除（Sequential Backward Elimination）等。</li>
+<li><strong>Ensemble Methods</strong>: 包括了如Stacking、Blending等集成学习方法，帮助用户构建更强大的集成模型。</li>
+<li><strong>Model Evaluation</strong>: 提供了如Bootstrap、Permutation Test等模型评估工具，用于更全面地评估模型性能。</li>
+<li><strong>Classification and Regression Algorithms</strong>: 实现了一些经典的学习算法，如Adaline、Perceptron等，以及一些更现代的算法，如Regularized Evolutionary Algorithms for Hyperparameter Optimization。</li>
+<li><strong>Deep Learning</strong>: 尽管主要关注于传统机器学习，mlxtend也提供了一些深度学习相关的功能，如自动编码器（Autoencoder）。</li>
+<li><strong>Plotting Functions</strong>: 提供了一系列绘图函数，用于可视化模型性能和数据分布，如混淆矩阵、决策区域等。</li>
+<li><strong>Association Rules</strong>: 实现了Apriori算法，用于挖掘交易数据中的频繁项集和关联规则。</li>
+</ul>
+<p>mlxtend的设计理念是保持与Scikit-learn的高度兼容性和一致性，使得用户可以无缝地将mlxtend的功能整合到现有的Scikit-learn工作流中。这使得mlxtend成为了一个非常有用的工具箱，特别是在需要实现一些更高级的机器学习技术时。</p>
+<h2 id="StackingCVRegressor详解"><a href="#StackingCVRegressor详解" class="headerlink" title="StackingCVRegressor详解"></a>StackingCVRegressor详解</h2><p><strong>StackingCVRegressor</strong>是mlxtend库中用于实现Stacking集成学习的一种方法，尤其适用于回归问题。Stacking是一种高级集成学习技术，它通过训练一个元学习器（meta-learner）来结合多个基学习器（base learners）的预测结果，从而形成最终的预测。StackingCVRegressor通过交叉验证的方式来进行训练，这有助于减少过拟合的风险。</p>
+<h3 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h3><p><strong>StackingCVRegressor的主要参数包括：</strong></p>
+<ul>
+<li><strong>regressors</strong>: 一个列表，包含了所有基学习器的实例。这些模型将被训练并用于生成元数据（meta-data）。</li>
+<li><strong>meta_regressor</strong>: 元学习器，用于结合基学习器的预测结果。这个模型将被训练来学习如何最优地结合基学习器的预测。</li>
+<li><strong>cv</strong>: 交叉验证的折数，默认是5。这决定了数据将被分割成多少份，以及元数据将如何被生成。</li>
+<li><strong>shuffle</strong>: 布尔值，决定是否在交叉验证前打乱数据集。默认是True。</li>
+<li><strong>use_features_in_secondary</strong>: 布尔值，决定元学习器是否除了使用基学习器的预测外，还使用原始特征进行训练。默认是False。如果设置为True，元学习器将得到一个包含基学习器预测和原始特征的更宽的数据集。</li>
+<li><strong>store_train_meta_features</strong>: 布尔值，决定是否存储训练集的元特征。这在调试或进一步分析时可能有用。默认是False。</li>
+<li><strong>verbose</strong>: 控制输出的详细程度。默认是0，表示没有输出。</li>
+<li><strong>refit</strong>: 布尔值，决定是否在交叉验证后使用整个数据集重新训练所有模型。默认是True。</li>
+<li><strong>n_jobs</strong>: 并行作业的数量。如果设置为-1，则使用所有可用的处理器。默认是1。</li>
+<li><strong>pre_dispatch</strong>: 控制并行作业的预调度数量。可以是一个整数或字符串’all’或’2*n_jobs’。</li>
+<li><strong>random_state</strong>: 控制随机状态的种子，对于可重复性很重要。</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><ol>
+<li><strong>基学习器训练</strong>:    StackingCVRegressor将数据集分为cv个子集，然后对每个子集以外的数据训练基学习器。这样，每个基学习器都会产生对未参与训练的子集的预测。</li>
+<li><strong>元数据生成</strong>: 这些预测被用作元数据，即元学习器的输入特征。元数据通常包括所有基学习器对未参与训练的子集的预测。</li>
+<li><strong>元学习器训练</strong>: 元学习器使用元数据和对应的真值标签进行训练，学习如何最优地结合基学习器的预测。</li>
+<li><strong>最终模型</strong>: 如果refit参数为True，那么在交叉验证之后，所有基学习器和元学习器将使用整个数据集重新训练，以得到最终的Stacking模型。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mlxtend.regressor <span class="hljs-keyword">import</span> StackingCVRegressor<br><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestRegressor, GradientBoostingRegressor<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> Ridge<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_boston<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> mean_squared_error<br><br><span class="hljs-comment"># 加载数据</span><br>boston = load_boston()<br>X, y = boston.data, boston.target<br><br><span class="hljs-comment"># 划分数据</span><br>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">42</span>)<br><br><span class="hljs-comment"># 定义基学习器</span><br>regressors = [RandomForestRegressor(n_estimators=<span class="hljs-number">100</span>, random_state=<span class="hljs-number">42</span>),<br>              GradientBoostingRegressor(n_estimators=<span class="hljs-number">100</span>, random_state=<span class="hljs-number">42</span>),<br>              Ridge(alpha=<span class="hljs-number">1.0</span>)]<br><br><span class="hljs-comment"># 定义元学习器</span><br>meta_regressor = Ridge(alpha=<span class="hljs-number">1.0</span>)<br><br><span class="hljs-comment"># 创建StackingCVRegressor实例</span><br>stacking_regressor = StackingCVRegressor(regressors=regressors,<br>                                         meta_regressor=meta_regressor,<br>                                         cv=<span class="hljs-number">5</span>,<br>                                         use_features_in_secondary=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 训练模型</span><br>stacking_regressor.fit(X_train, y_train)<br><br><span class="hljs-comment"># 预测</span><br>y_pred = stacking_regressor.predict(X_test)<br><br><span class="hljs-comment"># 评估</span><br>mse = mean_squared_error(y_test, y_pred)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Mean Squared Error: <span class="hljs-subst">&#123;mse&#125;</span>&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="mlxtend-plotting-plot-learning-curves"><a href="#mlxtend-plotting-plot-learning-curves" class="headerlink" title="mlxtend.plotting.plot_learning_curves"></a>mlxtend.plotting.plot_learning_curves</h2><p>在mlxtend库中，plot_learning_curves函数可以用来可视化模型的学习曲线，这对于理解模型在训练集和验证集上的性能随训练样本数量的变化情况非常有帮助。同时，当你使用Stacking集成学习方法时，plot_learning_curves可以帮助你评估Stacking模型的泛化能力和是否存在过拟合或欠拟合现象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">mlxtend.plotting.plot_learning_curves(X_train, y_train, X_test, y_test, model, scoring=<span class="hljs-literal">None</span>, print_model=<span class="hljs-literal">False</span>, n_splits=<span class="hljs-number">5</span>, n_train_sizes=<span class="hljs-number">10</span>, style=<span class="hljs-string">&#x27;ggplot&#x27;</span>, x_axis=<span class="hljs-string">&#x27;train_sizes&#x27;</span>, ax=<span class="hljs-literal">None</span>, figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>), **kwargs)<br></code></pre></td></tr></table></figure>
+<h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><ul>
+<li>X_train: 训练集的特征数据。</li>
+<li>y_train: 训练集的目标数据。</li>
+<li>X_test: 测试集的特征数据。</li>
+<li>y_test: 测试集的目标数据。</li>
+<li>model: 要评估的模型，可以是任何具有fit和predict方法的对象。</li>
+<li>scoring: 评估模型性能的指标，默认为None，表示使用模型的默认评分方法。</li>
+<li>print_model: 是否在图中打印模型名称，默认为False。</li>
+<li>n_splits: 交叉验证的折数，默认为5。</li>
+<li>n_train_sizes: 训练集大小的样本数量，默认为10，表示在训练集大小的10个不同的点上计算性能。</li>
+<li>style: 图表的样式，默认为’ggplot’，也可以选择’seaborn-whitegrid’等。</li>
+<li>x_axis:   x轴的类型，可以是’train_sizes’（训练集大小）或’epochs’（迭代次数），默认为’train_sizes’。</li>
+<li>ax: 可选的matplotlib轴对象，如果提供，则在该轴上绘制曲线。</li>
+<li>figsize: 图形的大小，默认为(10, 6)。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mlxtend.plotting <span class="hljs-keyword">import</span> plot_learning_curves<br><span class="hljs-keyword">from</span> mlxtend.regressor <span class="hljs-keyword">import</span> StackingCVRegressor<br><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestRegressor, GradientBoostingRegressor<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> Ridge<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_boston<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 加载数据</span><br>boston = load_boston()<br>X, y = boston.data, boston.target<br><br><span class="hljs-comment"># 划分数据</span><br>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">42</span>)<br><br><span class="hljs-comment"># 定义基学习器</span><br>regressors = [<br>    RandomForestRegressor(n_estimators=<span class="hljs-number">100</span>, random_state=<span class="hljs-number">42</span>),<br>    GradientBoostingRegressor(n_estimators=<span class="hljs-number">100</span>, random_state=<span class="hljs-number">42</span>),<br>    Ridge(alpha=<span class="hljs-number">1.0</span>)<br>]<br><br><span class="hljs-comment"># 定义元学习器</span><br>meta_regressor = Ridge(alpha=<span class="hljs-number">1.0</span>)<br><br><span class="hljs-comment"># 创建StackingCVRegressor实例</span><br>stacking_regressor = StackingCVRegressor(<br>    regressors=regressors,<br>    meta_regressor=meta_regressor,<br>    cv=<span class="hljs-number">5</span>,<br>    use_features_in_secondary=<span class="hljs-literal">True</span><br>)<br><br><span class="hljs-comment"># 训练Stacking模型</span><br>stacking_regressor.fit(X_train, y_train)<br><br><span class="hljs-comment"># 使用plot_learning_curves绘制学习曲线</span><br>train_scores, validation_scores = plot_learning_curves(<br>    X_train, y_train, X_test, y_test,<br>    stacking_regressor, scoring=<span class="hljs-string">&#x27;mean_absolute_error&#x27;</span>,<br>    print_model=<span class="hljs-literal">False</span>,<br>    style=<span class="hljs-string">&#x27;seaborn-whitegrid&#x27;</span><br>)<br><br>plt.title(<span class="hljs-string">&#x27;Learning Curves (StackingCVRegressor)&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Training Set Size&#x27;</span>), plt.ylabel(<span class="hljs-string">&#x27;Neg Mean Squared Error Score&#x27;</span>), plt.legend(loc=<span class="hljs-string">&quot;best&quot;</span>)<br>plt.tight_layout()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<h2 id="mlxtend-feature-selection-SequentialFeatureSelector"><a href="#mlxtend-feature-selection-SequentialFeatureSelector" class="headerlink" title="mlxtend.feature_selection.SequentialFeatureSelector"></a>mlxtend.feature_selection.SequentialFeatureSelector</h2><p><strong>SequentialFeatureSelector</strong>是mlxtend库中用于特征选择的一种方法，它支持两种主要的特征选择策略：<strong>顺序前进选择（Sequential Forward Selection, SFS）和顺序后向消除（Sequential Backward Selection, SBS）</strong>。<br><strong>SequentialFeatureSelector 参数详解</strong></p>
+<h3 id="estimator"><a href="#estimator" class="headerlink" title="estimator"></a>estimator</h3><p>类型：estimator object<br>描述：这是你想要用作特征选择的基础模型。它必须实现fit和predict方法，通常是一个分类器或回归器。</p>
+<h3 id="k-features"><a href="#k-features" class="headerlink" title="k_features"></a>k_features</h3><p>类型：int or tuple<br>描述：指定要选择的特征数量。如果是整数，选择指定数量的特征。如果是tuple，例如(1, 5)，则会尝试从1到5的所有特征组合，并返回最佳的特征子集。</p>
+<h3 id="forward"><a href="#forward" class="headerlink" title="forward"></a>forward</h3><p>类型：bool<br>默认值：True<br>描述：如果True，则执行顺序前进选择（SFS），否则执行顺序后向消除（SBS）。</p>
+<h3 id="floating"><a href="#floating" class="headerlink" title="floating"></a>floating</h3><p>类型：bool<br>默认值：False<br>描述：如果True，则在每一步中除了添加或删除特征外，还会检查是否应该移除之前添加的特征（对于SFS）或者保留之前删除的特征（对于SBS）。这称为浮动选择。</p>
+<h3 id="verbose"><a href="#verbose" class="headerlink" title="verbose"></a>verbose</h3><p>类型：int<br>默认值：0<br>描述：控制输出的详细程度。0表示无输出，1表示基本输出，2表示详细输出。</p>
+<h3 id="scoring"><a href="#scoring" class="headerlink" title="scoring"></a>scoring</h3><p>类型：string, callable, list&#x2F;tuple, dict or None<br>默认值：None<br>描述：用于评估模型性能的评分函数。可以是scikit-learn的评分字符串，如’accuracy’，’f1’，’roc_auc’等，也可以是自定义的评分函数。</p>
+<h3 id="cv"><a href="#cv" class="headerlink" title="cv"></a>cv</h3><p>类型：int, cross-validation generator or an iterable<br>默认值：5<br>描述：交叉验证的折数或生成器。如果是整数，则使用KFold交叉验证。</p>
+<h3 id="n-jobs"><a href="#n-jobs" class="headerlink" title="n_jobs"></a>n_jobs</h3><p>类型：int or None<br>默认值：None<br>描述：并行作业的数量。如果设置为-1，则使用所有可用的处理器。</p>
+<h3 id="pre-dispatch"><a href="#pre-dispatch" class="headerlink" title="pre_dispatch"></a>pre_dispatch</h3><p>类型：int or string<br>默认值：’2<em>n_jobs’<br>描述：控制并行作业的预调度。可以是整数或字符串，如’2</em>n_jobs’。</p>
+<h3 id="clone-estimator"><a href="#clone-estimator" class="headerlink" title="clone_estimator"></a>clone_estimator</h3><p>类型：bool<br>默认值：True<br>描述：是否在每次调用fit时克隆estimator。通常情况下，应该保持为True，除非你确定estimator在多次调用fit时能够正确地重置自己。</p>
+<h3 id="fixed-features"><a href="#fixed-features" class="headerlink" title="fixed_features"></a>fixed_features</h3><p>类型：array-like, shape (n_fixed_features,)<br>默认值：None<br>描述：要始终包含在特征集合中的索引列表。如果None，则不包含任何固定特征。</p>
+<h3 id="fixed-features-idx"><a href="#fixed-features-idx" class="headerlink" title="fixed_features_idx_"></a>fixed_features_idx_</h3><p>类型：array-like, shape (n_fixed_features,)<br>默认值：None<br>描述：与fixed_features相同，但在内部使用，不应由用户直接设置。</p>
+<h3 id="features"><a href="#features" class="headerlink" title="features_"></a>features_</h3><p>类型：array-like, shape (k_features,)<br>描述：选定的特征的索引数组。</p>
+<h3 id="k-score"><a href="#k-score" class="headerlink" title="k_score_"></a>k_score_</h3><p>类型：float<br>描述：使用选定特征获得的最佳评分。</p>
+<h3 id="subsets"><a href="#subsets" class="headerlink" title="subsets_"></a>subsets_</h3><p>类型：dict<br>描述：存储在特征选择过程中找到的所有子集的字典。</p>
+<h3 id="k-feature-idx"><a href="#k-feature-idx" class="headerlink" title="k_feature_idx_"></a>k_feature_idx_</h3><p>类型：tuple<br>描述：最佳特征子集的索引。</p>
+<h3 id="k-feature-names"><a href="#k-feature-names" class="headerlink" title="k_feature_names_"></a>k_feature_names_</h3><p>类型：list<br>描述：如果输入特征有名称，这将是最佳特征子集的名称列表。</p>
+<h2 id="mlxtend-plotting-plot-sequential-feature-selection"><a href="#mlxtend-plotting-plot-sequential-feature-selection" class="headerlink" title="mlxtend.plotting.plot_sequential_feature_selection"></a>mlxtend.plotting.plot_sequential_feature_selection</h2><p><strong>plot_sequential_feature_selection</strong>是mlxtend.plotting模块中的一个函数，用于可视化SequentialFeatureSelector的结果。这个函数提供了对特征选择过程中模型性能变化的图形展示，帮助理解和解释特征选择的效果。<br><strong>plot_sequential_feature_selection 参数详解</strong></p>
+<h3 id="metric-dict"><a href="#metric-dict" class="headerlink" title="metric_dict"></a>metric_dict</h3><p>类型：dict<br>描述：这是SequentialFeatureSelector的get_metric_dict方法返回的字典，包含了在特征选择过程中收集的性能指标。这个字典是plot_sequential_feature_selection函数的主要输入，它包含了每一步特征选择的详细信息，包括选择的特征、评分等。</p>
+<h3 id="kind"><a href="#kind" class="headerlink" title="kind"></a>kind</h3><p>类型：str<br>默认值：’std_dev’<br>描述：确定绘制的误差线类型。可以是’std_dev’（标准偏差）、’std_err’（标准误差）或’ci’（置信区间）。这些选项决定了在性能评分的均值周围绘制的误差范围。</p>
+<h3 id="ax"><a href="#ax" class="headerlink" title="ax"></a>ax</h3><p>类型：matplotlib.axes.Axes object<br>默认值：None<br>描述：可选的Axes对象，用于在现有的图表上绘制学习曲线。如果未提供，将创建一个新的图表。</p>
+<h3 id="figsize"><a href="#figsize" class="headerlink" title="figsize"></a>figsize</h3><p>类型：tuple<br>默认值：None<br>描述：如果ax未提供，可以使用figsize来设置新创建的图表的大小。</p>
+<h3 id="grid"><a href="#grid" class="headerlink" title="grid"></a>grid</h3><p>类型：bool<br>默认值：True<br>描述：是否在图表上显示网格线。</p>
+<h3 id="xlabel"><a href="#xlabel" class="headerlink" title="xlabel"></a>xlabel</h3><p>类型：str<br>默认值：’Number of Features’<br>描述：x轴的标签文本。</p>
+<h3 id="ylabel"><a href="#ylabel" class="headerlink" title="ylabel"></a>ylabel</h3><p>类型：str<br>默认值：’Score’<br>描述：y轴的标签文本。</p>
+<h3 id="title"><a href="#title" class="headerlink" title="title"></a>title</h3><p>类型：str<br>默认值：None<br>描述：图表的标题。如果未提供，将使用默认标题。</p>
+<h3 id="marker"><a href="#marker" class="headerlink" title="marker"></a>marker</h3><p>类型：str<br>默认值：’o’<br>描述：在图表上使用的标记类型。</p>
+<h3 id="markersize"><a href="#markersize" class="headerlink" title="markersize"></a>markersize</h3><p>类型：int<br>默认值：5<br>描述：标记的大小。</p>
+<h3 id="linewidth"><a href="#linewidth" class="headerlink" title="linewidth"></a>linewidth</h3><p>类型：int<br>默认值：2<br>描述：线条的宽度。</p>
+<h3 id="alpha"><a href="#alpha" class="headerlink" title="alpha"></a>alpha</h3><p>类型：float<br>默认值：0.9<br>描述：线条和标记的透明度。</p>
+<h3 id="ci-alpha"><a href="#ci-alpha" class="headerlink" title="ci_alpha"></a>ci_alpha</h3><p>类型：float<br>默认值：0.15<br>描述：置信区间的透明度，仅当kind&#x3D;’ci’时有效。</p>
+<h3 id="errorbar-kwargs"><a href="#errorbar-kwargs" class="headerlink" title="errorbar_kwargs"></a>errorbar_kwargs</h3><p>类型：dict<br>默认值：{}<br>描述：传递给matplotlib.errorbar的额外关键字参数，用于自定义误差线的样式。</p>
+<h3 id="line-kwargs"><a href="#line-kwargs" class="headerlink" title="line_kwargs"></a>line_kwargs</h3><p>类型：dict<br>默认值：{}<br>描述：传递给matplotlib.plot的额外关键字参数，用于自定义线条的样式。</p>
+<h3 id="scatter-kwargs"><a href="#scatter-kwargs" class="headerlink" title="scatter_kwargs"></a>scatter_kwargs</h3><p>类型：dict<br>默认值：{}<br>描述：传递给matplotlib.scatter的额外关键字参数，用于自定义散点图的样式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mlxtend.plotting <span class="hljs-keyword">import</span> plot_sequential_feature_selection<br><span class="hljs-keyword">from</span> mlxtend.feature_selection <span class="hljs-keyword">import</span> SequentialFeatureSelector <span class="hljs-keyword">as</span> SFS<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LogisticRegression<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_iris<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 加载数据</span><br>iris = load_iris()<br>X, y = iris.data, iris.target<br><br><span class="hljs-comment"># 创建模型和SFS对象</span><br>clf = LogisticRegression()<br>sfs = SFS(clf, k_features=<span class="hljs-number">3</span>, forward=<span class="hljs-literal">True</span>, scoring=<span class="hljs-string">&#x27;accuracy&#x27;</span>, cv=<span class="hljs-number">5</span>)<br>sfs = sfs.fit(X, y)<br><br><span class="hljs-comment"># 获取metric字典</span><br>metric_dict = sfs.get_metric_dict()<br><br><span class="hljs-comment"># 绘制SFS结果</span><br>fig, ax = plt.subplots(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br>plot_sequential_feature_selection(metric_dict, kind=<span class="hljs-string">&#x27;std_dev&#x27;</span>, ax=ax)<br>plt.title(<span class="hljs-string">&#x27;Sequential Feature Selection (w. StdDev)&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Number of Features&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;Accuracy&#x27;</span>)<br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="feature-selection"><a href="#feature-selection" class="headerlink" title="feature_selection"></a>feature_selection</h3><blockquote>
+<p>SequentialFeatureSelector: 顺序特征选择，包括前向选择和后向消除。<br>ExhaustiveFeatureSelector: 穷举式特征选择，尝试所有可能的特征组合。<br>SequentialFloatingFeatureSelector: 浮动顺序特征选择，结合了前向选择和后向消除。</p>
+</blockquote>
+<h3 id="evaluate"><a href="#evaluate" class="headerlink" title="evaluate"></a>evaluate</h3><blockquote>
+<p>bootstrap: Bootstrap采样。<br>bias_variance_decomp: 偏差-方差分解。<br>learning_curve: 学习曲线。<br>scoring: 模型评分函数。<br>plot_learning_curves: 绘制学习曲线。<br>permutation_test_score: Permutation测试评分。</p>
+</blockquote>
+<h3 id="preprocessing"><a href="#preprocessing" class="headerlink" title="preprocessing"></a>preprocessing</h3><blockquote>
+<p>MinMaxScaling: Min-Max缩放。<br>standardize: 标准化。<br>one_hot_encoding: One-hot编码。<br>transactionencoder: 交易数据编码。</p>
+</blockquote>
+<h3 id="classifier"><a href="#classifier" class="headerlink" title="classifier"></a>classifier</h3><blockquote>
+<p>Adaline: Adaline分类器。<br>Perceptron: 感知机分类器。<br>SoftmaxRegression: Softmax回归。<br>LogisticRegression: 逻辑回归。<br>MultilayerPerceptron: 多层感知机。<br>StackingClassifier: Stacking集成分类器。</p>
+</blockquote>
+<h3 id="regressor"><a href="#regressor" class="headerlink" title="regressor"></a>regressor</h3><blockquote>
+<p>LinearRegression: 线性回归。<br> RidgeRegression: 岭回归。<br> LassoRegression: Lasso回归。<br> ElasticNetRegression: 弹性网回归。<br> StackingCVRegressor: Stacking集成回归器。</p>
+</blockquote>
+<h3 id="plotting"><a href="#plotting" class="headerlink" title="plotting"></a>plotting</h3><blockquote>
+<p>plot_decision_regions: 绘制决策区域。<br>plot_confusion_matrix: 绘制混淆矩阵。<br>plot_sequential_feature_selection: 绘制顺序特征选择过程。</p>
+</blockquote>
+<h3 id="association-rules"><a href="#association-rules" class="headerlink" title="association_rules"></a>association_rules</h3><blockquote>
+<p>apriori: Apriori算法，用于挖掘关联规则。<br>association_rules: 从频繁项集生成关联规则。</p>
+</blockquote>
+<h3 id="genetic-algorithm"><a href="#genetic-algorithm" class="headerlink" title="genetic_algorithm"></a>genetic_algorithm</h3><blockquote>
+<p>GeneticAlgorithm: 基于遗传算法的特征选择。<br>neural_network: RecurrentNeuralNetwork: 循环神经网络。<br>Autoencoder: 自动编码器。</p>
+</blockquote>
+<h3 id="sampling"><a href="#sampling" class="headerlink" title="sampling"></a>sampling</h3><blockquote>
+<p>resample: 重采样。<br>smote: SMOTE过采样。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Scikit-learn使用和扩展之mlxtend（Stacking...）</div>
+      <div>https://qzkq.github.io/2026/01/03/Scikit-learn使用和扩展之mlxtend（Stacking...）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/Spark%E7%AC%94%E8%AE%B0%EF%BC%88pyspark%EF%BC%89/" title="Spark笔记（pyspark）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spark笔记（pyspark）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Pytorch%E8%AF%A6%E8%A7%A3-%E6%A8%A1%E5%9E%8B%E6%A8%A1%E5%9D%97(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)/" title="Pytorch详解-模型模块(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)">
+                        <span class="hidden-mobile">Pytorch详解-模型模块(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

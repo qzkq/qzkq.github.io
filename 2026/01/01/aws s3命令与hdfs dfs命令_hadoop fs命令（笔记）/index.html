@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@[TOC](aws s3命令与hdfs dfs&#x2F;hadoop fs命令) 一、aws s3命令1、查看目录下所有文件夹(head查看前10个)：12aws s3 ls s3:&#x2F;&#x2F;me-l&#x2F;qinz&#x2F;sis1219.csvaws s3 ls s3:&#x2F;&#x2F;dict-fse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/aws%20s3%E5%91%BD%E4%BB%A4%E4%B8%8Ehdfs%20dfs%E5%91%BD%E4%BB%A4_hadoop%20fs%E5%91%BD%E4%BB%A4%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@[TOC](aws s3命令与hdfs dfs&#x2F;hadoop fs命令) 一、aws s3命令1、查看目录下所有文件夹(head查看前10个)：12aws s3 ls s3:&#x2F;&#x2F;me-l&#x2F;qinz&#x2F;sis1219.csvaws s3 ls s3:&#x2F;&#x2F;dict-fse">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T00:04:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.261Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="HDFS">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="S3">
+<meta property="article:tag" content="命令">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>aws s3命令与hdfs dfs命令_hadoop fs命令（笔记） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:04" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@[TOC](aws s3命令与hdfs dfs&#x2F;hadoop fs命令)</p>
+<h2 id="一、aws-s3命令"><a href="#一、aws-s3命令" class="headerlink" title="一、aws s3命令"></a>一、aws s3命令</h2><h3 id="1、查看目录下所有文件夹-head查看前10个-："><a href="#1、查看目录下所有文件夹-head查看前10个-：" class="headerlink" title="1、查看目录下所有文件夹(head查看前10个)："></a>1、查看目录下所有文件夹(head查看前10个)：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">ls</span> s3://me-l/qinz/sis1219.csv<br>aws s3 <span class="hljs-built_in">ls</span> s3://dict-fse/2011/12/19/06/|<span class="hljs-built_in">head</span><br></code></pre></td></tr></table></figure>
+<p>查看文件夹大小：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">ls</span>  s3://ane-l/202221/ --s --h<br><span class="hljs-comment"># 输出结果</span><br>Total Objects: 1001<br>   Total Size: 226.0 GiB<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、复制文件到s3（后面是复制后的名称）："><a href="#2、复制文件到s3（后面是复制后的名称）：" class="headerlink" title="2、复制文件到s3（后面是复制后的名称）："></a>2、复制文件到s3（后面是复制后的名称）：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">cp</span> *** s3://bucket-name/<br>aws s3 <span class="hljs-built_in">cp</span> s3://maie-l/qnz/us_pv_aa119.csv evet129.csv （路径）<br>aws s3 <span class="hljs-built_in">cp</span> s3://dicmin_cl/9-06-00-01-8cf2935e8b.gz test.gz<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、复制文件夹："><a href="#3、复制文件夹：" class="headerlink" title="3、复制文件夹："></a>3、复制文件夹：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">cp</span> s3://bucket-name/example s3://my-bucket/<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、使用-echo-将文本“hello-world”流式传输到-s3-bucket-name-filename-txt-文件："><a href="#4、使用-echo-将文本“hello-world”流式传输到-s3-bucket-name-filename-txt-文件：" class="headerlink" title="4、使用 echo 将文本“hello world”流式传输到 s3:&#x2F;&#x2F;bucket-name&#x2F;filename.txt 文件："></a>4、使用 echo 将文本“hello world”流式传输到 s3:&#x2F;&#x2F;bucket-name&#x2F;filename.txt 文件：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello world&quot;</span> | aws s3 <span class="hljs-built_in">cp</span> - s3://bucket-name/filename.txt<br></code></pre></td></tr></table></figure>
+
+<h3 id="5、将-s3-bucket-name-filename-txt-文件流式传输到-stdout，并将内容输出到控制台："><a href="#5、将-s3-bucket-name-filename-txt-文件流式传输到-stdout，并将内容输出到控制台：" class="headerlink" title="5、将 s3:&#x2F;&#x2F;bucket-name&#x2F;filename.txt 文件流式传输到 stdout，并将内容输出到控制台："></a>5、将 s3:&#x2F;&#x2F;bucket-name&#x2F;filename.txt 文件流式传输到 stdout，并将内容输出到控制台：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">cp</span> s3://bucket-name/filename.txt -<br></code></pre></td></tr></table></figure>
+
+<h3 id="6、将-s3-bucket-name-pre-的内容流式传输到-stdout，使用-bzip2-命令压缩文件，并将名为-key-bz2-的新压缩文件上传到-s3-bucket-nam："><a href="#6、将-s3-bucket-name-pre-的内容流式传输到-stdout，使用-bzip2-命令压缩文件，并将名为-key-bz2-的新压缩文件上传到-s3-bucket-nam：" class="headerlink" title="6、将 s3:&#x2F;&#x2F;bucket-name&#x2F;pre 的内容流式传输到 stdout，使用 bzip2 命令压缩文件，并将名为 key.bz2 的新压缩文件上传到 s3:&#x2F;&#x2F;bucket-nam："></a>6、将 s3:&#x2F;&#x2F;bucket-name&#x2F;pre 的内容流式传输到 stdout，使用 bzip2 命令压缩文件，并将名为 key.bz2 的新压缩文件上传到 s3:&#x2F;&#x2F;bucket-nam：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">cp</span> s3://bucket-name/pre - | bzip2 --best | aws s3 <span class="hljs-built_in">cp</span> - s3://bucket-name/key.bz2<br></code></pre></td></tr></table></figure>
+
+<h3 id="7、同步文件到s3："><a href="#7、同步文件到s3：" class="headerlink" title="7、同步文件到s3："></a>7、同步文件到s3：</h3><p>（sync 命令同步一个存储桶与一个目录中的内容，或者同步两个存储桶中的内容。通常，s3 sync 在源和目标之间复制缺失或过时的文件或对象）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">sync</span> *** s3://my-bucket/***/<br>aws s3 <span class="hljs-built_in">sync</span> s3://mng/log_eer/126 cli_g_226 --quiet<br></code></pre></td></tr></table></figure>
+<p>–quiet代表不显示指定命令执行的操作（不输出过程）</p>
+<h3 id="8、删除S3上文件："><a href="#8、删除S3上文件：" class="headerlink" title="8、删除S3上文件："></a>8、删除S3上文件：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">rm</span> s3://my-bucket/***<br></code></pre></td></tr></table></figure>
+
+<h3 id="9、删除S3上文件夹："><a href="#9、删除S3上文件夹：" class="headerlink" title="9、删除S3上文件夹："></a>9、删除S3上文件夹：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">rm</span> s3://my-bucket/*** —recursive<br></code></pre></td></tr></table></figure>
+
+<h3 id="10、移动S3上文件夹：（移动example中所有对象到my-bucket-）"><a href="#10、移动S3上文件夹：（移动example中所有对象到my-bucket-）" class="headerlink" title="10、移动S3上文件夹：（移动example中所有对象到my-bucket&#x2F;）"></a>10、移动S3上文件夹：（移动example中所有对象到my-bucket&#x2F;）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">mv</span> s3://bucket-name/example s3://my-bucket/<br></code></pre></td></tr></table></figure>
+
+<h3 id="11、移动文件："><a href="#11、移动文件：" class="headerlink" title="11、移动文件："></a>11、移动文件：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">mv</span> filename.txt s3://bucket-name<br></code></pre></td></tr></table></figure>
+
+<h3 id="12、转移s3某一个目录下所有-jpg文件到本地目录-aa："><a href="#12、转移s3某一个目录下所有-jpg文件到本地目录-aa：" class="headerlink" title="12、转移s3某一个目录下所有.jpg文件到本地目录.&#x2F;aa："></a>12、转移s3某一个目录下所有.jpg文件到本地目录.&#x2F;aa：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">mv</span> s3://bucket-name/*** ./aa —exclude ‘*’ —include ‘*.jpg’ —recursive<br></code></pre></td></tr></table></figure>
+
+<h3 id="13、从s3上拉取文件夹到本地文件夹-aa："><a href="#13、从s3上拉取文件夹到本地文件夹-aa：" class="headerlink" title="13、从s3上拉取文件夹到本地文件夹.&#x2F;aa："></a>13、从s3上拉取文件夹到本地文件夹.&#x2F;aa：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">s3cmd get s3://bucket-name/***/ ./aa —recursive<br></code></pre></td></tr></table></figure>
+
+<h3 id="14、创建存储桶："><a href="#14、创建存储桶：" class="headerlink" title="14、创建存储桶："></a>14、创建存储桶：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 mb s3://bucket-name<br></code></pre></td></tr></table></figure>
+
+<h3 id="15、查看存储桶："><a href="#15、查看存储桶：" class="headerlink" title="15、查看存储桶："></a>15、查看存储桶：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 <span class="hljs-built_in">ls</span> s3://bucket-name<br></code></pre></td></tr></table></figure>
+
+<h3 id="16、删除存储桶："><a href="#16、删除存储桶：" class="headerlink" title="16、删除存储桶："></a>16、删除存储桶：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">aws s3 rb s3://bucket-name<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、hdfs-dfs命令-hadoop-fs命令"><a href="#二、hdfs-dfs命令-hadoop-fs命令" class="headerlink" title="二、hdfs dfs命令&#x2F;hadoop fs命令"></a>二、hdfs dfs命令&#x2F;hadoop fs命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hadoop fs 具体命令  或者  hdfs dfs 具体命令：两个是完全相同的。<br></code></pre></td></tr></table></figure>
+<h3 id="0、命令大全"><a href="#0、命令大全" class="headerlink" title="0、命令大全"></a>0、命令大全</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hadoop fs 或 hdfs dfs<br></code></pre></td></tr></table></figure>
+<p>通过-help 得到命令用法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hadoop fs -<span class="hljs-built_in">help</span> <span class="hljs-built_in">mkdir</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="1、-mkdir-创建目录"><a href="#1、-mkdir-创建目录" class="headerlink" title="1、-mkdir 创建目录"></a>1、-mkdir 创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">mkdir</span> [-p] &lt; paths&gt; <br></code></pre></td></tr></table></figure>
+
+<p>选项：-p 很像Unix mkdir -p，沿路径创建父目录。</p>
+<h3 id="2、-ls-查看目录下内容，包括文件名，权限，所有者，大小和修改时间-Usage：hdfs-dfs-ls-R-args"><a href="#2、-ls-查看目录下内容，包括文件名，权限，所有者，大小和修改时间-Usage：hdfs-dfs-ls-R-args" class="headerlink" title="2、-ls 查看目录下内容，包括文件名，权限，所有者，大小和修改时间 Usage：hdfs dfs -ls [-R] &lt; args&gt;"></a>2、-ls 查看目录下内容，包括文件名，权限，所有者，大小和修改时间 Usage：hdfs dfs -ls [-R] &lt; args&gt;</h3><p>选项：-R 递归地显示子目录下的内容</p>
+<h3 id="3、-put-将本地文件或目录上传到HDFS中的路径"><a href="#3、-put-将本地文件或目录上传到HDFS中的路径" class="headerlink" title="3、-put 将本地文件或目录上传到HDFS中的路径"></a>3、-put 将本地文件或目录上传到HDFS中的路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -put &lt; localsrc&gt; … &lt; dst&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、-get-将文件或目录从HDFS中的路径拷贝到本地文件路径"><a href="#4、-get-将文件或目录从HDFS中的路径拷贝到本地文件路径" class="headerlink" title="4、-get 将文件或目录从HDFS中的路径拷贝到本地文件路径"></a>4、-get 将文件或目录从HDFS中的路径拷贝到本地文件路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -get [-ignoreCrc] [-crc] &lt; src&gt; &lt; localdst&gt; <br></code></pre></td></tr></table></figure>
+
+<p>选项： -ignoreCrc选项复制CRC校验失败的文件。 -crc选项复制文件和CRC。</p>
+<h3 id="5、-du-显示给定目录中包含的文件和目录的大小或文件的长度，用字节大小表示，文件名用完整的HDFS协议前缀表示，以防它只是一个文件。"><a href="#5、-du-显示给定目录中包含的文件和目录的大小或文件的长度，用字节大小表示，文件名用完整的HDFS协议前缀表示，以防它只是一个文件。" class="headerlink" title="5、-du 显示给定目录中包含的文件和目录的大小或文件的长度，用字节大小表示，文件名用完整的HDFS协议前缀表示，以防它只是一个文件。"></a>5、-du 显示给定目录中包含的文件和目录的大小或文件的长度，用字节大小表示，文件名用完整的HDFS协议前缀表示，以防它只是一个文件。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">du</span> [-s] [-h] URI [URI …] <br></code></pre></td></tr></table></figure>
+
+<p>选项： -s选项将显示文件长度的汇总摘要，而不是单个文件。 -h选项将以“人类可读”的方式格式化文件大小（例如64.0m而不是67108864）</p>
+<h3 id="6、-dus-显示文件长度的摘要。"><a href="#6、-dus-显示文件长度的摘要。" class="headerlink" title="6、-dus 显示文件长度的摘要。"></a>6、-dus 显示文件长度的摘要。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -dus &lt; args&gt; <br></code></pre></td></tr></table></figure>
+
+<p>注意：不推荐使用此命令。而是使用hdfs dfs -du -s。</p>
+<h3 id="7、-mv-在HDFS文件系统中，将文件或目录从HDFS的源路径移动到目标路径。不允许跨文件系统移动文件。"><a href="#7、-mv-在HDFS文件系统中，将文件或目录从HDFS的源路径移动到目标路径。不允许跨文件系统移动文件。" class="headerlink" title="7、-mv 在HDFS文件系统中，将文件或目录从HDFS的源路径移动到目标路径。不允许跨文件系统移动文件。"></a>7、-mv 在HDFS文件系统中，将文件或目录从HDFS的源路径移动到目标路径。不允许跨文件系统移动文件。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage: hdfs dfs -<span class="hljs-built_in">mv</span> URI [URI …] &lt; dest&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="8、-cp-在HDFS文件系统中，将文件或目录复制到目标路径下"><a href="#8、-cp-在HDFS文件系统中，将文件或目录复制到目标路径下" class="headerlink" title="8、-cp 在HDFS文件系统中，将文件或目录复制到目标路径下"></a>8、-cp 在HDFS文件系统中，将文件或目录复制到目标路径下</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">cp</span> [-f] [-p | -p [topax] ] URI [ URI …] &lt; dest&gt; <br></code></pre></td></tr></table></figure>
+
+<p>选项： -f选项覆盖已经存在的目标。 -p选项将保留文件属性[topx]（时间戳，所有权，权限，ACL，XAttr）。如果指定了-p且没有arg，则保留时间戳，所有权和权限。如果指定了-pa，则还保留权限，因为ACL是一组超级权限。确定是否保留原始命名空间扩展属性与-p标志无关。</p>
+<h3 id="9、-copyFromLocal-从本地复制文件到hdfs文件系统（与-put命令相似）"><a href="#9、-copyFromLocal-从本地复制文件到hdfs文件系统（与-put命令相似）" class="headerlink" title="9、-copyFromLocal 从本地复制文件到hdfs文件系统（与-put命令相似）"></a>9、-copyFromLocal 从本地复制文件到hdfs文件系统（与-put命令相似）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage: hdfs dfs -copyFromLocal &lt; localsrc&gt; URI <br></code></pre></td></tr></table></figure>
+
+<p>选项： 如果目标已存在，则-f选项将覆盖目标。</p>
+<h3 id="10、-copyToLocal-复制hdfs文件系统中的文件到本地-（与-get命令相似）"><a href="#10、-copyToLocal-复制hdfs文件系统中的文件到本地-（与-get命令相似）" class="headerlink" title="10、-copyToLocal 复制hdfs文件系统中的文件到本地 （与-get命令相似）"></a>10、-copyToLocal 复制hdfs文件系统中的文件到本地 （与-get命令相似）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage: hdfs dfs -copyToLocal [-ignorecrc] [-crc] URI &lt; localdst&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="11、-rm-删除一个文件或目录"><a href="#11、-rm-删除一个文件或目录" class="headerlink" title="11、-rm 删除一个文件或目录"></a>11、-rm 删除一个文件或目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">rm</span> [-f] [-r|-R] [-skipTrash] URI [URI …] <br></code></pre></td></tr></table></figure>
+
+<p>选项： 如果文件不存在，-f选项将不显示诊断消息或修改退出状态以反映错误。 -R选项以递归方式删除目录及其下的任何内容。 -r选项等效于-R。 -skipTrash选项将绕过垃圾桶（如果已启用），并立即删除指定的文件。当需要从超配额目录中删除文件时，这非常有用。</p>
+<h3 id="12、-cat-显示文件内容到标准输出上。"><a href="#12、-cat-显示文件内容到标准输出上。" class="headerlink" title="12、-cat 显示文件内容到标准输出上。"></a>12、-cat 显示文件内容到标准输出上。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">cat</span> URI [URI …]<br></code></pre></td></tr></table></figure>
+
+<h3 id="13、-text-获取源文件并以文本格式输出文件。允许的格式为zip和TextRecordInputStream。"><a href="#13、-text-获取源文件并以文本格式输出文件。允许的格式为zip和TextRecordInputStream。" class="headerlink" title="13、-text 获取源文件并以文本格式输出文件。允许的格式为zip和TextRecordInputStream。"></a>13、-text 获取源文件并以文本格式输出文件。允许的格式为zip和TextRecordInputStream。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage: hdfs dfs -text <br></code></pre></td></tr></table></figure>
+
+<h3 id="14、-touchz-创建一个零长度的文件。"><a href="#14、-touchz-创建一个零长度的文件。" class="headerlink" title="14、-touchz 创建一个零长度的文件。"></a>14、-touchz 创建一个零长度的文件。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -touchz URI [URI …]<br></code></pre></td></tr></table></figure>
+
+<h3 id="15、-stat-显示文件所占块数-b-，文件名-n-，块大小-n-，复制数-r-，修改时间-y-Y-。"><a href="#15、-stat-显示文件所占块数-b-，文件名-n-，块大小-n-，复制数-r-，修改时间-y-Y-。" class="headerlink" title="15、-stat 显示文件所占块数(%b)，文件名(%n)，块大小(%n)，复制数(%r)，修改时间(%y%Y)。"></a>15、-stat 显示文件所占块数(%b)，文件名(%n)，块大小(%n)，复制数(%r)，修改时间(%y%Y)。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">stat</span> URI [URI …]<br></code></pre></td></tr></table></figure>
+
+<h3 id="16、-tail-显示文件的最后1kb内容到标准输出"><a href="#16、-tail-显示文件的最后1kb内容到标准输出" class="headerlink" title="16、-tail 显示文件的最后1kb内容到标准输出"></a>16、-tail 显示文件的最后1kb内容到标准输出</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">tail</span> [-f] URI <br></code></pre></td></tr></table></figure>
+
+<p>选项： -f选项将在文件增长时输出附加数据，如在Unix中一样。</p>
+<h3 id="17、-count-统计与指定文件模式匹配的路径下的目录，文件和字节数"><a href="#17、-count-统计与指定文件模式匹配的路径下的目录，文件和字节数" class="headerlink" title="17、-count 统计与指定文件模式匹配的路径下的目录，文件和字节数"></a>17、-count 统计与指定文件模式匹配的路径下的目录，文件和字节数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage: hdfs dfs -count [-q] [-h] &lt; paths&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="18、-getmerge-将源目录和目标文件作为输入，并将src中的文件连接到目标本地文件（把两个文件的内容合并起来）"><a href="#18、-getmerge-将源目录和目标文件作为输入，并将src中的文件连接到目标本地文件（把两个文件的内容合并起来）" class="headerlink" title="18、-getmerge 将源目录和目标文件作为输入，并将src中的文件连接到目标本地文件（把两个文件的内容合并起来）"></a>18、-getmerge 将源目录和目标文件作为输入，并将src中的文件连接到目标本地文件（把两个文件的内容合并起来）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -getmerge &lt; src&gt; &lt; localdst&gt; [addnl] <br></code></pre></td></tr></table></figure>
+
+<p>注：合并后的文件位于当前目录，不在hdfs中，是本地文件</p>
+<h3 id="19、-grep-从hdfs上过滤包含某个字符的行内容"><a href="#19、-grep-从hdfs上过滤包含某个字符的行内容" class="headerlink" title="19、-grep 从hdfs上过滤包含某个字符的行内容"></a>19、-grep 从hdfs上过滤包含某个字符的行内容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Usage：hdfs dfs -<span class="hljs-built_in">cat</span> &lt; srcpath&gt; | grep 过滤字段<br></code></pre></td></tr></table></figure>
+<h3 id="20、-moveFromLocal-从本地剪切粘贴到-HDFS-指定目录"><a href="#20、-moveFromLocal-从本地剪切粘贴到-HDFS-指定目录" class="headerlink" title="20、-moveFromLocal 从本地剪切粘贴到 HDFS 指定目录"></a>20、-moveFromLocal 从本地剪切粘贴到 HDFS 指定目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dfs -moveFromLocal &lt;src&gt; &lt;dst&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="21、-appendToFile-追加一个文件到已经存在的文件末尾"><a href="#21、-appendToFile-追加一个文件到已经存在的文件末尾" class="headerlink" title="21、-appendToFile 追加一个文件到已经存在的文件末尾"></a>21、-appendToFile 追加一个文件到已经存在的文件末尾</h3><p>hadoop shell官网：<a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/r1.0.4/cn/hdfs_shell.html">https://hadoop.apache.org/docs/r1.0.4/cn/hdfs_shell.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="category-chain-item">数据科学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AWS/" class="print-no-link">#AWS</a>
+      
+        <a href="/tags/S3/" class="print-no-link">#S3</a>
+      
+        <a href="/tags/HDFS/" class="print-no-link">#HDFS</a>
+      
+        <a href="/tags/Hadoop/" class="print-no-link">#Hadoop</a>
+      
+        <a href="/tags/%E5%91%BD%E4%BB%A4/" class="print-no-link">#命令</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）</div>
+      <div>https://qzkq.github.io/2026/01/01/aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Cassandra%E7%AC%94%E8%AE%B0/" title="Cassandra笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Cassandra笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/AI%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84Docker%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%B1%89%E5%8C%96%EF%BC%88%E4%B8%AD%E6%96%87%EF%BC%89%EF%BC%8C%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%E6%BA%90%EF%BC%8CDockerfile%EF%BC%8C%E9%83%A8%E7%BD%B2Python%E9%A1%B9%E7%9B%AE/" title="AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目">
+                        <span class="hidden-mobile">AI开发者的Docker实践：汉化（中文），更换镜像源，Dockerfile，部署Python项目</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
