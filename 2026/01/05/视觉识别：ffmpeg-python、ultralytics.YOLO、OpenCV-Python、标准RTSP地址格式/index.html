@@ -436,32 +436,32 @@
 <tbody><tr>
 <td align="left"><strong><code>map</code></strong></td>
 <td align="left">float</td>
-<td align="left"><a href="mailto:&#109;&#65;&#x50;&#64;&#x30;&#46;&#x35;">mAP@0.5</a>:0.95 (IoU 0.5-0.95 的平均精度)</td>
+<td align="left"><a href="mailto:&#x6d;&#65;&#x50;&#64;&#x30;&#x2e;&#x35;">mAP@0.5</a>:0.95 (IoU 0.5-0.95 的平均精度)</td>
 </tr>
 <tr>
 <td align="left"><strong><code>map50</code></strong></td>
 <td align="left">float</td>
-<td align="left"><a href="mailto:&#x6d;&#65;&#80;&#x40;&#x30;&#46;&#53;">mAP@0.5</a> (IoU&#x3D;0.5 的平均精度)</td>
+<td align="left"><a href="mailto:&#x6d;&#65;&#80;&#x40;&#48;&#46;&#53;">mAP@0.5</a> (IoU&#x3D;0.5 的平均精度)</td>
 </tr>
 <tr>
 <td align="left"><strong><code>map75</code></strong></td>
 <td align="left">float</td>
-<td align="left"><a href="mailto:&#109;&#65;&#x50;&#64;&#48;&#x2e;&#55;&#x35;">mAP@0.75</a> (IoU&#x3D;0.75 的平均精度)</td>
+<td align="left"><a href="mailto:&#x6d;&#x41;&#80;&#x40;&#48;&#x2e;&#55;&#x35;">mAP@0.75</a> (IoU&#x3D;0.75 的平均精度)</td>
 </tr>
 <tr>
 <td align="left"><strong><code>maps</code></strong></td>
 <td align="left">list[float]</td>
-<td align="left">每个类别的 <a href="mailto:&#109;&#x41;&#x50;&#64;&#48;&#46;&#53;">mAP@0.5</a>:0.95</td>
+<td align="left">每个类别的 <a href="mailto:&#109;&#65;&#80;&#x40;&#48;&#x2e;&#53;">mAP@0.5</a>:0.95</td>
 </tr>
 <tr>
 <td align="left"><strong><code>ap50</code></strong></td>
 <td align="left">list[float]</td>
-<td align="left">每个类别的 <a href="mailto:&#x41;&#80;&#64;&#48;&#46;&#x35;">AP@0.5</a></td>
+<td align="left">每个类别的 <a href="mailto:&#65;&#80;&#x40;&#48;&#46;&#53;">AP@0.5</a></td>
 </tr>
 <tr>
 <td align="left"><strong><code>ap</code></strong></td>
 <td align="left">list[float]</td>
-<td align="left">每个类别的 <a href="mailto:&#65;&#80;&#x40;&#48;&#46;&#x35;">AP@0.5</a>:0.95</td>
+<td align="left">每个类别的 <a href="mailto:&#x41;&#80;&#x40;&#48;&#x2e;&#53;">AP@0.5</a>:0.95</td>
 </tr>
 <tr>
 <td align="left"><strong><code>precision</code></strong></td>
@@ -929,17 +929,17 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><strong><a href="mailto:&#109;&#65;&#80;&#64;&#48;&#x2e;&#53;">mAP@0.5</a></strong></td>
+<td><strong><a href="mailto:&#x6d;&#65;&#80;&#64;&#x30;&#x2e;&#x35;">mAP@0.5</a></strong></td>
 <td>IoU阈值固定为0.5</td>
 <td>基础评估标准</td>
 </tr>
 <tr>
-<td><strong><a href="mailto:&#x6d;&#65;&#x50;&#64;&#x30;&#46;&#53;">mAP@0.5</a>:0.95</strong></td>
+<td><strong><a href="mailto:&#x6d;&#x41;&#x50;&#64;&#x30;&#46;&#x35;">mAP@0.5</a>:0.95</strong></td>
 <td>IoU从0.5到0.95（步长0.05）取平均</td>
 <td>严格评估定位精度</td>
 </tr>
 <tr>
-<td><strong><a href="mailto:&#109;&#x41;&#80;&#x40;&#48;&#46;&#55;&#53;">mAP@0.75</a></strong></td>
+<td><strong><a href="mailto:&#x6d;&#x41;&#80;&#64;&#x30;&#x2e;&#55;&#53;">mAP@0.75</a></strong></td>
 <td>IoU阈值固定为0.75</td>
 <td>高精度定位要求场景</td>
 </tr>
@@ -1010,7 +1010,7 @@
 </ul>
 </li>
 </ol>
-<p>mAP 是目标检测领域的”黄金标准”，全面反映了模型在定位准确性和分类正确性上的综合能力。在工业应用中，<a href="mailto:&#x6d;&#65;&#x50;&#64;&#x30;&#x2e;&#x35;">mAP@0.5</a> &gt; 0.7 通常是可部署的最低标准。</p>
+<p>mAP 是目标检测领域的”黄金标准”，全面反映了模型在定位准确性和分类正确性上的综合能力。在工业应用中，<a href="mailto:&#x6d;&#65;&#x50;&#x40;&#48;&#46;&#x35;">mAP@0.5</a> &gt; 0.7 通常是可部署的最低标准。</p>
 <h3 id="runs-detect日志讲解"><a href="#runs-detect日志讲解" class="headerlink" title="runs&#x2F;detect日志讲解"></a>runs&#x2F;detect日志讲解</h3><ul>
 <li>weights 是训练好的模型权重，保留了best.pt,last.pt</li>
 <li>args.yaml 是训练过程中的参数记录。</li>
