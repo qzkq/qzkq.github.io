@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 微信公众号：数学建模与人工智能一、图像数据不足时的处理方法1.在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？回答1图像分类任务上，训练数据不足带来的问题主要表现在过拟合方面，即模型在训练样本上的效果可能不错，但在测试集上的泛化效果不佳。对应的处理方法大致也可以分两类：一是基于模型的方法，主要是采用降低过拟合风险的措施，包括简化模型（如将非线性模型简化为线性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E4%B9%8B%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E3%80%81%E6%A3%80%E9%AA%8C%E6%96%B9%E6%B3%95%E3%80%81%E4%B8%8D%E5%9D%87%E8%A1%A1%E6%A0%B7%E6%9C%AC%E9%9B%86%E7%9A%84%E9%87%8D%E9%87%87%E6%A0%B7%E3%80%81%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E5%B8%83%E6%98%AF%E5%90%A6%E4%B8%80%E8%87%B4/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 微信公众号：数学建模与人工智能一、图像数据不足时的处理方法1.在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？回答1图像分类任务上，训练数据不足带来的问题主要表现在过拟合方面，即模型在训练样本上的效果可能不错，但在测试集上的泛化效果不佳。对应的处理方法大致也可以分两类：一是基于模型的方法，主要是采用降低过拟合风险的措施，包括简化模型（如将非线性模型简化为线性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/476bb2be64d5488d8a2855ea18ffdac5.png">
+<meta property="article:published_time" content="2026-01-04T00:13:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.412Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="不均衡样本">
+<meta property="article:tag" content="数据增强">
+<meta property="article:tag" content="数据集分布">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="重采样">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/476bb2be64d5488d8a2855ea18ffdac5.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-04 08:13" pubdate>
+          2026年1月4日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          52 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E4%B9%8B%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E3%80%81%E6%A3%80%E9%AA%8C%E6%96%B9%E6%B3%95%E3%80%81%E4%B8%8D%E5%9D%87%E8%A1%A1%E6%A0%B7%E6%9C%AC%E9%9B%86%E7%9A%84%E9%87%8D%E9%87%87%E6%A0%B7%E3%80%81%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E5%B8%83%E6%98%AF%E5%90%A6%E4%B8%80%E8%87%B4">TOC</a></p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="一、图像数据不足时的处理方法"><a href="#一、图像数据不足时的处理方法" class="headerlink" title="一、图像数据不足时的处理方法"></a>一、图像数据不足时的处理方法</h1><h2 id="1-在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？"><a href="#1-在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？" class="headerlink" title="1.在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？"></a>1.在图像分类任务中，训练数据不足会带来什么问题？如何缓解数据量不足带来的问题？</h2><h3 id="回答1"><a href="#回答1" class="headerlink" title="回答1"></a>回答1</h3><p>图像分类任务上，训练数据不足带来的问题主要表现在过拟合方面，即模型在训练样本上的效果可能不错，但在测试集上的泛化效果不佳。<br>对应的处理方法大致也可以分两类：<br><strong>一是基于模型的方法</strong>，主要是采用降低过拟合风险的措施，包括简化模型（如将非线性模型简化为线性模型）、添加约束项以缩小假设空间（如L1&#x2F;L2正则顶）、集成学习、Dropout 超参数等；<br><strong>二是基于数据的方法</strong>， 主要通过数据扩充（ Data Augmentation ），即根据一些先验知识，在保持特定信息的前提下；对原始数据进行适当变换以达到扩充数据集的效果。具体到图像分类任务中，在保持圄像类别不变的前提下，可以对训练集中的每幅圄像进行以下变换。</p>
+<ol>
+<li>一定程度内的随机旋转、平移、缩版、裁剪、填充、左右翻转等，这些变换对应着同一个目标在不同角度的观察结果。</li>
+<li>对图像中的像素添加躁声扰动。</li>
+<li>颜色变换。</li>
+<li>改变图像的亮度、清晰度、对比度、锐度等。</li>
+</ol>
+<p>除了直接在图像空间进行变换，还可以先对图像进行特征提取，然后在图像的特征空间内进行变换，利用一些通用的数据扩充或上采样技术，例如SMOTE ( Synthetic Minority Over” sampling Technique )算法。抛开上述这些启发式的变换方法，使用生成模型也可以合成一些新样本，例如当今非常流行的生成式对抗网络模型。<br>此外，借助已有的其他模型或数据来进行迁移学习在深度学习中也十分常见。例如，对于大部分图像分类任务，并不需要从头开始训练模型，而是借用一个在大规模数据集上预训练好的通用模型，并在针对目标任务的小数据集上进行微调（ fine-tune ） ， 这种微调操作就可以看成是一种简单的迁移学习。</p>
+<h3 id="回答2"><a href="#回答2" class="headerlink" title="回答2"></a>回答2</h3><p><strong>训练数据不足带来的问题</strong><br>过拟合：当训练样本数量较少时，模型可能会过于紧密地学习到训练数据中的细节和噪声，导致在新的、未见过的数据上表现不佳。<br>泛化能力差：模型无法从有限的数据中学习到全面的特征表示，从而影响其在不同场景下的应用效果。<br>不稳定性：少量的数据可能导致训练过程不稳定，模型参数容易受到数据分布微小变化的影响。</p>
+<p><strong>缓解方法</strong><br>数据增强：通过旋转、缩放、翻转等方式对现有数据进行变换，生成新的训练样本，增加数据多样性。<br>迁移学习：利用预训练模型（如在ImageNet上预训练的模型）作为基础，根据具体任务微调模型参数，可以有效利用预训练模型学到的通用特征。<br>模型正则化：引入正则项（如L1、L2正则化）来惩罚过大参数值，减少过拟合的风险。<br>集成学习：通过结合多个模型的预测结果来提高整体性能，即使单个模型可能因数据不足而表现不佳。<br>主动学习：在标注成本较高的情况下，主动选择最有价值的样本进行标注，逐步扩大训练集规模。<br>半监督学习：利用大量未标注数据与少量标注数据共同训练模型，以提升模型性能。</p>
+<h1 id="二、检验方法"><a href="#二、检验方法" class="headerlink" title="二、检验方法"></a>二、检验方法</h1><h2 id="1-KS检验（Kolmogorov-Smirnov-Test）"><a href="#1-KS检验（Kolmogorov-Smirnov-Test）" class="headerlink" title="1.KS检验（Kolmogorov-Smirnov Test）"></a>1.KS检验（Kolmogorov-Smirnov Test）</h2><p>KS检验是一种非参数检验方法，用于比较一个样本分布与理论分布（一维分布），或者两个样本分布之间的相似度。它可以用来判断一个样本是否符合某个理论分布，或两个独立样本是否来自相同的总体分布。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原假设：样本数据来自指定的理论分布（单样本情况）；两个样本来自同一分布（双样本情况）。<br>备择假设：样本数据不符合指定的理论分布（单样本情况）；两个样本来自不同的分布（双样本情况）。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>单样本KS检验：<br>检验一组数据是否服从正态分布、均匀分布等特定分布。<br>双样本KS检验：<br>比较两组独立样本是否来自相同的总体分布。</p>
+<h2 id="2-T检验（T-Test）"><a href="#2-T检验（T-Test）" class="headerlink" title="2.T检验（T-Test）"></a>2.T检验（T-Test）</h2><p>T检验是一种常用的统计检验方法，用于比较两组样本均值是否存在显著性差异。它主要用于小样本情况，并且假设样本数据来自正态分布。T检验分为几种类型，包括单样本T检验、独立样本T检验（两样本T检验）和配对样本T检验。</p>
+<h3 id="主要类型"><a href="#主要类型" class="headerlink" title="主要类型"></a>主要类型</h3><p>单样本T检验：<br>检验一个样本的均值是否与已知总体均值存在显著差异。<br>独立样本T检验（两样本T检验）：<br>检验两个独立样本的均值是否存在显著差异。<br>配对样本T检验：<br>检验两个相关样本（如前后测量值）的均值是否存在显著差异。</p>
+<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>原假设：样本均值等于已知总体均值（单样本T检验）；两样本均值相等（独立样本T检验）；配对样本的均值差为零（配对样本T检验）。<br>备择假设：样本均值不等于已知总体均值（单样本T检验）；两样本均值不相等（独立样本T检验）；配对样本的均值差不为零（配对样本T检验）。</p>
+<h2 id="3-F检验（F-test）"><a href="#3-F检验（F-test）" class="headerlink" title="3.F检验（F-test）"></a>3.F检验（F-test）</h2><p>F检验是一种常用的统计检验方法，主要用于比较两个或多个样本方差是否相等，以及在回归分析中检验模型的整体显著性。F检验通常基于F分布，通过计算F统计量来评估假设。</p>
+<h3 id="主要类型-1"><a href="#主要类型-1" class="headerlink" title="主要类型"></a>主要类型</h3><p>方差齐性检验：<br>检验两个或多个样本的方差是否相等。<br>ANOVA（Analysis of Variance）：<br>检验多个样本均值是否存在显著差异。<br>回归分析中的F检验：<br>检验线性回归模型的整体显著性。</p>
+<h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>原假设：样本方差相等（方差齐性检验）；多个样本均值相等（ANOVA）；回归模型中的所有系数均为零（回归分析）。<br>备择假设：样本方差不相等（方差齐性检验）；多个样本均值不相等（ANOVA）；回归模型中的至少一个系数不为零（回归分析）。</p>
+<h2 id="4-Grubbs检验（Grubbs’-Test）"><a href="#4-Grubbs检验（Grubbs’-Test）" class="headerlink" title="4.Grubbs检验（Grubbs’ Test）"></a>4.Grubbs检验（Grubbs’ Test）</h2><p>Grubbs检验（Grubbs’ Test）是一种用于检测数据集中是否存在离群值（outliers）的统计检验方法。它适用于单个离群值的检测，并假设数据来自正态分布。</p>
+<h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h3><p>Grubbs检验主要用于检测单个极端值是否显著偏离其他数据点。具体来说，它可以检测最小值或最大值是否为离群值。</p>
+<h3 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h3><p>原假设（H₀）：样本中没有离群值。<br>备择假设（H₁）：样本中存在离群值。</p>
+<h2 id="5-卡方检验（Chi-squared-Test）"><a href="#5-卡方检验（Chi-squared-Test）" class="headerlink" title="5.卡方检验（Chi-squared Test）"></a>5.卡方检验（Chi-squared Test）</h2><p>卡方检验（Chi-squared Test）是一种常用的统计检验方法，用于检验观测频数与期望频数之间的差异是否具有统计显著性。它通常用于以下几种情况：<br>独立性检验：检验两个分类变量之间是否独立。<br>适合度检验：检验观测频数是否符合某种理论分布。</p>
+<h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h3><p>卡方检验的核心是计算卡方统计量（χ²），并将其与给定显著性水平下的临界值进行比较。</p>
+<h3 id="假设-1"><a href="#假设-1" class="headerlink" title="假设"></a>假设</h3><p>原假设（H₀）：观测频数与期望频数之间没有显著差异（独立性检验中，两个变量独立）。<br>备择假设（H₁）：观测频数与期望频数之间存在显著差异（独立性检验中，两个变量不独立）。</p>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ol>
+<li>计算观测频数和期望频数。</li>
+<li>计算卡方统计量。</li>
+<li>确定自由度。</li>
+<li>查找临界值或计算p值。</li>
+<li>做出决策。</li>
+</ol>
+<h2 id="KS检验与卡方检验"><a href="#KS检验与卡方检验" class="headerlink" title="KS检验与卡方检验"></a>KS检验与卡方检验</h2><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p><strong>目的</strong>：<br>检验目的：两者都是用于检验数据是否符合某种理论分布或模型。<br>假设检验：两者都涉及假设检验的过程，通过统计量和p值来判断是否拒绝原假设。<br><strong>应用领域</strong>：<br>广泛适用：两者在统计学和数据分析中都有广泛应用，特别是在验证数据分布和模型拟合方面。<br><strong>显著性水平</strong>：<br>显著性水平：两者都使用显著性水平（如0.05）来判断是否拒绝原假设。</p>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><p><strong>检验类型</strong>：<br>KS检验：主要用于连续数据的一维分布检验，可以检验单样本与理论分布的符合性或两个样本分布的相似性。<br>卡方检验：主要用于离散数据的分布检验，可以检验观测频数与理论频数的符合性或两个分类变量的独立性。<br><strong>数据类型</strong>：<br>KS检验：适用于连续数据。<br>卡方检验：适用于离散数据或分类数据。<br><strong>自由度</strong>：<br>KS检验：不需要显式计算自由度。<br>卡方检验：需要计算自由度，通常为 ( (r-1)(c-1) )，其中 ( r ) 是行数，( c ) 是列数。<br><strong>适用场景</strong>：<br>KS检验：适用于检验单样本是否符合某种连续分布（如正态分布）或两个样本是否来自相同的连续分布。<br>卡方检验：适用于检验观测频数是否符合某种离散分布（如泊松分布）或两个分类变量是否独立。<br><strong>计算复杂度</strong>：<br>KS检验：计算相对简单，主要关注最大差异。<br>卡方检验：计算相对复杂，需要计算每个类别的观测频数和期望频数。</p>
+<h1 id="三、不均衡样本集的重采样"><a href="#三、不均衡样本集的重采样" class="headerlink" title="三、不均衡样本集的重采样"></a>三、不均衡样本集的重采样</h1><p>在处理不均衡样本集时，重采样是一种常用的方法，旨在平衡各类样本的数量，从而提高模型的泛化能力和预测性能。常见的重采样方法包括过采样（Over-sampling）、欠采样（Under-sampling）以及它们的组合方法。</p>
+<ol>
+<li>过采样（Over-sampling）<br>过采样是指增加少数类样本的数量，使其与多数类样本数量接近。常用的方法有：<br>随机过采样：直接复制少数类样本。<br>SMOTE（Synthetic Minority Over-sampling Technique）：合成生成新的少数类样本。</li>
+<li>欠采样（Under-sampling）<br>欠采样是指减少多数类样本的数量，使其与少数类样本数量接近。常用的方法有：<br>随机欠采样：随机删除多数类样本。<br>Tomek Links：删除多数类样本中与少数类样本相邻的样本。<br>Cluster Centroids：将多数类样本聚类后保留每个簇的中心点。</li>
+<li>组合方法<br>组合方法通常结合过采样和欠采样，以达到更好的平衡效果。常用的方法有：<br>SMOTE + Tomek Links<br>SMOTE + Random Under-sampling</li>
+</ol>
+<h2 id="优点和缺点"><a href="#优点和缺点" class="headerlink" title="优点和缺点"></a>优点和缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>提高模型性能：通过平衡样本数量，提高模型在少数类上的预测性能。<br>减少偏差：避免模型过度偏向多数类。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>过采样：可能会引入重复样本，导致过拟合。<br>欠采样：可能会丢失部分有用信息，导致信息损失。<br>组合方法：需要权衡过采样和欠采样的比例，以达到最佳效果。</p>
+<p>通过这些重采样方法，可以有效地解决不均衡样本集的问题，提高模型的泛化能力和预测性能。</p>
+<h2 id="1-对于二分类问题，当训练集中正负样本非常不均衡肘，如何处理数据以更好地训练分类模型？"><a href="#1-对于二分类问题，当训练集中正负样本非常不均衡肘，如何处理数据以更好地训练分类模型？" class="headerlink" title="1.对于二分类问题，当训练集中正负样本非常不均衡肘，如何处理数据以更好地训练分类模型？"></a>1.对于二分类问题，当训练集中正负样本非常不均衡肘，如何处理数据以更好地训练分类模型？</h2><p>在二分类问题中，当训练集中正负样本非常不均衡时，可以通过多种方法来处理数据，以更好地训练分类模型。以下是一些常用的处理方法：</p>
+<ul>
+<li>重采样方法<br>重采样方法包括过采样（Over-sampling）、欠采样（Under-sampling）以及它们的组合。<br>1.1 随机过采样（Random Over-sampling）<br>原理：复制少数类样本，使它们的数量接近多数类样本。<br>优点：简单易用，可以增加少数类样本的数量。<br>缺点：可能导致过拟合，因为复制样本会增加数据的冗余。<br>1.2 SMOTE（Synthetic Minority Over-sampling Technique）<br>原理：合成生成新的少数类样本，而不是简单复制。<br>优点：可以生成新的样本，减少过拟合的风险。<br>缺点：需要选择合适的参数，如邻居数量。<br>1.3 随机欠采样（Random Under-sampling）<br>原理：随机删除多数类样本，使它们的数量接近少数类样本。<br>优点：简单易用，可以减少多数类样本的数量。<br>缺点：可能丢失有用的信息。<br>1.4 SMOTE + Tomek Links<br>原理：先使用SMOTE生成新的少数类样本，然后使用Tomek Links删除多数类样本中与少数类样本相邻的部分。<br>优点：结合了过采样和欠采样的优点，可以更有效地平衡样本。</li>
+<li>成本敏感学习（Cost-Sensitive Learning）<br>原理：在训练过程中调整不同类别的损失函数权重。<br>优点：可以在不改变数据的情况下，通过调整损失函数来影响模型的训练过程。<br>缺点：需要选择合适的权重。<br>2.1 加权损失函数<br>实现：在训练过程中，对不同类别的损失函数赋予不同的权重。</li>
+<li>集成学习（Ensemble Learning）<br>原理：使用多个模型进行集成，提高整体性能。<br>优点：可以利用多个模型的优势，提高模型的鲁棒性和泛化能力。<br>缺点：计算成本较高。<br>3.1 Bagging<br>实现：使用Bagging方法，如Random Forest。<br>3.2 Boosting<br>实现：使用Boosting方法，如AdaBoost或XGBoost。</li>
+<li>数据增强（Data Augmentation）<br>原理：通过对少数类样本进行数据增强，生成新的样本。<br>优点：可以增加数据多样性，减少过拟合风险。<br>缺点：需要选择合适的数据增强方法。<br>4.1 数据增强示例<br>实现：使用图像数据增强或其他特征增强方法。</li>
+</ul>
+<h1 id="四、数据集分布是否一致？"><a href="#四、数据集分布是否一致？" class="headerlink" title="四、数据集分布是否一致？"></a>四、数据集分布是否一致？</h1><h2 id="训练集-vs-验证集-vs-测试集"><a href="#训练集-vs-验证集-vs-测试集" class="headerlink" title="训练集 vs 验证集 vs 测试集"></a>训练集 vs 验证集 vs 测试集</h2><h2 id="数据一致性分析"><a href="#数据一致性分析" class="headerlink" title="数据一致性分析"></a>数据一致性分析</h2><h3 id="1、数据可视化、统计检验、特征分布比较"><a href="#1、数据可视化、统计检验、特征分布比较" class="headerlink" title="1、数据可视化、统计检验、特征分布比较"></a>1、数据可视化、统计检验、特征分布比较</h3><p><strong>1.KDE(核密度估计)分布图</strong><br>核密度估计（Kernel Density Estimation, KDE）是一种非参数统计方法，用于估计未知随机变量的概率密度函数（PDF）。KDE 方法通过在每个数据点上放置一个核函数（通常是高斯核），然后将所有核函数的值相加以获得一个平滑的概率密度估计，通过核密度估计图可以比较直观的看出数据样本本身的分布特征。<br>在 Python 中，seaborn 库提供了 kdeplot 函数来绘制 KDE 图。<br><strong>2.KS检验（Kolmogorov-Smirnov Test）</strong><br>Kolmogorov-Smirnov (KS) 检验是一种非参数统计检验方法，用于比较两个样本集的经验分布函数（Empirical Cumulative Distribution Function, ECDF）。它可以用于检验两个样本集是否来自同一分布，或者检验一个样本集是否符合某个理论分布。<br>KS 检验的应用场景<br>两样本 KS 检验：检验两个样本集是否来自同一分布。<br>单样本 KS 检验：检验一个样本集是否符合某个理论分布（如正态分布）。<br>使用 scipy.stats 进行 KS 检验</p>
+<h3 id="2、Adversarial-Validation（对抗验证）"><a href="#2、Adversarial-Validation（对抗验证）" class="headerlink" title="2、Adversarial Validation（对抗验证）"></a>2、Adversarial Validation（对抗验证）</h3><p>Adversarial Validation 是一种用于检测两个数据集之间分布差异的方法。它通过构建一个分类器来区分两个数据集，进而评估它们之间的相似性。如果分类器能够准确地区分两个数据集，则说明它们之间的分布存在显著差异；反之，则说明它们之间的分布较为一致。<br><strong>应用场景</strong></p>
+<ul>
+<li>数据集一致性检查：检查训练集和测试集之间的分布一致性。</li>
+<li>数据预处理：在数据预处理阶段，确保数据集的一致性。</li>
+<li>特征工程：识别哪些特征导致数据集之间的差异。</li>
+</ul>
+<p><img src="/img/476bb2be64d5488d8a2855ea18ffdac5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>具体做法：</p>
+<ol>
+<li>将训练集、测试集合并成一个数据集，新增一个标签列，训练集的样本标记为 0 ，测试集的样本标记为 1 。</li>
+<li>重新划分一个新的train_set和test_set(区别于原本的训练集和测试集)。</li>
+<li>用train_set训练一个二分类模型，可以使用 LR、RF、XGBoost、 LightGBM等等，以AUC作为模型指标。</li>
+<li>如果AUC在0.5左右，说明模型无法区分原训练集和测试集，也即两者分布一致。如果AUC比较大，说明原训练集和测试集差异较大，分布不一致。</li>
+<li>利用第 2 步中的分类器模型，对原始的训练集进行打分预测，并将样本按照模型分从大到小排序，模型分越大，说明与测试集越接近，那么取训练集中的 TOP N 的样本作为目标任务的验证集，这样即可将原始的样本进行拆分得到训练集，验证集，测试集。</li>
+</ol>
+<h2 id="在相同样本量下，不重复抽样和重复抽样的抽样平均误差大小关系是怎样的？"><a href="#在相同样本量下，不重复抽样和重复抽样的抽样平均误差大小关系是怎样的？" class="headerlink" title="在相同样本量下，不重复抽样和重复抽样的抽样平均误差大小关系是怎样的？"></a>在相同样本量下，不重复抽样和重复抽样的抽样平均误差大小关系是怎样的？</h2><p>总体大小 (N) 很大时：不重复抽样的标准误与重复抽样的标准误接近。<br>总体大小 (N) 较小时：不重复抽样的标准误比重复抽样的标准误小。</p>
+<h2 id="simple-random-sampling简单随机抽样、systematic-sampling系统抽样和stratified-sampling分层抽样的共同特点"><a href="#simple-random-sampling简单随机抽样、systematic-sampling系统抽样和stratified-sampling分层抽样的共同特点" class="headerlink" title="simple random sampling简单随机抽样、systematic sampling系统抽样和stratified sampling分层抽样的共同特点"></a>simple random sampling简单随机抽样、systematic sampling系统抽样和stratified sampling分层抽样的共同特点</h2><p>一句话：<strong>抽样过程中每个个体被抽到的可能性相等、都是不放回抽样</strong></p>
+<h3 id="共同特点"><a href="#共同特点" class="headerlink" title="共同特点"></a>共同特点</h3><p><strong>目标一致性</strong><br>目的：这些抽样方法的主要目的是从总体中选取具有代表性的样本，以便通过样本推断总体的特征。<br><strong>随机性</strong><br>随机性：尽管具体实现方式不同，但这些抽样方法都强调随机性，以减少偏倚并提高样本的代表性。<br>简单随机抽样：每个个体被选中的概率相同。<br>系统抽样：起始点随机选择，之后按照固定间隔选择样本。<br>分层抽样：各层内部随机选择样本。<br><strong>代表性</strong><br>代表性：这些抽样方法都旨在确保样本具有良好的代表性，即样本能够反映总体的关键特征。<br>简单随机抽样：通过随机选择样本，使样本尽可能接近总体。<br>系统抽样：通过均匀分布的样本，使样本具有较好的代表性。<br>分层抽样：通过在各个子群体内随机选择样本，确保样本覆盖总体的不同特征。<br><strong>可操作性</strong><br>实施简便：这些抽样方法在实际操作中相对简便，易于理解和执行。<br>简单随机抽样：只需要一个随机数生成器即可实现。<br>系统抽样：只需要确定起始点和固定间隔即可实现。<br>分层抽样：只需要确定分层标准并在各层内随机选择即可实现。<br><strong>统计推断</strong><br>统计推断：这些抽样方法都可以用于进行统计推断，即通过样本估计总体的参数。<br>简单随机抽样：可以直接计算样本均值、比例等统计量。<br>系统抽样：也可以直接计算样本均值、比例等统计量。<br>分层抽样：需要在各层内计算统计量，并加权平均得到总体估计。<br><strong>误差控制</strong><br>误差控制：这些抽样方法都有一定的误差控制机制，以确保抽样误差在可接受范围内。<br>简单随机抽样：通过增加样本量来减小抽样误差。<br>系统抽样：通过均匀分布的样本减少抽样误差。<br>分层抽样：通过在各层内随机选择样本，减少抽样误差。<br><strong>具体方法概述</strong><br><strong>简单随机抽样（Simple Random Sampling）</strong><br>定义：每个个体被选中的概率相同。<br>优点：简单易行，无偏性好。<br>缺点：可能无法充分覆盖总体的某些特征。<br><strong>系统抽样（Systematic Sampling）</strong><br>定义：按照固定间隔选择样本。<br>优点：简单易行，样本分布均匀。<br>缺点：如果总体有周期性或规律性，则可能导致偏差。<br><strong>分层抽样（Stratified Sampling）</strong><br>定义：将总体分为若干子群体（层），在各层内随机选择样本。<br>优点：能更好地覆盖总体的不同特征，减少抽样误差。<br>缺点：需要先确定分层标准，实施相对复杂。<br><strong>总结</strong><br>简单随机抽样、系统抽样和分层抽样虽然在具体操作方式上有所不同，但它们都具有以下共同特点：<br>目标一致性：从总体中选取具有代表性的样本。<br>随机性：强调随机性，减少偏倚。<br>代表性：确保样本具有良好的代表性。<br>可操作性：实施简便，易于理解和执行。<br>统计推断：可用于进行统计推断。<br>误差控制：有一定的误差控制机制。</p>
+<h2 id="给定n个数据点，如果其中一半用于训练，一半用于测试，则训练误差与测试误差之间的差别会随着n-的增加而减少。"><a href="#给定n个数据点，如果其中一半用于训练，一半用于测试，则训练误差与测试误差之间的差别会随着n-的增加而减少。" class="headerlink" title="给定n个数据点，如果其中一半用于训练，一半用于测试，则训练误差与测试误差之间的差别会随着n 的增加而减少。"></a>给定n个数据点，如果其中一半用于训练，一半用于测试，则训练误差与测试误差之间的差别会随着n 的增加而减少。</h2><p>当给定 ( n ) 个数据点，并且其中一半用于训练，另一半用于测试时，训练误差与测试误差之间的差别会受到样本量 ( n ) 的影响。随着 ( n ) 的增加，训练误差与测试误差之间的差别会发生变化。下面详细分析这一过程：</p>
+<h3 id="误差的概念"><a href="#误差的概念" class="headerlink" title="误差的概念"></a>误差的概念</h3><p><strong>训练误差</strong>（Training Error）：模型在训练集上的预测误差。<br><strong>测试误差</strong>（Test Error）：模型在未见过的测试集上的预测误差。</p>
+<h3 id="随着-n-增加的变化趋势"><a href="#随着-n-增加的变化趋势" class="headerlink" title="随着 ( n ) 增加的变化趋势"></a>随着 ( n ) 增加的变化趋势</h3><p><strong>低样本量（小 ( n )）</strong><br>训练误差：模型容易过拟合，训练误差较低。<br>测试误差：由于模型过拟合，测试误差较高。<br>差距：训练误差与测试误差之间的差距较大。<br><strong>中等样本量（适中 ( n )）</strong><br>训练误差：模型开始泛化，训练误差逐渐增加。<br>测试误差：模型泛化能力增强，测试误差逐渐降低。<br>差距：训练误差与测试误差之间的差距开始缩小。<br><strong>高样本量（大 ( n )）</strong><br>训练误差：模型泛化能力更强，训练误差趋于稳定。<br>测试误差：模型泛化能力更强，测试误差趋于稳定。<br>差距：训练误差与测试误差之间的差距进一步缩小。</p>
+<h3 id="理论分析"><a href="#理论分析" class="headerlink" title="理论分析"></a>理论分析</h3><p><strong>偏差（Bias）和方差（Variance）</strong><br>偏差：模型预测的期望值与真实值之间的差异。<br>方差：模型预测值的波动程度。<br>偏差-方差分解：测试误差可以分解为偏差平方加上方差加上噪声项。<br>偏差-方差权衡（Bias-Variance Tradeoff）<br>低样本量：模型容易过拟合，方差大，偏差小。<br>中等样本量：模型开始泛化，方差减小，偏差增大。<br>高样本量：模型泛化能力强，方差和偏差都较小。</p>
+<h3 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h3><p><strong>低样本量（小 ( n )）</strong><br>训练误差：由于样本量少，模型容易过拟合，训练误差较低。<br>测试误差：模型过拟合导致泛化能力差，测试误差较高。<br>差距：训练误差与测试误差之间的差距较大。<br><strong>中等样本量（适中 ( n )）</strong><br>训练误差：随着样本量增加，模型开始泛化，训练误差逐渐增加。<br>测试误差：模型泛化能力增强，测试误差逐渐降低。<br>差距：训练误差与测试误差之间的差距开始缩小。<br><strong>高样本量（大 ( n )）</strong><br>训练误差：随着样本量进一步增加，模型泛化能力更强，训练误差趋于稳定。<br>测试误差：模型泛化能力更强，测试误差趋于稳定。<br>差距：训练误差与测试误差之间的差距进一步缩小。</p>
+<p>参考：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/" class="print-no-link">#数据增强</a>
+      
+        <a href="/tags/%E4%B8%8D%E5%9D%87%E8%A1%A1%E6%A0%B7%E6%9C%AC/" class="print-no-link">#不均衡样本</a>
+      
+        <a href="/tags/%E9%87%8D%E9%87%87%E6%A0%B7/" class="print-no-link">#重采样</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E5%B8%83/" class="print-no-link">#数据集分布</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致</div>
+      <div>https://qzkq.github.io/2026/01/04/机器学习笔试面试之图像数据不足时的处理方法、检验方法、不均衡样本集的重采样、数据集分布是否一致/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E3%80%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E3%80%81%E9%99%8D%E7%BB%B4%E3%80%81%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/" title="机器学习面试笔试之特征工程、优化方法、降维、模型评估">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">机器学习面试笔试之特征工程、优化方法、降维、模型评估</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%9AScipy%E3%80%81Scikit-Learn%E7%AC%94%E8%AE%B0/" title="数据科学：Scipy、Scikit-Learn笔记">
+                        <span class="hidden-mobile">数据科学：Scipy、Scikit-Learn笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

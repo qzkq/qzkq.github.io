@@ -1,0 +1,941 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 数据科学：Scipy、Scikit-Learn笔记超参数调优：网格搜索，贝叶斯优化（optuna）详解LightGBM原生接口和Sklearn接口参数详解XGBoost一、Sklearn风格接口xgboost.XGBRegressor参数一般参数这些参数适用于 XGBoost 的核心算法，不特定于某个特定的弱学习器（如决策树）。  max_depth (默认: 3)类型: int描述:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XGBoost原生接口和Sklearn接口参数详解">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/XGBoost%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 数据科学：Scipy、Scikit-Learn笔记超参数调优：网格搜索，贝叶斯优化（optuna）详解LightGBM原生接口和Sklearn接口参数详解XGBoost一、Sklearn风格接口xgboost.XGBRegressor参数一般参数这些参数适用于 XGBoost 的核心算法，不特定于某个特定的弱学习器（如决策树）。  max_depth (默认: 3)类型: int描述:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-03T00:19:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.328Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>XGBoost原生接口和Sklearn接口参数详解 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="XGBoost原生接口和Sklearn接口参数详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:19" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">XGBoost原生接口和Sklearn接口参数详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="XGBoost%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3">TOC</a></p>
+<h1 id="数据科学：Scipy、Scikit-Learn笔记"><a href="#数据科学：Scipy、Scikit-Learn笔记" class="headerlink" title="数据科学：Scipy、Scikit-Learn笔记"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/134815525">数据科学：Scipy、Scikit-Learn笔记</a></h1><h1 id="超参数调优：网格搜索，贝叶斯优化（optuna）详解"><a href="#超参数调优：网格搜索，贝叶斯优化（optuna）详解" class="headerlink" title="超参数调优：网格搜索，贝叶斯优化（optuna）详解"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/138012101">超参数调优：网格搜索，贝叶斯优化（optuna）详解</a></h1><h1 id="LightGBM原生接口和Sklearn接口参数详解"><a href="#LightGBM原生接口和Sklearn接口参数详解" class="headerlink" title="LightGBM原生接口和Sklearn接口参数详解"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/137434400">LightGBM原生接口和Sklearn接口参数详解</a></h1><h1 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h1><h2 id="一、Sklearn风格接口"><a href="#一、Sklearn风格接口" class="headerlink" title="一、Sklearn风格接口"></a>一、Sklearn风格接口</h2><h3 id="xgboost-XGBRegressor参数"><a href="#xgboost-XGBRegressor参数" class="headerlink" title="xgboost.XGBRegressor参数"></a>xgboost.XGBRegressor参数</h3><h4 id="一般参数"><a href="#一般参数" class="headerlink" title="一般参数"></a>一般参数</h4><p>这些参数适用于 XGBoost 的核心算法，不特定于某个特定的弱学习器（如决策树）。</p>
+<ol>
+<li>max_depth (默认: 3)<br>类型: int<br>描述: 决策树的最大深度。限制树的生长高度，防止过拟合。值越大，模型可能更复杂，容易过拟合；值越小，模型可能欠拟合。</li>
+<li>learning_rate (默认: 0.1)<br>类型: float<br>描述: 学习率或步长。控制每次迭代中单个新树对最终模型影响的大小。较小的值（如 0.01 或 0.05）有助于降低过拟合风险，但可能需要更多的迭代次数（即更大的 n_estimators）。较大的值可以加速收敛，但可能导致模型不稳定或过拟合。</li>
+<li>n_estimators (默认: 100)<br>类型: int<br>描述: 弱学习器（树）的数量。增加此值会构建更多棵树，通常能提高模型的拟合能力，但也可能增加训练时间和模型复杂度。</li>
+<li>silent (默认: True)<br>类型: bool<br>描述: 是否禁用运行时信息输出。设为 False 可以显示训练过程中的进度信息。</li>
+<li>objective (默认: ‘reg:squarederror’)<br>类型: str<br>描述: 回归任务的目标函数。对于 XGBRegressor，默认设置为均方误差（Mean Squared Error, MSE），表示为 ‘reg:squarederror’。其他可用选项包括 ‘reg:linear’（线性回归）和 ‘reg:logistic’（逻辑回归，但通常用于二分类问题，此处不适用）。</li>
+<li>booster (默认: ‘gbtree’)<br>类型: str<br>描述: 使用的弱学习器类型。’gbtree’ 表示基于树的提升（通常选择），另一种可选的是 ‘gblinear’，表示基于线性模型的提升。</li>
+<li>n_jobs (默认: 1)<br>类型: int<br>描述: 并行计算时使用的 CPU 核数。设置为 -1 则使用所有可用核。对于多核系统，增大此值可以加快训练速度。</li>
+<li>nthread (已弃用，用 n_jobs 替代)<br>类型: int<br>描述: 旧版本中用于指定线程数的参数，现已不再推荐使用，应改用 n_jobs。<br>弱评估器参数（Booster Parameters）<br>这些参数针对具体的弱学习器（如决策树）进行设置。</li>
+<li>gamma (默认: 0)<br>类型: float<br>描述: 分裂节点所需的最小损失减少量。较高的 gamma 值会限制树的复杂度，防止过拟合。</li>
+<li>min_child_weight (默认: 1)<br>类型: float<br>描述: 子节点所包含样本权重的最小和。较大的值可以防止模型学习到噪声或过于复杂的模式，避免过拟合。</li>
+</ol>
+<h4 id="任务参数（Learning-Task-Parameters）"><a href="#任务参数（Learning-Task-Parameters）" class="headerlink" title="任务参数（Learning Task Parameters）"></a>任务参数（Learning Task Parameters）</h4><p>这些参数与特定的学习任务相关，如正则化、采样等。</p>
+<ol start="11">
+<li>reg_alpha (默认: 0)<br>类型: float<br>描述: L1 正则化项的权重。非零值有助于简化模型，防止过拟合。</li>
+<li>reg_lambda (默认: 1)<br>类型: float<br>描述: L2 正则化项的权重。非零值有助于平滑模型，防止过拟合。</li>
+<li>subsample (默认: 1.0)<br>类型: float (0, 1]<br>描述: 训练过程中每个树构建时使用的样本比例。小于 1 的值可以引入随机性，有助于减少过拟合，相当于随机森林中的子采样。</li>
+<li>colsample_bytree (默认: 1.0)<br>类型: float (0, 1]<br>描述: 每棵树构建时考虑的特征比例。小于 1 的值可以引入特征的随机子集，有助于减少过拟合。</li>
+<li>colsample_bylevel (默认: 1.0)<br>类型: float (0, 1]<br>描述: 在树构建过程中各层级分裂时考虑的特征比例。类似于 colsample_bytree，但应用于每一层而不是每棵树。</li>
+<li>random_state (默认: None)<br>类型: int, RandomState instance, or None<br>描述: 随机数生成器种子或实例，用于确定随机性行为，如特征和样本的子采样。设置一个固定值可以确保实验的可复现性。</li>
+</ol>
+<h4 id="其他重要参数"><a href="#其他重要参数" class="headerlink" title="其他重要参数"></a>其他重要参数</h4><ol start="17">
+<li>eval_metric (默认取决于 objective)<br>类型: str, callable, list&#x2F;tuple of str or list&#x2F;tuple of callable<br>描述: 评估模型性能的度量标准。对于回归任务，常见的内置指标包括 ‘rmse’（均方根误差）、’mae’（平均绝对误差）等。</li>
+<li>early_stopping_rounds (默认: None)<br>类型: int<br>描述: 当验证集上的性能在一定轮数内未提升时，提前终止训练。配合 eval_set 和 eval_metric 使用，有助于防止过拟合并节省计算资源。</li>
+<li>verbose (默认: 0)<br>类型: int<br>描述: 控制训练过程中输出详细信息的程度。大于 0 的值将打印更多中间结果。</li>
+</ol>
+<h3 id="XGBRegressor-fit参数"><a href="#XGBRegressor-fit参数" class="headerlink" title="XGBRegressor.fit参数"></a>XGBRegressor.fit参数</h3><h4 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h4><ol>
+<li>X (必需)<br>类型: array-like, DataFrame, DMatrix<br>描述: 训练数据，二维数组或类似结构，其中包含特征向量。数据类型可以是 NumPy 数组、Pandas DataFrame 或 XGBoost 自带的 DMatrix 数据结构。</li>
+<li>y (必需)<br>类型: array-like, Series, DMatrix<br>描述: 目标变量，一维数组或类似结构，包含连续数值型的响应变量。数据类型可以是 NumPy 数组、Pandas Series 或 XGBoost DMatrix。</li>
+</ol>
+<h4 id="可选参数"><a href="#可选参数" class="headerlink" title="可选参数"></a>可选参数</h4><ol start="3">
+<li>sample_weight (默认: None)<br>类型: array-like (shape (n_samples,))<br>描述: 样本权重。如果提供，将在训练过程中对每个样本赋予相应的权重，用于调整不同样本对模型学习的影响。权重越高，对应样本在训练中的作用越大。</li>
+<li>eval_set (默认: None)<br>类型: list of (array-like, array-like) or list of DMatrix<br>描述: 用于模型评估的额外数据集列表，通常用于早停（early stopping）或监控训练过程中的性能。每个元素是一个元组，包含特征数据和相应的目标变量，格式与 (X, y) 相同。例如：[(X_val, y_val), (X_test, y_test)]。</li>
+<li>eval_metric (默认: 取决于 objective)<br>类型: str, callable, list&#x2F;tuple of str or list&#x2F;tuple of callable<br>描述: 在训练过程中用于评估模型性能的度量标准。可以是一个字符串（代表内置评估指标），一个自定义函数，或它们的组合。对于回归任务，常用的内置指标包括 ‘rmse’（均方根误差）、’mae’（平均绝对误差）等。当提供了多个评估指标时，输出将按提供的顺序显示。</li>
+<li>early_stopping_rounds (默认: None)<br>类型: int<br>描述: 当在 eval_set 上指定的评估指标在一定轮训练。这对于防止过拟合和数内未提升时，提前终止节省计算资源非常有用。例如，设置为 50 表示如果连续 50 轮后验证集上的性能没有提升，则停止训练。</li>
+<li>verbose (默认: 0)<br>类型: int<br>描述: 控制训练过程中输出详细信息的程度。值越大，输出的信息越多。当设为 1 时，通常会显示每轮迭代后的评估指标；设为 0 则不显示。</li>
+<li>callbacks (默认: None)<br>类型: list of callable objects<br>描述: 用户定义的回调函数列表，这些函数将在训练过程中特定时刻被调用。可用于实现自定义的日志记录、模型保存等行为。</li>
+<li>base_margin (默认: None)<br>类型: array-like<br>描述: 用于初始化预测值（基线偏移）的一维数组。仅在高级用法中使用，通常情况下保持默认值即可。</li>
+<li>sample_weight_eval_set (默认: None)<br>类型: list of arrays, description: 与 eval_set same length aseval_set- 中每个数据集对应的样本权重。若提供，将在评估这些数据集时使用对应的权重。</li>
+<li>feature_weights (默认: None)<br>类型: array-like<br>描述: 特征的权重。在树构建过程中，可以用来调节不同特征的重要性。非零值会改变分裂节点时的增益计算方式。</li>
+<li>categorical_feature (默认: None)<br>类型: list, int, dict<br>描述: 指定哪些特征是类别特征（离散特征）。可以是特征索引的列表、掩码数组，或字典（键为特征索引，值为类别数）。</li>
+</ol>
+<h3 id="XGBRegressor-predict参数"><a href="#XGBRegressor-predict参数" class="headerlink" title="XGBRegressor.predict参数"></a>XGBRegressor.predict参数</h3><h4 id="基本参数-1"><a href="#基本参数-1" class="headerlink" title="基本参数"></a>基本参数</h4><ul>
+<li>data (必需)<br>类型: array-like, DataFrame, DMatrix<br>描述: 待预测数据，二维数组或类似结构，其中包含特征向量。数据类型可以是 NumPy 数组、Pandas DataFrame 或 XGBoost 自带的 DMatrix 数据结构。其列应与训练数据 X 的列相同，表示同样的特征。<br>可选参数</li>
+<li>output_margin (默认: False)<br>类型: bool<br>描述: 如果设置为 True，将返回模型原始的未经转换的输出（边际）。对于回归任务，这通常是每个样本的预测值。如果设置为 False（默认），则返回经过目标函数转换后的预测值，如对于 ‘reg:squarederror’ 目标函数，返回的是直接的预测值。</li>
+<li>ntree_limit (默认: 0)<br>类型: int<br>描述: 限制用于预测的树的数量。若设为 0（默认），则使用所有已训练的树进行预测。非零值表示只使用前 ntree_limit 棵树进行预测。这个参数可用于探索模型在训练过程中不同阶段的表现，或者在早停后仅使用最优轮次的模型进行预测。</li>
+<li>validate_features (默认: True)<br>类型: bool<br>描述: 检查预测数据 data 的特征是否与训练数据中的特征一致。如果设置为 True（默认），预测时会检查特征名称和类型是否匹配。如果特征不一致，会抛出异常。设置为 False 可以禁用此检查，但在实际应用中应谨慎使用，以避免因特征不匹配导致的预测错误。</li>
+<li>base_margin (默认: None)<br>类型: array-like<br>描述: 用于初始化预测值（基线偏移）的一维数组。仅在高级用法中使用，通常情况下保持默认值即可。</li>
+<li>iteration_range (默认: (0, num_boosted_rounds)，其中 num_boosted_rounds 为模型训练的总轮数)<br>类型: tuple (start, end)<br>描述: 限制用于预测的树的范围。(start, end) 表示从第 start 棵树开始，直到第 end - 1 棵树结束（包含 start，不包含 end）。这对分析模型在不同训练阶段的表现或仅使用部分树进行预测很有用。</li>
+</ul>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><ul>
+<li>类型: numpy.ndarray</li>
+</ul>
+<p>描述: 返回一个一维 NumPy 数组，包含对 data 中每个样本的预测值。数组长度与 data 的行数相同。</p>
+<h2 id="二、XGBoost原生接口"><a href="#二、XGBoost原生接口" class="headerlink" title="二、XGBoost原生接口"></a>二、XGBoost原生接口</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python">kfold = KFold(n_splits=<span class="hljs-number">5</span>, random_state=<span class="hljs-number">42</span>, shuffle=<span class="hljs-literal">True</span>)<br><br>mse = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> fold, (train_index, val_index) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(kfold.split(x, y)):<br>    logging.info(<span class="hljs-string">f&#x27;############ fold: <span class="hljs-subst">&#123;fold&#125;</span> ###########&#x27;</span>)<br>    x_train, x_val, y_train, y_val = x.iloc[train_index], x.iloc[val_index], y.iloc[train_index], y.iloc[val_index]<br>    <br>    trainset = Dataset(x_train, y_train)<br>    valset = Dataset(x_val, y_val)<br>    model = lgb.train(params_lgb, trainset, valid_sets=[trainset, valset], categorical_feature=[<span class="hljs-string">&quot;分&quot;</span>], callbacks=[lgb.log_evaluation(<span class="hljs-number">1000</span>)])<br>    model.save_model(<span class="hljs-string">&quot;../models/lgb_%d.txt&quot;</span> % fold)<br>    model_lgb.append(model)<br>    lgb_pred = Series(model.predict(x_val, num_iteration=model.best_iteration), index=y_val.index).fillna(<span class="hljs-number">0</span>)<br>    <br>    trainset = DMatrix(x_train, y_train, enable_categorical=<span class="hljs-literal">True</span>, nthread=-<span class="hljs-number">1</span>)<br>    valset = DMatrix(x_val, y_val, enable_categorical=<span class="hljs-literal">True</span>, nthread=-<span class="hljs-number">1</span>)<br>    model = xgb.train(params_xgb, trainset, evals=[(trainset, <span class="hljs-string">&#x27;train&#x27;</span>),(valset, <span class="hljs-string">&#x27;eval&#x27;</span>)], num_boost_round=params_xgb[<span class="hljs-string">&quot;num_boost_round&quot;</span>], early_stopping_rounds=params_xgb[<span class="hljs-string">&quot;early_stopping_rounds&quot;</span>], verbose_eval=<span class="hljs-number">1000</span>)<br>    model.save_model(<span class="hljs-string">&quot;../models/xgb_%d.json&quot;</span> % fold)<br>    model_xgb.append(model)<br>    xgb_pred = Series(model.predict(valset, iteration_range=(<span class="hljs-number">0</span>, model.best_ntree_limit)), index=y_val.index).fillna(<span class="hljs-number">0</span>)<br>    <br>    val_pred = (lgb_pred + xgb_pred) / <span class="hljs-number">2</span><br>    mse += mean_squared_error(y_val.fillna(<span class="hljs-number">0</span>), val_pred)<br>rmse = np.sqrt(mse / kfold.n_splits)<br>score = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + rmse)<br>logging.info(<span class="hljs-string">f&quot;--------------本地分数 <span class="hljs-subst">&#123;score&#125;</span>--------------&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-DMatrix-类"><a href="#1-DMatrix-类" class="headerlink" title="1. DMatrix 类"></a>1. DMatrix 类</h3><p>在使用 XGBoost 原生接口时，首先要将数据转换为 xgboost.DMatrix 对象，它是 XGBoost 库专门设计的数据结构，能够高效地存储和处理大量数据，特别是对于稀疏矩阵。</p>
+<p>DMatrix 支持多种构造参数，如：</p>
+<ul>
+<li>missing: 缺失值标记，默认为 NaN。可以指定其他缺失值标识符。 </li>
+<li>weight: 样本权重。 base_margin: 基线偏移。</li>
+<li>label: 目标变量（仅在没有提供标签文件路径时需要）。</li>
+<li>feature_names: 特征名称列表。</li>
+<li>feature_types: 特征类型列表，如 ‘q’（量化特征）、’i’（整数特征）、’f’（浮点特征）等。 </li>
+<li>enable_categorical: 是否启用类别特征支持（仅在 XGBoost 1.6+ 版本中）。</li>
+</ul>
+<h3 id="xgboost参数"><a href="#xgboost参数" class="headerlink" title="xgboost参数"></a>xgboost参数</h3><ul>
+<li><strong>通用参数（General Parameters）</strong>：影响整个梯度提升模型的构建和运行方式。</li>
+<li><strong>Booster 参数（Booster Parameters）</strong>：与特定的弱学习器（如决策树）有关，用于控制单个基础模型的构建细节。 </li>
+<li><strong>任务参数（Learning Task Parameters）</strong>：与特定的学习任务（如回归、分类）及正则化相关，影响模型在解决具体问题时的行为。</li>
+<li><strong>其他参数（Miscellaneous Parameters）</strong>：包括模型输出、数据处理、并行计算等方面的设置。</li>
+</ul>
+<h4 id="通用参数"><a href="#通用参数" class="headerlink" title="通用参数"></a>通用参数</h4><p><strong>objective</strong></p>
+<blockquote>
+<p>类型: str<br>描述: 指定目标函数，决定了模型优化的目标。对于回归任务，常见的选项有 ‘reg:squarederror’（均方误差）、’reg:linear’（线性回归）、’reg:logistic’（逻辑回归，常用于二分类问题）等。</p>
+</blockquote>
+<p><strong>booster</strong></p>
+<blockquote>
+<p>类型: str<br>描述: 指定使用的弱学习器类型。对于回归问题，通常选择 ‘gbtree’（基于树的提升），另一个选项是 ‘gblinear’（基于线性模型的提升）。</p>
+</blockquote>
+<p><strong>verbosity</strong></p>
+<blockquote>
+<p>类型: int<br>描述: 控制日志输出的详细程度。值越大，输出的信息越多。通常设为 0 或 1。</p>
+</blockquote>
+<p><strong>n_estimators &#x2F; num_boost_round</strong></p>
+<blockquote>
+<p>类型: int<br>描述: 指定要构建的提升树（弱学习器）数量。增加该值通常可以提高模型的拟合能力，但可能会增加训练时间和过拟合风险。</p>
+</blockquote>
+<p><strong>eta &#x2F; learning_rate</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 学习率或步长，控制每一步迭代中单个新树对最终模型影响的大小。较小的值可以减缓学习速度，有助于防止过拟合，但可能需要更多的迭代次数；较大的值可以加速收敛，但可能导致模型不稳定。</p>
+</blockquote>
+<p><strong>gamma</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 分裂节点所需的最小损失减少量。较高的值会限制树的复杂度，防止过拟合。</p>
+</blockquote>
+<p><strong>max_depth</strong></p>
+<blockquote>
+<p>类型: int<br>描述: 决策树的最大深度。限制树的生长高度，防止过拟合。值越大，模型可能更复杂，容易过拟合；值越小，模型可能欠拟合。</p>
+</blockquote>
+<p><strong>min_child_weight</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 子节点所包含样本权重的最小和。较大值有助于防止模型学习到噪声或过于复杂的模式，避免过拟合。</p>
+</blockquote>
+<p><strong>subsample &#x2F; colsample_bytree</strong></p>
+<blockquote>
+<p>类型: float (0, 1]<br>描述: 分别控制训练样本和特征的子采样比例。小于 1<br>的值可以引入随机性，有助于减少过拟合，类似于随机森林中的子采样。</p>
+</blockquote>
+<p><strong>lambda &#x2F; reg_lambda &#x2F; alpha &#x2F; reg_alpha</strong></p>
+<blockquote>
+<p>类型: float<br>描述: L1 (reg_alpha) 和 L2 (reg_lambda) 正则化项的权重。非零值有助于简化模型，防止过拟合。</p>
+</blockquote>
+<p><strong>n_jobs &#x2F; nthread</strong></p>
+<blockquote>
+<p>类型: int<br>描述: 并行计算时使用的 CPU 核数。设置为 -1 则使用所有可用核。增大此值可以加快训练速度。</p>
+</blockquote>
+<h4 id="Booster-参数"><a href="#Booster-参数" class="headerlink" title="Booster 参数"></a>Booster 参数</h4><p><strong>max_delta_step</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 控制每棵树的权重更新幅度。对于某些数据集（如不平衡数据），有助于稳定模型训练。</p>
+</blockquote>
+<p><strong>tree_method</strong></p>
+<blockquote>
+<p>类型: str<br>描述: 指定树构建算法。常见选项包括 ‘auto’（自动选择）、’exact’（精确贪心）、’approx’（近似贪心）、’hist’（基于直方图的构建）等。</p>
+</blockquote>
+<p><strong>grow_policy</strong></p>
+<blockquote>
+<p>类型: str<br>描述: 决策树增长策略。 ‘depthwise’（深度优先）或 ‘lossguide’（损失导向）。</p>
+</blockquote>
+<p><strong>monotone_constraints</strong></p>
+<blockquote>
+<p>类型: str 或 list<br>描述: 对特征施加单调性约束。例如，要求某个特征与目标变量的关系为单调递增或递减。</p>
+</blockquote>
+<h4 id="任务参数"><a href="#任务参数" class="headerlink" title="任务参数"></a>任务参数</h4><p><strong>scale_pos_weight</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 仅对二分类任务有效，用于平衡正负类样本的权重。对于类别不平衡数据集，可以调整该参数来提高少数类样本的重要性。</p>
+</blockquote>
+<p><strong>base_score</strong></p>
+<blockquote>
+<p>类型: float<br>描述: 初始预测分数（基线分数）。仅在使用非零基线时有意义。</p>
+</blockquote>
+<p><strong>eval_metric</strong></p>
+<blockquote>
+<p>类型: str, callable, list&#x2F;tuple of str or list&#x2F;tuple of callable<br>描述: 指定评估模型性能的度量标准。内置指标包括 ‘rmse’、’mae’、’auc’、’logloss’ 等。也可以自定义评估函数。</p>
+</blockquote>
+<h4 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h4><p><strong>random_state &#x2F; seed</strong></p>
+<blockquote>
+<p>类型: int, RandomState instance, or None<br>描述: 随机数生成器种子或实例，用于确定随机性行为，如特征和样本的子采样。设置一个固定值可以确保实验的可复现性。</p>
+</blockquote>
+<p><strong>missing</strong></p>
+<blockquote>
+<p>类型: float 或 str<br>描述: 缺失值标记。可以是浮点数或字符串（如 ‘nan’），用于指示数据中的缺失值。</p>
+</blockquote>
+<p><strong>disable_default_eval_metric</strong></p>
+<blockquote>
+<p>类型: bool<br>描述: 是否禁用目标函数默认的评估指标。设为 True 可以仅使用自定义的 eval_metric。</p>
+</blockquote>
+<h3 id="xgboost-train参数"><a href="#xgboost-train参数" class="headerlink" title="xgboost.train参数"></a>xgboost.train参数</h3><ol>
+<li><p>params (必需)<br>类型: dict<br>描述: 包含训练参数的字典。这些参数会影响模型的构建和优化过程。常见参数包括：</p>
+</li>
+<li><p>dtrain (必需)<br>类型: xgboost.DMatrix<br>描述: 包含训练数据和标签的 DMatrix 对象。这是 XGBoost 专为高效处理大规模数据设计的数据结构。</p>
+</li>
+<li><p>evals (可选)<br>类型: list of (xgboost.DMatrix, str) tuples<br>描述: 用于模型评估和早停的数据集列表。每个元素是一个元组，包含特征数据和对应的目标变量，以及一个名称标识符。</p>
+</li>
+<li><p>eval_names (可选)<br>类型: list of str<br>描述: 与 evals 中数据集对应的名称列表。如果提供，将用于打印评估结果的标签。如果不提供，将使用 evals 中的第二元素作为名称。</p>
+</li>
+<li><p>obj (可选)<br>类型: callable<br>描述: 自定义目标函数。当内置目标函数无法满足需求时，可以通过此参数提供一个自定义的目标函数。函数签名应为 func(preds, dtrain)，其中 preds 是预测值，dtrain 是包含真实标签的 DMatrix。</p>
+</li>
+<li><p>feval (可选)<br>类型: callable<br>描述: 自定义评估函数。用于计算评估指标，特别是在内置评估指标不适用的情况下。函数签名应为 func(preds, dtrain)，其中 preds 是预测值，dtrain 是包含真实标签的 DMatrix。</p>
+</li>
+<li><p>early_stopping_rounds (可选)<br>类型: int<br>描述: 当在 evals 中指定的评估指标在一定轮数内未提升时，提前终止训练。这对于防止过拟合和节省计算资源非常有用。例如，设置为 50 表示如果连续 50 轮后验证集上的性能没有提升，则停止训练。</p>
+</li>
+<li><p>verbose_eval (可选)<br>类型: bool 或 int<br>描述: 控制训练过程中输出详细信息的程度。如果为 True 或正整数，将在每个验证周期输出评估结果。当设为正整数时，表示每隔这么多轮输出一次。设为 False 则不显示任何中间输出。</p>
+</li>
+<li><p>callbacks (可选)<br>类型: list of xgboost.callback.TrainingCallback instances<br>描述: 用户定义的回调函数列表，这些函数将在训练过程中特定时刻被调用。可用于实现自定义的日志记录、模型保存等行为。</p>
+</li>
+<li><p>custom_metric (可选)<br>类型: callable<br>描述: 自定义评估指标，用于替代 feval 参数。在 XGBoost 1.6 及更高版本中，推荐使用 custom_metric 替代 feval。</p>
+</li>
+</ol>
+<h3 id="xgboost-predict参数"><a href="#xgboost-predict参数" class="headerlink" title="xgboost.predict参数"></a>xgboost.predict参数</h3><ul>
+<li>data (必需)<br>类型: xgboost.DMatrix 或 numpy.array、pandas.DataFrame（在某些条件下）<br>描述: 待预测数据，必须与训练数据具有相同的特征空间。推荐使用 xgboost.DMatrix 类型，因为它针对 XGBoost 优化，具有更好的性能。也可以使用 numpy.array 或 pandas.DataFrame，但需确保它们与训练数据格式兼容，并且在必要时进行适当转换。</li>
+<li>output_margin (可选)<br>类型: bool<br>描述: 控制是否返回模型的原始边际输出。默认为 False。设为 True 时，返回的是未经目标函数转换的预测值。对于回归任务，这通常是每个样本的预测值。设为 False（默认）时，返回经过目标函数转换后的预测值，如对于 ‘reg:squarederror’ 目标函数，返回的是直接的预测值。</li>
+<li>ntree_limit (可选)<br>类型: int<br>描述: 限制用于预测的树的数量。若设为 0（默认），则使用所有已训练的树进行预测。非零值表示只使用前 ntree_limit 棵树进行预测。这个参数可用于探索模型在训练过程中不同阶段的表现，或者在早停后仅使用最优轮次的模型进行预测。</li>
+<li>validate_features (可选)<br>类型: bool<br>描述: 检查预测数据 data 的特征是否与训练数据中的特征一致。如果设置为 True（默认），预测时会检查特征名称和类型是否匹配。如果特征不一致，会抛出异常。设置为 False 可以禁用此检查，但在实际应用中应谨慎使用，以避免因特征不匹配导致的预测错误。</li>
+<li>base_margin (可选)<br>类型: numpy.array<br>描述: 用于初始化预测值（基线偏移）的一维数组。仅在高级用法中使用，通常情况下保持默认值即可。</li>
+<li>iteration_range (可选)<br>类型: tuple (start, end)<br>描述: 限制用于预测的树的范围。(start, end) 表示从第 start 棵树开始，直到第 end - 1 棵树结束（包含 start，不包含 end）。这对分析模型在不同训练阶段的表现或仅使用部分树进行预测很有用。</li>
+<li>pred_leaf (可选)<br>类型: bool<br>描述: 控制是否返回每个样本落在各个决策树叶子节点的索引。设为 True 时，返回一个二维数组，形状为 (样本数, 树的数量)，每个元素表示对应样本在对应树中的叶子节点索引。默认为 False。</li>
+<li>pred_contribs (可选)<br>类型: bool<br>描述: 控制是否返回每个特征对预测值的贡献。设为 True 时，返回一个三维数组，形状为 (样本数, 树的数量, 特征数)，每个元素表示对应样本在对应树中由对应特征带来的预测值增量。默认为 False。</li>
+<li>approx_contribs (可选)<br>类型: bool<br>描述: （仅限二分类）控制是否使用近似方法计算特征贡献。仅在 pred_contribs&#x3D;True 时生效。设为 True 可以加速计算，但精度可能降低。默认为 False。</li>
+</ul>
+<h4 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h4><ul>
+<li>类型: numpy.ndarray</li>
+</ul>
+<p>描述: 返回一个一维或二维（取决于 pred_leaf 或 pred_contribs 是否启用）NumPy 数组，包含对 data 中每个样本的预测结果。数组形状和内容取决于所选参数。</p>
+<h3 id="xgboost可视化"><a href="#xgboost可视化" class="headerlink" title="xgboost可视化"></a>xgboost可视化</h3><ol>
+<li>xgboost.plot_importance<br>作用: 绘制特征重要性的条形图，展示每个特征对模型预测能力的相对贡献。<br>参数:</li>
+</ol>
+<blockquote>
+<p>booster: 已训练好的 XGBoost 模型对象。 importance_type: 特征重要性度量类型，可选 ‘weight’（基于节点分裂次数）、’gain’（基于节点增益）、’cover’（基于节点覆盖样本数）或 ‘total_gain’（总增益，仅限回归）。 </p>
+<p>max_num_features: 显示的最大特征数（默认为 None，即显示所有特征）。</p>
+<p>height: 图形的高度（默认为 0..png&#96;，即创建新的图形）。</p>
+<p>xlabel: X 轴标签（默认为 ‘Features’）。</p>
+<p>ylabel: Y 轴标签（默认为 ‘Importance’）。 </p>
+<p>title: 图形标题（默认为 ‘Feature Importance’）。 </p>
+<p>ax: matplotlib.axes.Axes 对象，用于绘制图形。如果不提供，将创建一个新的图形。</p>
+</blockquote>
+<ol start="2">
+<li>xgboost.plot_split_value_histogram<br>作用: 绘制特征分裂阈值的直方图，帮助理解模型在构建决策树时如何分割特征。<br>参数:</li>
+</ol>
+<blockquote>
+<p>booster: 已训练好的 XGBoost 模型对象。 </p>
+<p>feature_names: 特征名称列表，用于标签化 X 轴。</p>
+<p>max_bins: 每个特征的最大分箱数（默认为 30）。 </p>
+<p>ax: matplotlib.axes.Axes 对象，用于绘制图形。如果不提供，将创建一个新的图形。</p>
+</blockquote>
+<ol start="3">
+<li>xgboost.to_graphviz<br>作用: 将单个决策树转换为 Graphviz 格式，以便使用外部工具（如 graphviz 库或在线工具）进一步渲染成高质量的图形。<br>参数:</li>
+</ol>
+<blockquote>
+<p>booster: 已训练好的 XGBoost 模型对象。 </p>
+<p>num_trees: 要转换的树的索引（默认为 0，即第一棵树）。</p>
+<p>rankdir: 图形的方向，同 plot_tree 函数。 </p>
+<p>hide_feature_names: 是否隐藏特征名称（默认为 False）。 </p>
+<p>precision: 浮点数表示的精度（默认为 3）。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> xgboost <span class="hljs-keyword">as</span> xgb<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 假设已有一个训练好的 XGBoost 模型：model</span><br><br><span class="hljs-comment"># 绘制第一个决策树</span><br>xgb.plot_tree(model, num_trees=<span class="hljs-number">0</span>)<br>plt.show()<br><br><span class="hljs-comment"># 绘制特征重要性</span><br>xgb.plot_importance(model)<br>plt.show()<br><br><span class="hljs-comment"># 绘制特征分裂阈值直方图</span><br><span class="hljs-comment"># 注意：此处假设 `feature_names` 已知</span><br>xgb.plot_split_value_histogram(model, feature_names)<br>plt.show()<br><br><span class="hljs-comment"># 将第一个决策树转换为 Graphviz 格式</span><br>gviz = xgb.to_graphviz(model, num_trees=<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 使用 graphviz 库渲染图形（需先安装 graphviz）</span><br><span class="hljs-keyword">from</span> graphviz <span class="hljs-keyword">import</span> Source<br>Source.from_file(gviz).view()<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>XGBoost原生接口和Sklearn接口参数详解</div>
+      <div>https://qzkq.github.io/2026/01/03/XGBoost原生接口和Sklearn接口参数详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%EF%BC%9Aface_recognition%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="人脸识别：face_recognition参数详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">人脸识别：face_recognition参数详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Windows%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E8%AE%BE%E7%BD%AE%E3%80%81%E6%89%B9%E5%A4%84%E7%90%86(.bat)%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%E5%92%8C%E9%80%9A%E8%BF%87conda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8CPython%E7%A8%8B%E5%BA%8F/" title="Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序">
+                        <span class="hidden-mobile">Windows 定时任务设置、批处理(.bat)命令详解和通过conda虚拟环境定时运行Python程序</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

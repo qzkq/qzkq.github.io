@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库) 1234567891011def same_seed(seed):     &#x27;&#x27;&#x27;    设置随机种子(便于复现)    &#x27;&#x27;&#x27;    t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Pytorch%E8%AF%A6%E8%A7%A3-%E6%A8%A1%E5%9E%8B%E4%BF%9D%E5%AD%98%E4%B8%8E%E5%8A%A0%E8%BD%BD%E3%80%81Finetune%20%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E3%80%81GPU%E4%BD%BF%E7%94%A8%E3%80%81nvidia-smi%E8%AF%A6%E8%A7%A3%E3%80%81TorchEnsemble%20%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E5%BA%93%E3%80%81torchmetrics%20%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E5%BA%93/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库) 1234567891011def same_seed(seed):     &#x27;&#x27;&#x27;    设置随机种子(便于复现)    &#x27;&#x27;&#x27;    t">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/0ba6ea1449bd42c2ab2e8928700c27a8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/419cb181e29b431eb1d77e214564fc69.png">
+<meta property="og:image" content="https://qzkq.github.io/img/bdaec4f432b046ed96105c80e95b5c05.png">
+<meta property="og:image" content="https://qzkq.github.io/img/28690f26556d42f082009da4f09f8043.png">
+<meta property="og:image" content="https://qzkq.github.io/img/8bab02a6d91343e6abdb1b870651c4c4.png">
+<meta property="article:published_time" content="2026-01-03T00:06:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.390Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/0ba6ea1449bd42c2ab2e8928700c27a8.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:06" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">same_seed</span>(<span class="hljs-params">seed</span>): <br>    <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    设置随机种子(便于复现)</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span><br>    torch.backends.cudnn.deterministic = <span class="hljs-literal">True</span><br>    torch.backends.cudnn.benchmark = <span class="hljs-literal">False</span><br>    np.random.seed(seed)<br>    torch.manual_seed(seed)<br>    <span class="hljs-keyword">if</span> torch.cuda.is_available():<br>        torch.cuda.manual_seed_all(seed)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Set Seed = <span class="hljs-subst">&#123;seed&#125;</span>&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="保存与加载的概念（序列化与反序列化）"><a href="#保存与加载的概念（序列化与反序列化）" class="headerlink" title="保存与加载的概念（序列化与反序列化）"></a>保存与加载的概念（序列化与反序列化）</h1><p><img src="/img/0ba6ea1449bd42c2ab2e8928700c27a8.png" srcset="/img/loading.gif" lazyload alt="序列化即把对象转换为字节序列的过程，反序列化则把字节序列恢复为对象。"></p>
+<h2 id="torch-save-torch-load"><a href="#torch-save-torch-load" class="headerlink" title="torch.save &#x2F; torch.load"></a>torch.save &#x2F; torch.load</h2><p><strong>如果模型是在 GPU 上训练的，但在 CPU 上加载，需要使用 map_location 参数将模型转移到 CPU 上。反之亦然。</strong></p>
+<p>torch.save 用于将 PyTorch 对象保存到磁盘文件中。它可以保存各种类型的对象，包括模型、张量、字典等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.save(obj, f, pickle_module=pickle, pickle_protocol=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">obj：要保存的对象，可以是模型、张量、字典等。<br>f：文件名或文件对象。<br>pickle_module：用于序列化的模块，默认为 pickle。<br>pickle_protocol：用于序列化的协议版本，默认为 pickle.HIGHEST_PROTOCOL。<br></code></pre></td></tr></table></figure>
+<p>torch.load 用于从磁盘文件中加载之前保存的 PyTorch 对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.load(f, map_location=<span class="hljs-literal">None</span>, pickle_module=pickle, **pickle_load_args)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">f：文件名或文件对象。<br>map_location：一个函数或字典，用于指定如何映射存储位置。当从 GPU 加载到 CPU 时，通常设置为 <span class="hljs-keyword">lambda</span> storage, loc: storage 或者 <span class="hljs-string">&#x27;cpu&#x27;</span>。<br>pickle_module：用于反序列化的模块，默认为 pickle。<br>pickle_load_args：传递给 pickle.load 的关键字参数。<br></code></pre></td></tr></table></figure>
+<h2 id="两种保存方式"><a href="#两种保存方式" class="headerlink" title="两种保存方式"></a>两种保存方式</h2><p><strong>设备兼容性：如果模型是在 GPU 上训练的，但在 CPU 上加载，需要使用 map_location 参数将模型转移到 CPU 上。反之亦然。</strong></p>
+<p>在 PyTorch 中，有两种常见的模型保存方式：一种是保存整个模型，另一种是仅保存模型的权重。这两种方式各有优缺点，适用于不同的场景。下面分别介绍这两种保存方式及其使用示例。</p>
+<ol>
+<li>保存整个模型<br>保存整个模型意味着不仅保存模型的权重，还保存模型的结构以及其他相关信息。这种方式非常适合于需要完整复制模型的情况，例如模型部署或分享给他人。</li>
+<li>仅保存模型的权重<br>仅保存模型的权重意味着只保存模型的参数，而不保存模型的结构。这种方式更灵活，因为你可以在加载权重时重新定义模型结构。这种方式适合于模型训练后需要在不同环境中部署的情况。</li>
+</ol>
+<h1 id="Finetune-模型微调"><a href="#Finetune-模型微调" class="headerlink" title="Finetune 模型微调"></a>Finetune 模型微调</h1><p>模型微调（Fine-tuning）是一种常见的机器学习技术，特别是在深度学习领域中，它允许我们利用预训练模型的知识来解决新的相关任务。通过微调，我们可以调整预训练模型的部分或全部参数以适应新任务的数据集。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li>预训练模型：在大规模数据集上预先训练好的模型。</li>
+<li>微调：在预训练模型的基础上，使用较小的新数据集进行额外的训练，以适应特定的任务。</li>
+<li>冻结层：在微调过程中不更新某些层的权重，通常保留预训练模型的基础特征提取部分。</li>
+<li>解冻层：允许更新某些层的权重，以适应新任务的需求。</li>
+</ul>
+<h2 id="传统微调（Conventional-Fine-tuning）"><a href="#传统微调（Conventional-Fine-tuning）" class="headerlink" title="传统微调（Conventional Fine-tuning）"></a>传统微调（Conventional Fine-tuning）</h2><ul>
+<li>加载预训练模型：选择一个在大规模数据集上预训练好的模型。 </li>
+<li>修改模型结构：根据新任务的需求，可能需要修改模型的输出层。</li>
+<li>冻结部分层：为了保持预训练模型的基础特征不变，可以冻结一些层。 </li>
+<li>训练模型：使用新数据集对模型进行训练。</li>
+<li>解冻层并再次训练：为了更好地适应新任务，可以选择解冻更多层并进行额外的训练。</li>
+</ul>
+<h2 id="参数高效的微调（Parameter-Efficient-Fine-tuning）"><a href="#参数高效的微调（Parameter-Efficient-Fine-tuning）" class="headerlink" title="参数高效的微调（Parameter-Efficient Fine-tuning）"></a>参数高效的微调（Parameter-Efficient Fine-tuning）</h2><ul>
+<li>Adapter Layers：在预训练模型的每一层之间插入小型的适配器层，这些层会被微调，而原始模型的参数保持不变。</li>
+<li>Prefix Tuning：在模型的输入端附加一个可训练的前缀，这些前缀会被微调，而模型的其他部分保持不变。 </li>
+<li>LoRA (Low-Rank Adaptation)：通过引入低秩矩阵来更新模型的权重，而不是直接更新所有权重。</li>
+</ul>
+<h1 id="GPU使用"><a href="#GPU使用" class="headerlink" title="GPU使用"></a>GPU使用</h1><p>CPU(central processing unit, 中央处理器)cpu主要包括两个部分，即控制器、运算器，除此之外还包括高速缓存等</p>
+<p>GPU(Graphics Processing Unit, 图形处理器)是为处理类型统一并且相互无依赖的大规模数据运算，以及不需要被打断的纯净的计算环境为设计的处理器，因早期仅有图形图像任务中设计大规模统一无依赖的运算，因此该处理器称为图像处理器，俗称显卡。</p>
+<p><img src="/img/419cb181e29b431eb1d77e214564fc69.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>绿色的是计算单元，橙红色的是存储单元，橙黄色的是控制单元，从示意图中看出，gpu的重点在计算，cpu的重点在控制，这就是两者之间的主要差异。</p>
+<h2 id="PyTorch的设备——torch-device"><a href="#PyTorch的设备——torch-device" class="headerlink" title="PyTorch的设备——torch.device"></a>PyTorch的设备——torch.device</h2><h3 id="torch-device-的基本用法"><a href="#torch-device-的基本用法" class="headerlink" title="torch.device 的基本用法"></a>torch.device 的基本用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">device = torch.device(<span class="hljs-string">&quot;cuda&quot;</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;cpu&quot;</span>)<br><span class="hljs-comment"># torch.device会根据系统是否支持CUDA（即是否有NVIDIA GPU及相应的驱动程序）来决定使用cuda（代表GPU）还是cpu。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>创建 torch.device 实例：</strong></p>
+<ul>
+<li>通过字符串创建：torch.device(“cuda”) 或 torch.device(“cpu”)</li>
+<li>通过字符串和设备编号的形式创建：torch.device(“cuda:0”) 或 torch.device(“cuda:1”) （如果你有多个 GPU）’</li>
+</ul>
+<p><strong>检查设备：</strong></p>
+<ul>
+<li>使用 device.type 获取设备类型（例如 “cuda” 或 “cpu”）。</li>
+<li>使用 device.index 获取设备索引（如果指定了设备编号）。</li>
+</ul>
+<p><strong>将张量和模型移动到特定设备：</strong></p>
+<ul>
+<li>使用 .to(device) 方法将张量或模型移动到指定的设备上。</li>
+<li>使用 .cuda() 或 .cpu() 方法也可以移动张量或模型，但推荐使用 .to() 方法，因为它更通用且易于理解。</li>
+</ul>
+<h3 id="torch-cuda常用函数"><a href="#torch-cuda常用函数" class="headerlink" title="torch.cuda常用函数"></a>torch.cuda常用函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.cuda.is_available()<br>用途：检查当前系统是否支持 CUDA，并且 PyTorch 是否已编译为支持 CUDA。<br>torch.cuda.device_count()<br>用途：返回系统中可用的 GPU 数量。<br>torch.cuda.current_device()<br>用途：返回当前默认的 GPU 设备索引。<br>torch.cuda.set_device(device)<br>用途：设置当前默认的 GPU 设备索引。<br>torch.cuda.get_device_name(device=<span class="hljs-literal">None</span>)<br>用途：返回给定设备的名称。<br>torch.cuda.get_device_properties(device)<br>用途：返回给定设备的属性，包括最大共享内存、最大线程数等。<br>torch.cuda.memory_allocated(device=<span class="hljs-literal">None</span>)<br>用途：返回给定设备上已分配的内存总量。<br>torch.cuda.max_memory_allocated(device=<span class="hljs-literal">None</span>)<br>用途：返回给定设备上已分配的最大内存总量。<br>torch.cuda.memory_cached(device=<span class="hljs-literal">None</span>)<br>用途：返回给定设备上的缓存内存总量。<br>torch.cuda.max_memory_cached(device=<span class="hljs-literal">None</span>)<br>用途：返回给定设备上的最大缓存内存总量。<br>torch.cuda.empty_cache()<br>用途：释放缓存的内存，以便其他进程可以使用。<br>torch.cuda.synchronize(device=<span class="hljs-literal">None</span>)<br>用途：等待所有流中的所有 CUDA 操作完成。<br>torch.cuda.Stream(device=<span class="hljs-literal">None</span>)<br>用途：创建一个新的 CUDA 流对象。<br>torch.cuda.Event(enable_timing=<span class="hljs-literal">False</span>, blocking=<span class="hljs-literal">False</span>)<br>用途：创建一个新的 CUDA 事件对象，可以用来记录时间点和同步流。<br>torch.cuda.nvtx.range_push(message)<br>用途：开始一个 NVTX 范围，用于性能分析。<br>torch.cuda.nvtx.range_pop()<br>用途：结束最近开始的 NVTX 范围。<br>torch.cuda.nvtx.<span class="hljs-built_in">range</span>(message)<br>用途：创建一个上下文管理器，用于自动开始和结束 NVTX 范围。<br></code></pre></td></tr></table></figure>
+
+<h3 id="多gpu训练——nn-DataParallel"><a href="#多gpu训练——nn-DataParallel" class="headerlink" title="多gpu训练——nn.DataParallel"></a>多gpu训练——nn.DataParallel</h3><p>torch.nn.DataParallel 是 PyTorch 中的一个类，用于实现数据并行处理，使得模型可以在多个 GPU 上并行运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.nn.DataParallel(module, device_ids=<span class="hljs-literal">None</span>, output_device=<span class="hljs-literal">None</span>, dim=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>module：</strong></p>
+<ul>
+<li>类型：torch.nn.Module </li>
+<li>描述：要并行化的模型模块。</li>
+</ul>
+<p><strong>device_ids：</strong></p>
+<ul>
+<li>类型：list of int or None </li>
+<li>默认值：None</li>
+<li>描述：指定要在哪些 GPU 上并行化模型。如果为 None，则默认使用所有可用的 GPU。</li>
+</ul>
+<p><strong>output_device：</strong></p>
+<ul>
+<li>类型：int or None </li>
+<li>默认值：None </li>
+<li>描述：指定输出结果所在的设备。如果为 None，则默认为 device_ids[0]。</li>
+</ul>
+<p><strong>dim：</strong></p>
+<ul>
+<li>类型：int </li>
+<li>默认值：0 </li>
+<li>描述：指定在哪个维度上拆分输入数据。通常情况下，使用默认值 0 即可，这意味着按批次拆分数据。</li>
+</ul>
+<h1 id="torchmetrics-模型评估指标库"><a href="#torchmetrics-模型评估指标库" class="headerlink" title="torchmetrics 模型评估指标库"></a>torchmetrics 模型评估指标库</h1><h2 id="TorchMetrics代码结构"><a href="#TorchMetrics代码结构" class="headerlink" title="TorchMetrics代码结构"></a>TorchMetrics代码结构</h2><p>torchmetrics 的代码结构设计得非常模块化和易于扩展，以支持各种类型的评估指标。</p>
+<h3 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h3><h4 id="Metric-类-torchmetrics-Metric"><a href="#Metric-类-torchmetrics-Metric" class="headerlink" title="Metric 类 (torchmetrics.Metric)"></a>Metric 类 (torchmetrics.Metric)</h4><p>描述：这是所有指标类的基础类，提供了通用的功能，如状态管理、更新和计算逻辑。<br>关键方法：</p>
+<ul>
+<li>_<em>init</em>_: 初始化方法，定义了状态变量。</li>
+<li>update: 接收预测和目标数据，并更新内部状态。</li>
+<li>compute: 基于内部状态计算指标值。</li>
+</ul>
+<h4 id="Task-specific-Metrics"><a href="#Task-specific-Metrics" class="headerlink" title="Task-specific Metrics"></a>Task-specific Metrics</h4><p>描述：针对不同任务的指标，如分类、回归、推荐系统等。<br>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">torchmetrics.classification: 包含分类任务的指标，如 Accuracy, Precision, Recall, F1Score 等。<br>torchmetrics.regression: 包含回归任务的指标，如 MeanSquaredError, MeanAbsoluteError, R2Score 等。<br>torchmetrics.retrieval: 包含推荐系统任务的指标，如 HitRate, MeanAveragePrecision, NormalizedDiscountedCumulativeGain 等。<br></code></pre></td></tr></table></figure>
+
+<h4 id="Composite-Metrics"><a href="#Composite-Metrics" class="headerlink" title="Composite Metrics"></a>Composite Metrics</h4><p>描述：可以组合多个指标，以便一次计算多个指标。<br>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torchmetrics.MetricCollection: 可以组合多个指标，并一次性更新和计算它们。<br></code></pre></td></tr></table></figure>
+<h1 id="TorchEnsemble-模型集成库"><a href="#TorchEnsemble-模型集成库" class="headerlink" title="TorchEnsemble 模型集成库"></a>TorchEnsemble 模型集成库</h1><h2 id="BaggingClassifier"><a href="#BaggingClassifier" class="headerlink" title="BaggingClassifier"></a>BaggingClassifier</h2><p>描述：基于 Bagging（自助法）的分类集成模型。<br>用途：适用于分类任务，通过多次从训练集中有放回地抽样来构建多个基模型，然后将它们的预测结果进行投票或平均。</p>
+<h2 id="BaggingRegressor"><a href="#BaggingRegressor" class="headerlink" title="BaggingRegressor"></a>BaggingRegressor</h2><p>描述：基于 Bagging 的回归集成模型。<br>用途：适用于回归任务，同样通过多次从训练集中有放回地抽样来构建多个基模型，然后将它们的预测结果进行平均。</p>
+<h2 id="GradientBoostingClassifier"><a href="#GradientBoostingClassifier" class="headerlink" title="GradientBoostingClassifier"></a>GradientBoostingClassifier</h2><p>描述：基于梯度提升的分类集成模型。<br>用途：适用于分类任务，通过逐步添加新的基模型来修正现有模型的错误，从而提高整体性能。</p>
+<h2 id="GradientBoostingRegressor"><a href="#GradientBoostingRegressor" class="headerlink" title="GradientBoostingRegressor"></a>GradientBoostingRegressor</h2><p>描述：基于梯度提升的回归集成模型。<br>用途：适用于回归任务，采用类似的方法逐步添加新的基模型来改进预测。</p>
+<h2 id="StackingClassifier"><a href="#StackingClassifier" class="headerlink" title="StackingClassifier"></a>StackingClassifier</h2><p>描述：基于 Stacking 的分类集成模型。<br>用途：适用于分类任务，通过使用多个基模型的输出作为特征来训练一个元模型，从而进行最终的预测。</p>
+<h2 id="StackingRegressor"><a href="#StackingRegressor" class="headerlink" title="StackingRegressor"></a>StackingRegressor</h2><p>描述：基于 Stacking 的回归集成模型。<br>用途：适用于回归任务，采用类似的方法使用多个基模型的输出作为特征来训练一个元模型。</p>
+<h1 id="nvidia-smi详解"><a href="#nvidia-smi详解" class="headerlink" title="nvidia-smi详解"></a>nvidia-smi详解</h1><p>nvidia-smi 是 NVIDIA 提供的一款命令行工具，用于监控和管理 NVIDIA GPU 的状态和性能。这个工具可以提供关于 GPU 的实时信息，包括但不限于温度、功耗、显存使用情况、驱动版本等，非常适用于诊断、优化和管理 GPU 资源。</p>
+<h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><p>nvidia-smi 显示所有 GPU 的概览信息，包括 GPU 名称、GPU ID、PCI Bus ID、GPU 温度、风扇速度、显存使用情况、GPU 利用率等。</p>
+<h3 id="详细查询"><a href="#详细查询" class="headerlink" title="详细查询"></a>详细查询</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">nvidia-smi --<span class="hljs-built_in">help</span> 显示所有可用的命令行选项。<br>nvidia-smi --query-gpu=memory.used,memory.total 查询每个 GPU 的显存使用量和总显存。<br>nvidia-smi --query-gpu=gpu_name,driver_version 查询 GPU 名称和驱动版本。<br>nvidia-smi --query-gpu=temperature.gpu 查询 GPU 当前的温度。<br>nvidia-smi --query-gpu=utilization.gpu 查询 GPU 的利用率。<br></code></pre></td></tr></table></figure>
+
+<h3 id="输出格式控制"><a href="#输出格式控制" class="headerlink" title="输出格式控制"></a>输出格式控制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nvidia-smi --<span class="hljs-built_in">format</span>=csv 将输出格式化为 CSV 格式，方便导入到电子表格或其他数据分析工具中。<br>nvidia-smi --<span class="hljs-built_in">format</span>=csv,noheader 输出 CSV 格式的数据，不包含列头。<br></code></pre></td></tr></table></figure>
+
+<h3 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">nvidia-smi -l <span class="hljs-number">5</span> 设置刷新频率为每 <span class="hljs-number">5</span> 秒一次，持续输出 GPU 的状态信息，直到手动停止。<br>nvidia-smi -i <span class="hljs-number">0</span> 仅显示指定 GPU ID 的 GPU 的信息，例如这里显示的是 GPU ID 为 <span class="hljs-number">0</span> 的 GPU。<br>nvidia-smi -c 显示 GPU 的计算模式，这决定了 GPU 是否可以同时运行多个进程。<br>其他选项<br>nvidia-smi -q 显示详细的 GPU 信息，包括 PCI 信息、BIOS 版本、时钟速率等。<br>nvidia-smi -ac <span class="hljs-number">1000</span>,<span class="hljs-number">1000</span> 设置 GPU 的应用程序时钟（App Clocks），第一个值是图形时钟，第二个值是显存时钟。<br>nvidia-smi -pm <span class="hljs-number">1</span> 启用 GPU 的性能模式，允许 GPU 达到更高的时钟速率。<br></code></pre></td></tr></table></figure>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><img src="/img/bdaec4f432b046ed96105c80e95b5c05.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">GPU：本机中的GPU编号，从<span class="hljs-number">0</span>开始，上图为<span class="hljs-number">0</span>，<span class="hljs-number">1</span>，<span class="hljs-number">2</span>，<span class="hljs-number">3</span>四块GPU<br>Fan：风扇转速（<span class="hljs-number">0</span>%-<span class="hljs-number">100</span>%），N/A表示没有风扇<br>Name：GPU名字/类型，上图六块均为Tesla T4<br>Temp：GPU温度（GPU温度过高会导致GPU频率下降）<br>Perf：性能状态，从P0（最大性能）到P12（最小性能），上图均为P0<br>Pwr：Usager/Cap：GPU功耗，Usage表示用了多少，Cap表示总共多少<br>TCC/WDDM：指示 GPU 设备的工作模式，“TCC” 表示 TCC 模式（计算模式），“WDDM” 表示 WDDM 模式（图形模式）。TCC 模式用于计算任务，而 WDDM 模式用于图形显示。<br>Bus-Id：GPU总线<br>Disp.A：Display Active，表示GPU是否初始化<br>Memory-Usage：显存使用率<br>Volatile GPU-UTil：GPU使用率，与显存使用率的区别可参考显存与GPU<br>Uncorr. ECC：是否开启错误检查和纠错技术，<span class="hljs-number">0</span>/DISABLED，<span class="hljs-number">1</span>/ENABLED，上图均为N/A<br>Compute M：计算模式，<span class="hljs-number">0</span>/DEFAULT，<span class="hljs-number">1</span>/EXCLUSIVE_PROCESS，<span class="hljs-number">2</span>/PROHIBITED，上图均为Default<br>Processes：显示每个进程占用的显存使用率、进程号、占用的哪个GPU<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/28690f26556d42f082009da4f09f8043.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="/img/8bab02a6d91343e6abdb1b870651c4c4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="显存与GPU的区别"><a href="#显存与GPU的区别" class="headerlink" title="显存与GPU的区别"></a>显存与GPU的区别</h3><p>显存（Video Memory 或 VRAM）与 GPU（Graphics Processing Unit）是构成现代显卡的两个重要组成部分，它们各自承担着不同的角色，共同协作以提供图形处理能力。<br><strong>GPU（图形处理器）</strong><br><strong>定义</strong>： GPU 是一种专门设计用于处理图形相关计算的微处理器。它拥有大量的并行处理单元，可以同时执行多个计算任务，非常适合处理图像渲染、视频解码、物理模拟、机器学习等高度并行化的任务。<br><strong>作用</strong>： GPU 主要负责执行复杂的图形算法，如像素着色、顶点变换、纹理映射、光线追踪等，以生成高质量的视觉效果。此外，现代 GPU 还被广泛应用于通用计算领域（GPGPU），如科学计算、深度学习、加密货币挖矿等。<br><strong>架构</strong>： GPU 架构通常包含多个流处理器（Streaming Multiprocessors，SMs）或计算单元（Compute Units，CUs），每个单元内包含多个 ALU（算术逻辑单元）和 FPUs（浮点单元），用于并行计算。<br><strong>显存（VRAM）</strong><br><strong>定义</strong>： 显存是显卡上的专用存储器，用于存储 GPU 处理所需的图形数据，如顶点数据、纹理、帧缓冲区、中间计算结果等。<br><strong>作用</strong>： 显存提供了 GPU 快速访问数据的能力，避免了频繁访问系统内存所带来的延迟。显存的带宽和容量直接影响到 GPU 的性能表现，尤其是当处理高分辨率、高细节的游戏或专业图形应用时。<br><strong>类型</strong>： 显存可以有不同的类型，如 GDDR5、GDDR6、HBM2 等，它们具有不同的带宽和延迟特性。显存的位宽和频率也会影响其带宽，进而影响 GPU 的数据吞吐量。<br><strong>总结</strong><br>GPU 是执行图形和计算任务的处理器，而 显存 是存储 GPU 执行任务所需数据的存储器。<br>GPU 的性能取决于其架构、核心数量、频率等因素；显存 的性能则由其类型、容量、带宽决定。<br>GPU 和 显存 需要协同工作，GPU 从显存中读取数据，处理后可能将结果写回显存，因此两者之间的通信效率对整体性能至关重要。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://tingsongyu.github.io/PyTorch-Tutorial-2nd/chapter-7/">https://tingsongyu.github.io/PyTorch-Tutorial-2nd/chapter-7/</a><br>参考：<a target="_blank" rel="noopener" href="https://pytorch-cn.readthedocs.io/zh/latest/">https://pytorch-cn.readthedocs.io/zh/latest/</a><br>参考：<a target="_blank" rel="noopener" href="https://datawhalechina.github.io/thorough-pytorch/">https://datawhalechina.github.io/thorough-pytorch/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库</div>
+      <div>https://qzkq.github.io/2026/01/03/Pytorch详解-模型保存与加载、Finetune 模型微调、GPU使用、nvidia-smi详解、TorchEnsemble 模型集成库、torchmetrics 模型评估指标库/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/Pytorch%E8%AF%A6%E8%A7%A3-%E6%A8%A1%E5%9E%8B%E6%A8%A1%E5%9D%97(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)/" title="Pytorch详解-模型模块(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pytorch详解-模型模块(RNN,CNN,FNN,LSTM,GRU,TCN,Transformer)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Pytorch%E8%AF%A6%E8%A7%A3-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9D%97/" title="Pytorch详解-数据模块">
+                        <span class="hidden-mobile">Pytorch详解-数据模块</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

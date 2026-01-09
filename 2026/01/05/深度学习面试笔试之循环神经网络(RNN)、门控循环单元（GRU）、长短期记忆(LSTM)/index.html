@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 循环神经网络(RNN)1. 什么是RNN循环神经网络（Recurrent Neural Network, RNN）是一类以序列（sequence）数据为输入，在序列的演进方向进行递归（recursion）且所有节点（循环单元）按链式连接的递归神经网络（recursive neural network） 1.1 RNN的应用文本生成(生成序列)、机器翻译、看图说话、文本(情感)分析、智能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(RNN)%E3%80%81%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83%EF%BC%88GRU%EF%BC%89%E3%80%81%E9%95%BF%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86(LSTM)/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 循环神经网络(RNN)1. 什么是RNN循环神经网络（Recurrent Neural Network, RNN）是一类以序列（sequence）数据为输入，在序列的演进方向进行递归（recursion）且所有节点（循环单元）按链式连接的递归神经网络（recursive neural network） 1.1 RNN的应用文本生成(生成序列)、机器翻译、看图说话、文本(情感)分析、智能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/ca0152a94d0546ecbb8509cfbebd87e8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/9ed31d287bbc4c48853af17d6b0eb2c8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/e988331589324c9890f1690fac24182f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/eeed1788be89465597b81ebb3d596b98.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d8eae174711540748a383fb5af3b7e16.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a8b2a669192d4d9287f805486590463d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/9a0f96e93640451181a799b88d3e1718.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c42b511e10ce43f5afe6ebdc41d95924.png">
+<meta property="og:image" content="https://qzkq.github.io/img/377caeb0392d427ea9d3336b389f284a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/95b84dc9e3e443c49fd1b68cc4d65716.png">
+<meta property="og:image" content="https://qzkq.github.io/img/2608bb0f5c09496fa548504cd1019330.png">
+<meta property="og:image" content="https://qzkq.github.io/img/22a6a779343b4626aff180aea8cf65e3.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f9be02982bdd445ca22036529e47a48a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/28821186cd944b53846af0ec1fad8145.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f62e8f6f3523481bb5b56a8190008e1f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a6f3e3b0b50344908bb4d559be8f38eb.png">
+<meta property="og:image" content="https://qzkq.github.io/img/7c0aef3dfbe24062a32841934568b1ac.png">
+<meta property="og:image" content="https://qzkq.github.io/img/cc438f3ddee5488b92007056fd9535bd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d71b2441639f422bb64fd6f755b2b546.png">
+<meta property="og:image" content="https://qzkq.github.io/img/fb225150612d42be8198733ae297be06.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3de21d6b5cb74409a86bd7e4259ba59c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/213ed13d1fd64ec8b92ec502214c5a08.png">
+<meta property="og:image" content="https://qzkq.github.io/img/418e37a6eefb4e19a97e40943f8f36b8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/21ce46895d17421aade95810cecb0396.png">
+<meta property="og:image" content="https://qzkq.github.io/img/9e6e7ed17aad4f2b93c6ef4f91bf6fcd.png">
+<meta property="article:published_time" content="2026-01-05T00:08:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.430Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="GRU">
+<meta property="article:tag" content="LSTM">
+<meta property="article:tag" content="RNN">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="长短期记忆">
+<meta property="article:tag" content="门控循环">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/ca0152a94d0546ecbb8509cfbebd87e8.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM) - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:08" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CRNN%E3%80%81%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83GRU%E3%80%81%E9%95%BF%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86LSTM">TOC</a></p>
+<h1 id="循环神经网络-RNN"><a href="#循环神经网络-RNN" class="headerlink" title="循环神经网络(RNN)"></a>循环神经网络(RNN)</h1><h2 id="1-什么是RNN"><a href="#1-什么是RNN" class="headerlink" title="1. 什么是RNN"></a>1. 什么是RNN</h2><p>循环神经网络（Recurrent Neural Network, RNN）是一类以序列（sequence）数据为输入，在序列的演进方向进行递归（recursion）且所有节点（循环单元）按链式连接的递归神经网络（recursive neural network）</p>
+<h3 id="1-1-RNN的应用"><a href="#1-1-RNN的应用" class="headerlink" title="1.1 RNN的应用"></a>1.1 RNN的应用</h3><p>文本生成(生成序列)、机器翻译、看图说话、文本(情感)分析、智能客服、聊天机器人、语音识别、搜索引擎、个性化推荐</p>
+<h3 id="1-2-为什么有了CNN，还要RNN"><a href="#1-2-为什么有了CNN，还要RNN" class="headerlink" title="1.2 为什么有了CNN，还要RNN?"></a>1.2 为什么有了CNN，还要RNN?</h3><p>传统神经网络(包括CNN)，输入和输出都是互相独立的。图像上的猫和狗是分隔开的，但有些任务，后续的输出和之前的内容是相关的。例如：我是中国人，我的母语是____。这是一道填空题，需要依赖于之前的输入。<br>所以，RNN引入“记忆”的概念，也就是输出需要依赖于之前的输入序列，并把关键输入记住。循环2字来源于其每个元素都执行相同的任务。<br>它并⾮刚性地记忆所有固定⻓度的序列，而是通过隐藏状态来存储之前时间步的信息。</p>
+<h3 id="1-3-RNN的网络结构"><a href="#1-3-RNN的网络结构" class="headerlink" title="1.3 RNN的网络结构"></a>1.3 RNN的网络结构</h3><p>首先先上图，然后再解释：</p>
+<p>现在我们考虑输入数据存在时间相关性的情况。假设<br><img src="/img/ca0152a94d0546ecbb8509cfbebd87e8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p> 是序列中时间步t的小批量输入，<br><img src="/img/9ed31d287bbc4c48853af17d6b0eb2c8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p> 是该时间步的隐藏变量。那么根据以上结构图当前的隐藏变量的公式如下：</p>
+<p><img src="/img/e988331589324c9890f1690fac24182f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>从以上公式我们可以看出，这⾥我们保存上⼀时间步的隐藏变量  ，并引⼊⼀个新的权重参数，该参数⽤来描述在当前时间步如何使⽤上⼀时间步的隐藏变量。具体来说，<strong>时间步 t 的隐藏变量的计算由当前时间步的输入和上一时间步的隐藏变量共同决定。  函数其实就是激活函数。</strong><br>我们在这⾥添加了  ⼀项。由上式中相邻时间步的隐藏变量  和之间的关系可知，这⾥的隐藏变量能够捕捉截⾄当前时间步的序列的历史信息，就像是神经⽹络当前时间步的状态或记忆⼀样。因此，该隐藏变量也称为隐藏状态。<strong>由于隐藏状态在当前时间步的定义使用了上一时间步的隐藏状态，上式的计算是循环的。使用循环计算的网络即循环神经网络（recurrent neural network）。</strong><br>在时间步t，输出层的输出和多层感知机中的计算类似：</p>
+<p><img src="/img/eeed1788be89465597b81ebb3d596b98.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="1-4-双向RNN"><a href="#1-4-双向RNN" class="headerlink" title="1.4 双向RNN"></a>1.4 双向RNN</h3><p>之前介绍的循环神经⽹络模型都是假设当前时间步是由前⾯的较早时间步的序列决定的，因此它们都将信息通过隐藏状态从前往后传递。有时候，当前时间步也可能由后⾯时间步决定。例如，当我们写下⼀个句子时，可能会根据句子后⾯的词来修改句子前⾯的⽤词。**双向循环神经网络通过增加从后往前传递信息的隐藏层来更灵活地处理这类信息。**下图演示了一个含单隐藏层的双向循环神经网络的架构。</p>
+<p><img src="/img/d8eae174711540748a383fb5af3b7e16.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在双向循环神经⽹络的架构中，设该时间步正向隐藏状态为</p>
+<p><img src="/img/a8b2a669192d4d9287f805486590463d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p> (正向隐藏单元个数为h)，反向隐藏状态为</p>
+<p> (反向隐藏单元个数为h)。我们可以分别 计算正向隐藏状态和反向隐藏状态：</p>
+<p><img src="/img/9a0f96e93640451181a799b88d3e1718.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>然后我们连结两个⽅向的隐藏状态 来得到隐藏状态，并将其输⼊到输出层。输出层计算输出，(输出个数为q)：</p>
+<p><img src="/img/c42b511e10ce43f5afe6ebdc41d95924.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>双向循环神经⽹络在每个时间步的隐藏状态同时取决于该时间步之前和之后的子序列（包括当前时间步的输⼊）。</p>
+<h3 id="1-5-BPTT算法"><a href="#1-5-BPTT算法" class="headerlink" title="1.5 BPTT算法"></a>1.5 BPTT算法</h3><p>在之前你已经见过对于前向传播（上图蓝色箭头所指方向）怎样在神经网络中从左到右地计算这些激活项，直到输出所有地预测结果。而对于反向传播，我想你已经猜到了，反向传播地计算方向（上图红色箭头所指方向）与前向传播基本上是相反的。<br>我们先定义一个元素<strong>损失函数</strong>：</p>
+<p>整个序列的损失函数：</p>
+<p><img src="/img/377caeb0392d427ea9d3336b389f284a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在这个计算图中，通过 可以计算对应的损失函数，于是计算出第一个时间步的损失函数，然后计算出第二个时间步的损失函数，然后是第三个时间步，一直到最后一个时间步，最后为了计算出总体损失函数，我们要把它们都加起来，通过等式计算出最后的𝐿，也就是把每个单独时间步的损失函数都加起来。然后你就可以通过导数相关的参数，用梯度下降法来更新参数。<br>在这个反向传播的过程中，最重要的信息传递或者说最重要的递归运算就是这个从右到左的运算，这也就是为什么这个算法有一个很别致的名字，叫做“<strong>通过（穿越）时间反向传播（backpropagation through time）</strong>”。取这个名字的原因是对于前向传播，你需要从左到右进行计算，在这个过程中，时刻𝑡不断增加。而对于反向传播，你需要从右到左进行计算，就像时间倒流。“通过时间反向传播”，就像穿越时光，这种说法听起来就像是你需要一台时光机来实现这个算法一样。</p>
+<h2 id="2-其它类型的RNN"><a href="#2-其它类型的RNN" class="headerlink" title="2. 其它类型的RNN"></a>2. 其它类型的RNN</h2><ul>
+<li><strong>One to one</strong>：这个可能没有那么重要，这就是一个小型的标准的神经网络，输入𝑥然后得到输出𝑦。</li>
+<li><strong>One to many</strong>：音乐生成，你的目标是使用一个神经网络输出一些音符。对应于一段音乐，输入𝑥可以是一个整数，表示你想要的音乐类型或者是你想要的音乐的第一个音符，并且如果你什么都不想输入，𝑥可以是空的输入，可设为 0 向量。</li>
+<li><strong>Many to one</strong>：句子分类问题，输入文档，输出文档的类型。</li>
+<li><strong>Many to many()</strong>：命名实体识别。</li>
+<li><strong>Many to many()</strong>：机器翻译。</li>
+</ul>
+<p><img src="/img/95b84dc9e3e443c49fd1b68cc4d65716.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-CNN与RNN的区别"><a href="#3-CNN与RNN的区别" class="headerlink" title="3. CNN与RNN的区别"></a>3. CNN与RNN的区别</h2><ol>
+<li>结构和工作原理<br><strong>CNN（卷积神经网络）</strong>：<br>结构：CNN主要由卷积层、池化层和全连接层组成。<br>工作原理：<br>卷积层：通过卷积核（滤波器）在输入数据上滑动，提取局部特征。<br>池化层：通过降采样操作减少特征图的尺寸，保留重要信息。<br>全连接层：将前面提取的特征进行分类或回归。<br>特点：擅长处理具有局部相关性的数据，如图像。<br><strong>RNN（循环神经网络）</strong>：<br>结构：RNN通过引入循环结构，使得网络可以处理序列数据。<br>工作原理：<br>循环层：每个时间步的输出不仅取决于当前的输入，还取决于前一时间步的隐藏状态。<br>隐藏状态：存储了之前时间步的信息，使得网络可以捕捉时间上的依赖关系。<br>特点：擅长处理具有时间依赖性的数据，如文本、语音和时间序列。</li>
+<li>应用场景<br><strong>CNN</strong>：<br>图像识别：如物体检测、图像分类、图像分割等。<br>视频处理：如动作识别、视频分类等。<br>医学影像：如肿瘤检测、病理图像分析等。<br><strong>RNN</strong>：<br>自然语言处理：如文本生成、情感分析、机器翻译等。<br>语音识别：如语音转文字、语音合成等。<br>时间序列预测：如股票价格预测、天气预报等。</li>
+<li>参数共享<br><strong>CNN</strong>：<br>参数共享：卷积层中的卷积核在整个输入数据上共享参数，减少了模型的参数数量，提高了模型的泛化能力。<br><strong>RNN</strong>：<br>参数共享：循环层中的权重在不同时间步之间共享，使得模型可以处理不同长度的序列数据。</li>
+<li>处理数据类型<br><strong>CNN</strong>：<br>静态数据：处理固定大小的输入数据，如图像。<br><strong>RNN</strong>：<br>序列数据：处理变长的序列数据，如文本、语音信号。</li>
+<li>模型复杂度<br><strong>CNN</strong>：<br>复杂度：通常比RNN简单，尤其是在处理高维数据时，如图像。<br><strong>RNN</strong>：<br>复杂度：由于需要处理时间上的依赖关系，RNN的训练通常比CNN更复杂，容易出现梯度消失和梯度爆炸问题。</li>
+<li>变体<br><strong>CNN</strong>：<br>变体：包括ResNet、Inception、U-Net等，这些变体通过引入残差连接、多尺度特征融合等技术，进一步提升了模型的性能。<br><strong>RNN</strong>：<br>变体：包括LSTM（长短期记忆网络）、GRU（门控循环单元）等，这些变体通过引入门机制，解决了RNN中的梯度消失问题，提高了模型的长期依赖能力。</li>
+</ol>
+<h2 id="4-为什么RNN-训练的时候Loss波动很大"><a href="#4-为什么RNN-训练的时候Loss波动很大" class="headerlink" title="4. 为什么RNN 训练的时候Loss波动很大"></a>4. 为什么RNN 训练的时候Loss波动很大</h2><p>由于RNN特有的memory会影响后期其他的RNN的特点，梯度时大时小，learning rate没法个性化的调整，导致RNN在train的过程中，Loss会震荡起伏，为了解决RNN的这个问题，在训练的时候，可以设置临界值，当梯度大于某个临界值，直接截断，用这个临界值作为梯度的大小，防止大幅震荡。</p>
+<h1 id="门控循环单元（GRU）"><a href="#门控循环单元（GRU）" class="headerlink" title="门控循环单元（GRU）"></a>门控循环单元（GRU）</h1><h2 id="1-什么是GRU"><a href="#1-什么是GRU" class="headerlink" title="1. 什么是GRU"></a>1. 什么是GRU</h2><p>在循环神经网络中的梯度计算方法中，我们发现，当时间步数较大或者时间步较小时，**循环神经⽹络的梯度较容易出现衰减或爆炸。虽然裁剪梯度可以应对梯度爆炸，但无法解决梯度衰减的问题。**通常由于这个原因，循环神经网络在实际中较难捕捉时间序列中时间步距离较大的依赖关系。<br>**门控循环神经网络（gated recurrent neural network）的提出，正是为了更好地捕捉时间序列中时间步距离较大的依赖关系。**它通过可以学习的门来控制信息的流动。其中，门控循环单元（gatedrecurrent unit，GRU）是⼀种常用的门控循环神经网络。</p>
+<h2 id="2-门控循环单元"><a href="#2-门控循环单元" class="headerlink" title="2. 门控循环单元"></a>2. 门控循环单元</h2><h3 id="2-1-重置门和更新门"><a href="#2-1-重置门和更新门" class="headerlink" title="2.1 重置门和更新门"></a>2.1 重置门和更新门</h3><p>GRU它引⼊了<strong>重置门</strong>（reset gate）和<strong>更新门</strong>（update gate）的概念，从而修改了循环神经网络中隐藏状态的计算方式。<br>门控循环单元中的重置门和更新门的输入均为当前时间步输入  与上⼀时间步隐藏状态  ，输出由激活函数为sigmoid函数的全连接层计算得到。 如下图所示：</p>
+<p><img src="/img/2608bb0f5c09496fa548504cd1019330.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>具体来说，假设隐藏单元个数为 h，给定时间步 t 的小批量输⼊ （样本数为n，输⼊个数为d）和上⼀时间步隐藏状态。重置门 和更新门 的计算如下：</p>
+<p><img src="/img/22a6a779343b4626aff180aea8cf65e3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="/img/f9be02982bdd445ca22036529e47a48a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>sigmoid函数可以将元素的值变换到0和1之间。因此，重置门  和更新门  中每个元素的值域都是[0,1]。</p>
+<h3 id="2-2-候选隐藏状态"><a href="#2-2-候选隐藏状态" class="headerlink" title="2.2 候选隐藏状态"></a>2.2 候选隐藏状态</h3><p>接下来，门控循环单元将计算候选隐藏状态来辅助稍后的隐藏状态计算。我们将当前时间步重置门的输出与上⼀时间步隐藏状态做按元素乘法（符号为⊙）。如果重置门中元素值接近0，那么意味着重置对应隐藏状态元素为0，即丢弃上⼀时间步的隐藏状态。如果元素值接近1，那么表⽰保留上⼀时间步的隐藏状态。然后，将按元素乘法的结果与当前时间步的输⼊连结，再通过含激活函数tanh的全连接层计算出候选隐藏状态，其所有元素的值域为[-1,1]。</p>
+<p>具体来说，时间步 t 的候选隐藏状态， 的计算为：</p>
+<p><img src="/img/28821186cd944b53846af0ec1fad8145.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>从上⾯这个公式可以看出，重置门控制了上⼀时间步的隐藏状态如何流⼊当前时间步的候选隐藏状态。而上⼀时间步的隐藏状态可能包含了时间序列截⾄上⼀时间步的全部历史信息。因此，重置门可以⽤来丢弃与预测无关的历史信息。</p>
+<h3 id="2-3-隐藏状态"><a href="#2-3-隐藏状态" class="headerlink" title="2.3 隐藏状态"></a>2.3 隐藏状态</h3><p>最后，时间步t的隐藏状态的计算使用当前时间步的更新门  来对上⼀时间步的隐藏状态  和当前时间步的候选隐藏状态  做组合：</p>
+<p><img src="/img/f62e8f6f3523481bb5b56a8190008e1f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>值得注意的是，<strong>更新门可以控制隐藏状态应该如何被包含当前时间步信息的候选隐藏状态所更新</strong>，如上图所示。假设更新门在时间步 t’到t（t’&lt;t）之间⼀直近似1。那么，在时间步 t’到t间的输入信息几乎没有流入时间步 t 的隐藏状态  实际上，这可以看作是较早时刻的隐藏状态 直通过时间保存并传递⾄当前时间步 t。这个设计可以应对循环神经⽹络中的梯度衰减问题，并更好地捕捉时间序列中时间步距离较⼤的依赖关系。<br>我们对门控循环单元的设计稍作总结：</p>
+<ul>
+<li>重置门有助于捕捉时间序列里短期的依赖关系；</li>
+<li>更新门有助于捕捉时间序列里长期的依赖关系。</li>
+</ul>
+<h1 id="长短期记忆-LSTM"><a href="#长短期记忆-LSTM" class="headerlink" title="长短期记忆(LSTM)"></a>长短期记忆(LSTM)</h1><h2 id="1-什么是LSTM"><a href="#1-什么是LSTM" class="headerlink" title="1. 什么是LSTM"></a>1. 什么是LSTM</h2><p>在你阅读这篇文章时候，你都是基于自己已经拥有的对先前所见词的理解来推断当前词的真实含义。我们不会将所有的东西都全部丢弃，然后用空白的大脑进行思考。我们的思想拥有持久性。LSTM就是具备了这一特性。<br>这篇将介绍另⼀种常用的门控循环神经网络：<strong>长短期记忆（long short-term memory，LSTM）</strong>。它比门控循环单元的结构稍微复杂⼀点，也是为了解决在RNN网络中梯度衰减的问题，是GRU的一种扩展。<br>LSTM 中引入了3个门，即输入门（input gate）、遗忘门（forget gate）和输出门（output gate），以及与隐藏状态形状相同的记忆细胞（某些文献把记忆细胞当成⼀种特殊的隐藏状态），从而记录额外的信息。</p>
+<h2 id="2-输入门、遗忘门和输出门"><a href="#2-输入门、遗忘门和输出门" class="headerlink" title="2. 输入门、遗忘门和输出门"></a>2. 输入门、遗忘门和输出门</h2><p>与门控循环单元中的重置门和更新门⼀样，长短期记忆的门的输入均为当前时间步输入  与上⼀时间步隐藏状态  ，输出由激活函数为sigmoid函数的全连接层计算得到。如此⼀来，这3个门元素的值域均为[0, 1]。如下图所示：</p>
+<p><img src="/img/a6f3e3b0b50344908bb4d559be8f38eb.png" srcset="/img/loading.gif" lazyload></p>
+<p>具体来说，假设隐藏单元个数为 h，给定时间步 t 的小批量输入  （样本数为n，输⼊个数为d）和上⼀时间步隐藏状态。三个门的公式如下：<br><strong>输入门</strong>： </p>
+<p><img src="/img/7c0aef3dfbe24062a32841934568b1ac.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><strong>遗忘问</strong>：</p>
+<p><img src="/img/cc438f3ddee5488b92007056fd9535bd.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p><strong>输出门</strong>： </p>
+<p><img src="/img/d71b2441639f422bb64fd6f755b2b546.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="3-候选记忆细胞"><a href="#3-候选记忆细胞" class="headerlink" title="3. 候选记忆细胞"></a>3. 候选记忆细胞</h2><p>接下来，长短期记忆需要计算候选记忆细胞  。它的计算与上⾯介绍的3个门类似，但使用了值域在[−1, 1]的tanh函数作为激活函数，如下图所示：</p>
+<p><img src="/img/fb225150612d42be8198733ae297be06.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>具体来说，时间步t的候选记忆细胞计算如下：</p>
+<p><img src="/img/3de21d6b5cb74409a86bd7e4259ba59c.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="4-记忆细胞"><a href="#4-记忆细胞" class="headerlink" title="4. 记忆细胞"></a>4. 记忆细胞</h2><p>我们可以通过元素值域在[0, 1]的输入门、遗忘门和输出门来控制隐藏状态中信息的流动，这⼀般也是通过使用按元素乘法（符号为⊙）来实现的。当前时间步记忆细胞的计算组合了上⼀时间步记忆细胞和当前时间步候选记忆细胞的信息，并通过遗忘门和输入门来控制信息的流动：</p>
+<p><img src="/img/213ed13d1fd64ec8b92ec502214c5a08.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>如下图所示，遗忘门控制上⼀时间步的记忆细胞  中的信息是否传递到当前时间步，而输入门则控制当前时间步的输入  通过候选记忆细胞  如何流⼊当前时间步的记忆细胞。如果遗忘门⼀直近似1且输入门⼀直近似0，过去的记忆细胞将⼀直通过时间保存并传递⾄当前时间步。这个设计可以应对循环神经⽹络中的梯度衰减问题，并更好地捕捉时间序列中时间步距离较⼤的依赖关系。</p>
+<p><img src="/img/418e37a6eefb4e19a97e40943f8f36b8.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="5-隐藏状态"><a href="#5-隐藏状态" class="headerlink" title="5. 隐藏状态"></a>5. 隐藏状态</h2><p>有了记忆细胞以后，接下来我们还可以通过输出门来控制从记忆细胞到隐藏状态  的信息的流动：</p>
+<p><img src="/img/21ce46895d17421aade95810cecb0396.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>这⾥的tanh函数确保隐藏状态元素值在-1到1之间。需要注意的是，当输出门近似1时，记忆细胞信息将传递到隐藏状态供输出层使用；当输出门近似0时，记忆细胞信息只自己保留。<strong>下图展示了长短期记忆中隐藏状态的全部计算：</strong></p>
+<p><img src="/img/9e6e7ed17aad4f2b93c6ef4f91bf6fcd.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="6-LSTM与GRU的区别"><a href="#6-LSTM与GRU的区别" class="headerlink" title="6. LSTM与GRU的区别"></a>6. LSTM与GRU的区别</h2><p>LSTM与GRU二者结构十分相似，<strong>不同在于</strong>：</p>
+<ol>
+<li>新的记忆都是根据之前状态及输入进行计算，但是GRU中有一个重置门控制之前状态的进入量，而在LSTM里没有类似门；</li>
+<li>产生新的状态方式不同，LSTM有两个不同的门，分别是遗忘门(forget gate)和输入门(input gate)，而GRU只有一种更新门(update gate)；</li>
+<li>LSTM对新产生的状态可以通过输出门(output gate)进行调节，而GRU对输出无任何调节。</li>
+<li>GRU的优点是这是个更加简单的模型，所以更容易创建一个更大的网络，而且它只有两个门，在计算性上也运行得更快，然后它可以扩大模型的规模。</li>
+<li>LSTM更加强大和灵活，因为它有三个门而不是两个。</li>
+</ol>
+<h2 id="7-LSTM可以使用别的激活函数吗？"><a href="#7-LSTM可以使用别的激活函数吗？" class="headerlink" title="7. LSTM可以使用别的激活函数吗？"></a>7. LSTM可以使用别的激活函数吗？</h2><p>关于激活函数的选取，<strong>在LSTM中，遗忘门、输入门和输出门使用Sigmoid函数作为激活函数；在生成候选记忆时，使用双曲正切函数Tanh作为激活函数。</strong><br>值得注意的是，这两个激活函数都是饱和的，也就是说在输入达到一定值的情况下，输出就不会发生明显变化了。如果是用非饱和的激活函数，例如ReLU，那么将难以实现门控的效果。<br>Sigmoid函数的输出在0～1之间，符合门控的物理定义。且当输入较大或较小时，其输出会非常接近1或0，从而保证该门开或关。在生成候选记忆时，使用Tanh函数，是因为其输出在−1～1之间，这与大多数场景下特征分布是0中心的吻合。此外，Tanh函数在输入为0附近相比Sigmoid函数有更大的梯度，通常使模型收敛更快。<br>激活函数的选择也不是一成不变的，但要选择合理的激活函数。<br>一般来说，采用RNN训练时不推荐使用<strong>batch normalization</strong>方法解决过拟合问题</p>
+<p>参考：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/RNN/" class="print-no-link">#RNN</a>
+      
+        <a href="/tags/LSTM/" class="print-no-link">#LSTM</a>
+      
+        <a href="/tags/GRU/" class="print-no-link">#GRU</a>
+      
+        <a href="/tags/%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF/" class="print-no-link">#门控循环</a>
+      
+        <a href="/tags/%E9%95%BF%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86/" class="print-no-link">#长短期记忆</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)</div>
+      <div>https://qzkq.github.io/2026/01/05/深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="深度学习面试笔试之深度学习的优化方法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度学习面试笔试之深度学习的优化方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)/" title="深度学习面试笔试之卷积神经网络(CNN)">
+                        <span class="hidden-mobile">深度学习面试笔试之卷积神经网络(CNN)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

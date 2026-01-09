@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOCSpark是什么：Spark是基于内存的迭代式计算引擎 1、基本概念RDD：是Resillient Distributed Dataset（弹性分布式数据集）的简称，是分布式内存的一个抽象概念，提供了一种高度受限的共享内存模型 DAG：是Directed Acyclic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark笔记（pyspark）">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/03/Spark%E7%AC%94%E8%AE%B0%EF%BC%88pyspark%EF%BC%89/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOCSpark是什么：Spark是基于内存的迭代式计算引擎 1、基本概念RDD：是Resillient Distributed Dataset（弹性分布式数据集）的简称，是分布式内存的一个抽象概念，提供了一种高度受限的共享内存模型 DAG：是Directed Acyclic">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/38b9ffed57b9c6efea02a1bf52556d53.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6d21c66123b102497d746e5447182de4.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c9726353a32bb5f23f604eea83e55cdf.png">
+<meta property="og:image" content="https://qzkq.github.io/img/fc4a26c24a173f4a47a3201859e96231.png">
+<meta property="og:image" content="https://qzkq.github.io/img/fbbf46bd3d6cb9fd7480b779870b8efd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b1a784f85b403e41117d3a4807693d2c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ed3330e9f26a59b81d8c60c277bfbbe4.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a8246b3f4b56767526fd1a4484ad8493.png">
+<meta property="og:image" content="https://qzkq.github.io/img/70f979874de83cd39ffade8b2679f571.png">
+<meta property="og:image" content="https://qzkq.github.io/img/956f060e847cdf967857b387117732cf.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3b4f86c571a1fd1d413a11e64b98fccd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d11270e07d0e70cd189527c0b5e9107c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/24dc49a30a74a9836beb98f659a2fbdf.png">
+<meta property="article:published_time" content="2026-01-03T00:09:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.395Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/38b9ffed57b9c6efea02a1bf52556d53.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Spark笔记（pyspark） - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spark笔记（pyspark）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-03 08:09" pubdate>
+          2026年1月3日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Spark笔记（pyspark）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@<a href="Spark%E7%AC%94%E8%AE%B0">TOC</a><br><strong>Spark是什么</strong>：Spark是基于内存的迭代式计算引擎</p>
+<h3 id="1、基本概念"><a href="#1、基本概念" class="headerlink" title="1、基本概念"></a>1、基本概念</h3><p><strong>RDD</strong>：是Resillient Distributed Dataset（弹性分布式数据集）的简称，是分布式内存的一个抽象概念，提供了一种高度受限的共享内存模型</p>
+<p><strong>DAG</strong>：是Directed Acyclic Graph（有向无环图）的简称，反映RDD之间的依赖关系</p>
+<p><strong>Executor</strong>：执行器，是运行在工作节点（WorkerNode）的一个进程，负责运行Task</p>
+<p><strong>应用（Application）</strong>：用户编写的Spark应用程序</p>
+<p><strong>任务（ Task ）</strong>：运行在Executor上的工作单元</p>
+<p><strong>作业（ Job ）</strong>：一个作业包含多个RDD及作用于相应RDD上的各种操作</p>
+<p><strong>阶段（ Stage ）</strong>：是作业的基本调度单位，一个作业会分为多组任务，每组任务被称为阶段，或者也被称为任务集合，代表了一组关联的、相互之间没有Shuffle依赖关系的任务组成的任务集</p>
+<p>driver：驱动程序，简单来说就是整个application的管理程序。提交到集群的spark任务，在获取到driver运行的节点前，spark任务并不会出现在Web UI的RUNNING页，会临时挂在ACCEPTED页面，等待driver机器的获取。<br>cluster manager：资源管理器，常用的有standalone和yarn。<br>worker：计算节点，在yarn上一般指的是nodemanager节点，主要作用就是运行application代码。</p>
+<h3 id="2、架构设计"><a href="#2、架构设计" class="headerlink" title="2、架构设计"></a>2、架构设计</h3><p>Spark运行架构包括集群资源管理器（Cluster Manager）、运行作业任务的工作节点（Worker Node）、每个应用的任务控制节点 （Driver）和每个工作节点上负责具体任务的执行进程（Executor）。资源管理器可以自带或Mesos或YARN 。<br>在Spark中，一个应用（Application）由一个任务控制节点（Driver）和若干个作业（Job）构成，一个作业由多个阶段（Stage）构成，一个阶段由多个任务（Task）组成。当执行一个应用时，任务控制节点会向集群管理器（Cluster Manager）申请资源，启动Executor，并向Executor发送应用程序代码和文件，然后在Executor上执行任务，运行结束后，执行结果会返回给任务控制节点，或者写到HDFS或者其他数据库中。</p>
+<h3 id="3、Spark运行流程"><a href="#3、Spark运行流程" class="headerlink" title="3、Spark运行流程"></a>3、Spark运行流程</h3><p>Spark运行的4个步骤：</p>
+<ul>
+<li>当一个Spark应用被提交时，Driver创建一个SparkContext，由SparkContext负责和资源管理器（Cluster   Manager）的通信以及进行资源的申请、任务的分配和监控等。SparkContext会向资源管理器注册并申请运行Executor的资源 ； </li>
+<li>资源管理器为Executor分配资源，并启动Executor进程，Executor发送心跳到资源管理器上；</li>
+<li>SparkContext根据RDD的依赖关系构建DAG图，DAG图提交给DAG调度（DAGScheduler）进行解析，将DAG图分解成多个“阶段”，并且计算出各个阶段之间的依赖关系，然后把一个个“任务集”提交给底层的任务调度器（TaskScheduler）进行处理；Executor向SparkContext申请任务，任务调度器将任务分发给Executor运行，同时，SparkContext将应用程序代码发放给Executor；</li>
+<li>任务在Executor上运行，把执行结果反馈给任务调度器，然后反馈给DAG调度器，运行完毕后写入数据并释放所有资源 。</li>
+</ul>
+<h3 id="4、弹性分布数据集-RDD"><a href="#4、弹性分布数据集-RDD" class="headerlink" title="4、弹性分布数据集(RDD)"></a>4、弹性分布数据集(RDD)</h3><p>  <strong>RDD的两种操作（算子）</strong>： </p>
+<ul>
+<li>转换算子（Transformation）   </li>
+<li>动作算子（Action）</li>
+</ul>
+<p><strong>flatMap(func)	类似于 map，但是每一个输入元素可以被映射为 0 或多个输出元素(所以 func 应该返回一个序列，而不是单一元素)</strong></p>
+<h4 id="1-groupByKey和reduceByKey的区别"><a href="#1-groupByKey和reduceByKey的区别" class="headerlink" title="1.groupByKey和reduceByKey的区别"></a>1.groupByKey和reduceByKey的区别</h4><p>reduceByKey自带聚合逻辑, groupByKey不带；如果做数据聚合reduceByKey的效率更好, 因为可以先聚合后shuffle再最终聚合, 传输的IO小。</p>
+<h4 id="2-哪两个Action算子的结果不经过Driver-直接输出"><a href="#2-哪两个Action算子的结果不经过Driver-直接输出" class="headerlink" title="2. 哪两个Action算子的结果不经过Driver, 直接输出?"></a>2. 哪两个Action算子的结果不经过Driver, 直接输出?</h4><p>foreach 和 saveAsTextFile 直接由Executor执行后输出，不会将结果发送到Driver上去。</p>
+<h4 id="3-mapPartitions-和-foreachPartition-的区别"><a href="#3-mapPartitions-和-foreachPartition-的区别" class="headerlink" title="3. mapPartitions 和 foreachPartition 的区别?"></a>3. mapPartitions 和 foreachPartition 的区别?</h4><p>mapPartitions 带有返回值；foreachPartition不带。</p>
+<p>转换得到的RDD是<strong>惰性求值</strong>的。也就是说，整个转换过程只是记录了转换的轨迹，并不会发生真正的计算，只有遇到行动操作时，才会发生真正的计算，开始从血缘关系源头开始，进行物理的转换操作。行动操作是真正触发计算的地方。Spark程序执行到行动操作时，才会执行真正的计算，从文件中加载数据，完成一次又一次转换操作，最终，完成行动操作得到结果。</p>
+<p><strong>所以遇到错误时，不一定是行动的原因，可能是之前的某个地方的错误，要看错误原因是什么</strong></p>
+<h3 id="5、Shuffle与依赖"><a href="#5、Shuffle与依赖" class="headerlink" title="5、Shuffle与依赖"></a>5、Shuffle与依赖</h3><p>shuffle描述着数据从map task输出到reduce task输入的这部分过程。shuffle是连接map和reduce的桥梁，包含了大量的磁盘IO、序列化、网络数据传输，可以认为大部分的spark任务作业的性能主要消耗在了这一阶段。shufle的主要工作简单来说就是跨节点将数据进行重新分配，类似reduceByKey、groupByKey等reduce算子都会触发shuffle，同时repartition也会触发shuffle。<br>Shuffle就是对数据进行重组<br>在Spark中，有两种依赖关系：</p>
+<ul>
+<li>宽依赖：一个父RDD的一个分区对应一个子RDD的多个分区；</li>
+<li>窄依赖：一个父RDD的分区对应于一个子RDD的分区，或多个父RDD的分区对应于一个子RDD的分区。<br>常见的窄依赖有：map、filter、union、mapPartitions、mapValues<br>常见的宽依赖有groupByKey、partitionBy、reduceByKey<br>窄依赖和宽依赖，主要取决于是否包含Shuffle操作。(宽依赖还有一个别名：shuffle)<br>窄依赖可以实现“流水线”优化。宽依赖无法实现“流水线”优化。</li>
+</ul>
+<h3 id="6、持久化"><a href="#6、持久化" class="headerlink" title="6、持久化"></a>6、持久化</h3><p><strong>RDD的数据是过程数据</strong>，只在处理的过程中存在，一旦处理完成，就不见了：RDD之间进行相互迭代计算（Transformation的转换），当执行开启后，新的RDD生成，代表老RDD的消失。（这个特性可以最大化的利用资源，老旧RDD没用了，就从内存中清理，给后续的计算腾出空间）<br>在Spark中，RDD采用惰性求值的机制，每次遇到行动操作，都会从头开始执行计算。每次调用行动操作，都会触发一次从头开始的计算。这对于迭代计算而言，代价是很大的，迭代计算经常需要多次重复使用同一组数据。<br>可以使用persist()方法，对一个RDD标记为持久化，避免这种重复计算的开销。之所以说“标记为持久化”，是因为出现persist()语句的地方，并不会马上计算生成RDD并把它持久化，而是要等到遇到第一个行动操作触发真正计算以后，才会把计算结果进行持久化 。持久化后的RDD将会被保留在计算节点的内存中被后面的行动操作重复使用。<br><img src="/img/38b9ffed57b9c6efea02a1bf52556d53.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="1-Cache和Checkpoint区别"><a href="#1-Cache和Checkpoint区别" class="headerlink" title="1. Cache和Checkpoint区别"></a>1. Cache和Checkpoint区别</h4><p>Cache是轻量化保存RDD数据, 可存储在内存和硬盘, 是分散存储, 设计上数据是不安全的(保留RDD 血缘关系)<br>CheckPoint是重量级保存RDD数据, 是集中存储, 只能存储在硬盘(HDFS)上, 设计上是安全的(不保留 RDD血缘关系)</p>
+<h4 id="2-Cache-和-CheckPoint的性能对比"><a href="#2-Cache-和-CheckPoint的性能对比" class="headerlink" title="2. Cache 和 CheckPoint的性能对比?"></a>2. Cache 和 CheckPoint的性能对比?</h4><p>Cache性能更好, 因为是分散存储, 各个Executor并行执行, 效率高, 可以保存到内存中(占内存),更快<br>CheckPoint比较慢, 因为是集中存储, 涉及到网络IO, 但是存储到HDFS上更加安全(多副本)</p>
+<h3 id="7、Spark-On-Yarn两种模式总结"><a href="#7、Spark-On-Yarn两种模式总结" class="headerlink" title="7、Spark On Yarn两种模式总结"></a>7、Spark On Yarn两种模式总结</h3><p>Client模式和Cluster模式最最本质的区别是:<strong>Driver程序运行在哪里</strong>。</p>
+<ul>
+<li>Client模式:学习测试时使用，生产不推荐(要用也可以,性能略低,稳定性略低)<br>  1.Driver运行在Client上,和集群的通信成本高<br>  2.spark任务的日志输出将直接打印在命令行或者输出到重定向的日志文件中<br>  3.如果kill掉这个启动进程将直接导致spark任务运行结束</li>
+<li>Cluster模式:生产环境中使用该模式<br>1.Driver程序在YARN集群中，和集群的通信成本低<br>2.Driver输出结果不能在客户端显示<br>3.如果需要kill掉任务可以使用yarn指令或者spark web ui上进行手动kill</li>
+</ul>
+<h3 id="8、Spark内核调度"><a href="#8、Spark内核调度" class="headerlink" title="8、Spark内核调度"></a>8、Spark内核调度</h3><h4 id="1-DAG之Job和Action"><a href="#1-DAG之Job和Action" class="headerlink" title="1.DAG之Job和Action"></a>1.DAG之Job和Action</h4><p>1个Action会产生1个DAG，如果在代码中有3个Action就产生3个DAG；一个Action产生的一个DAG，会在程序运行中产生一个JOB，所以：1个ACTION &#x3D; 1个DAG&#x3D; 1个JOB。<br>如果一个代码中，写了3个Action，那么这个代码运行起来产生3个JOB，每个JOB有自己的DAG；一个代码运行起来，在Saprk中称之为：Application。<br>层级关系：1个Application中，可以有多个JOB，每一个JOB内含一个DAG，同时每一个JOB都是由一个Action产生的。</p>
+<h4 id="2-Spark是怎么做内存计算的？DAG的作用？Stage阶段划分的作用？"><a href="#2-Spark是怎么做内存计算的？DAG的作用？Stage阶段划分的作用？" class="headerlink" title="2.Spark是怎么做内存计算的？DAG的作用？Stage阶段划分的作用？"></a>2.Spark是怎么做内存计算的？DAG的作用？Stage阶段划分的作用？</h4><ol>
+<li>Spark会产生DAG图</li>
+<li>DAG图会基于分区和宽窄依赖关系划分阶段</li>
+<li>一个阶段的内部都是窄依赖，窄依赖内，如果形成前后1：1的分区对应关系，就可以产生许多内存迭代计算的管道。</li>
+<li>这些内存迭代计算的管道，就是一个个具体的执行Task</li>
+<li>一个Task是一个具体的线程，任务跑在一个线程内，就是走内存计算了。</li>
+</ol>
+<h4 id="3-Spark为什么比MapReduce快"><a href="#3-Spark为什么比MapReduce快" class="headerlink" title="3. Spark为什么比MapReduce快"></a>3. Spark为什么比MapReduce快</h4><ol>
+<li>Spark的算子丰富，MapReduce算子匮乏（Map和Reduce），MapReduce这个编程模型，很难在一套MR中处理复杂的任务，很多复杂的任务，是需要写多个MapReduce进行串联，多个MR串联通过磁盘交互数据</li>
+<li>Saprk可以执行内存迭代，算子之间形成DAG，基于依赖划分阶段后，在阶段内形成内存迭代管道，但是MApReduce的Map和Reduce之间的交互依旧是通过硬盘来交互的。</li>
+</ol>
+<h4 id="4-Saprk并行度"><a href="#4-Saprk并行度" class="headerlink" title="4.Saprk并行度"></a>4.Saprk并行度</h4><p>全局并行度配置的参数：<code>spark.default.parallelism</code></p>
+<h4 id="5-Spark中数据倾斜"><a href="#5-Spark中数据倾斜" class="headerlink" title="5.Spark中数据倾斜"></a>5.Spark中数据倾斜</h4><p><strong>数据倾斜</strong>：在任务执行期间，<strong>RDD会被分为一系列的分区，每个分区都是整个数据集的子集。当spark调度并运行任务的时候，Spark会为每一个分区中的数据创建一个任务</strong>。大部分的任务处理的数据量差不多，但是有少部分的任务处理的数据量很大，因而Spark作业会看起来运行的十分的慢，从而产生数据倾斜（进行shuffle的时候） </p>
+<p>数据倾斜只出现在shuffle过程中，<strong>可能会触发shuffle操作的算子：distinct、groupByKey、reduceByKey、aggregateByKey、join、cogroup、repartition等</strong> </p>
+<p><strong>解决办法：</strong> </p>
+<ul>
+<li>过滤少量导致数据倾斜的key （如果发现导致倾斜的key就少数几个，而且对计算本身的影响并不大的话）</li>
+<li>提高shuffle操作的并行度（增加shuffle read task的数量，可以让原本分配给一个task的多个key分配给多个task，从而让每个task处理比原来更少的数据）  </li>
+<li>两阶段聚合 局部聚合+全局聚合（将原本相同的key通过附加随机前缀的方式，变成多个不同的key，就可以让原本被一个task处理的数据分散到多个task上去做局部聚合，进而解决单个task处理数据量过多的问题。接着去除掉随机前缀，再次进行全局聚合，就可以得到最终的结果）</li>
+<li>join时使用广播变量Broadcast将较小数据量广播至每个Executor（相当于reduce join转为map join）</li>
+</ul>
+<p>Peak Execution memory应该是任务用的峰值内存<br>shuffle read是任务读取的数据量，如果有的任务这个值明显特别高，说明出现数据倾斜<br>shuffle write是任务写出的数据量，同样可以表示数据倾斜</p>
+<h3 id="9、DataFrame"><a href="#9、DataFrame" class="headerlink" title="9、DataFrame"></a>9、DataFrame</h3><h4 id="1-DataFrame的组成"><a href="#1-DataFrame的组成" class="headerlink" title="1.DataFrame的组成"></a>1.DataFrame的组成</h4><p>在结构层面:</p>
+<ul>
+<li>StructType对象描述整个DataFrame的表结构 </li>
+<li>StructField对象描述一个列的信息</li>
+</ul>
+<p>在数据层面</p>
+<ul>
+<li>Row对象记录一行数据</li>
+<li>Column对象记录一列数据并包含列的信息</li>
+</ul>
+<h4 id="2-DataFrame之DSL"><a href="#2-DataFrame之DSL" class="headerlink" title="2.DataFrame之DSL"></a>2.DataFrame之DSL</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">1. agg: 它是GroupedData对象的API, 作用是 在里面可以写多个聚合</span><br><span class="hljs-string">2. alias: 它是Column对象的API, 可以针对一个列 进行改名</span><br><span class="hljs-string">3. withColumnRenamed: 它是DataFrame的API, 可以对DF中的列进行改名, 一次改一个列, 改多个列 可以链式调用</span><br><span class="hljs-string">4. orderBy: DataFrame的API, 进行排序, 参数1是被排序的列, 参数2是 升序(True) 或 降序 False</span><br><span class="hljs-string">5. first: DataFrame的API, 取出DF的第一行数据, 返回值结果是Row对象.</span><br><span class="hljs-string"># Row对象 就是一个数组, 你可以通过row[&#x27;列名&#x27;] 来取出当前行中, 某一列的具体数值. 返回值不再是DF 或者GroupedData 或者Column而是具体的值(字符串, 数字等)</span><br><span class="hljs-string">&quot;</span><span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>1.show方法</strong><br>功能:展示DataFrame中的数据, 默认展示20条</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">df.show(参数1, 参数2)<br>- 参数1: 默认是20, 控制展示多少条<br>- 参数2: 是否阶段列, 默认只输出20个字符的长度, 过长不显示, 要显示的话请填入<span class="hljs-built_in">truncate</span>=True<br></code></pre></td></tr></table></figure>
+<p><strong>2.printSchema方法</strong><br>功能:打印输出df的schema信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">df.printSchema()<br></code></pre></td></tr></table></figure>
+<p><strong>3.select</strong><br>功能:选择DataFrame中的指定列(通过传入参数进行指定)<br><img src="/img/6d21c66123b102497d746e5447182de4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>4. filter和where</strong><br>功能:过滤DataFrame内的数据，返回一个过滤后的DataFrame<br><strong>5.groupBy 分组</strong><br>功能:按照指定的列进行数据的分组， 返回值是GroupedData对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">df.groupBy()<br></code></pre></td></tr></table></figure>
+<p>传入参数和select一样，支持多种形式。GroupedData对象是一个特殊的DataFrame数据集，GroupedData对象也有很多API，比如count、min、max、avg、sum等等</p>
+<h4 id="3-DataFrame之SQL"><a href="#3-DataFrame之SQL" class="headerlink" title="3.DataFrame之SQL"></a>3.DataFrame之SQL</h4><p>如果想使用SQL风格的语法，需要将DataFrame注册成表,采用如下的方式:<img src="/img/c9726353a32bb5f23f604eea83e55cdf.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/fc4a26c24a173f4a47a3201859e96231.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="4-pyspark-sql-functions-包"><a href="#4-pyspark-sql-functions-包" class="headerlink" title="4.pyspark.sql.functions 包"></a>4.pyspark.sql.functions 包</h4><p>里的功能函数, 返回值多数都是Column对象.<br>例：<br><img src="/img/fbbf46bd3d6cb9fd7480b779870b8efd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="5-SparkSQL-Shuffle-分区数目"><a href="#5-SparkSQL-Shuffle-分区数目" class="headerlink" title="5.SparkSQL Shuffle 分区数目"></a>5.SparkSQL Shuffle 分区数目</h4><p>在SparkSQL中当Job中产生产生Shuffle时，默认的分区数（spark.sql.shuffle.partitions）为200，在实际项目中要合理的设置。可以设置在：<img src="/img/b1a784f85b403e41117d3a4807693d2c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="6-SparkSQL-数据清洗API"><a href="#6-SparkSQL-数据清洗API" class="headerlink" title="6.SparkSQL 数据清洗API"></a>6.SparkSQL 数据清洗API</h4><p><strong>1.去重方法 dropDuplicates</strong><br>功能：对DF的数据进行去重，如果重复数据有多条，取第一条<br><img src="/img/ed3330e9f26a59b81d8c60c277bfbbe4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>2.删除有缺失值的行方法 dropna</strong><br>功能：如果数据中包含null，通过dropna来进行判断，符合条件就删除这一行数据<br><img src="/img/a8246b3f4b56767526fd1a4484ad8493.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>3.填充缺失值数据 fillna</strong><br>功能：根据参数的规则，来进行null的替换<br><img src="/img/70f979874de83cd39ffade8b2679f571.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="7-DataFrame数据写出"><a href="#7-DataFrame数据写出" class="headerlink" title="7.DataFrame数据写出"></a>7.DataFrame数据写出</h4><p>spark.read.format()和df.write.format() 是DataFrame读取和写出的统一化标准API<br>SparkSQL 统一API写出DataFrame数据<img src="/img/956f060e847cdf967857b387117732cf.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="/img/3b4f86c571a1fd1d413a11e64b98fccd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><strong>DataFrame可以从RDD转换、Pandas DF转换、读取文件、读取 JDBC等方法构建</strong></p>
+<h3 id="10、SparkSQL"><a href="#10、SparkSQL" class="headerlink" title="10、SparkSQL"></a>10、SparkSQL</h3><h4 id="1-定义UDF函数"><a href="#1-定义UDF函数" class="headerlink" title="1.定义UDF函数"></a>1.定义UDF函数</h4><p>方式1语法:<br>udf对象 &#x3D; sparksession.udf.register(参数1，参数2，参数3) </p>
+<ul>
+<li>参数1:UDF名称，可用于SQL风格  </li>
+<li>参数2:被注册成UDF的方法名 </li>
+<li>参数3:声明UDF的返回值类型</li>
+</ul>
+<p>udf对象: 返回值对象，是一个UDF对象，可用于DSL风格<br>方式2语法:<br>udf对象 &#x3D; F.udf(参数1， 参数2) </p>
+<ul>
+<li>参数1:被注册成UDF的方法名  </li>
+<li>参数2:声明UDF的返回值类型</li>
+</ul>
+<p>udf对象: 返回值对象，是一个UDF对象，可用于DSL风格<br>其中F是:from pyspark.sql import functions as F 其中，被注册成UDF的方法名是指具体的计算方法，如: def add(x, y): x + y<br>add就是将要被注册成UDF的方法名</p>
+<h4 id="2-使用窗口函数"><a href="#2-使用窗口函数" class="headerlink" title="2.使用窗口函数"></a>2.使用窗口函数</h4><p><strong>开窗函数</strong><br>开窗函数的引入是为了既显示聚集前的数据，又显示聚集后的数据。即在每一行的最后一列添加聚合函数的结果。<br>开窗用于为行定义一个窗口(这里的窗口是指运算将要操作的行的集合)，它对一组值进行操作,不需要使用GROUP BY子句对数据进行分组，能够在同一行中同时返回基础行的列和聚合列。<br><strong>聚合函数和开窗函数</strong><br>聚合函数是将多行变成一行， count,avg…<br>开窗函数是将一行变成多行;<br>聚合函数如果要显示其他的列必须将列加入到group by中<br>开窗函数可以不使用group by,直接将所有信息显示出来<br><strong>开窗函数分类</strong><br>1.聚合开窗函数<br>聚合函数(列) OVER(选项)，这里的选项可以是PARTITION BY子句、但不可以是ORDER BY子句。<br>2.排序开窗函数<br>排序函数(列) OVER(选项)，这里的选项可以是ORDER BY子句，也可以是OVER(PARTITION BY子句ORDER BY子句)，但不可以是PARTITION BY子句。<br>3.分区类型NTILE的窗口函数</p>
+<p><img src="/img/d11270e07d0e70cd189527c0b5e9107c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="11、PySpark参数"><a href="#11、PySpark参数" class="headerlink" title="11、PySpark参数"></a>11、PySpark参数</h3><h4 id="1-spark启动参数"><a href="#1-spark启动参数" class="headerlink" title="1.spark启动参数"></a>1.spark启动参数</h4><p>spark启动任务一般通过下边这种方式：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs powershell">/usr/bin/spark<span class="hljs-literal">-submit</span><br>        <span class="hljs-literal">--master</span> yarn \<br>        <span class="hljs-literal">--deploy-mode</span> cluster \<br>        <span class="hljs-literal">--driver-memory</span> <span class="hljs-variable">$</span>&#123;driver_memory&#125; \<br>        <span class="hljs-literal">--num-executors</span> <span class="hljs-variable">$</span>&#123;executor_num&#125; \<br>        <span class="hljs-literal">--executor-cores</span> <span class="hljs-variable">$</span>&#123;executor_cores&#125; \<br>        <span class="hljs-literal">--executor-memory</span> <span class="hljs-variable">$</span>&#123;executor_memory&#125; \<br>        <span class="hljs-literal">--conf</span> spark.dynamicAllocation.maxExecutors=<span class="hljs-variable">$</span>&#123;executor_max&#125; \<br>        <span class="hljs-literal">--conf</span> spark.driver.maxResultSize=<span class="hljs-variable">$</span>&#123;driver_memory&#125; \<br>        <span class="hljs-literal">--conf</span> spark.yarn.maxAppAttempts=<span class="hljs-number">1</span> \<br>        <span class="hljs-literal">--conf</span> spark.driver.extraJavaOptions=<span class="hljs-literal">-Dlog4j</span>.configuration=file:log4j.properties \<br>        <span class="hljs-literal">--conf</span> spark.executor.extraJavaOptions=<span class="hljs-literal">-Dlog4j</span>.configuration=file:log4j.properties \<br>        <span class="hljs-literal">--conf</span> spark.ui.showConsoleProgress=true \<br>        <span class="hljs-literal">--conf</span> spark.executor.memoryOverhead=<span class="hljs-number">1</span>g \<br>        <span class="hljs-literal">--conf</span> spark.yarn.nodemanager.localizer.cache.tar<span class="hljs-built_in">get-size</span><span class="hljs-literal">-mb</span>=<span class="hljs-number">4</span>g \<br>        <span class="hljs-literal">--conf</span> spark.yarn.nodemanager.localizer.cache.cleanup.interval<span class="hljs-literal">-ms</span>=<span class="hljs-number">300000</span> \<br>        <span class="hljs-literal">--files</span> s3://learning/spark/log4j.properties \<br>        <span class="hljs-literal">--py-files</span> ../config/*.py,../util/*.py \<br>        <span class="hljs-literal">--name</span> <span class="hljs-string">&quot;<span class="hljs-variable">$</span>&#123;WARN_SUB&#125; =&gt; <span class="hljs-variable">$</span>&#123;script&#125; <span class="hljs-variable">$</span>&#123;params&#125;&quot;</span> \<br>        <span class="hljs-variable">$</span>&#123;script&#125; <span class="hljs-variable">$</span>&#123;params&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="2-参数设置"><a href="#2-参数设置" class="headerlink" title="2.参数设置"></a>2.参数设置</h4><p><strong>在spark中指定Python版本运行：conf spark.pyspark.python&#x3D;&#x2F;usr&#x2F;bin&#x2F;python2.7</strong> </p>
+<h5 id="1-2-1-–driver-memory："><a href="#1-2-1-–driver-memory：" class="headerlink" title="1.2.1 –driver-memory："></a>1.2.1 –driver-memory：</h5><p>一般设置1g-2g即可，如果程序中需要collect相对比较大的数据，这个参数可以适当增大</p>
+<h5 id="1-2-2-–num-executors-–executor-cores-–executor-memory"><a href="#1-2-2-–num-executors-–executor-cores-–executor-memory" class="headerlink" title="1.2.2 –num-executors | –executor-cores | –executor-memory"></a>1.2.2 –num-executors | –executor-cores | –executor-memory</h5><p>这三个参数是控制spark任务实际使用资源情况。其中</p>
+<p>num-exectors*executor-memory</p>
+<p>就是程序运行时需要的内存量（根据实际处理的数据量以及程序的复杂程度，需要针对不同的任务设置不同的参数）<br>一般情况下executor-cores可以设置1或者2就行了。设置的特别高，容易造成物理内存或者虚拟内存超限，最终导致任务失败。<br>需要注意的是，executor-memory设置最好控制在在4g以内（甚至2g），最好不要设置的特别大。（根据实际集群资源来配置）如果设置的特别大，可能会卡住整个集群，导致后续任务都无法启动。<br>num-executors是执行器数量，执行器越多，并行度越高，相对执行速度也会快。但是如果申请数量太多，也会造成资源的大量浪费。<br>一般数据量较小的任务，可以配置num-executors &#x3D;&#x3D; 200，同时executor-memory&#x3D;&#x3D;4g；这样申请资源大概在1TB左右。大型的任务可以根据实际情况调整num-executors即可。</p>
+<p><strong>num-executors<br>参数说明</strong>：该参数用于设置Spark作业总共要用多少个Executor进程来执行。Driver在向YARN集群管理器申请资源时，YARN集群管理器会尽可能按照你的设置来在集群的各个工作节点上，启动相应数量的Executor进程。这个参数非常之重要，如果不设置的话，默认只会给你启动少量的Executor进程，此时你的Spark作业的运行速度是非常慢的。<br><strong>参数调优建议</strong>：每个Spark作业的运行一般设置50<del>100个左右的Executor进程比较合适，设置太少或太多的Executor进程都不好。设置的太少，无法充分利用集群资源；设置的太多的话，大部分队列可能无法给予充分的资源。<br><strong>executor-memory<br>参数说明</strong>：该参数用于设置每个Executor进程的内存。Executor内存的大小，很多时候直接决定了Spark作业的性能，而且跟常见的JVM OOM异常，也有直接的关联。<br><strong>参数调优建议</strong>：每个Executor进程的内存设置4G ~ 8G较为合适。但是这只是一个参考值，具体的设置还是得根据不同部门的资源队列来定。可以看看团队的资源队列的最大内存限制是多少，num-executors乘以executor-memory，就代表了你的Spark作业申请到的总内存量（也就是所有Executor进程的内存总和），这个量是不能超过队列的最大内存量的。此外，如果你是跟团队里其他人共享这个资源队列，那么申请的总内存量最好不要超过资源队列最大总内存的1&#x2F;3 ~ 1&#x2F;2，避免你自己的Spark作业占用了队列所有的资源，导致别人的作业无法运行。<br><strong>executor-cores<br>参数说明</strong>：该参数用于设置每个Executor进程的CPU core数量。这个参数决定了每个Executor进程并行执行task线程的能力。因为每个CPU core同一时间只能执行一个task线程，因此每个Executor进程的CPU core数量越多，越能够快速地执行完分配给自己的所有task线程。<br><strong>参数调优建议</strong>：Executor的CPU core数量设置为2</del>4个较为合适。同样得根据不同部门的资源队列来定，可以看看自己的资源队列的最大CPU core限制是多少，再依据设置的Executor数量，来决定每个Executor进程可以分配到几个CPU core。同样建议，如果是跟他人共享这个队列，那么num-executors * executor-cores不要超过队列总CPU core的1&#x2F;3~1&#x2F;2左右比较合适，也是避免影响其他人的作业运行。</p>
+<h5 id="1-2-3-–conf-spark-dynamicAllocation-maxExecutors"><a href="#1-2-3-–conf-spark-dynamicAllocation-maxExecutors" class="headerlink" title="1.2.3 –conf spark.dynamicAllocation.maxExecutors"></a>1.2.3 –conf spark.dynamicAllocation.maxExecutors</h5><p>集群任务是由yarn来管理的，启动任务之后，yarn会倾向于给每个任务分配尽可能多的executor数量，num-executors的设置并不是最大的executors数量，最大executors数量通过这个参数来控制。也就是说，一个任务最大的资源占用量 &#x3D;  spark.dynamicAllocation.maxExecutors * executor-memory。</p>
+<h5 id="1-2-4-日志级别设置"><a href="#1-2-4-日志级别设置" class="headerlink" title="1.2.4 日志级别设置"></a>1.2.4 日志级别设置</h5><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-literal">--conf</span> spark.driver.extraJavaOptions=<span class="hljs-literal">-Dlog4j</span>.configuration=file:log4j.properties<br><span class="hljs-literal">--conf</span> spark.executor.extraJavaOptions=<span class="hljs-literal">-Dlog4j</span>.configuration=file:log4j.properties<br><span class="hljs-literal">--files</span> s3://learning/spark/log4j.properties<br></code></pre></td></tr></table></figure>
+<p>这三个配置是控制spark运行的日志输出级别的</p>
+<h5 id="1-2-5-spark-shuffle-memoryFraction"><a href="#1-2-5-spark-shuffle-memoryFraction" class="headerlink" title="1.2.5 spark.shuffle.memoryFraction"></a>1.2.5 spark.shuffle.memoryFraction</h5><p><strong>参数说明</strong>：该参数用于设置shuffle过程中一个task拉取到上个stage的task的输出后，进行聚合操作时能够使用的Executor内存的比例，默认是0.2。也就是说，Executor默认只有20%的内存用来进行该操作。shuffle操作在进行聚合时，如果发现使用的内存超出了这个20%的限制，那么多余的数据就会溢写到磁盘文件中去，此时就会极大地降低性能。<br><strong>参数调优建议</strong>：如果Spark作业中的RDD持久化操作较少，shuffle操作较多时，建议降低持久化操作的内存占比，提高shuffle操作的内存占比比例，避免shuffle过程中数据过多时内存不够用，必须溢写到磁盘上，降低了性能。此外，如果发现作业由于频繁的gc导致运行缓慢，意味着task执行用户代码的内存不够用，那么同样建议调低这个参数的值。</p>
+<h5 id="1-2-6-spark-storage-memoryFraction"><a href="#1-2-6-spark-storage-memoryFraction" class="headerlink" title="1.2.6 spark.storage.memoryFraction"></a>1.2.6 spark.storage.memoryFraction</h5><p><strong>参数说明</strong>：该参数用于设置RDD持久化数据在Executor内存中能占的比例，默认是0.6。也就是说，默认Executor 60%的内存，可以用来保存持久化的RDD数据。根据你选择的不同的持久化策略，如果内存不够时，可能数据就不会持久化，或者数据会写入磁盘。<br><strong>参数调优建议</strong>：如果Spark作业中，有较多的RDD持久化操作，该参数的值可以适当提高一些，保证持久化的数据能够容纳在内存中。避免内存不够缓存所有的数据，导致数据只能写入磁盘中，降低了性能。但是如果Spark作业中的shuffle类操作比较多，而持久化操作比较少，那么这个参数的值适当降低一些比较合适。此外，如果发现作业由于频繁的gc导致运行缓慢（通过spark web ui可以观察到作业的gc耗时），意味着task执行用户代码的内存不够用，那么同样建议调低这个参数的值。</p>
+<h4 id="3-spark调试"><a href="#3-spark调试" class="headerlink" title="3.spark调试"></a>3.spark调试</h4><p>GC time太长，代表用于任务的内存太低，导致频繁GC，可以调小storage、shuffle的内存，增加任务内存<br>Peak Execution memory应该是任务用的峰值内存<br>shuffle read是任务读取的数据量，如果有的任务这个值明显特别高，说明出现数据倾斜<br>shuffle write是任务写出的数据量，同样可以表示数据倾斜<br>如果shuffle出现spill disk，说明shuffle内存不够，开始往硬盘写了。可以调大shuffle的内存，或者增大shuffle的partition数量。往硬盘写的数据如果不大，问题也不大。如果往硬盘溢写超过60G左右，节点可能就要崩了。</p>
+<h4 id="4-错误及解决方法"><a href="#4-错误及解决方法" class="headerlink" title="4.错误及解决方法"></a>4.错误及解决方法</h4><h5 id="3-4G物理内存已经使用了3-4G-说明物理内存不够-；16-9G虚拟内存已经使用了7-5G。"><a href="#3-4G物理内存已经使用了3-4G-说明物理内存不够-；16-9G虚拟内存已经使用了7-5G。" class="headerlink" title="3.4G物理内存已经使用了3.4G(说明物理内存不够)；16.9G虚拟内存已经使用了7.5G。"></a>3.4G物理内存已经使用了3.4G(说明物理内存不够)；16.9G虚拟内存已经使用了7.5G。</h5><p><img src="/img/24dc49a30a74a9836beb98f659a2fbdf.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>物理内存通常表示driver-memory；虚拟内存通常表示executor-memory？</p>
+<h5 id="Python运行spark时出现版本不同的错误"><a href="#Python运行spark时出现版本不同的错误" class="headerlink" title="Python运行spark时出现版本不同的错误"></a>Python运行spark时出现版本不同的错误</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">Exception: Python <span class="hljs-keyword">in</span> worker has different version <span class="hljs-number">3.9</span> than that <span class="hljs-keyword">in</span> driver <span class="hljs-number">3.7</span>, PySpark cannot run <span class="hljs-keyword">with</span> different minor versions. Please check environment variables PYSPARK_PYTHON <span class="hljs-keyword">and</span> PYSPARK_DRIVER_PYTHON are correctly <span class="hljs-built_in">set</span>.<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment"># 此处指定自己的python路径</span><br>os.environ[<span class="hljs-string">&quot;PYSPARK_PYTHON&quot;</span>] = <span class="hljs-string">&quot;/miniconda3/envs/py37/bin/python&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+<p>参考链接：<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/tuning.html">调优 Spark3.3.0 官方文档</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spark笔记（pyspark）</div>
+      <div>https://qzkq.github.io/2026/01/03/Spark笔记（pyspark）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/03/SQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E5%8F%A5%20%E7%AC%94%E8%AE%B0/" title="SQL常用语句 笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SQL常用语句 笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/03/Scikit-learn%E4%BD%BF%E7%94%A8%E5%92%8C%E6%89%A9%E5%B1%95%E4%B9%8Bmlxtend%EF%BC%88Stacking...%EF%BC%89/" title="Scikit-learn使用和扩展之mlxtend（Stacking...）">
+                        <span class="hidden-mobile">Scikit-learn使用和扩展之mlxtend（Stacking...）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

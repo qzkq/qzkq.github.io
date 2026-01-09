@@ -1,0 +1,898 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC sklearn.neural_network.MLPRegressorscikit-learn 库中提供的一个多层感知器（Multi-Layer Perceptron, MLP）回归模型类，用于解决回归问题。该模型构建了一个包含隐藏层的前馈神经网络，并通过反向传播算法进行训练。以下是 MLPRegressor 主要参数的详细说明：  hidden_layer_sizes:类型：元组或列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/Keras%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E3%80%81Pytorch%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8CSklearn%E7%9A%84MLPRegressor/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC sklearn.neural_network.MLPRegressorscikit-learn 库中提供的一个多层感知器（Multi-Layer Perceptron, MLP）回归模型类，用于解决回归问题。该模型构建了一个包含隐藏层的前馈神经网络，并通过反向传播算法进行训练。以下是 MLPRegressor 主要参数的详细说明：  hidden_layer_sizes:类型：元组或列">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T00:11:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.269Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:11" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="Keras%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E3%80%81Pytorch%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8CSklearn%E7%9A%84MLPRegressor">TOC</a></p>
+<h1 id="sklearn-neural-network-MLPRegressor"><a href="#sklearn-neural-network-MLPRegressor" class="headerlink" title="sklearn.neural_network.MLPRegressor"></a>sklearn.neural_network.MLPRegressor</h1><p>scikit-learn 库中提供的一个多层感知器（Multi-Layer Perceptron, MLP）回归模型类，用于解决回归问题。该模型构建了一个包含隐藏层的前馈神经网络，并通过反向传播算法进行训练。以下是 MLPRegressor 主要参数的详细说明：</p>
+<ol>
+<li>hidden_layer_sizes:<br>类型：元组或列表（整数）<br>默认值：(100,)<br>描述：定义神经网络的隐藏层结构。每个整数表示对应层中神经元的数量。例如，hidden_layer_sizes&#x3D;(100, 50) 表示有两个隐藏层，第一个层有100个神经元，第二个层有50个神经元。如果只有一个整数，如 (100,)，则表示有一个单层、100个神经元的隐藏层。</li>
+<li>activation:<br>类型：字符串<br>默认值：’relu’<br>描述：指定隐藏层和输出层神经元的激活函数。常见的选项包括：</li>
+</ol>
+<blockquote>
+<p>‘identity’: 线性激活，即无激活（a(x) &#x3D; x）。<br> ‘logistic’: 逻辑sigmoid函数。<br> ‘tanh’: 双曲正切（hyperbolic tangent）函数。<br> ‘relu’: 常用的ReLU激活函数（Rectified Linear Unit），对于正输入返回原值，对于负输入返回0。<br> ‘leaky_relu’: Leaky ReLU，对负输入提供一个小的非零斜率。<br>‘elu’: Exponential Linear Unit (ELU) 激活函数。<br>‘selu’: Scaled Exponential Linear Unit (SELU) 激活函数，适合自归一化神经网络。</p>
+</blockquote>
+<ol start="3">
+<li>solver:<br>类型：字符串<br>默认值：’adam’<br>描述：选择优化算法来调整权重。可选的值包括：</li>
+</ol>
+<blockquote>
+<p>‘lbfgs’: 有限内存BFGS（L-BFGS）优化器。<br> ‘sgd’: 随机梯度下降（Stochastic Gradient Descent）。<br>‘adam’: Adam优化器，结合了动量和自适应学习率。<br> ‘rmsprop’: RMSprop优化器。</p>
+</blockquote>
+<ol start="4">
+<li>alpha:<br>类型：浮点数<br>默认值：0.0001<br>描述：正则化强度（L2 regularization penalty）。较大的值有助于防止过拟合，但可能导致欠拟合。值为0表示不使用正则化。</li>
+<li>batch_size:<br>类型：整数或 ‘auto’<br>默认值：’auto’<br>描述：当使用 mini-batch 优化算法（如 ‘sgd’ 或 ‘adam’）时，指定每次迭代更新权重时使用的样本数量。若设置为 ‘auto’，则根据输入数据自动确定合适的批量大小。</li>
+<li>learning_rate:<br>类型：字符串<br>默认值：’constant’<br>描述：指定学习率策略。不同的策略适用于不同的优化器。可选值包括：<br>‘constant’: 使用固定的 learning_rate_init。<br>‘invscaling’: 学习率随着迭代次数按比例递减。<br>‘adaptive’: 对于 ‘sgd’ 和 ‘adam’ 优化器，采用自适应学习率策略。</li>
+<li>learning_rate_init:<br>类型：浮点数<br>默认值：0.001<br>描述：初始化的学习率。实际学习率会根据 learning_rate 参数指定的策略进行调整。</li>
+<li>power_t:<br>类型：浮点数<br>默认值：0.5<br>描述：仅在使用 learning_rate&#x3D;’invscaling’ 时生效，用于控制学习率衰减的速度。学习率与迭代次数的幂次成反比，幂指数由 power_t 决定。</li>
+<li>max_iter:<br>类型：整数<br>默认值：200<br>描述：最大迭代次数。达到此次数后，训练过程将停止，即使没有达到收敛条件。</li>
+<li>shuffle:</li>
+</ol>
+<ul>
+<li>类型：布尔值</li>
+<li>默认值：<code>True</code></li>
+<li>描述：在每次迭代开始时是否随机打乱训练数据。对于 mini-batch 更新，这有助于引入更多随机性并避免局部最优。</li>
+</ul>
+<ol start="11">
+<li>tol:</li>
+</ol>
+<ul>
+<li>类型：浮点数</li>
+<li>默认值：<code>1e-4</code></li>
+<li>描述：训练停止的容忍度。如果目标函数的改善小于 <code>tol</code>，则认为已收敛并停止训练。</li>
+</ul>
+<ol start="12">
+<li>verbose:</li>
+</ol>
+<ul>
+<li>类型：整数或布尔值</li>
+<li>默认值：<code>False</code></li>
+<li>描述：控制训练过程中信息的输出。非零整数表示输出训练进度的频率；<code>True</code> 等同于 <code>1</code>。</li>
+</ul>
+<ol start="13">
+<li>warm_start:</li>
+</ol>
+<ul>
+<li>类型：布尔值</li>
+<li>默认值：<code>False</code></li>
+<li>描述：是否在多次调用 <code>.fit()</code> 时重用上一次的模型参数作为初始值。启用后，可以在不丢失已有训练结果的情况下调整超参数或增加更多数据。</li>
+</ul>
+<ol start="14">
+<li>momentum:</li>
+</ol>
+<ul>
+<li>类型：浮点数</li>
+<li>默认值：<code>0.9</code></li>
+<li>描述：仅在使用 <code>&#39;sgd&#39;</code> 优化器时有效，表示动量因子，用于加速梯度下降过程。</li>
+</ul>
+<ol start="15">
+<li>nesterovs_momentum:</li>
+</ol>
+<ul>
+<li>类型：布尔值</li>
+<li>默认值：<code>True</code></li>
+<li>描述：仅在使用 <code>&#39;sgd&#39;</code> 优化器且 <code>momentum &gt; 0</code> 时有效，决定是否使用 Nesterov 加速动量。</li>
+</ul>
+<ol start="16">
+<li>early_stopping:</li>
+</ol>
+<ul>
+<li>类型：布尔值或字典</li>
+<li>默认值：<code>False</code></li>
+<li>描述：启用早停机制以避免过拟合。如果为 <code>True</code>，将在验证集上监控损失并在性能不再改善时停止训练。也可以提供一个字典来指定早停参数，如 <code>{&#39;patience&#39;: 10}</code>。</li>
+</ul>
+<ol start="17">
+<li>validation_fraction:</li>
+</ol>
+<ul>
+<li>类型：浮点数（0, 1]</li>
+<li>默认值：<code>0.1</code></li>
+<li>描述：仅在启用 <code>early_stopping</code> 时生效，表示用于验证集的训练数据比例。</li>
+</ul>
+<ol start="18">
+<li>beta_1 和 beta_2:</li>
+</ol>
+<ul>
+<li>类型：浮点数</li>
+<li>默认值：<code>0.9</code> 和 <code>0.999</code></li>
+<li>描述：仅在使用 <code>&#39;adam&#39;</code> 优化器时有效，分别是Adam算法中的第一阶和第二阶动量项的平滑系数。</li>
+</ul>
+<ol start="19">
+<li>epsilon:</li>
+</ol>
+<ul>
+<li>类型：浮点数</li>
+<li>默认值：<code>1e-8</code></li>
+<li>描述：仅在使用 <code>&#39;adam&#39;</code> 或 <code>&#39;rmsprop&#39;</code> 优化器时有效，防止数值计算时除以零。</li>
+</ul>
+<ol start="20">
+<li>random_state:</li>
+</ol>
+<ul>
+<li>类型：整数、<code>RandomState</code> 实例、<code>None</code></li>
+<li>默认值：<code>None</code></li>
+<li>描述：控制随机数生成器的种子，确保实验的可重复性。</li>
+</ul>
+<ol start="21">
+<li>verbose:</li>
+</ol>
+<ul>
+<li>类型：整数或布尔值</li>
+<li>默认值：<code>False</code></li>
+<li>描述：控制训练过程中的输出信息级别。</li>
+</ul>
+<ol start="22">
+<li>warm_start:</li>
+</ol>
+<ul>
+<li>类型：布尔值</li>
+<li>默认值：<code>False</code></li>
+<li>描述：是否在多次调用 <code>.fit()</code> 时重用上一次的模型参数作为初始值。</li>
+</ul>
+<ol start="23">
+<li>momentum:</li>
+</ol>
+<ul>
+<li>类型：浮点数</li>
+<li>默认值：<code>0.9</code></li>
+<li>描述：仅在使用 <code>&#39;sgd&#39;</code> 优化器时有效，表示动量因子，用于加速梯度下降过程。</li>
+</ul>
+<ol start="24">
+<li>nesterovs_momentum:</li>
+</ol>
+<ul>
+<li>类型：布尔值</li>
+<li>默认值：<code>True</code></li>
+<li>描述：仅在使用 <code>&#39;sgd&#39;</code> 优化器且 <code>momentum &gt; 0</code> 时有效，决定是否使用 Nesterov 加速动量。</li>
+</ul>
+<ol start="25">
+<li>early_stopping:</li>
+</ol>
+<ul>
+<li>类型：布尔值或字典</li>
+<li>默认值：<code>False</code></li>
+<li>描述：启用早停机制以避免过拟合。如果为 <code>True</code>，将在验证集上监控损失并在性能不再改善时停止训练。也可以提供一个字</li>
+</ul>
+<h1 id="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor"><a href="#Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor" class="headerlink" title="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor"></a>Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor</h1><h2 id="1-Sklearn的MLPRegressor"><a href="#1-Sklearn的MLPRegressor" class="headerlink" title="1.Sklearn的MLPRegressor"></a>1.Sklearn的MLPRegressor</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">clf = MLPRegressor(<br>	      solvers=<span class="hljs-string">&#x27;adam&#x27;</span>,<br>	      activation=<span class="hljs-string">&#x27;relu&#x27;</span>,<br>	      learning_rate=<span class="hljs-string">&#x27;constant&#x27;</span>,<br>	      learning_rate_init=<span class="hljs-number">0.05</span>,<br>	      shuffle=<span class="hljs-literal">True</span>,<br>	      random_state=<span class="hljs-number">6</span>,<br>	      early_stopping=<span class="hljs-literal">True</span>,<br>	      validation_fraction=<span class="hljs-number">0.2</span><br>	  )<br></code></pre></td></tr></table></figure>
+<h2 id="2-Keras搭建神经网络"><a href="#2-Keras搭建神经网络" class="headerlink" title="2.Keras搭建神经网络"></a>2.Keras搭建神经网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> tensorflow.keras.models <span class="hljs-keyword">import</span> Sequential<br><span class="hljs-keyword">from</span> tensorflow.keras.layers <span class="hljs-keyword">import</span> Dense<br><span class="hljs-keyword">from</span> tensorflow.keras.optimizers <span class="hljs-keyword">import</span> Adam<br><span class="hljs-keyword">from</span> tensorflow.keras.callbacks <span class="hljs-keyword">import</span> EarlyStopping<br><br><span class="hljs-comment"># 1. 定义模型结构</span><br>model = Sequential()<br>model.add(Dense(units=<span class="hljs-number">100</span>, activation=<span class="hljs-string">&#x27;relu&#x27;</span>, input_dim=input_shape))  <span class="hljs-comment"># 假设 input_shape 是您的特征维度</span><br>model.add(Dense(units=<span class="hljs-number">1</span>, activation=<span class="hljs-string">&#x27;linear&#x27;</span>))  <span class="hljs-comment"># 输出层只有一个神经元，线性激活（默认）</span><br><br><span class="hljs-comment"># 2. 设置优化器和学习率</span><br>optimizer = Adam(learning_rate=<span class="hljs-number">0.05</span>)<br><br><span class="hljs-comment"># 3. 编译模型</span><br>model.<span class="hljs-built_in">compile</span>(loss=<span class="hljs-string">&#x27;mean_squared_error&#x27;</span>, optimizer=optimizer, metrics=[<span class="hljs-string">&#x27;mse&#x27;</span>])<br><br><span class="hljs-comment"># 4. 设置早期停止回调</span><br>early_stopping = EarlyStopping(monitor=<span class="hljs-string">&#x27;val_loss&#x27;</span>, patience=<span class="hljs-number">10</span>, restore_best_weights=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 5. 训练模型</span><br>history = model.fit(X_train, y_train, <br>                    validation_split=<span class="hljs-number">0.2</span>,  <span class="hljs-comment"># 使用20%数据作为验证集</span><br>                    epochs=epochs,  <span class="hljs-comment"># 您需要指定一个适当的epochs值，因为Keras不直接支持最大迭代次数</span><br>                    batch_size=batch_size,  <span class="hljs-comment"># 如果需要，指定batch_size</span><br>                    shuffle=<span class="hljs-literal">True</span>,  <span class="hljs-comment"># 在训练过程中打乱数据</span><br>                    callbacks=[early_stopping],  <span class="hljs-comment"># 传入早期停止回调</span><br>                    verbose=<span class="hljs-number">1</span>,  <span class="hljs-comment"># 控制训练过程中的输出信息级别</span><br>                    random_state=<span class="hljs-number">6</span>)  <span class="hljs-comment"># 由于Keras内部使用tf.random.set_seed()，这里设置全局随机种子</span><br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>Keras 不直接支持 max_iter 参数，因此您需要指定一个合适的 epochs（迭代次数）值。可以通过观察训练过程中的损失变化来确定一个合理的值。</li>
+<li>Keras 的 EarlyStopping 回调没有直接对应 validation_fraction 参数，而是通过  validation_split 参数在 fit() 函数中指定验证集比例。这里的 patience&#x3D;10 是一个示例值，表示在验证集损失连续10轮未改善时停止训练。您可以根据需求调整这个值。</li>
+<li>Keras 使用 tf.random.set_seed() 设置全局随机种子以保证实验的可重复性。将 random_state&#x3D;6 替换为 tf.random.set_seed(6) 即可实现相同效果。</li>
+</ul>
+<h3 id="Dense参数"><a href="#Dense参数" class="headerlink" title="Dense参数"></a>Dense参数</h3><p>在Keras中，Dense层是一种全连接（Fully Connected, FC）层，它是神经网络中最基础且常用的层类型之一，负责将前一层的所有节点与当前层的所有节点之间建立全连接关系。</p>
+<ol>
+<li>units<br>类型: int<br>作用: 指定该全连接层输出节点（或称神经元）的数量。这个数值直接影响了该层输出的维度。更多的节点通常意味着模型具有更强的表达能力和捕捉复杂模式的能力，但也可能导致过拟合和增加计算成本。</li>
+<li>activation<br>类型: str 或 Activation 函数<br>默认值: None（无激活函数）<br>作用: 指定应用于该层输出的非线性激活函数。常见的激活函数有：</li>
+</ol>
+<blockquote>
+<p>‘relu’：整流线性单元（Rectified Linear Unit），常用作默认激活函数，用于处理非负值输入。<br>‘sigmoid’：S型曲线函数，输出范围为(0, 1)，常用于二分类问题的最后一层。<br>‘softmax’：归一化指数函数，输出为概率分布形式，常用于多分类问题的最后一层。 ‘tanh’：双曲正切函数，输出范围为(-1, 1)，适用于需要输出在双曲范围内的情况。</p>
+</blockquote>
+<ol start="3">
+<li>use_bias<br>类型: bool<br>默认值: True<br>作用: 控制是否为该层添加偏置项（bias）。偏置项是神经网络中每个节点独立的可训练参数，通常情况下启用偏置项能够增强模型的学习能力。</li>
+<li>kernel_initializer<br>类型: str 或 Initializer 对象<br>作用: 指定该层权重矩阵（kernel或weights）的初始化方法。常见的初始化器如’glorot_uniform’（Xavier uniform初始化）、’glorot_normal’（Xavier normal初始化）、’lecun_uniform’、’lecun_normal’、’he_normal’（He initialization for ReLU-based activations）等，也可以使用自定义初始化器对象。</li>
+<li>bias_initializer<br>类型: str 或 Initializer 对象<br>作用: 指定该层偏置项的初始化方法。常见的初始化器如’zeros’（所有偏置初始化为0）、’ones’、’uniform’、’normal’等，也可以使用自定义初始化器对象。</li>
+<li>kernel_regularizer<br>类型: Regularizer 对象或 None<br>作用: 添加应用于权重矩阵的正则化项，用于防止过拟合。常见的正则化方法有L1、L2正则化，可以通过l1()、l2()等函数创建相应的正则化器对象。</li>
+<li>bias_regularizer<br>类型: Regularizer 对象或 None<br>作用: 添加应用于偏置项的正则化项，与kernel_regularizer类似，用于防止过拟合。</li>
+<li>activity_regularizer<br>类型: Regularizer 对象或 None<br>作用: 添加应用于该层输出的正则化项，基于层的输出值（激活值）计算正则化损失。</li>
+<li>kernel_constraint<br>类型: Constraint 对象或 None<br>作用: 添加对权重矩阵的约束条件，如限制其最大值、最小值或范数等。</li>
+<li>bias_constraint<br>类型: Constraint 对象或 None<br>作用: 添加对偏置项的约束条件，与kernel_constraint类似。</li>
+<li>dtype<br>类型: str 或 tf.DType<br>作用: 指定该层数据类型的默认值。如果不指定，将继承自输入数据或全局默认值。</li>
+<li>input_dim<br>类型: int<br>作用: （仅在第一层时使用）指定输入数据的特征维度，当模型没有明确的输入_shape时，可以使用此参数来指定。在后续层中，这一信息由前一层自动传递，无需显式指定。<br>综上所述，Keras中的Dense层通过这些参数提供了丰富的定制选项，使用户能够根据特定任务的需求调整模型结构、激活函数、初始化策略、正则化方法等，以优化模型性能和泛化能力。</li>
+</ol>
+<h2 id="3-Pytorch搭建神经网络"><a href="#3-Pytorch搭建神经网络" class="headerlink" title="3.Pytorch搭建神经网络"></a>3.Pytorch搭建神经网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim<br><span class="hljs-keyword">from</span> torch.utils.data <span class="hljs-keyword">import</span> DataLoader, TensorDataset<br><span class="hljs-keyword">from</span> torch.autograd <span class="hljs-keyword">import</span> Variable<br><span class="hljs-keyword">from</span> torch.optim.lr_scheduler <span class="hljs-keyword">import</span> StepLR<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br><span class="hljs-comment"># 1. 定义模型结构</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MLP</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_dim, hidden_units=<span class="hljs-number">100</span></span>):<br>        <span class="hljs-built_in">super</span>(MLP, <span class="hljs-variable language_">self</span>).__init__()<br>        <span class="hljs-variable language_">self</span>.fc1 = nn.Linear(input_dim, hidden_units)<br>        <span class="hljs-variable language_">self</span>.relu = nn.ReLU()<br>        <span class="hljs-variable language_">self</span>.fc2 = nn.Linear(hidden_units, <span class="hljs-number">1</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        x = <span class="hljs-variable language_">self</span>.relu(<span class="hljs-variable language_">self</span>.fc1(x))<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.fc2(x)<br><br>model = MLP(input_dim=input_shape)  <span class="hljs-comment"># 假设 input_shape 是您的特征维度</span><br><br><span class="hljs-comment"># 2. 设置优化器和学习率</span><br>optimizer = optim.Adam(model.parameters(), lr=<span class="hljs-number">0.05</span>)<br><br><span class="hljs-comment"># 3. 准备数据</span><br>X_train_tensor = torch.tensor(X_train, dtype=torch.float32)<br>y_train_tensor = torch.tensor(y_train, dtype=torch.float32)<br><br>train_dataset = TensorDataset(X_train_tensor, y_train_tensor)<br>train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 4. 定义训练循环</span><br>num_epochs = ...  <span class="hljs-comment"># 您需要指定一个适当的epochs值，因为PyTorch不直接支持最大迭代次数</span><br>patience = <span class="hljs-number">10</span>  <span class="hljs-comment"># 早停的耐心值</span><br><br>best_val_loss = <span class="hljs-built_in">float</span>(<span class="hljs-string">&#x27;inf&#x27;</span>)<br>num_no_improvement_epochs = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_epochs):<br>    <span class="hljs-keyword">for</span> inputs, targets <span class="hljs-keyword">in</span> train_loader:<br>        optimizer.zero_grad()<br>        outputs = model(inputs)<br>        loss = nn.MSELoss()(outputs, targets)<br>        loss.backward()<br>        optimizer.step()<br><br>    <span class="hljs-comment"># 评估验证集损失（假设您已经有 X_val 和 y_val）</span><br>    val_inputs = torch.tensor(X_val, dtype=torch.float32)<br>    val_targets = torch.tensor(y_val, dtype=torch.float32)<br>    val_outputs = model(val_inputs)<br>    val_loss = nn.MSELoss()(val_outputs, val_targets)<br><br>    <span class="hljs-keyword">if</span> val_loss &lt; best_val_loss:<br>        best_val_loss = val_loss<br>        num_no_improvement_epochs = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">else</span>:<br>        num_no_improvement_epochs += <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">if</span> num_no_improvement_epochs &gt;= patience:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Early stopping at epoch:&quot;</span>, epoch)<br>        <span class="hljs-keyword">break</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Training completed.&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+<p>注意以下几点：</p>
+<ul>
+<li>PyTorch 不直接支持 max_iter 参数，因此您需要指定一个合适的 num_epochs（迭代次数）值。可以通过观察训练过程中的损失变化来确定一个合理的值。</li>
+<li>PyTorch 没有内置的早期停止功能，您需要手动实现。这里展示了如何在训练循环中检查验证集损失，并在连续若干轮未改善时停止训练。patience 参数表示早停的耐心值，您可以根据需求调整这个值。</li>
+<li>PyTorch 使用 torch.manual_seed() 设置全局随机种子以保证实验的可重复性。将 random_state&#x3D;6 替换为 torch.manual_seed(6) 即可实现相同效果。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor</div>
+      <div>https://qzkq.github.io/2026/01/01/Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/LightGBM%E3%80%81XGBoost%E5%92%8CCatBoost%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="LightGBM、XGBoost和CatBoost自定义损失函数和评估指标">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LightGBM、XGBoost和CatBoost自定义损失函数和评估指标</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/Keras%E5%92%8CTensorflow%EF%BC%88CPU%EF%BC%89%E5%AE%89%E8%A3%85%E3%80%81Pytorch%EF%BC%88CPU%E5%92%8CGPU%EF%BC%89%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8Ajupyter%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/" title="Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境">
+                        <span class="hidden-mobile">Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

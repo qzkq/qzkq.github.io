@@ -1,0 +1,904 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="微信公众号：数学建模与人工智能https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC Keras和Tensorflow（CPU）安装一、安装我用的是清华大学源keras安装： 1pip install -i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple keras  tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/Keras%E5%92%8CTensorflow%EF%BC%88CPU%EF%BC%89%E5%AE%89%E8%A3%85%E3%80%81Pytorch%EF%BC%88CPU%E5%92%8CGPU%EF%BC%89%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8Ajupyter%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="微信公众号：数学建模与人工智能https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC Keras和Tensorflow（CPU）安装一、安装我用的是清华大学源keras安装： 1pip install -i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple keras  tensorflow">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/2501bdd67b59949a49a5e87835b655ea.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c3b9b0aadde9751786253979275e3056.png">
+<meta property="og:image" content="https://qzkq.github.io/img/0cc2518406a029922321bc78af2f0386.png">
+<meta property="og:image" content="https://qzkq.github.io/img/0ee7dd150df54804ae0b3ea5179454d2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/4772cd53e75fb6a6c7d2b62cc318b884.png">
+<meta property="article:published_time" content="2026-01-01T00:10:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.356Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/2501bdd67b59949a49a5e87835b655ea.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:10" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=100000890&idx=1&sn=c1a6abaeeeba9cad51dd100aaa21e5bc&scene=19#wechat_redirect">微信公众号：数学建模与人工智能</a><br><a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@<a href="Keras%E5%92%8CTensorflow%EF%BC%88CPU%EF%BC%89%E5%AE%89%E8%A3%85%E3%80%81Pytorch%EF%BC%88CPU%E5%92%8CGPU%EF%BC%89%E5%AE%89%E8%A3%85">TOC</a></p>
+<h1 id="Keras和Tensorflow（CPU）安装"><a href="#Keras和Tensorflow（CPU）安装" class="headerlink" title="Keras和Tensorflow（CPU）安装"></a>Keras和Tensorflow（CPU）安装</h1><h2 id="一、安装我用的是清华大学源"><a href="#一、安装我用的是清华大学源" class="headerlink" title="一、安装我用的是清华大学源"></a>一、安装我用的是清华大学源</h2><p><strong>keras安装：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple keras<br></code></pre></td></tr></table></figure>
+
+<p><strong>tensorflow安装：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow<br></code></pre></td></tr></table></figure>
+<p><strong>注</strong>：<strong>我用的是cmd管理员安装，在安装tensorflow的时候有错误或者很长时间没有往下进行可以按下</strong>enter<strong>键，这样安装是可以在windows环境下Anaconda和Pycharm都可以使用。</strong></p>
+<p>初学者，上述安装的是CPU版，tensorflow GPU比CPU版本运行速度要快，但是安装比较麻烦，网上还有很多Anaconda环境下得安装教程，是在Anaconda环境下搭建的GPU版，有些对你电脑配置会有要求。<br><img src="/img/2501bdd67b59949a49a5e87835b655ea.png" srcset="/img/loading.gif" lazyload alt="管理员运行"></p>
+<h2 id="二、深度学习模型保存与加载"><a href="#二、深度学习模型保存与加载" class="headerlink" title="二、深度学习模型保存与加载"></a>二、深度学习模型保存与加载</h2><p><strong>方法一</strong>（我的程序会报错）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">import joblib<br><br><span class="hljs-comment">#train the model</span><br><br>model.fit(X,y,epochs=200)<br><br>joblib.dump(model1, <span class="hljs-string">&#x27;./model1.pkl&#x27;</span>)<br><br>tokenizer = joblib.load(<span class="hljs-string">&#x27;./model1.pkl&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>方法二</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">from keras.models import load_model<br><br><span class="hljs-comment"># 模型保存</span><br><br>model.save(<span class="hljs-string">&#x27;./model1.h5&#x27;</span>)<br><br><span class="hljs-comment"># 模型加载</span><br><br>model2 = load_model(<span class="hljs-string">&#x27;./model1.h5&#x27;</span>)<br><br><span class="hljs-comment"># 模型重新训练，重新 fit</span><br><br>y2_predict = model2.predict(X2) <br></code></pre></td></tr></table></figure>
+
+<h2 id="三、错误"><a href="#三、错误" class="headerlink" title="三、错误"></a>三、错误</h2><p><strong>1、在学习过程中遇到</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> keras.utils <span class="hljs-keyword">import</span> to_categorical<br></code></pre></td></tr></table></figure>
+<p><strong>这样写出现错误：</strong><br><strong>ImportError: cannot import name ‘to_categorical’ from ‘keras.utils’ (D:\Anaconda3\lib\site-packages\keras\utils_<em>init</em>_.py)</strong><br>改成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> tensorflow.keras.utils <span class="hljs-keyword">import</span> to_categorical<br></code></pre></td></tr></table></figure>
+
+<p><strong>2、错误</strong><br>Failed to find data adapter that can handle input: &lt;class ‘numpy.ndarray’&gt;, (&lt;class ‘list’&gt; containing values of types {“&lt;class ‘numpy.float64’&gt;”})</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#train the model</span><br>model.fit(X,y,batch_size=30,epochs=200)<br></code></pre></td></tr></table></figure>
+<p><img src="/img/c3b9b0aadde9751786253979275e3056.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>查看发现变量类型不对，改成：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(X),<span class="hljs-built_in">type</span>(y))<br>y=np.array(y)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(X),<span class="hljs-built_in">type</span>(y))<br></code></pre></td></tr></table></figure>
+
+<h2 id="TensorBoard-是一个非常好用的可视化工具"><a href="#TensorBoard-是一个非常好用的可视化工具" class="headerlink" title="TensorBoard 是一个非常好用的可视化工具"></a>TensorBoard 是一个非常好用的可视化工具</h2><p><strong>1.数据写入</strong></p>
+<p>在keras中使用方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> keras<br>TensorBoardcallback=keras.callbacks.TensorBoard(log_dir=<span class="hljs-string">&#x27;./logs&#x27;</span>, <br>histogram_freq=<span class="hljs-number">0</span>, write_graph=<span class="hljs-literal">True</span>, write_images=<span class="hljs-literal">False</span>, <br>embeddings_freq=<span class="hljs-number">0</span>, embeddings_layer_names=<span class="hljs-literal">None</span>, embeddings_metadata=<span class="hljs-literal">None</span>)<br>model.fit(callbacks = [TensorBoardcallback])<br></code></pre></td></tr></table></figure>
+
+<p>在TensorFlow中使用方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf <br>TensorBoardcallback=tf.keras.callbacks.TensorBoard(log_dir=<span class="hljs-string">&#x27;./logs&#x27;</span>, <br>histogram_freq=<span class="hljs-number">0</span>, write_graph=<span class="hljs-literal">True</span>, write_images=<span class="hljs-literal">False</span>, <br>embeddings_freq=<span class="hljs-number">0</span>, embeddings_layer_names=<span class="hljs-literal">None</span>, embeddings_metadata=<span class="hljs-literal">None</span>)<br>model.fit(callbacks = [TensorBoardcallback])<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数介绍：</strong></p>
+<blockquote>
+<p>log_dir: 用来保存被 TensorBoard 分析的日志文件的文件名。<br>histogram_freq:对于模型中各个层计算激活值和模型权重直方图的频率（训练轮数中）。 如果设置成 0，直方图不会被计算。对于直方图可视化的验证数据（或分离数据）一定要明确的指出。<br>write_graph: 是否在 TensorBoard中可视化图像。 如果 write_graph 被设置为 True，日志文件会变得非常大。 write_grads: 是否在TensorBoard 中可视化梯度值直方图。 histogram_freq 必须要大于 0 。<br>batch_size:用以直方图计算的传入神经元网络输入批的大小。<br>write_images: 是否在 TensorBoard 中将模型权重以图片可视化。<br>embeddings_freq: 被选中的嵌入层会被保存的频率（在训练轮中）。<br>embeddings_layer_names:一个列表，会被监测层的名字。 如果是 None 或空列表，那么所有的嵌入层都会被监测。<br>embeddings_metadata:一个字典，对应层的名字到保存有这个嵌入层元数据文件的名字。 查看 详情 关于元数据的数据格式。以防同样的元数据被用于所用的嵌入层，字符串可以被传入。<br>embeddings_data: 要嵌入在embeddings_layer_names 指定的层的数据。 Numpy 数组（如果模型有单个输入）或 Numpy数组列表（如果模型有多个输入）。 Learn ore about embeddings。<br>update_freq: ‘batch’ 或‘epoch’ 或 整数。当使用 ‘batch’ 时，在每个 batch 之后将损失和评估值写入到 TensorBoard中。同样的情况应用到 ‘epoch’ 中。如果使用整数，例如 10000，这个回调会在每 10000 个样本之后将损失和评估值写入到TensorBoard 中。注意，频繁地写入到 TensorBoard 会减缓你的训练。</p>
+</blockquote>
+<p><strong>2.数据可视化</strong></p>
+<p>运行如下命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">tensorboard --logdir=/full_path_to_your_logs<br></code></pre></td></tr></table></figure>
+
+<p>在浏览器中打开： <a target="_blank" rel="noopener" href="http://127.0.0.1:6006/">http://127.0.0.1:6006/</a></p>
+<p>然后可以看到训练的过程和模型的数据</p>
+<p><strong>TensorFlow回调函数：<code>tf.keras.callbacks.ModelCheckpoint</code></strong><br>在每个训练期（epoch）后保存模型。</p>
+<p>filepath可以包含命名格式化选项，可以由epoch的值和logs的键（由on_epoch_end参数传递）来填充。</p>
+<p>例如：如果filepath是weights.{epoch:02d}-{val_loss:.2f}.hdf5，则模型检查点将与文件名中的epoch号和验证损失一起保存。</p>
+<p>参数：</p>
+<ul>
+<li>filepath：string，保存模型文件的路径。 </li>
+<li>monitor：要监测的数量。 verbose：详细信息模式，0或1。</li>
+<li>save_best_only：如果save_best_only&#x3D;True，被监测数量的最佳型号不会被覆盖。</li>
+<li>mode：{auto，min，max}之一。如果save_best_only&#x3D;True，那么是否覆盖保存文件的决定就取决于被监测数据的最大或者最小值。对于val_acc，这应该是max，对于val_loss这应该是min，等等。在auto模式中，方向是从监测数量的名称自动推断出来的。</li>
+<li>save_weights_only：如果为True，则仅保存模型的权重（model.save_weights(filepath)），否则保存完整模型（model.save(filepath)）。</li>
+<li>period：检查点之间的间隔（epoch数）。</li>
+</ul>
+<p><strong>EarlyStopping是什么</strong><br>EarlyStopping是Callbacks的一种，callbacks用于指定在每个epoch开始和结束的时候进行哪种特定操作。Callbacks中有一些设置好的接口，可以直接使用，如’acc’,’val_acc’,’loss’和’val_loss’等等。</p>
+<p>EarlyStopping则是用于提前停止训练的callbacks。具体地，可以达到当训练集上的loss不在减小（即减小的程度小于某个阈值）的时候停止继续训练。</p>
+<p><strong>为什么要用EarlyStopping</strong></p>
+<p>根本原因就是因为继续训练会导致测试集上的准确率下降。</p>
+<p>那继续训练导致测试准确率下降的原因猜测可能是1. 过拟合 2. 学习率过大导致不收敛 3. 使用正则项的时候，Loss的减少可能不是因为准确率增加导致的，而是因为权重大小的降低。</p>
+<p>当然使用EarlyStopping也可以加快学习的速度，提高调参效率。</p>
+<p><strong>EarlyStopping的使用与技巧</strong></p>
+<p>一般是在model.fit函数中调用callbacks，fit函数中有一个参数为callbacks。注意这里需要输入的是list类型的数据，所以通常情况只用EarlyStopping的话也要是[EarlyStopping()]</p>
+<p><strong>EarlyStopping的参数有</strong></p>
+<blockquote>
+<p>monitor:监控的数据接口，有’acc’,’val_acc’,’loss’,’val_loss’等等。正常情况下如果有验证集，就用’val_acc’或者’val_loss’。但是因为笔者用的是5折交叉验证，没有单设验证集，所以只能用’acc’了。<br>min_delta：增大或减小的阈值，只有大于这个部分才算作improvement。这个值的大小取决于monitor，也反映了你的容忍程度。例如笔者的monitor是’acc’，同时其变化范围在70%-90%之间，所以对于小于0.01%的变化不关心。加上观察到训练过程中存在抖动的情况（即先下降后上升），所以适当增大容忍程度，最终设为0.003%。<br>patience：能够容忍多少个epoch内都没有improvement。这个设置其实是在抖动和真正的准确率下降之间做tradeoff。如果patience设的大，那么最终得到的准确率要略低于模型可以达到的最高准确率。如果patience设的小，那么模型很可能在前期抖动，还在全图搜索的阶段就停止了，准确率一般很差。patience的大小和learning rate直接相关。在learning rate设定的情况下，前期先训练几次观察抖动的epoch number，比其稍大些设置patience。在learning rate变化的情况下，建议要略小于最大的抖动epoch number。笔者在引入EarlyStopping之前就已经得到可以接受的结果了，EarlyStopping算是锦上添花，所以patience设的比较高，设为抖动epoch number的最大值。<br>mode: 就’auto’, ‘min’,‘,max’三个可能。如果知道是要上升还是下降，建议设置一下。笔者的monitor是’acc’，所以mode&#x3D;’max’。min_delta和patience都和“避免模型停止在抖动过程中”有关系，所以调节的时候需要互相协调。通常情况下，min_delta降低，那么patience可以适当减少；min_delta增加，那么patience需要适当延长；反之亦然。</p>
+</blockquote>
+<h1 id="Pytorch-Anaconda虚拟环境安装"><a href="#Pytorch-Anaconda虚拟环境安装" class="headerlink" title="Pytorch Anaconda虚拟环境安装"></a>Pytorch Anaconda虚拟环境安装</h1><h2 id="一、安装步骤"><a href="#一、安装步骤" class="headerlink" title="一、安装步骤"></a>一、安装步骤</h2><ul>
+<li>打开Anaconda Prompt</li>
+<li>创建环境pytorch，使用Python版本是3.7（之后，在加载过程中会弹出提示，输入 y，即可安装。）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda create -n pytorch python=3.7<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>查看环境是否安装成功（可以看到包含base和pytorch两个环境（*表示当前所在环境））</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda info --envs<br></code></pre></td></tr></table></figure>
+<p><img src="/img/0cc2518406a029922321bc78af2f0386.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li>进入创建的pytorch环境</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda activate pytorch<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>安装pytorch</li>
+</ul>
+<p>根据自己的安装版本，在<a target="_blank" rel="noopener" href="https://pytorch.org/">Pytorch官网</a>（<a target="_blank" rel="noopener" href="https://pytorch.org/">https://pytorch.org/</a>）寻找安装命令代码：<br><img src="/img/0ee7dd150df54804ae0b3ea5179454d2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>将复制的代码粘贴到命令行格式下，弹出提示，输入 y，即可完成安装（根据自己想要按照的CPU或者GPU版本选择）。</p>
+<ul>
+<li>测试pytorch</li>
+</ul>
+<p><img src="/img/4772cd53e75fb6a6c7d2b62cc318b884.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="二、jupyter使用虚拟环境"><a href="#二、jupyter使用虚拟环境" class="headerlink" title="二、jupyter使用虚拟环境"></a>二、jupyter使用虚拟环境</h2><p>(注：这里我创建了两个虚拟环境tensorflow和pytorch，有一个不起作用，不知道为啥)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 包的管理</span><br>conda install -n 某个环境 包名(=版本号)<br>conda uninstall -n 某个环境 包名<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>添加虚拟环境到jupyter中</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda install jupyter<br>conda install ipykernel		<span class="hljs-comment"># 安装jupyter内核</span><br>python -m ipykernel install --user --name 虚拟环境名 --display-name 在jupyter中显示的环境名称<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>移除jupyter中的虚拟环境</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jupyter kernelspec remove 环境名<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="Windows11安装GPU深度学习环境教程（CUDA，cuDNN，Pytorch）"><a href="#Windows11安装GPU深度学习环境教程（CUDA，cuDNN，Pytorch）" class="headerlink" title="Windows11安装GPU深度学习环境教程（CUDA，cuDNN，Pytorch）"></a>Windows11安装GPU深度学习环境教程（CUDA，cuDNN，Pytorch）</h1><p>在Windows 11上配置支持GPU的PyTorch深度学习环境，关键在于按顺序安装CUDA工具包和兼容的cuDNN库，最后安装与之匹配的PyTorch版本。</p>
+<p>可以按图索骥：</p>
+<pre><code class=" mermaid">flowchart TD
+    A[开始安装] --&gt; B[检查GPU兼容性]
+    B --&gt; C[安装CUDA Toolkit]
+    C --&gt; D[安装cuDNN]
+    D --&gt; E[安装PyTorch&lt;br&gt;（GPU版本）]
+    E --&gt; F&#123;验证安装&#125;
+    F -- 命令输出正常 --&gt; G[环境就绪]
+    F -- 遇到问题 --&gt; H[排查与解决]
+</code></pre>
+
+<h3 id="🛠️-安装前的准备工作"><a href="#🛠️-安装前的准备工作" class="headerlink" title="🛠️ 安装前的准备工作"></a>🛠️ 安装前的准备工作</h3><p>在开始之前，核心的准备工作是确认你的显卡是否支持CUDA。</p>
+<ol>
+<li><p><strong>检查GPU兼容性</strong>：</p>
+<ul>
+<li>同时按下 <code>Ctrl + Shift + Esc</code> 打开任务管理器，在“性能”选项卡下找到你的GPU型号。或者，按下 <code>Win + R</code> 键，输入 <code>cmd</code> 打开命令提示符，然后输入 <code>nvidia-smi</code> 命令。</li>
+<li>如果命令成功执行，窗口右上角会显示当前驱动支持的 <strong>最高CUDA版本</strong>（例如12.8）。请记下这个版本号，作为选择CUDA Toolkit版本的参考。</li>
+<li>如果命令无法识别，说明你可能需要先安装或更新NVIDIA显卡驱动。你可以访问<a target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx">NVIDIA驱动下载页面</a>根据你的显卡型号下载并安装最新的驱动。</li>
+</ul>
+</li>
+<li><p><strong>一些可选工具</strong>：</p>
+<ul>
+<li><strong>Anaconda&#x2F;Miniconda</strong>：强烈推荐使用Conda来管理Python环境和软件包，它可以避免依赖冲突。</li>
+<li><strong>Visual Studio</strong>：如果你计划进行C++层面的CUDA开发，需要安装Visual Studio。如果仅使用PyTorch，则不必安装。</li>
+</ul>
+</li>
+</ol>
+<h3 id="📥-安装CUDA-Toolkit"><a href="#📥-安装CUDA-Toolkit" class="headerlink" title="📥 安装CUDA Toolkit"></a>📥 安装CUDA Toolkit</h3><ol>
+<li><strong>下载CUDA</strong>：访问 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">NVIDIA CUDA Toolkit Archive</a> 页面。在选择版本时，建议选取不高于 <code>nvidia-smi</code> 命令显示版本的CUDA Toolkit。例如，驱动支持12.8，你可以选择安装12.8或更低的12.x版本。</li>
+<li><strong>安装CUDA</strong>：运行下载的安装程序（建议安装在非C盘）。<ul>
+<li>在安装选项界面，建议选择 <strong>“自定义”</strong> 安装。</li>
+<li>在组件列表中，<strong>务必取消勾选 “Driver components” 下的 “Display Driver”</strong>，以避免覆盖你现有的显卡驱动。</li>
+<li>如果不需要在Visual Studio中进行CUDA开发，也可以取消勾选“Visual Studio Integration”。</li>
+</ul>
+</li>
+<li><strong>验证安装</strong>：<ul>
+<li>安装完成后，重启电脑以确保环境变量生效。</li>
+<li>重新打开命令提示符，输入 <code>nvcc -V</code>。如果显示CUDA编译器的版本信息，说明CUDA安装成功。</li>
+<li>你也可以进入CUDA安装目录下的 <code>extras\demo_suite</code> 文件夹，运行 <code>deviceQuery.exe</code> 和 <code>bandwidthTest.exe</code>，如果两者都输出 <code>Result = PASS</code>，则表明GPU设备可正常访问。</li>
+</ul>
+</li>
+</ol>
+<h3 id="📂-安装cuDNN库"><a href="#📂-安装cuDNN库" class="headerlink" title="📂 安装cuDNN库"></a>📂 安装cuDNN库</h3><p>cuDNN是NVIDIA针对深度学习的加速库。</p>
+<ol>
+<li><strong>下载cuDNN</strong>：访问 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cudnn">NVIDIA cuDNN下载页面</a>（需要注册并登录NVIDIA账号）。根据你安装的CUDA版本，选择<strong>兼容的cuDNN版本</strong>进行下载。</li>
+<li><strong>安装cuDNN</strong>：cuDNN的安装本质上是文件的复制。<ul>
+<li>将下载的cuDNN压缩包解压，你会看到 <code>bin</code>、<code>include</code>、<code>lib</code> 等文件夹。</li>
+<li>将这些文件夹内的<strong>全部内容</strong>，复制到你的CUDA安装目录（例如 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.6</code>）下的对应文件夹中。如果系统询问是否覆盖或合并文件夹，选择“是”即可。</li>
+</ul>
+</li>
+</ol>
+<h3 id="🔮-安装PyTorch（GPU版本）"><a href="#🔮-安装PyTorch（GPU版本）" class="headerlink" title="🔮 安装PyTorch（GPU版本）"></a>🔮 安装PyTorch（GPU版本）</h3><p>这是最后一步，确保PyTorch能调用你安装好的CUDA。</p>
+<ol>
+<li><p><strong>创建并激活Conda环境（推荐）</strong>：这可以隔离项目依赖。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda create --name pytorch_gpu python=3.11<br>conda activate pytorch_gpu<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装PyTorch</strong>：访问 <a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">PyTorch官方网站</a>，使用网站提供的配置器生成安装命令。</p>
+<ul>
+<li>根据你的CUDA版本，选择对应的PyTorch版本。请务必确保这里选择的CUDA版本与你之前安装的<strong>完全一致</strong>。</li>
+<li>复制生成的命令并运行。例如，针对CUDA 12.6，你可能需要运行类似以下的命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="✅-验证整个环境"><a href="#✅-验证整个环境" class="headerlink" title="✅ 验证整个环境"></a>✅ 验证整个环境</h3><p>所有安装完成后，必须验证PyTorch是否能正确识别GPU。</p>
+<ol>
+<li><p>打开命令提示符，并激活你的Conda环境（如果你使用了的话）。</p>
+</li>
+<li><p>运行Python，然后依次输入以下命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-built_in">print</span>(torch.__version__)  <span class="hljs-comment"># 查看PyTorch版本</span><br><span class="hljs-built_in">print</span>(torch.cuda.is_available())  <span class="hljs-comment"># 输出应为 True</span><br><span class="hljs-built_in">print</span>(torch.cuda.current_device())  <span class="hljs-comment"># 输出当前GPU设备索引 (例如 0)</span><br><span class="hljs-built_in">print</span>(torch.cuda.get_device_name(<span class="hljs-number">0</span>))  <span class="hljs-comment"># 输出你的GPU型号名称</span><br></code></pre></td></tr></table></figure>
+
+<p>如果 <code>torch.cuda.is_available()</code> 返回 <code>True</code>，并且能正确打印出你的GPU型号，那么恭喜你，Windows下的PyTorch-GPU环境已经配置成功！</p>
+</li>
+</ol>
+<h3 id="💡-可能遇到的问题与解决思路"><a href="#💡-可能遇到的问题与解决思路" class="headerlink" title="💡 可能遇到的问题与解决思路"></a>💡 可能遇到的问题与解决思路</h3><ul>
+<li><strong>版本匹配是关键</strong>：这是最常见的问题。请务必确保<strong>显卡驱动 → CUDA Toolkit → cuDNN → PyTorch</strong> 这一链条上的所有组件版本都是相互兼容的。</li>
+<li><strong>环境变量问题</strong>：如果 <code>nvcc -V</code> 命令不识别，请检查系统环境变量 <code>Path</code> 中是否已添加了CUDA的 <code>bin</code> 和 <code>libnvvp</code> 目录的路径。</li>
+<li><strong>安装程序冲突</strong>：如果在安装CUDA时遇到问题，可以尝试使用专门的DDU（Display Driver Uninstaller）工具在安全模式下彻底卸载原有NVIDIA驱动，再重新安装。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境</div>
+      <div>https://qzkq.github.io/2026/01/01/Keras和Tensorflow（CPU）安装、Pytorch（CPU和GPU）安装以及jupyter使用虚拟环境/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Keras%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E3%80%81Pytorch%E6%90%AD%E5%BB%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8CSklearn%E7%9A%84MLPRegressor/" title="Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Keras搭建神经网络、Pytorch搭建神经网络和Sklearn的MLPRegressor</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/Graphviz%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8%EF%BC%9A%E5%86%B3%E7%AD%96%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96/" title="Graphviz安装及使用：决策树可视化">
+                        <span class="hidden-mobile">Graphviz安装及使用：决策树可视化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,901 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC Cassandra常用操作1、查看键空间1DESCRIBE keyspaces; 该命令用于展示casandra下的所有的keyspaces（类比mysql的show databases;），casandra的keyspaces和mysql的数据库概念相似，属于从逻辑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cassandra笔记">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/Cassandra%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;QInzhengk&#x2F;Math-Model-and-Machine-Learning@TOC Cassandra常用操作1、查看键空间1DESCRIBE keyspaces; 该命令用于展示casandra下的所有的keyspaces（类比mysql的show databases;），casandra的keyspaces和mysql的数据库概念相似，属于从逻辑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/0605b8682652a0e389b18c585a3bdd6d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d051bd861caf47cd2dff6754619b0939.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5e0821d350f00cf3e66cab9c7d68bb5c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b9a2896bbfd7eea6ac9200303f1bf891.png">
+<meta property="og:image" content="https://qzkq.github.io/img/362aa25fc554cb545d8d597c6b492326.png">
+<meta property="article:published_time" content="2026-01-01T00:05:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.353Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="Cassandra">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/0605b8682652a0e389b18c585a3bdd6d.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Cassandra笔记 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Cassandra笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:05" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Cassandra笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://github.com/QInzhengk/Math-Model-and-Machine-Learning">https://github.com/QInzhengk/Math-Model-and-Machine-Learning</a><br>@<a href="Cassandra%E7%AC%94%E8%AE%B0">TOC</a></p>
+<h2 id="Cassandra常用操作"><a href="#Cassandra常用操作" class="headerlink" title="Cassandra常用操作"></a>Cassandra常用操作</h2><h3 id="1、查看键空间"><a href="#1、查看键空间" class="headerlink" title="1、查看键空间"></a>1、查看键空间</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DESCRIBE</span> keyspaces;<br></code></pre></td></tr></table></figure>
+<p>该命令用于展示casandra下的所有的keyspaces（类比mysql的show databases;），casandra的keyspaces和mysql的数据库概念相似，属于从逻辑上区分的物理隔离空间，基于各个keyspaces，管理各自的tables。</p>
+<p>如果想进入到某个keyspace下，可以使用  <code>use [keyspace名称];</code></p>
+<h3 id="2、查询所有table"><a href="#2、查询所有table" class="headerlink" title="2、查询所有table"></a>2、查询所有table</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">desc</span> tables;<br></code></pre></td></tr></table></figure>
+<h3 id="3、清空表数据"><a href="#3、清空表数据" class="headerlink" title="3、清空表数据"></a>3、清空表数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">truncate</span> <span class="hljs-operator">&lt;</span>表名称<span class="hljs-operator">&gt;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="4、cassandra支持插入数据时候设定一个过期时间，只需要在插入语句后面加上TTL关键字进行标识即可"><a href="#4、cassandra支持插入数据时候设定一个过期时间，只需要在插入语句后面加上TTL关键字进行标识即可" class="headerlink" title="4、cassandra支持插入数据时候设定一个过期时间，只需要在插入语句后面加上TTL关键字进行标识即可"></a>4、cassandra支持插入数据时候设定一个过期时间，只需要在插入语句后面加上TTL关键字进行标识即可</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">using</span> ttl <span class="hljs-number">30</span> <span class="hljs-keyword">set</span> uv <span class="hljs-operator">=</span> <span class="hljs-number">6</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;id&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Cassandra数据模型"><a href="#Cassandra数据模型" class="headerlink" title="Cassandra数据模型"></a>Cassandra数据模型</h2><h3 id="集群（Cluster）"><a href="#集群（Cluster）" class="headerlink" title="集群（Cluster）"></a>集群（Cluster）</h3><p>Cassandra 数据库分布在几个一起操作的机器上。最外层容器被称为群集。对于故障处理，每个节点包含一个副本，如果发生故障，副本将复制。Cassandra 按照环形格式将节点排列在集群中，并为它们分配数据。</p>
+<h3 id="键空间-（Keyspace）"><a href="#键空间-（Keyspace）" class="headerlink" title="键空间 （Keyspace）"></a>键空间 （Keyspace）</h3><p>键空间是 Cassandra 中数据的最外层容器。Cassandra 中的一个键空间的基本属性是 - </p>
+<ul>
+<li><strong>复制因子</strong> - 它是集群中将接收相同数据副本的计算机数。</li>
+<li><strong>副本放置策略</strong> - 它只是把副本放在介质中的策略。我们有简单策略（机架感知策略），旧网络拓扑策略（机架感知策略）和网络拓扑策略（数据中心共享策略）等策略。</li>
+<li><strong>列族</strong> - 键空间是一个或多个列族的列表的容器。列族又是一个行集合的容器。每行包含有序列。列族表示数据的结构。每个键空间至少有一个，通常是许多列族。</li>
+</ul>
+<p>创建键空间的语法如下 -</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> KEYSPACE Keyspace name<br><span class="hljs-keyword">WITH</span> replication <span class="hljs-operator">=</span> &#123;<span class="hljs-string">&#x27;class&#x27;</span>: <span class="hljs-string">&#x27;SimpleStrategy&#x27;</span>, <span class="hljs-string">&#x27;replication_factor&#x27;</span> : <span class="hljs-number">3</span>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="Cassandra-参考API"><a href="#Cassandra-参考API" class="headerlink" title="Cassandra 参考API"></a>Cassandra 参考API</h2><h3 id="集群（Cluster）-1"><a href="#集群（Cluster）-1" class="headerlink" title="集群（Cluster）"></a>集群（Cluster）</h3><p>这个类是驱动程序的主要入口点。它属于com.datastax.driver.core包。</p>
+<p><strong>方法</strong></p>
+<p><img src="/img/0605b8682652a0e389b18c585a3bdd6d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Cluster-Builder"><a href="#Cluster-Builder" class="headerlink" title="Cluster.Builder"></a>Cluster.Builder</h3><p>此类用于实例化Cluster.Builder类。</p>
+<p><strong>方法</strong></p>
+<p><img src="/img/d051bd861caf47cd2dff6754619b0939.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><p>此接口保存与Cassandra群集的连接。使用此接口，可以执行CQL查询。它属于com.datastax.driver.core包。</p>
+<p><strong>方法</strong></p>
+<p><img src="/img/5e0821d350f00cf3e66cab9c7d68bb5c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="Cassandra-Cqlsh"><a href="#Cassandra-Cqlsh" class="headerlink" title="Cassandra Cqlsh"></a>Cassandra Cqlsh</h2><p>默认情况下，Cassandra提供一个提示Cassandra查询语言shell（cqlsh），允许用户与它通信。使用此shell，您可以执行Cassandra查询语言（CQL）。</p>
+<p>使用cqlsh，你可以</p>
+<ul>
+<li>定义模式， </li>
+<li>插入数据， </li>
+<li>执行查询。</li>
+</ul>
+<h3 id="启动cqlsh"><a href="#启动cqlsh" class="headerlink" title="启动cqlsh"></a>启动cqlsh</h3><p>使用命令cqlsh启动cqlsh，如下所示。它提供Cassandra cqlsh提示作为输出。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">[hadoop<span class="hljs-variable">@linux</span> bin]$ cqlsh<br>Connected <span class="hljs-keyword">to</span> Test Cluster <span class="hljs-keyword">at</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">9042.</span><br>[cqlsh <span class="hljs-number">5.0</span><span class="hljs-number">.1</span> <span class="hljs-operator">|</span> Cassandra <span class="hljs-number">2.1</span><span class="hljs-number">.2</span> <span class="hljs-operator">|</span> CQL spec <span class="hljs-number">3.2</span><span class="hljs-number">.0</span> <span class="hljs-operator">|</span> Native protocol v3]<br>Use HELP <span class="hljs-keyword">for</span> help.<br>cqlsh<span class="hljs-operator">&gt;</span><br></code></pre></td></tr></table></figure>
+<p>Cqlsh - 如上所述，此命令用于启动cqlsh提示符。此外，它还支持更多的选项。下表说明了cqlsh的所有选项及其用法。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cqlsh –help</td>
+<td>显示有关cqlsh命令的选项的帮助主题。</td>
+</tr>
+<tr>
+<td>cqlsh –version</td>
+<td>提供您正在使用的cqlsh的版本。</td>
+</tr>
+<tr>
+<td>cqlsh –color</td>
+<td>指示shell使用彩色输出。</td>
+</tr>
+<tr>
+<td>cqlsh –debug</td>
+<td>显示更多的调试信息。</td>
+</tr>
+<tr>
+<td>cqlsh –execute      cql_statement</td>
+<td>指示shell接受并执行CQL命令。</td>
+</tr>
+<tr>
+<td>cqlsh –file&#x3D; “<strong>file name</strong>”</td>
+<td>如果使用此选项，Cassandra将在给定文件中执行命令并退出。</td>
+</tr>
+<tr>
+<td>cqlsh –no-color</td>
+<td>指示Cassandra不使用彩色输出。</td>
+</tr>
+<tr>
+<td>cqlsh -u “<strong>user name</strong>”</td>
+<td>使用此选项，您可以验证用户。默认用户名为：cassandra。</td>
+</tr>
+<tr>
+<td><strong>cqlsh-p “pass word”</strong></td>
+<td>使用此选项，您可以使用密码验证用户。默认密码为：cassandra。</td>
+</tr>
+</tbody></table>
+<h3 id="Cqlsh命令"><a href="#Cqlsh命令" class="headerlink" title="Cqlsh命令"></a>Cqlsh命令</h3><p>Cqlsh有几个命令，允许用户与它进行交互。命令如下所示。</p>
+<h3 id="记录的Shell命令"><a href="#记录的Shell命令" class="headerlink" title="记录的Shell命令"></a>记录的Shell命令</h3><p>下面给出了Cqlsh记录的shell命令。这些是用于执行任务的命令，如显示帮助主题，退出cqlsh，描述等。</p>
+<ul>
+<li><strong>HELP</strong> -显示所有cqlsh命令的帮助主题。</li>
+<li><strong>CAPTURE</strong> -捕获命令的输出并将其添加到文件。</li>
+<li><strong>CONSISTENCY</strong> -显示当前一致性级别，或设置新的一致性级别。</li>
+<li><strong>COPY</strong> -将数据复制到Cassandra并从Cassandra复制数据。</li>
+<li><strong>DESCRIBE</strong> -描述Cassandra及其对象的当前集群。</li>
+<li><strong>EXPAND</strong> -纵向扩展查询的输出。</li>
+<li><strong>EXIT</strong> -使用此命令，可以终止cqlsh。</li>
+<li><strong>PAGING</strong> -启用或禁用查询分页。</li>
+<li><strong>SHOW</strong> -显示当前cqlsh会话的详细信息，如Cassandra版本，主机或数据类型假设。</li>
+<li><strong>SOURCE</strong> -执行包含CQL语句的文件。</li>
+<li><strong>TRACING</strong> -启用或禁用请求跟踪。</li>
+</ul>
+<h3 id="CQL数据定义命令"><a href="#CQL数据定义命令" class="headerlink" title="CQL数据定义命令"></a>CQL数据定义命令</h3><ul>
+<li><strong>CREATE KEYSPACE</strong> -在Cassandra中创建KeySpace。</li>
+<li><strong>USE</strong> -连接到已创建的KeySpace。</li>
+<li><strong>ALTER KEYSPACE</strong> -更改KeySpace的属性。</li>
+<li><strong>DROP KEYSPACE</strong> -删除KeySpace。</li>
+<li><strong>CREATE TABLE</strong> -在KeySpace中创建表。</li>
+<li><strong>ALTER TABLE</strong> -修改表的列属性。</li>
+<li><strong>DROP TABLE</strong> -删除表。</li>
+<li><strong>TRUNCATE</strong> -从表中删除所有数据。</li>
+<li><strong>CREATE INDEX</strong> -在表的单个列上定义新索引。</li>
+<li><strong>DROP INDEX</strong> -删除命名索引。</li>
+</ul>
+<h3 id="CQL数据操作指令"><a href="#CQL数据操作指令" class="headerlink" title="CQL数据操作指令"></a>CQL数据操作指令</h3><ul>
+<li><strong>INSERT</strong> -在表中添加行的列。</li>
+<li><strong>UPDATE</strong> -更新行的列。</li>
+<li><strong>DELETE</strong> -从表中删除数据。</li>
+<li><strong>BATCH</strong> -一次执行多个DML语句。</li>
+</ul>
+<h3 id="CQL字句"><a href="#CQL字句" class="headerlink" title="CQL字句"></a>CQL字句</h3><ul>
+<li><strong>SELECT</strong> -此子句从表中读取数据</li>
+<li><strong>WHERE</strong> -where子句与select一起使用以读取特定数据。</li>
+<li><strong>ORDERBY</strong> -orderby子句与select一起使用，以特定顺序读取特定数据。</li>
+</ul>
+<h2 id="Cassandra-Shell命令"><a href="#Cassandra-Shell命令" class="headerlink" title="Cassandra Shell命令"></a>Cassandra Shell命令</h2><p>除了CQL命令，Cassandra还提供了记录的shell命令。下面给出了Cassandra记录的shell命令。</p>
+<h3 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h3><p>HELP命令显示所有cqlsh命令的摘要和简要描述。下面给出了help命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh<span class="hljs-operator">&gt;</span> help<br><br>Documented shell commands:<br><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><br>CAPTURE <span class="hljs-keyword">COPY</span> <span class="hljs-keyword">DESCRIBE</span> EXPAND PAGING SOURCE<br>CONSISTENCY <span class="hljs-keyword">DESC</span> EXIT HELP <span class="hljs-keyword">SHOW</span> TRACING.<br><br>CQL help topics:<br><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><br><span class="hljs-keyword">ALTER</span>           CREATE_TABLE_OPTIONS       <span class="hljs-keyword">SELECT</span><br>ALTER_ADD       CREATE_TABLE_TYPES         SELECT_COLUMNFAMILY<br>ALTER_ALTER     CREATE_USER                SELECT_EXPR<br>ALTER_DROP      <span class="hljs-keyword">DELETE</span>                     SELECT_LIMIT<br>ALTER_RENAME    DELETE_COLUMNS             SELECT_TABLE <br></code></pre></td></tr></table></figure>
+<h3 id="Capture"><a href="#Capture" class="headerlink" title="Capture"></a>Capture</h3><p>此命令捕获命令的输出并将其添加到文件。例如，看看下面的代码，它将输出捕获到名为Outputfile的文件。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh<span class="hljs-operator">&gt;</span> CAPTURE <span class="hljs-string">&#x27;/home/hadoop/CassandraProgs/Outputfile&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>当我们在终端中键入任何命令时，输出将被给定的文件捕获。下面给出的是使用的命令和输出文件的快照。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/b9a2896bbfd7eea6ac9200303f1bf891.png" srcset="/img/loading.gif" lazyload alt="文件"></p>
+<p>您可以使用以下命令关闭捕获。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> capture off;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Consistency"><a href="#Consistency" class="headerlink" title="Consistency"></a>Consistency</h3><p>此命令显示当前的一致性级别，或设置新的一致性级别。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> CONSISTENCY<br><span class="hljs-keyword">Current</span> consistency level <span class="hljs-keyword">is</span> <span class="hljs-number">1.</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Copy"><a href="#Copy" class="headerlink" title="Copy"></a>Copy</h3><p>此命令将数据从Cassandra复制到文件并从中复制。下面给出一个将名为emp的表复制到文件myfile的示例。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">COPY</span> emp (emp_id, emp_city, emp_name, emp_phone,emp_sal) <span class="hljs-keyword">TO</span> ‘myfile’;<br><span class="hljs-number">4</span> <span class="hljs-keyword">rows</span> exported <span class="hljs-keyword">in</span> <span class="hljs-number">0.034</span> seconds.<br></code></pre></td></tr></table></figure>
+
+<p>如果您打开并验证给定的文件，您可以找到复制的数据，如下所示。</p>
+<p><img src="/img/362aa25fc554cb545d8d597c6b492326.png" srcset="/img/loading.gif" lazyload alt="文件2"></p>
+<h3 id="Describe"><a href="#Describe" class="headerlink" title="Describe"></a>Describe</h3><p>此命令描述Cassandra及其对象的当前集群。此命令的变体说明如下。</p>
+<p><strong>Describe cluster</strong> -此命令提供有关集群的信息。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">describe</span> cluster;<br><br>Cluster: Test Cluster<br>Partitioner: Murmur3Partitioner<br><br><span class="hljs-keyword">Range</span> ownership:<br>                  <span class="hljs-number">-658380912249644557</span> [<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>]<br>                  <span class="hljs-number">-2833890865268921414</span> [<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>]<br>                  <span class="hljs-number">-6792159006375935836</span> [<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>] <br></code></pre></td></tr></table></figure>
+
+<p><strong>Describe Keyspaces</strong> -此命令列出集群中的所有键空间。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">describe</span> keyspaces;<br><br>system_traces <span class="hljs-keyword">system</span> tp tutorialspoint<br></code></pre></td></tr></table></figure>
+
+<p><strong>Describe tables</strong> -此命令列出了键空间中的所有表。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">describe</span> tables;<br>emp<br></code></pre></td></tr></table></figure>
+
+<p><strong>Describe tables</strong> -此命令提供表的描述。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">describe</span> <span class="hljs-keyword">table</span> emp;<br><br><span class="hljs-keyword">CREATE TABLE</span> tutorialspoint.emp (<br>   emp_id <span class="hljs-type">int</span> <span class="hljs-keyword">PRIMARY KEY</span>,<br>   emp_city text,<br>   emp_name text,<br>   emp_phone varint,<br>   emp_sal varint<br>) <span class="hljs-keyword">WITH</span> bloom_filter_fp_chance <span class="hljs-operator">=</span> <span class="hljs-number">0.01</span><br>   <span class="hljs-keyword">AND</span> caching <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;&#123;&quot;keys&quot;:&quot;ALL&quot;, &quot;rows_per_partition&quot;:&quot;NONE&quot;&#125;&#x27;</span><br>   <span class="hljs-keyword">AND</span> comment <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;&#x27;</span><br>   <span class="hljs-keyword">AND</span> compaction <span class="hljs-operator">=</span> &#123;<span class="hljs-string">&#x27;min_threshold&#x27;</span>: <span class="hljs-string">&#x27;4&#x27;</span>, <span class="hljs-string">&#x27;class&#x27;</span>:<br>   <span class="hljs-string">&#x27;org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy&#x27;</span>,<br>   <span class="hljs-string">&#x27;max_threshold&#x27;</span>: <span class="hljs-string">&#x27;32&#x27;</span>&#125;<br>	<br>   <span class="hljs-keyword">AND</span> compression <span class="hljs-operator">=</span> &#123;<span class="hljs-string">&#x27;sstable_compression&#x27;</span>:<br>   <span class="hljs-string">&#x27;org.apache.cassandra.io.compress.LZ4Compressor&#x27;</span>&#125;<br>	<br>   <span class="hljs-keyword">AND</span> dclocal_read_repair_chance <span class="hljs-operator">=</span> <span class="hljs-number">0.1</span><br>   <span class="hljs-keyword">AND</span> default_time_to_live <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>   <span class="hljs-keyword">AND</span> gc_grace_seconds <span class="hljs-operator">=</span> <span class="hljs-number">864000</span><br>   <span class="hljs-keyword">AND</span> max_index_interval <span class="hljs-operator">=</span> <span class="hljs-number">2048</span><br>   <span class="hljs-keyword">AND</span> memtable_flush_period_in_ms <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>   <span class="hljs-keyword">AND</span> min_index_interval <span class="hljs-operator">=</span> <span class="hljs-number">128</span><br>   <span class="hljs-keyword">AND</span> read_repair_chance <span class="hljs-operator">=</span> <span class="hljs-number">0.0</span><br>   <span class="hljs-keyword">AND</span> speculative_retry <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;99.0PERCENTILE&#x27;</span>;<br><span class="hljs-keyword">CREATE</span> INDEX emp_emp_sal_idx <span class="hljs-keyword">ON</span> tutorialspoint.emp (emp_sal);<br></code></pre></td></tr></table></figure>
+
+<h3 id="Describe-tables"><a href="#Describe-tables" class="headerlink" title="Describe tables"></a>Describe tables</h3><p>此命令用于描述用户定义的数据类型。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">describe</span> type card_details;<br><br><span class="hljs-keyword">CREATE</span> TYPE tutorialspoint.card_details (<br>   num <span class="hljs-type">int</span>,<br>   pin <span class="hljs-type">int</span>,<br>   name text,<br>   cvv <span class="hljs-type">int</span>,<br>   phone <span class="hljs-keyword">set</span><span class="hljs-operator">&lt;</span><span class="hljs-type">int</span><span class="hljs-operator">&gt;</span>,<br>   mail text<br>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="Describe-Types"><a href="#Describe-Types" class="headerlink" title="Describe Types"></a>Describe Types</h3><p>此命令列出所有用户定义的数据类型。下面给出了这个命令的用法。假设有两种用户定义的数据类型：card和card_details。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DESCRIBE</span> TYPES;<br><br>card_details card<br></code></pre></td></tr></table></figure>
+
+<h3 id="Expand"><a href="#Expand" class="headerlink" title="Expand"></a>Expand</h3><p>此命令用于扩展输出。在使用此命令之前，您必须打开expand命令。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> expand <span class="hljs-keyword">on</span>;<br>cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp;<br><br>@ <span class="hljs-type">Row</span> <span class="hljs-number">1</span><br><span class="hljs-comment">-----------+------------</span><br>    emp_id <span class="hljs-operator">|</span> <span class="hljs-number">1</span><br>  emp_city <span class="hljs-operator">|</span> Hyderabad<br>  emp_name <span class="hljs-operator">|</span> ram<br> emp_phone <span class="hljs-operator">|</span> <span class="hljs-number">9848022338</span><br>   emp_sal <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>  <br>@ <span class="hljs-type">Row</span> <span class="hljs-number">2</span><br><span class="hljs-comment">-----------+------------</span><br>    emp_id <span class="hljs-operator">|</span> <span class="hljs-number">2</span><br>  emp_city <span class="hljs-operator">|</span> Delhi<br>  emp_name <span class="hljs-operator">|</span> robin<br> emp_phone <span class="hljs-operator">|</span> <span class="hljs-number">9848022339</span><br>   emp_sal <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>  <br>@ <span class="hljs-type">Row</span> <span class="hljs-number">3</span><br><span class="hljs-comment">-----------+------------</span><br>    emp_id <span class="hljs-operator">|</span> <span class="hljs-number">4</span><br>  emp_city <span class="hljs-operator">|</span> Pune<br>  emp_name <span class="hljs-operator">|</span> rajeev<br> emp_phone <span class="hljs-operator">|</span> <span class="hljs-number">9848022331</span><br>   emp_sal <span class="hljs-operator">|</span> <span class="hljs-number">30000</span><br>  <br>@ <span class="hljs-type">Row</span> <span class="hljs-number">4</span><br><span class="hljs-comment">-----------+------------</span><br>    emp_id <span class="hljs-operator">|</span> <span class="hljs-number">3</span><br>  emp_city <span class="hljs-operator">|</span> Chennai<br>  emp_name <span class="hljs-operator">|</span> rahman<br> emp_phone <span class="hljs-operator">|</span> <span class="hljs-number">9848022330</span><br>   emp_sal <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>(<span class="hljs-number">4</span> <span class="hljs-keyword">rows</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：您可以使用以下命令关闭展开选项。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> expand off;<br>Disabled Expanded output.<br></code></pre></td></tr></table></figure>
+
+<h3 id="Exit"><a href="#Exit" class="headerlink" title="Exit"></a>Exit</h3><p>此命令用于终止cql shell。</p>
+<h3 id="Show"><a href="#Show" class="headerlink" title="Show"></a>Show</h3><p>此命令显示当前cqlsh会话的详细信息，如Cassandra版本，主机或数据类型假设。下面给出了这个命令的用法。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">show</span> host;<br>Connected <span class="hljs-keyword">to</span> Test Cluster <span class="hljs-keyword">at</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">9042.</span><br><br>cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">show</span> version;<br>[cqlsh <span class="hljs-number">5.0</span><span class="hljs-number">.1</span> <span class="hljs-operator">|</span> Cassandra <span class="hljs-number">2.1</span><span class="hljs-number">.2</span> <span class="hljs-operator">|</span> CQL spec <span class="hljs-number">3.2</span><span class="hljs-number">.0</span> <span class="hljs-operator">|</span> Native protocol v3]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><p>使用此命令，可以在文件中执行命令。假设我们的输入文件如下：</p>
+<p>源1<br>然后可以执行包含命令的文件，如下所示。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql">cqlsh:tutorialspoint<span class="hljs-operator">&gt;</span> source <span class="hljs-string">&#x27;/home/hadoop/CassandraProgs/inputfile&#x27;</span>;<br><br> emp_id <span class="hljs-operator">|</span>  emp_city <span class="hljs-operator">|</span> emp_name <span class="hljs-operator">|</span>  emp_phone <span class="hljs-operator">|</span> emp_sal<br><span class="hljs-comment">--------+-----------+----------+------------+---------</span><br>      <span class="hljs-number">1</span> <span class="hljs-operator">|</span> Hyderabad <span class="hljs-operator">|</span>   ram    <span class="hljs-operator">|</span> <span class="hljs-number">9848022338</span> <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>      <span class="hljs-number">2</span> <span class="hljs-operator">|</span> Delhi     <span class="hljs-operator">|</span>   robin  <span class="hljs-operator">|</span> <span class="hljs-number">9848022339</span> <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>      <span class="hljs-number">3</span> <span class="hljs-operator">|</span> Pune      <span class="hljs-operator">|</span>   rajeev <span class="hljs-operator">|</span> <span class="hljs-number">9848022331</span> <span class="hljs-operator">|</span> <span class="hljs-number">30000</span><br>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> Chennai   <span class="hljs-operator">|</span>   rahman <span class="hljs-operator">|</span> <span class="hljs-number">9848022330</span> <span class="hljs-operator">|</span> <span class="hljs-number">50000</span><br>(<span class="hljs-number">4</span> <span class="hljs-keyword">rows</span>)<br></code></pre></td></tr></table></figure>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://ke.qq.com/itdoc/cassandra/cassandra_create_keyspace.html">https://ke.qq.com/itdoc/cassandra/cassandra_create_keyspace.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="category-chain-item">数据科学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
+      
+        <a href="/tags/Cassandra/" class="print-no-link">#Cassandra</a>
+      
+        <a href="/tags/NoSQL/" class="print-no-link">#NoSQL</a>
+      
+        <a href="/tags/%E7%AC%94%E8%AE%B0/" class="print-no-link">#笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Cassandra笔记</div>
+      <div>https://qzkq.github.io/2026/01/01/Cassandra笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/CatBoost%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" title="CatBoost原生接口和Sklearn接口参数详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CatBoost原生接口和Sklearn接口参数详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/aws%20s3%E5%91%BD%E4%BB%A4%E4%B8%8Ehdfs%20dfs%E5%91%BD%E4%BB%A4_hadoop%20fs%E5%91%BD%E4%BB%A4%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/" title="aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）">
+                        <span class="hidden-mobile">aws s3命令与hdfs dfs命令_hadoop fs命令（笔记）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

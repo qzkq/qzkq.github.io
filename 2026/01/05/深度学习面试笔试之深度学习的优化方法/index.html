@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 1. 训练误差和泛化误差机器学习模型在训练数据集和测试数据集上的表现。如果你改变过实验中的模型结构或者超参数，你也许发现了：当模型在训练数据集上更准确时，它在测试数据集上却不⼀定更准确。这是为什么呢？因为存在着训练误差和泛化误差：  训练误差：模型在训练数据集上表现出的误差。 泛化误差：模型在任意⼀个测试数据样本上表现出的误差的期望，并常常通过测试数据集上的误差来近似。  训练误差的期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习面试笔试之深度学习的优化方法">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 1. 训练误差和泛化误差机器学习模型在训练数据集和测试数据集上的表现。如果你改变过实验中的模型结构或者超参数，你也许发现了：当模型在训练数据集上更准确时，它在测试数据集上却不⼀定更准确。这是为什么呢？因为存在着训练误差和泛化误差：  训练误差：模型在训练数据集上表现出的误差。 泛化误差：模型在任意⼀个测试数据样本上表现出的误差的期望，并常常通过测试数据集上的误差来近似。  训练误差的期">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/bb346b1ffc87432a881846188b9ff8cd.png">
+<meta property="og:image" content="https://qzkq.github.io/img/91b44616c8514f829c2e7e23f0b34673.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6a9cb97a66414af88f95daa7a160e12c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/06795252304c4ac58b9fe76e4eeeb49e.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1a65238e873a408e80532c3771132df9.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5e93a6d39f6240b095141913883150a7.png">
+<meta property="og:image" content="https://qzkq.github.io/img/58c604e0da9d46eaa2ac73216d16ea3e.png">
+<meta property="og:image" content="https://qzkq.github.io/img/6541528934a5413999ca11cc8089c43d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d128776a30934dadbf7291b86b607e8f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/a2ee528cef2f46d5917deb760354df76.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b04d45cf2dc34003a344f4f259cd6bc6.png">
+<meta property="og:image" content="https://qzkq.github.io/img/0bfd88dceda04d31a1f7b29f2cb7731a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d063b67db26b4a08bd716c81889eda60.png">
+<meta property="og:image" content="https://qzkq.github.io/img/462e6642f8294f82b7ab6b2271462918.png">
+<meta property="og:image" content="https://qzkq.github.io/img/1eefb2d696504756bece44aa4d0f6675.png">
+<meta property="og:image" content="https://qzkq.github.io/img/839e671aa65343549130aa1781b72d0a.png">
+<meta property="og:image" content="https://qzkq.github.io/img/3aed6b5d654c40e9af7db11304e0ef8e.png">
+<meta property="og:image" content="https://qzkq.github.io/img/f44e74d65e024059be7e941b7389a92b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/02b1a817eb7d457da470809fcad19494.png">
+<meta property="og:image" content="https://qzkq.github.io/img/da34b9bdcc7147479c057af937a2a31c.png">
+<meta property="og:image" content="https://qzkq.github.io/img/fed736a66adb4144b6b7d6ef8a12f7a4.png">
+<meta property="og:image" content="https://qzkq.github.io/img/bcf702f57fc944778a4dfb5e4d592f62.png">
+<meta property="article:published_time" content="2026-01-05T00:09:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.431Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="Adam">
+<meta property="article:tag" content="SGD">
+<meta property="article:tag" content="优化方法">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/bb346b1ffc87432a881846188b9ff8cd.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>深度学习面试笔试之深度学习的优化方法 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="深度学习面试笔试之深度学习的优化方法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-05 08:09" pubdate>
+          2026年1月5日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度学习面试笔试之深度学习的优化方法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95">TOC</a></p>
+<h1 id="1-训练误差和泛化误差"><a href="#1-训练误差和泛化误差" class="headerlink" title="1. 训练误差和泛化误差"></a>1. 训练误差和泛化误差</h1><p>机器学习模型在训练数据集和测试数据集上的表现。如果你改变过实验中的模型结构或者超参数，你也许发现了：当模型在训练数据集上更准确时，它在测试数据集上却不⼀定更准确。这是为什么呢？<br>因为存在着训练误差和泛化误差：</p>
+<ul>
+<li><strong>训练误差</strong>：模型在训练数据集上表现出的误差。</li>
+<li><strong>泛化误差</strong>：模型在任意⼀个测试数据样本上表现出的误差的期望，并常常通过测试数据集上的误差来近似。</li>
+</ul>
+<p>训练误差的期望小于或等于泛化误差。也就是说，⼀般情况下，由训练数据集学到的模型参数会使模型在训练数据集上的表现优于或等于在测试数据集上的表现。<strong>由于无法从训练误差估计泛化误差，⼀味地降低训练误差并不意味着泛化误差⼀定会降低。</strong></p>
+<p><strong>机器学习模型应关注降低泛化误差。</strong></p>
+<h1 id="2-该如何选择模型"><a href="#2-该如何选择模型" class="headerlink" title="2. 该如何选择模型"></a>2. 该如何选择模型</h1><p>在机器学习中，通常需要评估若干候选模型的表现并从中选择模型。这⼀过程称为模型选择（model selection）。可供选择的候选模型可以是有着不同超参数的同类模型。以多层感知机为例，我们可以选择隐藏层的个数，以及每个隐藏层中隐藏单元个数和激活函数。为了得到有效的模型，我们通常要在模型选择上下一番功夫。</p>
+<h2 id="2-1-验证数据集"><a href="#2-1-验证数据集" class="headerlink" title="2.1 验证数据集"></a>2.1 验证数据集</h2><p><img src="/img/bb346b1ffc87432a881846188b9ff8cd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>从严格意义上讲，测试集只能在所有超参数和模型参数选定后使⽤⼀次。不可以使⽤测试数据选择模型，如调参。由于⽆法从训练误差估计泛化误差，因此也不应只依赖训练数据选择模型。鉴于此，我们可以预留⼀部分在训练数据集和测试数据集以外的数据来进⾏模型选择。这部分数据被称为验证数据集，简称验证集（validation set）。例如，我们可以从给定的训练集中随机选取⼀小部分作为验证集，而将剩余部分作为真正的训练集。<br>可以通过预留这样的验证集来进行模型选择，判断验证集在模型中的表现能力。</p>
+<h2 id="2-2-K-折交叉验证"><a href="#2-2-K-折交叉验证" class="headerlink" title="2.2 K 折交叉验证"></a>2.2 K 折交叉验证</h2><p>由于验证数据集不参与模型训练，当训练数据不够⽤时，预留⼤量的验证数据显得太奢侈。⼀种改善的方法是K折交叉验证（K-fold cross-validation）。在K折交叉验证中，我们把原始训练数据集分割成K个不重合的子数据集，然后我们做K次模型训练和验证。每⼀次，我们使⽤⼀个⼦数据集验证模型，并使用其他K − 1个子数据集来训练模型。在这K次训练和验证中，每次用来验证模型的子数据集都不同。最后，我们对这K次训练误差和验证误差分别求平均。</p>
+<h1 id="3-欠拟合和过拟合"><a href="#3-欠拟合和过拟合" class="headerlink" title="3. 欠拟合和过拟合"></a>3. 欠拟合和过拟合</h1><ul>
+<li><strong>欠拟合</strong>：模型无法得到较低的训练误差。</li>
+<li><strong>过拟合</strong>：是模型的训练误差远小于它在测试数据集上的误差。</li>
+</ul>
+<p>应对欠拟合和过拟合的⼀个办法是针对数据集选择合适复杂度的模型。</p>
+<p><img src="/img/91b44616c8514f829c2e7e23f0b34673.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="/img/6a9cb97a66414af88f95daa7a160e12c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="训练数据集大小"><a href="#训练数据集大小" class="headerlink" title="训练数据集大小"></a>训练数据集大小</h2><p>影响欠拟合和过拟合的另⼀个重要因素是训练数据集的⼤小。⼀般来说，如果训练数据集中样本数过少，特别是比模型参数数量（按元素计）更少时，过拟合更容易发⽣。此外，泛化误差不会随训练数据集里样本数量增加而增大。因此，在计算资源允许的范围之内，我们通常希望训练数据集大⼀些，特别是在模型复杂度较⾼时，例如层数较多的深度学习模型。</p>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>应对过拟合问题的常用方法：权重衰减（weight decay），权重衰减等价于L2范数正则化（regularization）。正则化通过为模型损失函数添加惩罚项使学出的模型参数值较小，是应对过拟合的常用手段。</p>
+<h1 id="4-丢弃法-Dropout-（Dropout率越高，正规化程度越低）"><a href="#4-丢弃法-Dropout-（Dropout率越高，正规化程度越低）" class="headerlink" title="4. 丢弃法(Dropout)（Dropout率越高，正规化程度越低）"></a>4. 丢弃法(Dropout)（Dropout率越高，正规化程度越低）</h1><p>Dropout是指在深度网络的训练中，以一定的概率随机地“临时丢弃”一部分神经元结点。除了上面提到的权重衰减以外，深度学习模型常常使用丢弃法（dropout）来应对过拟合问题。丢弃法有⼀些不同的变体。本节中提到的丢弃法特指倒置丢弃法（inverted dropout）。<br>回忆⼀下，“多层感知机”描述了⼀个单隐藏层的多层感知机。其中输⼊个数为4，隐藏单元个数为5，且隐藏单元hi（i &#x3D; 1, . . . , 5）的计算表达式为：</p>
+<p><img src="/img/06795252304c4ac58b9fe76e4eeeb49e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这⾥ϕ是激活函数，  是输入，隐藏单元i的权重参数为  ，偏差参数为bi。当对该隐藏层使用丢弃法时，该层的隐藏单元将有⼀定概率被丢弃掉。设丢弃概率为p，那么有p的概率hi会被清零，有1 − p的概率hi会除以1 − p做拉伸。丢弃概率是丢弃法的超参数。具体来说，设随机变量ξi为0和1的概率分别为p和1 − p。使用丢弃法时我们计算新的隐藏单元  。</p>
+<p><img src="/img/1a65238e873a408e80532c3771132df9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>由于E(ξi) &#x3D; 1 − p，因此：</p>
+<p><img src="/img/5e93a6d39f6240b095141913883150a7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>**即丢弃法不改变其输入的期望值。**让我们对隐藏层使用丢弃法，⼀种可能的结果如下图所示，其中h2和h5被清零。这时输出值的计算不再依赖h2和h5，在反向传播时，与这两个隐藏单元相关的权重的梯度均为0。由于在训练中隐藏层神经元的丢弃是随机的，即h1, . . . , h5都有可能被清零，输出层的计算无法过度依赖h1, . . . , h5中的任⼀个，从而在训练模型时起到正则化的作用，并可以用来应对过拟合。在测试模型时，我们为了拿到更加确定性的结果，⼀般不使用丢弃法。</p>
+<p><img src="/img/58c604e0da9d46eaa2ac73216d16ea3e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>加入dropout，会使神经网络的训练时间变长、dropout跟bagging操作的效果类似</strong></p>
+<h1 id="5-梯度消失-梯度爆炸（Vanishing-Exploding-gradients）"><a href="#5-梯度消失-梯度爆炸（Vanishing-Exploding-gradients）" class="headerlink" title="5. 梯度消失&#x2F;梯度爆炸（Vanishing &#x2F; Exploding gradients）"></a>5. 梯度消失&#x2F;梯度爆炸（Vanishing &#x2F; Exploding gradients）</h1><p>训练神经网络，尤其是深度神经所面临的一个问题就是梯度消失或梯度爆炸，也就是你训练神经网络的时候，导数或坡度有时会变得非常大，或者非常小，甚至于以指数方式变小，这加大了训练的难度。<br>本质上，梯度消失和爆炸是一种情况。在深层网络中，由于网络过深，如果初始得到的梯度过小，或者传播途中在某一层上过小，则在之后的层上得到的梯度会越来越小，即产生了梯度消失。梯度爆炸也是同样的。一般地，不合理的初始化以及激活函数，如sigmoid等，都会导致梯度过大或者过小，从而引起消失&#x2F;爆炸。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="预训练加微调"><a href="#预训练加微调" class="headerlink" title="预训练加微调"></a>预训练加微调</h3><p>其基本思想是每次训练一层隐节点，训练时将上一层隐节点的输出作为输入，而本层隐节点的输出作为下一层隐节点的输入，此过程就是逐层“预训练”（pre-training）；在预训练完成后，再对整个网络进行“微调”（fine-tunning）。</p>
+<h3 id="梯度剪切、正则"><a href="#梯度剪切、正则" class="headerlink" title="梯度剪切、正则"></a>梯度剪切、正则</h3><p>梯度剪切这个方案主要是针对梯度爆炸提出的，其思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那么就将其强制限制在这个范围之内。这可以防止梯度爆炸。<br>另外一种解决梯度爆炸的手段是采用权重正则化（weithts regularization）比较常见的是L1和L2正则。</p>
+<h3 id="ReLu、leakReLu等激活函数"><a href="#ReLu、leakReLu等激活函数" class="headerlink" title="ReLu、leakReLu等激活函数"></a>ReLu、leakReLu等激活函数</h3><p>ReLu：其函数的导数在正数部分是恒等于1，这样在深层网络中，在激活函数部分就不存在导致梯度过大或者过小的问题，缓解了梯度消失或者爆炸。同时也方便计算。当然，其也存在存在一些缺点，例如过滤到了负数部分，导致部分信息的丢失，输出的数据分布不在以0为中心，改变了数据分布。<br>leakrelu：就是为了解决relu的0区间带来的影响，其数学表达为：leakrelu&#x3D;max(k*x,0)其中k是leak系数，一般选择0.01或者0.02，或者通过学习而来。</p>
+<h3 id="Batch-Normalization（归一化输入值、加快模型的收敛速度）"><a href="#Batch-Normalization（归一化输入值、加快模型的收敛速度）" class="headerlink" title="Batch Normalization（归一化输入值、加快模型的收敛速度）"></a>Batch Normalization（归一化输入值、加快模型的收敛速度）</h3><p>Batch Normalization是深度学习发展以来提出的最重要的成果之一了，目前已经被广泛的应用到了各大网络中，具有加速网络收敛速度，提升训练稳定性的效果，Batch Normalization本质上是解决反向传播过程中的梯度问题。Batch Normalization，简称BN，即<strong>批规范化</strong>，通过规范化操作将输出信号x规范化到均值为0，方差为1保证网络的稳定性。</p>
+<ul>
+<li>有一些从 0 到 1 而不是从 1 到 1000 的特征值，通过归一化所有的输入特征值𝑥，以获得类似范围的值，可以加速学习。所以 Batch 归一化起的作用的原因，直观的一点就是，它在做类似的工作，但不仅仅对于这里的输入值，还有隐藏单元的值。</li>
+<li>它可以使权重比你的网络更滞后或更深层，比如，第 10 层的权重更能经受得住变化。</li>
+</ul>
+<h3 id="残差结构"><a href="#残差结构" class="headerlink" title="残差结构"></a>残差结构</h3><p>残差的方式，能使得深层的网络梯度通过跳级连接路径直接返回到浅层部分，使得网络无论多深都能将梯度进行有效的回传。</p>
+<h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3><p>LSTM全称是长短期记忆网络（long-short term memory networks），是不那么容易发生梯度消失的，主要原因在于LSTM内部复杂的“门”(gates)。在计算时，将过程中的梯度进行了抵消。</p>
+<h1 id="7-优化算法"><a href="#7-优化算法" class="headerlink" title="7. 优化算法"></a>7. 优化算法</h1><h2 id="7-1-动量法"><a href="#7-1-动量法" class="headerlink" title="7.1 动量法"></a>7.1 动量法</h2><p>在每次迭代中，梯度下降根据自变量当前位置，沿着当前位置的梯度更新自变量。然而，如果自变量的迭代⽅向仅仅取决于自变量当前位置，这可能会带来⼀些问题。<br>让我们考虑⼀个输入和输出分别为⼆维向量x &#x3D; [x1, x2]⊤和标量的目标函数  。这⾥将  系数从1减小到了0.1。下面实现基于这个目标函数的梯度下降，并演示使用学习率为0.4时自变量的迭代轨迹。</p>
+<p>可以看到，同⼀位置上，目标函数在竖直方向（x2轴方向）比在水平方向（x1轴方向）的斜率的绝对值更⼤。<strong>因此，给定学习率，梯度下降迭代自变量时会使自变量在竖直方向比在水平方向移动幅度更大</strong>。那么，我们需要⼀个较小的学习率从而避免自变量在竖直方向上越过目标函数最优解。然而，这会造成自变量在水平方向上朝最优解移动变慢。<br>动量法的提出是为了解决梯度下降的上述问题。由于小批量随机梯度下降比梯度下降更为广义，本章后续讨论将沿⽤“小批量随机梯度下降”⼀节中时间步t的小批量随机梯度gt的定义。设时间步t的⾃变量为xt，学习率为ηt。在时间步0，动量法创建速度变量v0，并将其元素初始化成0。在时间步t &gt; 0，动量法对每次迭代的步骤做如下修改：</p>
+<p>其中，动量超参数γ满足0 ≤ γ &lt; 1。当γ &#x3D; 0时，动量法等价于小批量随机梯度下降。在梯度下降时候使用动量法后的迭代轨迹：</p>
+<p><img src="/img/6541528934a5413999ca11cc8089c43d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可以看到使用较小的学习率η &#x3D; 0.4和动量超参数γ &#x3D; 0.5时，动量法在竖直方向上的移动更加平滑，且在水平方向上更快逼近最优解。<br>所以，在动量法中，⾃变量在各个方向上的移动幅度不仅取决当前梯度，还取决于过去的各个梯度在各个方向上是否⼀致。在本节之前示例的优化问题中，所有梯度在水平方向上为正（向右），而在竖直方向上时正（向上）时负（向下）。这样，我们就可以使⽤较大的学习率，从而使自变量向最优解更快移动。</p>
+<h2 id="7-2-AdaGrad算法"><a href="#7-2-AdaGrad算法" class="headerlink" title="7.2 AdaGrad算法"></a>7.2 AdaGrad算法</h2><p>优化算法中，目标函数自变量的每⼀个元素在相同时间步都使用同⼀个学习率来自我迭代。在“动量法”里我们看到当x1和x2的梯度值有较大差别时，需要选择足够小的学习率使得自变量在梯度值较大的维度上不发散。但这样会导致自变量在梯度值较小的维度上迭代过慢。动量法依赖指数加权移动平均使得自变量的更新方向更加⼀致，从而降低发散的可能。<strong>本节我们介绍AdaGrad算法，它根据自变量在每个维度的梯度值的大小来调整各个维度上的学习率，从而避免统一的学习率难以适应所有维度的问题。</strong><br>AdaGrad算法会使⽤⼀个小批量随机梯度gt按元素平方的累加变量st。在时间步0，AdaGrad将s0中每个元素初始化为0。在时间步t，⾸先将小批量随机梯度gt按元素平方后累加到变量st：</p>
+<p>其中⊙是按元素相乘。接着，我们将目标函数自变量中每个元素的学习率通过按元素运算重新调整⼀下：</p>
+<p>其中η是学习率，ϵ是为了维持数值稳定性而添加的常数，如10的-6次方。这里开方、除法和乘法的运算都是按元素运算的。这些按元素运算使得目标函数自变量中每个元素都分别拥有自己的学习率。<br>需要强调的是，小批量随机梯度按元素平方的累加变量st出现在学习率的分母项中。因此，<br>如果目标函数有关自变量中某个元素的偏导数⼀直都较大，那么该元素的学习率将下降较快；<br>反之，如果⽬标函数有关自变量中某个元素的偏导数⼀直都较小，那么该元素的学习率将下降较慢。<br>然而，由于st⼀直在累加按元素平方的梯度，自变量中每个元素的学习率在迭代过程中⼀直在降低（或不变）。<strong>所以，当学习率在迭代早期降得较快且当前解依然不佳时，AdaGrad算法在迭代后期由于学习率过小，可能较难找到⼀个有用的解。</strong></p>
+<h2 id="7-3-RMSProp算法"><a href="#7-3-RMSProp算法" class="headerlink" title="7.3 RMSProp算法"></a>7.3 RMSProp算法</h2><p>当学习率在迭代早期降得较快且当前解依然不佳时，AdaGrad算法在迭代后期由于学习率过小，可能较难找到⼀个有用的解。为了解决这⼀问题，RMSProp算法对AdaGrad算法做了⼀点小小的修改。<br>不同于AdaGrad算法里状态变量st是截至时间步t所有小批量随机梯度gt按元素平方和，RMSProp算法将这些梯度按元素平方做指数加权移动平均。具体来说，给定超参数0 ≤ γ &lt; 1，RMSProp算法在时间步t &gt; 0计算：</p>
+<p><img src="/img/d128776a30934dadbf7291b86b607e8f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>和AdaGrad算法⼀样，RMSProp算法将目标函数自变量中每个元素的学习率通过按元素运算重新调整，然后更新自变量：</p>
+<p><img src="/img/a2ee528cef2f46d5917deb760354df76.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>其中η是学习率，ϵ是为了维持数值稳定性而添加的常数，如10的-6次方。因为RMSProp算法的状态变量st是对平方项gt ⊙ gt的指数加权移动平均，<strong>所以可以看作是最近1&#x2F;(1 − γ)个时间步的小批量随机梯度平方项的加权平均。如此一来，自变量每个元素的学习率在迭代过程中就不再一直降低（或不变）。</strong></p>
+<p><img src="/img/b04d45cf2dc34003a344f4f259cd6bc6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="7-4-AdaDelta算法"><a href="#7-4-AdaDelta算法" class="headerlink" title="7.4 AdaDelta算法"></a>7.4 AdaDelta算法</h2><p>除了RMSProp算法以外，另⼀个常用优化算法AdaDelta算法也针对AdaGrad算法在迭代后期可能较难找到有用解的问题做了改进。有意思的是，AdaDelta算法没有学习率这⼀超参数。<br>AdaDelta算法也像RMSProp算法⼀样，使用了小批量随机梯度gt按元素平方的指数加权移动平均变量st。在时间步0，它的所有元素被初始化为0。给定超参数0 ≤ ρ &lt; 1（对应RMSProp算法中的γ），在时间步t &gt; 0，同RMSProp算法⼀样计算：</p>
+<p><img src="/img/0bfd88dceda04d31a1f7b29f2cb7731a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>与RMSProp算法不同的是，AdaDelta算法还维护⼀个额外的状态变量∆xt，其元素同样在时间步0时被初始化为0。我们使用∆xt−1来计算自变量的变化量：</p>
+<p><img src="/img/d063b67db26b4a08bd716c81889eda60.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后，我们使⽤∆xt来记录自变量变化量  按元素平方的指数加权移动平均：</p>
+<p><img src="/img/462e6642f8294f82b7ab6b2271462918.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可以看到，如不考虑ϵ的影响，AdaDelta算法与RMSProp算法的不同之处在于使用  来替代超参数η。</p>
+<h2 id="7-5-Adam算法"><a href="#7-5-Adam算法" class="headerlink" title="7.5 Adam算法"></a>7.5 Adam算法</h2><p>Adam算法在RMSProp算法基础上对小批量随机梯度也做了指数加权移动平均。<br>Adam算法使用了动量变量vt和RMSProp算法中小批量随机梯度按元素平方的指数加权移动平均变量st，并在时间步0将它们中每个元素初始化为0。给定超参数0 ≤ β1 &lt; 1（算法作者建议设为0.9），时间步t的动量变量vt即小批量随机梯度gt的指数加权移动平均：</p>
+<p><img src="/img/1eefb2d696504756bece44aa4d0f6675.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>和RMSProp算法中⼀样，给定超参数0 ≤ β2 &lt; 1（算法作者建议设为0.999），将小批量随机梯度按元素平方后的项gt ⊙ gt做指数加权移动平均得到st：</p>
+<p><img src="/img/839e671aa65343549130aa1781b72d0a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>由于我们将 v0 和 s0 中的元素都初始化为 0，在时间步 t 我们得到 </p>
+<p><img src="/img/3aed6b5d654c40e9af7db11304e0ef8e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>。将过去各时间步小批量随机梯度的权值相加，得到 </p>
+<p><img src="/img/f44e74d65e024059be7e941b7389a92b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>。需要注意的是，当 t 较小时，过去各时间步小批量随机梯度权值之和会较小。例如，当β1 &#x3D; 0.9时，v1 &#x3D; 0.1g1。为了消除这样的影响，对于任意时间步 t，我们可以将 vt 再除以  ，从而使过去各时间步小批量随机梯度权值之和为1。这也叫作偏差修正。在Adam算法中，我们对变量 vt 和 st 均作偏差修正：</p>
+<p><img src="/img/02b1a817eb7d457da470809fcad19494.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>接下来，Adam算法使⽤以上偏差修正后的变量vˆt和sˆt，将模型参数中每个元素的学习率通过按元素运算重新调整：</p>
+<p><img src="/img/da34b9bdcc7147479c057af937a2a31c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>其中η是学习率，ϵ是为了维持数值稳定性而添加的常数，如10的-8次方。和AdaGrad算法、RMSProp算法以及AdaDelta算法⼀样，目标函数自变量中每个元素都分别拥有自己的学习率。最后，使用  迭代自变量：</p>
+<p><img src="/img/fed736a66adb4144b6b7d6ef8a12f7a4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="7-6-局部最优–鞍点问题"><a href="#7-6-局部最优–鞍点问题" class="headerlink" title="7.6 局部最优–鞍点问题"></a>7.6 局部最优–鞍点问题</h2><p>一个具有高维度空间的函数，如果梯度为 0，那么在每个方向，它可能是凸函数，也可能是凹函数。如果你在 2 万维空间中，那么想要得到局部最优，所有的 2 万个方向都需要是这样，但发生的机率也许很小，也许是2的-20000次方，你更有可能遇到有些方向的曲线会这样向上弯曲，另一些方向曲线向下弯，而不是所有的都向上弯曲，因此在高维度空间，你更可能碰到鞍点。</p>
+<p><img src="/img/bcf702f57fc944778a4dfb5e4d592f62.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>而不会碰到局部最优。<strong>至于为什么会把一个曲面叫做鞍点</strong>，你想象一下，就像是放在马背上的马鞍一样，如果这是马，这是马的头，这就是马的眼睛，画得不好请多包涵，然后你就是骑马的人，要坐在马鞍上，因此这里的这个点，导数为 0 的点，这个点叫做鞍点。我想那确实是你坐在马鞍上的那个点，而这里导数为 0。<br>鞍点中的平稳段是一个问题，这样使得学习十分缓慢，**这也是像 Momentum 或是RMSprop，Adam 这样的算法，能够加速学习算法的地方。**在这些情况下，更成熟的优化算法，如 Adam 算法，能够加快速度，让你尽早往下走出平稳段。</p>
+<h1 id="8-如何解决训练样本少的问题"><a href="#8-如何解决训练样本少的问题" class="headerlink" title="8. 如何解决训练样本少的问题"></a>8. 如何解决训练样本少的问题</h1><ul>
+<li><strong>利用预训练模型进行迁移微调（fine-tuning）</strong>，预训练模型通常在特征上拥有很好的语义表达。此时，只需将模型在小数据集上进行微调就能取得不错的效果。CV有ImageNet，NLP有BERT等。</li>
+<li><strong>数据集进行下采样操作</strong>，使得符合数据同分布。</li>
+<li>数据集增强、正则或者半监督学习等方式来解决小样本数据集的训练问题。</li>
+</ul>
+<h1 id="9-如何提升模型的稳定性？"><a href="#9-如何提升模型的稳定性？" class="headerlink" title="9. 如何提升模型的稳定性？"></a>9. 如何提升模型的稳定性？</h1><ul>
+<li>正则化（L2, L1, dropout）：模型方差大，很可能来自于过拟合。正则化能有效的降低模型的复杂度，增加对更多分布的适应性。</li>
+<li>前停止训练：提前停止是指模型在验证集上取得不错的性能时停止训练。这种方式本质和正则化是一个道理，能减少方差的同时增加的偏差。目的为了平衡训练集和未知数据之间在模型的表现差异。</li>
+<li>扩充训练集：正则化通过控制模型复杂度，来增加更多样本的适应性。</li>
+<li>特征选择：过高的特征维度会使模型过拟合，减少特征维度和正则一样可能会处理好方差问题，但是同时会增大偏差。</li>
+</ul>
+<h1 id="10-有哪些改善模型的思路"><a href="#10-有哪些改善模型的思路" class="headerlink" title="10. 有哪些改善模型的思路"></a>10. 有哪些改善模型的思路</h1><h2 id="数据角度"><a href="#数据角度" class="headerlink" title="数据角度"></a>数据角度</h2><p>增强数据集。无论是有监督还是无监督学习，数据永远是最重要的驱动力。更多的类型数据对良好的模型能带来更好的稳定性和对未知数据的可预见性。对模型来说，“看到过的总比没看到的更具有判别的信心”。</p>
+<h2 id="模型角度"><a href="#模型角度" class="headerlink" title="模型角度"></a>模型角度</h2><p>模型的容限能力决定着模型可优化的空间。在数据量充足的前提下，对同类型的模型，增大模型规模来提升容限无疑是最直接和有效的手段。</p>
+<h2 id="调参优化角度"><a href="#调参优化角度" class="headerlink" title="调参优化角度"></a>调参优化角度</h2><p>如果你知道模型的性能为什么不再提高了，那已经向提升性能跨出了一大步。 超参数调整本身是一个比较大的问题。一般可以包含模型初始化的配置，优化算法的选取、学习率的策略以及如何配置正则和损失函数等等。</p>
+<h2 id="训练角度"><a href="#训练角度" class="headerlink" title="训练角度"></a>训练角度</h2><p>在越大规模的数据集或者模型上，诚然一个好的优化算法总能加速收敛。但你在未探索到模型的上限之前，永远不知道训练多久算训练完成。所以在改善模型上充分训练永远是最必要的过程。充分训练的含义不仅仅只是增大训练轮数。有效的学习率衰减和正则同样是充分训练中非常必要的手段。</p>
+<h1 id="11-如何提高深度学习系统的性能"><a href="#11-如何提高深度学习系统的性能" class="headerlink" title="11. 如何提高深度学习系统的性能"></a>11. 如何提高深度学习系统的性能</h1><ul>
+<li>提高模型的结构。</li>
+<li>改进模型的初始化方式，保证早期梯度具有某些有益的性质，或者具备大量的稀疏性，或者利用线性代数原理的优势。</li>
+<li>择更强大的学习算法。</li>
+</ul>
+<h2 id="不同数据集下使用微调："><a href="#不同数据集下使用微调：" class="headerlink" title="不同数据集下使用微调："></a>不同数据集下使用微调：</h2><ul>
+<li>数据集1-数据量少，但数据相似度非常高-在这种情况下，我们所做的只是修改最后几层或最终的softmax图层的输出类别。</li>
+<li>数据集2-数据量少，数据相似度低-在这种情况下，我们可以冻结预训练模型的初始层（比如k层），并再次训练剩余的（n-k）层。由于新数据集的相似度较低，因此根据新数据集对较高层进行重新训练具有重要意义。</li>
+<li>数据集3-数据量大，数据相似度低-在这种情况下，由于我们有一个大的数据集，我们的神经网络训练将会很有效。但是，由于我们的数据与用于训练我们的预训练模型的数据相比有很大不同，使用预训练模型进行的预测不会有效。因此，最好根据你的数据从头开始训练神经网络（Training from scatch）。</li>
+<li>数据集4-数据量大，数据相似度高-这是理想情况。在这种情况下，预训练模型应该是最有效的。使用模型的最好方法是保留模型的体系结构和模型的初始权重。然后，我们可以使用在预先训练的模型中的权重来重新训练该模型。</li>
+</ul>
+<h1 id="12、深层网络梯度消失问题"><a href="#12、深层网络梯度消失问题" class="headerlink" title="12、深层网络梯度消失问题"></a>12、深层网络梯度消失问题</h1><p><strong>模型变深时，其错误率反而会提升，该问题非过拟合引起。</strong></p>
+<p>由于梯度问题导致难以学习。梯度消失问题是深度学习中的一个常见问题，特别是在训练非常深的神经网络时。当反向传播算法计算梯度时，梯度值会逐渐变小，甚至趋近于零，导致网络的前几层几乎不更新权重。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ul>
+<li><strong>激活函数</strong>: 一些激活函数（如Sigmoid和Tanh）在输入值较大或较小时，导数接近于零，导致梯度变小。</li>
+<li><strong>权重初始化</strong>: 不恰当的权重初始化会导致梯度在反向传播过程中迅速衰减。</li>
+<li><strong>网络深度</strong>: 随着网络层数的增加，梯度消失问题更加严重。</li>
+</ul>
+<h2 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h2><ul>
+<li>训练速度变慢。</li>
+<li>模型性能受限，难以达到最优解。</li>
+<li>前几层的权重几乎不更新，导致模型无法有效学习。</li>
+</ul>
+<h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li><strong>使用ReLU及其变体</strong>: ReLU（Rectified Linear Unit）及其变体（如Leaky ReLU、PReLU）在正区间内导数为1，可以有效缓解梯度消失问题。</li>
+<li><strong>归一化技术:</strong> 批归一化（Batch Normalization）、层归一化（Layer Normalization）等技术可以稳定梯度，加速训练。</li>
+<li><strong>残差连接</strong>（Residual Connections）: 残差网络（ResNet）通过引入捷径连接（skip connections）来传递梯度，避免梯度消失。</li>
+<li><strong>权重初始化</strong>: 使用合适的权重初始化方法（如Xavier初始化、He初始化）可以改善梯度流动。</li>
+<li><strong>梯度裁剪</strong>（Gradient Clipping）: 对梯度进行裁剪，防止梯度值过大或过小。</li>
+<li><strong>优化器选择</strong>: 使用自适应学习率的优化器（如Adam、RMSprop）可以更好地处理梯度问题。</li>
+</ul>
+<p>参考：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" class="print-no-link">#优化方法</a>
+      
+        <a href="/tags/SGD/" class="print-no-link">#SGD</a>
+      
+        <a href="/tags/Adam/" class="print-no-link">#Adam</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度学习面试笔试之深度学习的优化方法</div>
+      <div>https://qzkq.github.io/2026/01/05/深度学习面试笔试之深度学习的优化方法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer)%E3%80%81%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0(Reinforcement)%20&amp;%20%E5%A4%9A%E4%BB%BB%E5%8A%A1/" title="深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度学习面试笔试之迁移学习(Transfer)、强化学习(Reinforcement) &amp; 多任务</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E4%B9%8B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(RNN)%E3%80%81%E9%97%A8%E6%8E%A7%E5%BE%AA%E7%8E%AF%E5%8D%95%E5%85%83%EF%BC%88GRU%EF%BC%89%E3%80%81%E9%95%BF%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86(LSTM)/" title="深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)">
+                        <span class="hidden-mobile">深度学习面试笔试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

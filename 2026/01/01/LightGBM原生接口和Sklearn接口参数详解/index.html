@@ -1,0 +1,987 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC 数据科学：Scipy、Scikit-Learn笔记超参数调优：网格搜索，贝叶斯优化（optuna）详解XGBoost原生接口和Sklearn接口参数详解LightGBMLightGBM有Sklearn接口建模和原生建模两种方式。 一、Sklearn风格接口1234567891011121314151617181920212223import numpy as npimport pand">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LightGBM原生接口和Sklearn接口参数详解">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/01/LightGBM%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC 数据科学：Scipy、Scikit-Learn笔记超参数调优：网格搜索，贝叶斯优化（optuna）详解XGBoost原生接口和Sklearn接口参数详解LightGBMLightGBM有Sklearn接口建模和原生建模两种方式。 一、Sklearn风格接口1234567891011121314151617181920212223import numpy as npimport pand">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-01T00:13:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:01:09.273Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="技术笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>LightGBM原生接口和Sklearn接口参数详解 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LightGBM原生接口和Sklearn接口参数详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-01 08:13" pubdate>
+          2026年1月1日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LightGBM原生接口和Sklearn接口参数详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@<a href="LightGBM%E5%8E%9F%E7%94%9F%E6%8E%A5%E5%8F%A3%E5%92%8CSklearn%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3">TOC</a></p>
+<h1 id="数据科学：Scipy、Scikit-Learn笔记"><a href="#数据科学：Scipy、Scikit-Learn笔记" class="headerlink" title="数据科学：Scipy、Scikit-Learn笔记"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/134815525">数据科学：Scipy、Scikit-Learn笔记</a></h1><h1 id="超参数调优：网格搜索，贝叶斯优化（optuna）详解"><a href="#超参数调优：网格搜索，贝叶斯优化（optuna）详解" class="headerlink" title="超参数调优：网格搜索，贝叶斯优化（optuna）详解"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/138012101">超参数调优：网格搜索，贝叶斯优化（optuna）详解</a></h1><h1 id="XGBoost原生接口和Sklearn接口参数详解"><a href="#XGBoost原生接口和Sklearn接口参数详解" class="headerlink" title="XGBoost原生接口和Sklearn接口参数详解"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/138009902">XGBoost原生接口和Sklearn接口参数详解</a></h1><h1 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h1><p><strong>LightGBM有Sklearn接口建模和原生建模两种方式。</strong></p>
+<h2 id="一、Sklearn风格接口"><a href="#一、Sklearn风格接口" class="headerlink" title="一、Sklearn风格接口"></a>一、Sklearn风格接口</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> lightgbm <span class="hljs-keyword">import</span> LGBMRegressor<br><span class="hljs-comment"># 使用普通的k折交叉验证</span><br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> KFold<br><br>lgb_params= &#123;<span class="hljs-string">&#x27;objective&#x27;</span>: <span class="hljs-string">&#x27;regression&#x27;</span>, <span class="hljs-string">&#x27;metric&#x27;</span>: <span class="hljs-string">&#x27;rmse&#x27;</span>,<br>             <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>, <span class="hljs-string">&#x27;random_state&#x27;</span>: <span class="hljs-number">2024</span>&#125;<br>             <br>test_preds=np.zeros((<span class="hljs-number">5</span>, <span class="hljs-built_in">len</span>(test_X)))<br><span class="hljs-comment"># 初始化 KFold</span><br>kf = KFold(n_splits=<span class="hljs-number">5</span>, shuffle=<span class="hljs-literal">True</span>, random_state=<span class="hljs-number">6</span>)<br><span class="hljs-comment"># 进行 k 折交叉验证</span><br><span class="hljs-keyword">for</span> fold, (train_index, valid_index) <span class="hljs-keyword">in</span> (<span class="hljs-built_in">enumerate</span>(kf.split(X))):<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;fold:<span class="hljs-subst">&#123;fold&#125;</span>&quot;</span>)<br><br>    X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]<br>    y_train, y_valid = y.iloc[train_index], y.iloc[valid_index]<br><br>    model=LGBMRegressor(**lgb_params)<br>    model.fit(X_train,y_train,eval_set=[(X_valid,y_valid)])<br>    test_preds[fold]=model.predict(test_X)<br></code></pre></td></tr></table></figure>
+
+<h3 id="lightgbm-LGBMRegressor参数"><a href="#lightgbm-LGBMRegressor参数" class="headerlink" title="lightgbm.LGBMRegressor参数"></a>lightgbm.LGBMRegressor参数</h3><p><strong>基本参数</strong></p>
+<h4 id="1-boosting-type"><a href="#1-boosting-type" class="headerlink" title="1.boosting_type:"></a>1.boosting_type:</h4><ul>
+<li>默认值: ‘gbdt’</li>
+<li>可选值: ‘gbdt’, ‘dart’, ‘goss’, ‘rf’</li>
+</ul>
+<blockquote>
+<p>‘gbdt’: 常规梯度提升决策树 (Gradient Boosting Decision Tree)<br>‘dart’:引入Dropout的随机梯度提升 (Dropouts meet Multiple Additive Regression Trees)<br>‘goss’: 平衡梯度提升 (Gradient-based One-Side Sampling)<br>‘rf’: 随机森林 (Random Forest)，实际上每个树都是独立训练的，而非传统的梯度提升方式</p>
+</blockquote>
+<h4 id="2-objective"><a href="#2-objective" class="headerlink" title="2.objective:"></a>2.objective:</h4><ul>
+<li>类型: str 或 callable</li>
+<li>默认值: ‘regression’</li>
+</ul>
+<p>说明: 定义优化目标函数。对于回归任务，通常保持默认值即可。如果有特定的回归损失需求（如 Huber loss），可以指定相应的字符串或自定义损失函数。</p>
+<h4 id="3-metric"><a href="#3-metric" class="headerlink" title="3.metric:"></a>3.metric:</h4><ul>
+<li>类型: str, list[str], callable</li>
+</ul>
+<p>说明: 评估模型性能的指标。对于回归任务，常用的有 ‘l1’, ‘l2’, ‘rmse’, ‘mae’, ‘rmsle’, ‘mape’ 等。可以指定多个指标，但最终模型会在训练过程中优化第一个指定的指标。</p>
+<h4 id="4-n-estimators"><a href="#4-n-estimators" class="headerlink" title="4.n_estimators:"></a>4.n_estimators:</h4><ul>
+<li>类型: int</li>
+<li>默认值: 100</li>
+</ul>
+<p>说明: 决策树的个数（即迭代次数）。增大此参数通常会提高模型复杂度和拟合程度，但可能导致过拟合。需要通过交叉验证或其他方法寻找合适的值。</p>
+<h4 id="5-learning-rate-eta"><a href="#5-learning-rate-eta" class="headerlink" title="5.learning_rate (eta):"></a>5.learning_rate (eta):</h4><ul>
+<li>类型: float</li>
+<li>默认值: 0.1</li>
+</ul>
+<p>说明: 学习率，控制每一步迭代中单个新树对之前模型更新的幅度。较小的学习率可能需要更多的迭代次数（更大的 n_estimators），但有助于模型收敛到更优解并防止过拟合。通常在 [0.01, 0.2] 范围内调整。</p>
+<h4 id="6-max-depth"><a href="#6-max-depth" class="headerlink" title="6.max_depth:"></a>6.max_depth:</h4><ul>
+<li>类型: int</li>
+<li>默认值: -1（无限制）</li>
+</ul>
+<p>说明: 树的最大深度。限制树的深度有助于防止过拟合并加快训练速度，但过小可能导致模型欠拟合。根据数据特性和问题复杂性调整。</p>
+<h4 id="7-min-child-samples"><a href="#7-min-child-samples" class="headerlink" title="7.min_child_samples:"></a>7.min_child_samples:</h4><ul>
+<li>类型: int</li>
+<li>默认值: 20</li>
+</ul>
+<p>说明: 构建子树时，内部节点所需最小样本数。用于剪枝和控制模型复杂度。</p>
+<p><strong>正则化与早停参数</strong></p>
+<h4 id="8-lambda-l1-reg-alpha"><a href="#8-lambda-l1-reg-alpha" class="headerlink" title="8.lambda_l1 (reg_alpha):"></a>8.lambda_l1 (reg_alpha):</h4><ul>
+<li>类型: float</li>
+<li>默认值: 0</li>
+</ul>
+<p>说明: L1 正则化项的权重，用于控制模型的稀疏性。非零值有助于特征选择。</p>
+<h4 id="9-lambda-l2-reg-lambda"><a href="#9-lambda-l2-reg-lambda" class="headerlink" title="9.lambda_l2 (reg_lambda):"></a>9.lambda_l2 (reg_lambda):</h4><ul>
+<li>类型: float</li>
+<li>默认值: 0</li>
+</ul>
+<p>说明: L2 正则化项的权重，用于控制模型的复杂度和防止过拟合。通常与 lambda_l1 结合使用。</p>
+<h4 id="10-num-leaves"><a href="#10-num-leaves" class="headerlink" title="10.num_leaves:"></a>10.num_leaves:</h4><ul>
+<li>类型: int</li>
+<li>默认值: 31</li>
+</ul>
+<p>说明: 树上叶子节点的最大数量。直接影响模型复杂度，与 max_depth 一起控制模型精细化程度。</p>
+<h4 id="11-min-split-gain"><a href="#11-min-split-gain" class="headerlink" title="11.min_split_gain:"></a>11.min_split_gain:</h4><ul>
+<li>类型: float</li>
+<li>默认值: 0</li>
+</ul>
+<p>说明: 分裂内部节点所需的最小增益。用于避免不必要的分割。</p>
+<h4 id="12-early-stopping-rounds"><a href="#12-early-stopping-rounds" class="headerlink" title="12.early_stopping_rounds:"></a>12.early_stopping_rounds:</h4><ul>
+<li>类型: int</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 若在验证集上连续若干轮（指定值）未见性能提升，则提前停止训练，防止过拟合并节省计算资源。</p>
+<p><strong>其他参数</strong></p>
+<h4 id="13-subsample-for-bin"><a href="#13-subsample-for-bin" class="headerlink" title="13.subsample_for_bin:"></a>13.subsample_for_bin:</h4><ul>
+<li>类型: int</li>
+<li>默认值: 200000</li>
+</ul>
+<p>说明: 用于构建直方图的样本数量。影响特征离散化的效率和质量。</p>
+<h4 id="14-colsample-bytree-feature-fraction"><a href="#14-colsample-bytree-feature-fraction" class="headerlink" title="14.colsample_bytree (feature_fraction):"></a>14.colsample_bytree (feature_fraction):</h4><ul>
+<li>类型: float</li>
+<li>默认值: 1.0</li>
+</ul>
+<p>说明: 每棵树构建时使用的特征比例。小于 1.0 可以增加模型多样性，防止过拟合。</p>
+<h4 id="15-subsample-bagging-fraction"><a href="#15-subsample-bagging-fraction" class="headerlink" title="15.subsample (bagging_fraction):"></a>15.subsample (bagging_fraction):</h4><ul>
+<li>类型: float</li>
+<li>默认值: 1.0</li>
+</ul>
+<p>说明: 训练每棵树时使用的样本比例。类似于随机森林中的采样策略，可以降低方差并加速训练。</p>
+<h4 id="16-n-jobs"><a href="#16-n-jobs" class="headerlink" title="16.n_jobs:"></a>16.n_jobs:</h4><ul>
+<li>类型: int</li>
+<li>默认值: -1 (使用所有可用CPU核心)</li>
+</ul>
+<p>说明: 并行计算的进程数。正值表示具体进程数，-1 表示使用所有可用 CPU 核心。</p>
+<h4 id="17-silent-verbose"><a href="#17-silent-verbose" class="headerlink" title="17.silent (verbose):"></a>17.silent (verbose):</h4><ul>
+<li>类型: bool</li>
+<li>默认值: True</li>
+</ul>
+<p>说明: 控制是否输出详细的中间信息。在调试或监控训练过程时可设为 False。</p>
+<h3 id="调参方法"><a href="#调参方法" class="headerlink" title="调参方法"></a>调参方法</h3><p>通常采用<strong>网格搜索</strong>（如 <strong>GridSearchCV</strong>）、随机搜索（如 RandomizedSearchCV）或<strong>贝叶斯优化</strong>（如 <strong>Optuna</strong>、Hyperopt）等方法来寻找 LGBMRegressor 的最佳参数组合。结合交叉验证评估不同参数配置下的模型性能，依据选定的评估指标（如 r2_score、mean_squared_error 等）确定最优参数。<br>注意，参数之间可能存在交互效应，如 <strong>learning_rate 和 n_estimators 通常需同时调整</strong>。<strong>实践中应优先关注对模型性能影响显著的参数（如 learning_rate、n_estimators、num_leaves 等），然后逐步细化其他参数。同时，合理设置参数搜索范围和步长，确保搜索效率与精度之间的平衡。</strong></p>
+<h3 id="LGBMRegressor-fit参数"><a href="#LGBMRegressor-fit参数" class="headerlink" title="LGBMRegressor.fit参数"></a>LGBMRegressor.fit参数</h3><p>LGBMRegressor.fit 是 LightGBM 回归模型训练方法，用于拟合给定的训练数据。以下是 LGBMRegressor.fit 方法的主要参数详解：<br><strong>必填参数</strong></p>
+<h4 id="1-X"><a href="#1-X" class="headerlink" title="1.X:"></a>1.X:</h4><ul>
+<li>类型: array-like 或 DataFrame</li>
+</ul>
+<p>说明: 输入特征数据，形状为 (n_samples, n_features)。这里的 n_samples 是样本数量，n_features 是特征数量。数据类型可以是整型、浮点型或其他可转换为数值的数据类型。</p>
+<h4 id="2-y"><a href="#2-y" class="headerlink" title="2.y:"></a>2.y:</h4><ul>
+<li>类型: array-like 或 Series</li>
+</ul>
+<p>说明: 目标变量（响应变量）数据，形状为 (n_samples,)。对于回归任务，y 应包含连续数值型标签。</p>
+<p><strong>可选参数</strong></p>
+<h4 id="3-sample-weight"><a href="#3-sample-weight" class="headerlink" title="3.sample_weight:"></a>3.sample_weight:</h4><ul>
+<li>类型: array-like of shape (n_samples,), optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 样本权重数组，与输入数据 X 的样本一一对应。如果提供了样本权重，LightGBM 将在训练过程中对每个样本赋予相应的权重，影响其对模型拟合的贡献。权重越大，相应样本在训练时的影响力越强。这对于处理不平衡数据或对某些样本给予更多重视的情况非常有用。</p>
+<h4 id="4-eval-set"><a href="#4-eval-set" class="headerlink" title="4.eval_set:"></a>4.eval_set:</h4><ul>
+<li>类型: list of (X, y) tuple(s), optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 用于评估模型性能的额外数据集列表。每个元素是一个包含特征数据 X 和目标变量 y 的元组。在训练过程中，LightGBM 会在每个 boosting 步骤后计算指定数据集上的评估指标，便于监控模型性能和进行早停。</p>
+<h4 id="5-eval-names"><a href="#5-eval-names" class="headerlink" title="5.eval_names:"></a>5.eval_names:</h4><ul>
+<li>类型: list of str, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 与 eval_set 对应的评估数据集名称列表。如果不提供，将自动命名为 “valid_0”, “valid_1”, …。这些名称用于输出和日志中标识不同的评估数据集。</p>
+<h4 id="6-eval-sample-weight"><a href="#6-eval-sample-weight" class="headerlink" title="6.eval_sample_weight:"></a>6.eval_sample_weight:</h4><ul>
+<li>类型: list of array-like, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 与 eval_set 对应的评估数据集样本权重列表。如果提供了样本权重，将在评估过程中对相应数据集的样本应用这些权重。</p>
+<h4 id="7-eval-class-weight"><a href="#7-eval-class-weight" class="headerlink" title="7.eval_class_weight:"></a>7.eval_class_weight:</h4><ul>
+<li>类型: dict or list of dict, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 仅适用于分类任务（与 LGBMRegressor 不相关），用于指定评估数据集中各类别的权重。</p>
+<h4 id="8-eval-init-score"><a href="#8-eval-init-score" class="headerlink" title="8.eval_init_score:"></a>8.eval_init_score:</h4><ul>
+<li>类型: list of array-like, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 用于初始化模型在每个评估数据集上的初始预测分数。如果提供了，将在第一轮迭代前使用这些分数作为起始点。</p>
+<h4 id="9-eval-metric"><a href="#9-eval-metric" class="headerlink" title="9.eval_metric:"></a>9.eval_metric:</h4><ul>
+<li>类型: str, callable, list, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 在训练过程中使用的评估指标，可以是 LightGBM 支持的字符串标识符（如 ‘rmse’, ‘l1’, ‘mae’ 等），也可以是自定义的评估函数。若未指定，将使用模型初始化时设定的 metric 参数。若提供列表，将在每个评估数据集上分别计算多个指标。</p>
+<h4 id="10-verbose"><a href="#10-verbose" class="headerlink" title="10.verbose:"></a>10.verbose:</h4><ul>
+<li>类型: int or bool</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 控制训练过程中的输出详细程度。如果为 True 或非零整数，将在标准输出流显示训练进度。整数值决定了信息刷新的频率（按迭代次数计）。若为 False 或 0，则不显示任何训练信息。</p>
+<h4 id="11-callbacks"><a href="#11-callbacks" class="headerlink" title="11.callbacks:"></a>11.callbacks:</h4><ul>
+<li>类型: list of callable, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 用户自定义的回调函数列表，在训练过程中的特定时刻（如每个 boosting 步骤后）会被调用。回调函数可以用于监控训练进度、保存中间结果、执行自定义操作等。</p>
+<h4 id="12-init-model"><a href="#12-init-model" class="headerlink" title="12.init_model:"></a>12.init_model:</h4><ul>
+<li>类型: str, os.PathLike object, Booster instance, or dict, optional</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 用于加载已有的 LightGBM 模型作为训练起点。可以是模型文件路径、 Booster 实例或序列化后的字典。加载模型后，训练将继续在现有模型基础上进行，而不是从头开始。</p>
+<h4 id="13-pre-partition"><a href="#13-pre-partition" class="headerlink" title="13.pre_partition:"></a>13.pre_partition:</h4><ul>
+<li>类型: bool</li>
+<li>默认值: False</li>
+</ul>
+<p>说明: 当设置为 True 时，表示数据已经按照 LightGBM 的要求进行了预分区。这通常在分布式训练场景中使用，以避免重复分区带来的开销。</p>
+<p><strong>其他参数</strong></p>
+<p>LGBMRegressor.fit 方法还接受 LGBMRegressor 类实例化时设置的其他参数作为关键字参数，如 num_boost_round、early_stopping_rounds、verbose_eval 等。这些参数在模型训练过程中起作用，可以通过直接在 fit 方法中传递来覆盖实例化时的设置。<br>总之，LGBMRegressor.fit 方法允许用户指定训练数据、权重、评估数据集、评估指标、输出详细程度等多个方面，以灵活控制模型训练过程和监控模型性能。在实际应用中，可以根据项目需求选择性地使用这些参数。</p>
+<h3 id="LGBMRegressor-predict参数"><a href="#LGBMRegressor-predict参数" class="headerlink" title="LGBMRegressor.predict参数"></a>LGBMRegressor.predict参数</h3><p>LGBMRegressor.predict() 是 LightGBM 回归模型用于对新数据进行预测的方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">LGBMRegressor.predict(X, num_iteration=<span class="hljs-literal">None</span>, raw_score=<span class="hljs-literal">False</span>, pred_leaf=<span class="hljs-literal">False</span>, pred_contrib=<span class="hljs-literal">False</span>, **kwargs)<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-X-1"><a href="#1-X-1" class="headerlink" title="1. X"></a>1. X</h4><ul>
+<li>类型: array-like 或 DataFrame</li>
+</ul>
+<p>说明: 待预测的数据，其形状应与训练数据的特征部分（不包含标签）相同。可以是 Numpy 数组、Pandas DataFrame 或类似的数据结构，列对应特征，行对应样本。</p>
+<h4 id="2-num-iteration-n-iter-no-change"><a href="#2-num-iteration-n-iter-no-change" class="headerlink" title="2. num_iteration (n_iter_no_change)"></a>2. num_iteration (n_iter_no_change)</h4><ul>
+<li>类型: int 或 None</li>
+<li>默认值: None</li>
+</ul>
+<p>说明: 使用多少个树（迭代次数）来进行预测。如果为 None，则使用全部已训练好的树进行预测。指定一个较小的值可以观察模型在早期迭代阶段的表现，有助于理解模型的学习过程。</p>
+<h4 id="3-raw-score"><a href="#3-raw-score" class="headerlink" title="3. raw_score"></a>3. raw_score</h4><ul>
+<li>类型: bool</li>
+<li>默认值: False</li>
+</ul>
+<p>说明: 是否返回原始得分（即未经过学习目标函数转换的输出）。若设为 True，返回的是每个样本在最后一层叶节点的得分（通常是加权投票或平均），而不是经过目标函数转换后的预测值。对于回归任务，原始得分通常就是叶节点的均值。</p>
+<h4 id="4-pred-leaf"><a href="#4-pred-leaf" class="headerlink" title="4. pred_leaf"></a>4. pred_leaf</h4><ul>
+<li>类型: bool</li>
+<li>默认值: False</li>
+</ul>
+<p>说明: 是否返回每个样本在每棵树上的叶节点索引。若设为 True，返回的是一个二维数组，形状为 (n_samples, n_trees)，其中每个元素表示对应的样本在对应树中的叶节点编号。这个功能常用于模型解释和可视化。</p>
+<h4 id="5-pred-contrib"><a href="#5-pred-contrib" class="headerlink" title="5. pred_contrib"></a>5. pred_contrib</h4><ul>
+<li>类型: bool</li>
+<li>默认值: False</li>
+</ul>
+<p>说明: 是否返回特征对预测结果的边际贡献（SHAP-like values）。仅在模型训练时设置了 enable_pred_contrib&#x3D;True 才有效。若设为 True，返回的是一个三维数组，形状为 (n_samples, n_features, n_classes)，其中每个元素表示对应样本、对应特征对预测结果的边际贡献。对于回归任务，n_classes&#x3D;1。</p>
+<h4 id="6-kwargs"><a href="#6-kwargs" class="headerlink" title="6. kwargs"></a>6. kwargs</h4><ul>
+<li>类型: 其他关键字参数</li>
+</ul>
+<p>说明: 传递给底层 Booster.predict() 函数的额外参数。一般情况下不需要设置。<br>返回值:</p>
+<p>如果没有启用 raw_score、pred_leaf 和 pred_contrib，返回一个一维 Numpy 数组，包含对 X 中每个样本的预测值。</p>
+<p>如果启用了上述任一选项，返回相应类型的数组或数据结构，如原始得分、叶节点索引或特征边际贡献。</p>
+<p>总结来说，LGBMRegressor.predict() 主要接收待预测数据 X 以及几个控制预测输出特性的参数，如指定使用多少棵树进行预测、是否返回原始得分、叶节点索引或特征边际贡献等。根据实际需求选择合适的参数，可以获得模型在不同层面的预测结果，以满足分析、解释或应用的需求。</p>
+<h2 id="二、LightGBM原生接口"><a href="#二、LightGBM原生接口" class="headerlink" title="二、LightGBM原生接口"></a>二、LightGBM原生接口</h2><p>LightGBM内置了建模方式，有如下的数据格式与核心训练方法：</p>
+<ul>
+<li>基于lightgbm.Dataset格式的数据。</li>
+<li>基于lightgbm.train接口训练。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> lightgbm <span class="hljs-keyword">as</span> lgb<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> KFold<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cv_model</span>(<span class="hljs-params">clf, train_x, train_y, test_x, seed=<span class="hljs-number">2024</span></span>):<br>    folds = <span class="hljs-number">5</span><br>    kf = KFold(n_splits=folds, shuffle=<span class="hljs-literal">True</span>, random_state=seed)<br>    oof = np.zeros(train_x.shape[<span class="hljs-number">0</span>])<br>    test_predict = np.zeros(test_x.shape[<span class="hljs-number">0</span>])<br>    cv_scores = []<br>    <br>    <span class="hljs-keyword">for</span> i, (train_index, valid_index) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(kf.split(train_x, train_y)):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;**************** &#123;&#125; ****************&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">str</span>(i+<span class="hljs-number">1</span>)))<br>        trn_x, trn_y, val_x, val_y = train_x.iloc[train_index], train_y[train_index], train_x.iloc[valid_index], train_y[valid_index]<br>        <br>        train_matrix = clf.Dataset(trn_x, label=trn_y)<br>        valid_matrix = clf.Dataset(val_x, label=val_y)<br>        params = &#123;<br>            <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>            <span class="hljs-string">&#x27;objective&#x27;</span>: <span class="hljs-string">&#x27;regression&#x27;</span>,<br>            <span class="hljs-string">&#x27;metric&#x27;</span>: <span class="hljs-string">&#x27;rmse&#x27;</span>,<br>            <span class="hljs-string">&#x27;seed&#x27;</span>: <span class="hljs-number">2023</span>,<br>            <span class="hljs-string">&#x27;nthread&#x27;</span> : <span class="hljs-number">16</span>,<br>            <span class="hljs-string">&#x27;verbose&#x27;</span> : -<span class="hljs-number">1</span>,<br>        &#125;<br><br>        model = clf.train(params, train_matrix, valid_sets=[train_matrix, valid_matrix], verbose_eval=<span class="hljs-number">500</span>, early_stopping_rounds=<span class="hljs-number">200</span>)<br>        val_pred = model.predict(val_x, num_iteration=model.best_iteration)<br>        test_pred = model.predict(test_x, num_iteration=model.best_iteration)<br>        <br>        oof[valid_index] = val_pred<br>        test_predict += test_pred / kf.n_splits<br>        <br>        score = <span class="hljs-number">1</span>/(<span class="hljs-number">1</span>+np.sqrt(mean_squared_error(val_pred, val_y)))<br>        cv_scores.append(score)<br>        <span class="hljs-built_in">print</span>(cv_scores)<br>        <br>        <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:<br>            imp_df = pd.DataFrame()<br>            imp_df[<span class="hljs-string">&quot;feature&quot;</span>] = cols<br>            imp_df[<span class="hljs-string">&quot;importance_gain&quot;</span>] = model.feature_importance(importance_type=<span class="hljs-string">&#x27;gain&#x27;</span>)<br>            imp_df[<span class="hljs-string">&quot;importance_split&quot;</span>] = model.feature_importance(importance_type=<span class="hljs-string">&#x27;split&#x27;</span>)<br>            imp_df[<span class="hljs-string">&quot;mul&quot;</span>] = imp_df[<span class="hljs-string">&quot;importance_gain&quot;</span>]*imp_df[<span class="hljs-string">&quot;importance_split&quot;</span>]<br>            imp_df = imp_df.sort_values(by=<span class="hljs-string">&#x27;mul&#x27;</span>,ascending=<span class="hljs-literal">False</span>)<br>            imp_df.to_csv(<span class="hljs-string">&#x27;feature_importance.csv&#x27;</span>, index=<span class="hljs-literal">False</span>)<br>            <span class="hljs-built_in">print</span>(imp_df[:<span class="hljs-number">30</span>])<br>            <br>    <span class="hljs-keyword">return</span> oof, test_predict<br><br>lgb_oof, lgb_test = cv_model(lgb, train_df[cols], train_df[<span class="hljs-string">&#x27;power&#x27;</span>], test_df[cols])<br><br></code></pre></td></tr></table></figure>
+<p>LightGBM 是一个高效的梯度提升决策树（GBDT）框架，支持分类和回归任务。其参数众多，可以细分为以下几大类别：</p>
+<h3 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h3><h4 id="1-boosting-type-1"><a href="#1-boosting-type-1" class="headerlink" title="1.boosting_type:"></a>1.boosting_type:</h4><p>梯度提升类型。可选值包括 ‘gbdt’（传统梯度提升决策树）、’dart’（Dropouts meet Multiple Additive Regression Trees）、’goss’（Gradient-based One-Side Sampling）等。默认为 ‘gbdt’。</p>
+<h4 id="2-objective-1"><a href="#2-objective-1" class="headerlink" title="2.objective:"></a>2.objective:</h4><p>目标函数。对于回归任务，常用值包括 ‘regression_l1’（L1 loss）、’regression_l2’（L2 loss，即均方误差）、’huber’（Huber loss）等。默认为 ‘regression’（等价于 ‘regression_l2’）。</p>
+<h4 id="3-metric-1"><a href="#3-metric-1" class="headerlink" title="3.metric:"></a>3.metric:</h4><p>评估指标。可选值包括 ‘l1’、’l2’、’rmse’、’mae’、’rmsle’ 等。可以指定多个评估指标，主指标用于早停和最优模型的选择。</p>
+<h3 id="数据处理与采样"><a href="#数据处理与采样" class="headerlink" title="数据处理与采样"></a>数据处理与采样</h3><h4 id="4-max-bin"><a href="#4-max-bin" class="headerlink" title="4.max_bin:"></a>4.max_bin:</h4><p>构建直方图的最大bins数，影响特征离散化的精细程度。默认为 255。</p>
+<h4 id="5-min-data-in-bin"><a href="#5-min-data-in-bin" class="headerlink" title="5.min_data_in_bin:"></a>5.min_data_in_bin:</h4><p>一个bin中最小的数据数量。默认为 5。</p>
+<h4 id="6-min-child-samples"><a href="#6-min-child-samples" class="headerlink" title="6.min_child_samples:"></a>6.min_child_samples:</h4><p>创建子节点所需的最小样本数。默认为 20。</p>
+<h4 id="7-subsample"><a href="#7-subsample" class="headerlink" title="7.subsample:"></a>7.subsample:</h4><p>数据采样的比例。取值范围为 (0, 1)，默认为 1 表示使用全部数据。</p>
+<h4 id="8-sampling-method"><a href="#8-sampling-method" class="headerlink" title="8.sampling_method:"></a>8.sampling_method:</h4><p>采样方法。可选值包括 ‘uniform’（均匀采样）和 ‘gradient_based’（基于梯度采样）。默认为 ‘uniform’。</p>
+<h4 id="9-colsample-bytree"><a href="#9-colsample-bytree" class="headerlink" title="9.colsample_bytree:"></a>9.colsample_bytree:</h4><p>每棵树随机选择特征的比例。取值范围为 (0, 1)，默认为 1 表示使用所有特征。</p>
+<h4 id="10-colsample-bylevel"><a href="#10-colsample-bylevel" class="headerlink" title="10.colsample_bylevel:"></a>10.colsample_bylevel:</h4><p>在每层节点分裂时使用的特征采样比例。取值范围为 (0, 1)，默认为 1。</p>
+<h3 id="模型训练与正则化"><a href="#模型训练与正则化" class="headerlink" title="模型训练与正则化"></a>模型训练与正则化</h3><h4 id="11-learning-rate"><a href="#11-learning-rate" class="headerlink" title="11.learning_rate:"></a>11.learning_rate:</h4><p>学习率，控制每次迭代更新权重的步长。默认为 0.1。</p>
+<h4 id="12-num-leaves"><a href="#12-num-leaves" class="headerlink" title="12.num_leaves:"></a>12.num_leaves:</h4><p>每棵树的最大叶子节点数。影响模型复杂度。默认为 31。</p>
+<h4 id="13-min-split-gain"><a href="#13-min-split-gain" class="headerlink" title="13.min_split_gain:"></a>13.min_split_gain:</h4><p>创建新节点所需的最小增益。用于防止过拟合。默认为 0。</p>
+<h4 id="14-min-child-weight"><a href="#14-min-child-weight" class="headerlink" title="14.min_child_weight:"></a>14.min_child_weight:</h4><p>创建子节点所需的最小权重（样本数乘以样本权重）。默认为 1e-3。</p>
+<h4 id="15-lambda-l1-lambda-l2"><a href="#15-lambda-l1-lambda-l2" class="headerlink" title="15.lambda_l1&#x2F;lambda_l2:"></a>15.lambda_l1&#x2F;lambda_l2:</h4><p>L1 和 L2 正则化项的系数，分别用于惩罚绝对值和平方和。默认均为 0。</p>
+<h4 id="16-alpha"><a href="#16-alpha" class="headerlink" title="16.alpha:"></a>16.alpha:</h4><p>Dart 算法中的 dropout 参数。默认为 0。</p>
+<h4 id="17-n-estimators-num-iterations"><a href="#17-n-estimators-num-iterations" class="headerlink" title="17.n_estimators&#x2F;num_iterations:"></a>17.n_estimators&#x2F;num_iterations:</h4><p>最大迭代次数（树的数量）。默认为 -1，表示无限制。</p>
+<h4 id="18-early-stopping-rounds"><a href="#18-early-stopping-rounds" class="headerlink" title="18.early_stopping_rounds:"></a>18.early_stopping_rounds:</h4><p>早停轮数。当验证集分数在一定轮数内不再提升时停止训练。默认为 None。</p>
+<h3 id="树结构与剪枝"><a href="#树结构与剪枝" class="headerlink" title="树结构与剪枝"></a>树结构与剪枝</h3><h4 id="19-max-depth"><a href="#19-max-depth" class="headerlink" title="19.max_depth:"></a>19.max_depth:</h4><p>模型最大深度。若设置为 -1，表示不限制深度。默认为 -1。</p>
+<h4 id="20-tree-learner"><a href="#20-tree-learner" class="headerlink" title="20.tree_learner:"></a>20.tree_learner:</h4><p>树学习器类型。可选值包括 ‘serial’、’feature_parallel’、’data_parallel’ 和 ‘voting’。默认为 ‘serial’。</p>
+<h4 id="21-verbosity"><a href="#21-verbosity" class="headerlink" title="21.verbosity:"></a>21.verbosity:</h4><p>输出日志的详细程度。默认为 1。</p>
+<h4 id="22-gamma"><a href="#22-gamma" class="headerlink" title="22.gamma:"></a>22.gamma:</h4><p>节点分裂的最小损失减少。默认为 0。</p>
+<h4 id="23-grow-policy"><a href="#23-grow-policy" class="headerlink" title="23.grow_policy:"></a>23.grow_policy:</h4><p>决策树增长策略。可选值包括 ‘depthwise’（深度优先）和 ‘lossguide’（损失降低优先）。默认为 ‘depthwise’。<br>分布式训练</p>
+<h4 id="24-num-threads-n-jobs"><a href="#24-num-threads-n-jobs" class="headerlink" title="24.num_threads&#x2F;n_jobs:"></a>24.num_threads&#x2F;n_jobs:</h4><p>使用的线程数。默认为 -1，表示使用所有可用CPU核心。</p>
+<h4 id="25-distribute-是否开启分布式训练。默认为-False。"><a href="#25-distribute-是否开启分布式训练。默认为-False。" class="headerlink" title="25.distribute: 是否开启分布式训练。默认为 False。"></a>25.distribute: 是否开启分布式训练。默认为 False。</h4><p>相关参数（如 machine_list_file、local_listen_port 等）：用于配置分布式训练环境。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="26-seed"><a href="#26-seed" class="headerlink" title="26.seed:"></a>26.seed:</h4><p>随机种子，用于确保模型训练的可复现性。默认为 None。</p>
+<h4 id="27-callbacks"><a href="#27-callbacks" class="headerlink" title="27.callbacks:"></a>27.callbacks:</h4><p>回调函数列表，用于监控训练过程并在特定事件发生时执行操作。</p>
+<h3 id="lightgbm-train参数"><a href="#lightgbm-train参数" class="headerlink" title="lightgbm.train参数"></a>lightgbm.train参数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">lightgbm.train(params, train_set, num_boost_round=<span class="hljs-number">100</span>, valid_sets=<span class="hljs-literal">None</span>, valid_names=<span class="hljs-literal">None</span>,<br>               fobj=<span class="hljs-literal">None</span>, feval=<span class="hljs-literal">None</span>, init_model=<span class="hljs-literal">None</span>, feature_name=<span class="hljs-string">&#x27;auto&#x27;</span>, categorical_feature=<span class="hljs-string">&#x27;auto&#x27;</span>,<br>               early_stopping_rounds=<span class="hljs-literal">None</span>, evals_result=<span class="hljs-literal">None</span>, verbose_eval=<span class="hljs-literal">True</span>, learning_rates=<span class="hljs-literal">None</span>,<br>               keep_training_booster=<span class="hljs-literal">False</span>, callbacks=<span class="hljs-literal">None</span>, show_stdv=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<h4 id="1-params"><a href="#1-params" class="headerlink" title="1.params:"></a>1.params:</h4><p>字典类型，包含模型训练的参数，如 objective、metric、num_leaves、learning_rate 等。</p>
+<h4 id="2-train-set"><a href="#2-train-set" class="headerlink" title="2.train_set:"></a>2.train_set:</h4><p>lightgbm.Dataset 类型，表示训练数据集。</p>
+<h4 id="3-num-boost-round"><a href="#3-num-boost-round" class="headerlink" title="3.num_boost_round:"></a>3.num_boost_round:</h4><p>整数，指定最大迭代次数（树的数量）。默认为 100。</p>
+<h4 id="4-valid-sets"><a href="#4-valid-sets" class="headerlink" title="4.valid_sets:"></a>4.valid_sets:</h4><p>可选，lightgbm.Dataset 类型的列表，表示验证数据集。可以包含多个数据集，用于监控模型在不同数据上的表现。</p>
+<h4 id="5-valid-names"><a href="#5-valid-names" class="headerlink" title="5.valid_names:"></a>5.valid_names:</h4><p>可选，与 valid_sets 配对的字符串列表，为每个验证数据集指定名称。</p>
+<h4 id="6-fobj"><a href="#6-fobj" class="headerlink" title="6.fobj:"></a>6.fobj:</h4><p>可选，自定义目标函数（Objective Function），用于替换默认的目标函数。需返回一个 (grad, hess) 元组，分别代表梯度和二阶导数。</p>
+<h4 id="7-feval"><a href="#7-feval" class="headerlink" title="7.feval:"></a>7.feval:</h4><p>可选，自定义评估函数（Evaluation Function），用于计算额外的评估指标。需返回一个 (name, value) 元组，其中 name 为指标名，value 为指标值。</p>
+<h4 id="8-init-model"><a href="#8-init-model" class="headerlink" title="8.init_model:"></a>8.init_model:</h4><p>可选，已训练的 lightgbm.Booster 或保存的模型文件路径，用于继续训练或初始化模型。</p>
+<h4 id="9-feature-name"><a href="#9-feature-name" class="headerlink" title="9.feature_name:"></a>9.feature_name:</h4><p>可选，特征名称列表。默认为 ‘auto’，自动从 train_set 中获取特征名。</p>
+<h4 id="10-categorical-feature"><a href="#10-categorical-feature" class="headerlink" title="10.categorical_feature:"></a>10.categorical_feature:</h4><p> 可选，类别特征索引列表或字典。默认为 ‘auto’，自动检测整数类型特征作为类别特征。</p>
+<h4 id="11-early-stopping-rounds"><a href="#11-early-stopping-rounds" class="headerlink" title="11.early_stopping_rounds:"></a>11.early_stopping_rounds:</h4><p>可选，整数，早停轮数。当在指定轮数内验证集分数不再提升时停止训练。默认为 None，表示不启用早停。</p>
+<h4 id="12-evals-result"><a href="#12-evals-result" class="headerlink" title="12.evals_result:"></a>12.evals_result:</h4><p>可选，字典类型，用于存储每次迭代的评估结果。若提供，函数将填充此字典而不是输出到标准输出。</p>
+<h4 id="13-verbose-eval"><a href="#13-verbose-eval" class="headerlink" title="13.verbose_eval:"></a>13.verbose_eval:</h4><p>可选，布尔值或整数。默认为 True，表示在每个验证数据集上每 verbose_eval 轮输出一次评估结果。若为 False，则不输出。</p>
+<h4 id="14-learning-rates"><a href="#14-learning-rates" class="headerlink" title="14.learning_rates:"></a>14.learning_rates:</h4><p>可选，列表或函数，用于指定每轮迭代的学习率。如果是一个列表，长度应等于 num_boost_round；如果是一个函数，将在每轮迭代时被调用以决定学习率。</p>
+<h4 id="15-keep-training-booster"><a href="#15-keep-training-booster" class="headerlink" title="15.keep_training_booster:"></a>15.keep_training_booster:</h4><p>可选，布尔值。默认为 False，表示在训练结束后释放工作空间，节省内存。设为 True 则保留训练过程中使用的 Booster 对象，便于后续调用。</p>
+<h4 id="16-callbacks"><a href="#16-callbacks" class="headerlink" title="16.callbacks:"></a>16.callbacks:</h4><p>可选，回调函数列表，用于监控训练过程并在特定事件发生时执行操作。</p>
+<h4 id="17-show-stdv"><a href="#17-show-stdv" class="headerlink" title="17.show_stdv:"></a>17.show_stdv:</h4><p>可选，布尔值。默认为 True，表示在输出评估结果时显示标准差（如果有多个数据并行验证）。</p>
+<h3 id="lightgbm可视化"><a href="#lightgbm可视化" class="headerlink" title="lightgbm可视化"></a>lightgbm可视化</h3><h4 id="1-特征重要性图"><a href="#1-特征重要性图" class="headerlink" title="1.特征重要性图"></a>1.特征重要性图</h4><p>函数：lgb.plot_importance()<br>说明：绘制特征的重要性排名图，通常以特征的增益或覆盖度为度量标准。可以直观地看到哪些特征对模型预测最具影响力。</p>
+<h4 id="2-学习曲线图"><a href="#2-学习曲线图" class="headerlink" title="2.学习曲线图"></a>2.学习曲线图</h4><ul>
+<li>函数：lgb.plot_metric()</li>
+</ul>
+<p>说明：绘制训练过程中评估指标（如损失函数、AUC、准确率等）随迭代次数的变化情况。可用于观察模型是否过拟合、欠拟合，以及何时达到最优性能。</p>
+<h4 id="3-特征分布直方图"><a href="#3-特征分布直方图" class="headerlink" title="3.特征分布直方图"></a>3.特征分布直方图</h4><ul>
+<li>函数：lgb.plot_histogram()</li>
+</ul>
+<p>说明：绘制单个特征在训练集、验证集（如有）和（或）测试集中的分布直方图，有助于对比不同数据集间特征分布的差异。</p>
+<h4 id="4-特征分裂图"><a href="#4-特征分裂图" class="headerlink" title="4.特征分裂图"></a>4.特征分裂图</h4><ul>
+<li>函数：lgb.plot_split_value_histogram()</li>
+</ul>
+<p>说明：针对指定特征，绘制其在决策树分裂时所采用的阈值分布直方图，揭示模型在训练过程中如何对该特征进行分割。</p>
+<h4 id="5-决策树结构图"><a href="#5-决策树结构图" class="headerlink" title="5.决策树结构图"></a>5.决策树结构图</h4><ul>
+<li>函数：lgb.create_tree_digraph()（需安装 graphviz 库）</li>
+</ul>
+<p>说明：生成单棵决策树的图形表示，展示树的层次结构、节点分裂条件和叶节点的预测值。通常需要配合 graphviz 库的 render 函数将生成的 DOT 文件转换为 PNG、SVG 等图像格式。</p>
+<h4 id="6-特征分布与分裂点图"><a href="#6-特征分布与分裂点图" class="headerlink" title="6.特征分布与分裂点图"></a>6.特征分布与分裂点图</h4><ul>
+<li>函数：lgb.plot_tree_split_value_histogram()</li>
+</ul>
+<p>说明：在同一图表中同时展示特征的分布直方图和决策树在该特征上的分裂点，直观呈现特征值与模型决策的关系。</p>
+<h4 id="7-SHAP-贡献值分布图"><a href="#7-SHAP-贡献值分布图" class="headerlink" title="7.SHAP 贡献值分布图"></a>7.SHAP 贡献值分布图</h4><ul>
+<li>函数：shap.summary_plot()（需安装 shap 库）</li>
+</ul>
+<p>说明：虽然不是 LightGBM 内置函数，但可以通过与 shap 库结合，绘制 SHAP（SHapley Additive exPlanations）值的分布图，展示每个特征对模型输出的平均效应及其分布情况。<br>这些函数通常返回 matplotlib 图形对象，可以直接显示或进一步定制。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> lightgbm <span class="hljs-keyword">as</span> lgb<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 假设已训练好一个 LightGBM 模型，并有相应的数据集</span><br>model = lgb.Booster(model_file=<span class="hljs-string">&#x27;my_model.txt&#x27;</span>)<br>train_data = lgb.Dataset(X_train, y_train)<br><br><span class="hljs-comment"># 绘制特征重要性图</span><br>plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br>lgb.plot_importance(model, max_num_features=<span class="hljs-number">20</span>, importance_type=<span class="hljs-string">&#x27;gain&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;Feature Importance (Gain)&#x27;</span>)<br>plt.show()<br><br><span class="hljs-comment"># 绘制学习曲线</span><br>evals_result = model.evals_result_<br>lgb.plot_metric(evals_result, metric=<span class="hljs-string">&#x27;rmse&#x27;</span>)<br>plt.show()<br><br>plt.title(<span class="hljs-string">&#x27;Learning Curve&#x27;</span>)<br>lgb.plot_histogram(train_data, feature=<span class="hljs-string">&#x27;feature_name&#x27;</span>, bins=<span class="hljs-number">20</span>)<br>plt.title(<span class="hljs-string">&#x27;Feature Distribution&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="category-chain-item">技术笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" class="print-no-link">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LightGBM原生接口和Sklearn接口参数详解</div>
+      <div>https://qzkq.github.io/2026/01/01/LightGBM原生接口和Sklearn接口参数详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/Linux%20jq%20%E3%80%81vim%E4%BB%A5%E5%8F%8ALinux%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85miniconda%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%EF%BC%88%E7%AC%94%E8%AE%B0%EF%BC%89/" title="Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux jq 、vim以及Linux集群安装miniconda并配置虚拟环境（笔记）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/01/LightGBM%E3%80%81XGBoost%E5%92%8CCatBoost%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="LightGBM、XGBoost和CatBoost自定义损失函数和评估指标">
+                        <span class="hidden-mobile">LightGBM、XGBoost和CatBoost自定义损失函数和评估指标</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

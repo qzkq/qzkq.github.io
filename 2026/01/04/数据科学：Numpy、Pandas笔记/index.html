@@ -1,0 +1,1502 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="数据科学：Matplotlib、Seaborn笔记 数据科学：Scipy、Scikit-Learn笔记@TOC 一、Numpynumpy.ndarray：n维数组 在numpy中以np.nan表示缺失值，它是一个浮点数。 np.randomnp.random.randint用于生成指定范围内的随机整数。以下是该函数的基本用法：参数:  low: 随机数的最小值（包含）。 high: 随机数的最大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学：Numpy、Pandas笔记">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/04/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%9ANumpy%E3%80%81Pandas%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="数据科学：Matplotlib、Seaborn笔记 数据科学：Scipy、Scikit-Learn笔记@TOC 一、Numpynumpy.ndarray：n维数组 在numpy中以np.nan表示缺失值，它是一个浮点数。 np.randomnp.random.randint用于生成指定范围内的随机整数。以下是该函数的基本用法：参数:  low: 随机数的最小值（包含）。 high: 随机数的最大">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/aba42e892ca93f043ca746729d062ce2.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b83a60c5808f1acb74043f6eacb25d34.png">
+<meta property="article:published_time" content="2026-01-04T00:11:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.411Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="NumPy">
+<meta property="article:tag" content="Pandas">
+<meta property="article:tag" content="数据科学">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/aba42e892ca93f043ca746729d062ce2.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>数据科学：Numpy、Pandas笔记 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数据科学：Numpy、Pandas笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-04 08:11" pubdate>
+          2026年1月4日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          86 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数据科学：Numpy、Pandas笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/134764886"><strong>数据科学：Matplotlib、Seaborn笔记</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45832050/article/details/134815525"><strong>数据科学：Scipy、Scikit-Learn笔记</strong></a><br>@<a href="%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%9ANumpy%E3%80%81Pandas%E3%80%81Matplotlib%E3%80%81Seaborn%E3%80%81Scipy%E3%80%81Scikit-Learn">TOC</a></p>
+<h2 id="一、Numpy"><a href="#一、Numpy" class="headerlink" title="一、Numpy"></a>一、Numpy</h2><p><strong>numpy.ndarray：n维数组</strong></p>
+<p>在numpy中以<code>np.nan</code>表示缺失值，它是一个浮点数。</p>
+<h3 id="np-random"><a href="#np-random" class="headerlink" title="np.random"></a>np.random</h3><h4 id="np-random-randint"><a href="#np-random-randint" class="headerlink" title="np.random.randint"></a>np.random.randint</h4><p>用于生成指定范围内的随机整数。以下是该函数的基本用法：<br>参数:</p>
+<ul>
+<li>low: 随机数的最小值（包含）。</li>
+<li>high: 随机数的最大值（不包含）。如果未提供，则默认为 low，且 low 为 0。</li>
+<li>size: 输出数组的形状。如果未提供，则返回单个整数。</li>
+<li>dtype: 返回数据的类型，默认为 int。</li>
+</ul>
+<p>返回值:</p>
+<ul>
+<li>单个整数或整数数组，具体取决于 size 参数。</li>
+</ul>
+<h4 id="np-random-uniform"><a href="#np-random-uniform" class="headerlink" title="np.random.uniform"></a>np.random.uniform</h4><p>用于生成服从均匀分布的随机数。均匀分布是指在指定区间内每个数值出现的概率相同。以下是该函数的基本用法和参数说明：<br><strong>基本语法</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.random.uniform(low=<span class="hljs-number">0.0</span>, high=<span class="hljs-number">1.0</span>, size=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数说明</strong></p>
+<ul>
+<li>low (float): 随机数生成的下限，默认为 0.0。</li>
+<li>high (float): 随机数生成的上限，默认为 1.0。生成的随机数严格小于 high。</li>
+<li>size (int or tuple of ints, optional): 输出数组的形状。如果为 None（默认），则返回单个浮点数。</li>
+</ul>
+<p><strong>返回值</strong></p>
+<ul>
+<li>如果 size 为 None，则返回一个浮点数。</li>
+<li>如果 size 是整数或元组，则返回一个指定形状的 NumPy 数组，数组中的元素是从 [low, high) 区间内均匀分布的随机数。</li>
+</ul>
+<h4 id="np-random-rand-d0-d1-…-dn"><a href="#np-random-rand-d0-d1-…-dn" class="headerlink" title="np.random.rand(d0, d1, …, dn)"></a>np.random.rand(d0, d1, …, dn)</h4><ul>
+<li>生成 [0, 1) 范围内的均匀分布随机浮点数。</li>
+<li>参数 d0, d1, …, dn 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-randn-d0-d1-…-dn"><a href="#np-random-randn-d0-d1-…-dn" class="headerlink" title="np.random.randn(d0, d1, …, dn)"></a>np.random.randn(d0, d1, …, dn)</h4><p>生成标准正态分布（均值为 0，标准差为 1）的随机浮点数。</p>
+<ul>
+<li>参数 d0, d1, …, dn 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-choice-a-size-None-replace-True-p-None"><a href="#np-random-choice-a-size-None-replace-True-p-None" class="headerlink" title="np.random.choice(a, size&#x3D;None, replace&#x3D;True, p&#x3D;None)"></a>np.random.choice(a, size&#x3D;None, replace&#x3D;True, p&#x3D;None)</h4><ul>
+<li>从给定的一维数组 a 中随机选择元素。</li>
+<li>size 指定输出数组的形状。</li>
+<li>replace 是否允许重复选择。</li>
+<li>p 是每个元素被选择的概率数组。</li>
+</ul>
+<h4 id="np-random-shuffle-x"><a href="#np-random-shuffle-x" class="headerlink" title="np.random.shuffle(x)"></a>np.random.shuffle(x)</h4><ul>
+<li>随机打乱数组 x 中的元素顺序。</li>
+<li>注意：此方法会直接修改输入数组，不会返回新数组。</li>
+</ul>
+<h4 id="np-random-permutation-x"><a href="#np-random-permutation-x" class="headerlink" title="np.random.permutation(x)"></a>np.random.permutation(x)</h4><ul>
+<li>返回数组 x 的随机排列。</li>
+<li>如果 x 是整数，则返回从 0 到 x-1 的随机排列。</li>
+</ul>
+<h4 id="np-random-normal-loc-0-0-scale-1-0-size-None"><a href="#np-random-normal-loc-0-0-scale-1-0-size-None" class="headerlink" title="np.random.normal(loc&#x3D;0.0, scale&#x3D;1.0, size&#x3D;None)"></a>np.random.normal(loc&#x3D;0.0, scale&#x3D;1.0, size&#x3D;None)</h4><ul>
+<li>生成指定均值和标准差的正态分布随机浮点数。</li>
+<li>loc 是均值。<br>scale 是标准差。<br>size 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-poisson-lam-1-0-size-None"><a href="#np-random-poisson-lam-1-0-size-None" class="headerlink" title="np.random.poisson(lam&#x3D;1.0, size&#x3D;None)"></a>np.random.poisson(lam&#x3D;1.0, size&#x3D;None)</h4><ul>
+<li>生成泊松分布的随机整数。</li>
+<li>lam 是泊松分布的参数（事件发生的平均次数）。</li>
+<li>size 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-exponential-scale-1-0-size-None"><a href="#np-random-exponential-scale-1-0-size-None" class="headerlink" title="np.random.exponential(scale&#x3D;1.0, size&#x3D;None)"></a>np.random.exponential(scale&#x3D;1.0, size&#x3D;None)</h4><ul>
+<li>生成指数分布的随机浮点数。</li>
+<li>scale 是指数分布的尺度参数（1&#x2F;λ，其中 λ 是速率参数）。</li>
+<li>size 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-binomial-n-p-size-None"><a href="#np-random-binomial-n-p-size-None" class="headerlink" title="np.random.binomial(n, p, size&#x3D;None)"></a>np.random.binomial(n, p, size&#x3D;None)</h4><ul>
+<li>生成二项分布的随机整数。</li>
+<li>n 是试验次数。</li>
+<li>p 是每次试验成功的概率。</li>
+<li>size 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-multivariate-normal-mean-cov-size-None"><a href="#np-random-multivariate-normal-mean-cov-size-None" class="headerlink" title="np.random.multivariate_normal(mean, cov, size&#x3D;None)"></a>np.random.multivariate_normal(mean, cov, size&#x3D;None)</h4><ul>
+<li>生成多元正态分布的随机浮点数。</li>
+<li>mean 是均值向量。</li>
+<li>cov 是协方差矩阵。\</li>
+<li>size 指定输出数组的形状。</li>
+</ul>
+<h4 id="np-random-seed-seed-None"><a href="#np-random-seed-seed-None" class="headerlink" title="np.random.seed(seed&#x3D;None)"></a>np.random.seed(seed&#x3D;None)</h4><ul>
+<li>设置随机数生成器的种子，以确保结果可重复。</li>
+<li>seed 是种子值，可以是整数或其他哈希对象。</li>
+</ul>
+<h3 id="np-linalg"><a href="#np-linalg" class="headerlink" title="np.linalg"></a>np.linalg</h3><h4 id="np-linalg-norm"><a href="#np-linalg-norm" class="headerlink" title="np.linalg.norm"></a>np.linalg.norm</h4><p>用于计算向量或矩阵的范数。范数是一种衡量向量或矩阵大小的方法。以下是一些常见的范数类型及其计算方法：</p>
+<h4 id="常见范数类型"><a href="#常见范数类型" class="headerlink" title="常见范数类型"></a>常见范数类型</h4><p><strong>L1 范数（Manhattan 范数）</strong>:<br>计算向量中所有元素的绝对值之和。<br>适用于稀疏向量，常用于特征选择和正则化。<br><strong>L2 范数（Euclidean 范数）</strong>:<br>计算向量中所有元素平方和的平方根。<br>最常用的范数，适用于大多数情况，特别是在优化问题中。<br><strong>无穷范数（最大范数）</strong>:<br>计算向量中绝对值最大的元素。<br>适用于需要关注最大值的情况。<br><strong>Frobenius 范数</strong>:<br>对于矩阵，计算所有元素平方和的平方根。<br>适用于矩阵的大小度量，类似于向量的 L2 范数。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.linalg.norm(x, <span class="hljs-built_in">ord</span>=<span class="hljs-literal">None</span>, axis=<span class="hljs-literal">None</span>, keepdims=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>x: 输入数组，可以是向量或矩阵。</li>
+<li>ord: 范数类型，默认为 None（即 L2 范数）。</li>
+<li>axis: 计算范数的轴，可以是整数或元组。默认为 None，表示整个数组。</li>
+<li>keepdims: 如果为 True，则保留减少的维度；否则，减少的维度将被删除。默认为 False。</li>
+</ul>
+<p><strong>范数</strong>（Norm）是数学中用于衡量向量或矩阵大小的一种方法。它是一种函数，将向量或矩阵映射到非负实数，满足一定的性质。范数在许多领域都有广泛的应用，包括线性代数、数值分析、机器学习等。<br><strong>范数的基本性质</strong>：非负性，齐次性，三角不等式</p>
+<h4 id="np-linalg-solve"><a href="#np-linalg-solve" class="headerlink" title="np.linalg.solve"></a>np.linalg.solve</h4><p>用于求解线性方程组。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.linalg.solve(a, b)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>a: 系数矩阵，形状为 (M, M) 的二维数组。</li>
+<li>b: 常数向量或矩阵，形状为 (M,) 或 (M, N) 的一维或二维数组。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>x: 解向量或矩阵，形状与 b 相同。</li>
+</ul>
+<h4 id="np-linalg-eig"><a href="#np-linalg-eig" class="headerlink" title="np.linalg.eig"></a>np.linalg.eig</h4><p>用于计算方阵的特征值和特征向量。这个函数可以返回一个包含特征值的数组和一个包含对应特征向量的矩阵。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.linalg.eig(a)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>a: 输入的方阵，形状为 (N, N) 的二维数组。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>w: 特征值数组，形状为 (N,) 的一维数组。</li>
+<li>v: 特征向量矩阵，形状为 (N, N) 的二维数组。每一列 v[:, i] 是对应特征值 w[i] 的特征向量。</li>
+</ul>
+<h4 id="np-linalg-svd"><a href="#np-linalg-svd" class="headerlink" title="np.linalg.svd"></a>np.linalg.svd</h4><p>用于计算矩阵的奇异值分解（SVD）。SVD 是一种强大的矩阵分解方法，广泛应用于数据压缩、图像处理、推荐系统等领域。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.linalg.svd(a, full_matrices=<span class="hljs-literal">True</span>, compute_uv=<span class="hljs-literal">True</span>, hermitian=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数:</strong></p>
+<ul>
+<li>a: 输入的矩阵，形状为 (M, N) 的二维数组。</li>
+<li>full_matrices: 布尔值，可选。如果为 True，则返回完整的 ( U ) 和 ( V^T ) 矩阵；如果为 False，则返回截断的 ( U ) 和 ( V^T ) 矩阵。默认为 True。</li>
+<li>compute_uv: 布尔值，可选。如果为 True，则返回 ( U )、( \Sigma ) 和 ( V^T )；如果为 False，则只返回奇异值 ( \Sigma )。默认为 True。</li>
+<li>hermitian: 布尔值，可选。如果为 True，则假设输入矩阵是 Hermitian（对称或复共轭对称），这可以提高计算效率。默认为 False。</li>
+</ul>
+<p><strong>返回值:</strong></p>
+<ul>
+<li>U: 左奇异向量矩阵，形状为 (M, M) 或 (M, K)，取决于 full_matrices 参数。</li>
+<li>s: 奇异值数组，形状为 (K,)，按降序排列。</li>
+<li>Vt: 右奇异向量矩阵的转置，形状为 (N, N) 或 (K, N)，取决于 full_matrices 参数。</li>
+</ul>
+<h4 id="np-linalg-inv-a"><a href="#np-linalg-inv-a" class="headerlink" title="np.linalg.inv(a)"></a>np.linalg.inv(a)</h4><ul>
+<li>计算矩阵 a 的逆矩阵。</li>
+<li>a 必须是一个方阵（行数等于列数）。</li>
+</ul>
+<h4 id="np-linalg-det-a"><a href="#np-linalg-det-a" class="headerlink" title="np.linalg.det(a)"></a>np.linalg.det(a)</h4><ul>
+<li>计算矩阵 a 的行列式。</li>
+<li>a 必须是一个方阵。</li>
+</ul>
+<h4 id="np-linalg-eig-a"><a href="#np-linalg-eig-a" class="headerlink" title="np.linalg.eig(a)"></a>np.linalg.eig(a)</h4><ul>
+<li>计算矩阵 a 的特征值和特征向量。</li>
+<li>a 必须是一个方阵。</li>
+<li>返回值是一个包含特征值的数组和一个包含特征向量的矩阵。#### np.linalg.pinv(a, rcond&#x3D;1e-15, hermitian&#x3D;False)<br>计算矩阵 a 的 Moore-Penrose 伪逆。<br>rcond 是截断阈值，用于处理病态矩阵。</li>
+</ul>
+<h4 id="np-linalg-matrix-rank-M-tol-None-hermitian-False"><a href="#np-linalg-matrix-rank-M-tol-None-hermitian-False" class="headerlink" title="np.linalg.matrix_rank(M, tol&#x3D;None, hermitian&#x3D;False)"></a>np.linalg.matrix_rank(M, tol&#x3D;None, hermitian&#x3D;False)</h4><p>计算矩阵 M 的秩。<br>tol 是数值容差，用于判断矩阵的秩。<br>hermitian 指定矩阵是否为埃尔米特矩阵（复共轭对称矩阵）。</p>
+<h3 id="np-maximum"><a href="#np-maximum" class="headerlink" title="np.maximum"></a>np.maximum</h3><p>用于计算两个数组或标量之间的逐元素最大值。这个函数可以处理标量和数组，并且支持广播（broadcasting）。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.maximum(x1, x2, out=<span class="hljs-literal">None</span>, where=<span class="hljs-literal">True</span>, casting=<span class="hljs-string">&#x27;same_kind&#x27;</span>, order=<span class="hljs-string">&#x27;K&#x27;</span>, dtype=<span class="hljs-literal">None</span>, subok=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>x1, x2: 输入数组或标量。如果两者都是数组，它们必须具有相同的形状或能够通过广播机制匹配。</li>
+<li>out: 可选，输出数组的形状和数据类型。</li>
+<li>where: 可选，布尔数组，指示哪些元素参与计算。</li>
+<li>casting, order, dtype, subok: 其他可选参数，用于控制计算的细节。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>一个新的数组，包含 x1 和 x2 逐元素的最大值。</li>
+</ul>
+<h3 id="np-where"><a href="#np-where" class="headerlink" title="np.where"></a>np.where</h3><p>用于根据条件选择数组中的元素。它可以用于多种场景，包括条件选择、多条件选择以及作为三元运算符的替代品。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.where(condition, [x, y])<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>condition: 一个布尔数组，表示条件。条件为 True 的位置将选择 x 中的元素，条件为 False 的位置将选择 y 中的元素。</li>
+<li>x: 可选，当条件为 True 时选择的数组或标量。</li>
+<li>y: 可选，当条件为 False 时选择的数组或标量。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>一个新的数组，根据条件从 x 和 y 中选择元素。如果只提供了 condition，则返回满足条件的索引。</li>
+</ul>
+<h3 id="np-linspace"><a href="#np-linspace" class="headerlink" title="np.linspace"></a>np.linspace</h3><p>用于生成在指定区间内均匀分布的数字序列。这个函数在数值计算、绘图和数据生成等场景中非常有用。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.linspace(start, stop, num=<span class="hljs-number">50</span>, endpoint=<span class="hljs-literal">True</span>, retstep=<span class="hljs-literal">False</span>, dtype=<span class="hljs-literal">None</span>, axis=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>start: 序列的起始值。</li>
+<li>stop: 序列的结束值。如果 endpoint 为 True，则包含 stop 值；否则不包含。</li>
+<li>num: 生成的样本数量，默认为 50。</li>
+<li>endpoint: 布尔值，可选。如果为 True，则 stop 值包含在序列中；如果为 False，则 stop 值不包含在序列中。默认为 True。</li>
+<li>retstep: 布尔值，可选。如果为 True，则返回生成的数组和步长。默认为 False。</li>
+<li>dtype: 数据类型，可选。生成数组的数据类型。如果未指定，则根据 start 和 stop 的类型推断。</li>
+<li>axis: 整数，可选。在多维数组中，指定插入新轴的位置。默认为 0。</li>
+</ul>
+<p><strong>返回值:</strong></p>
+<ul>
+<li>一个包含均匀分布数字的 NumPy 数组。</li>
+<li>如果 retstep 为 True，则返回一个元组 (array, step)，其中 array 是生成的数组，step 是步长。</li>
+</ul>
+<h3 id="np-arange"><a href="#np-arange" class="headerlink" title="np.arange"></a>np.arange</h3><p>用于生成在指定区间内等间隔的数字序列。这个函数类似于 Python 内置的 range 函数，但返回的是一个 NumPy 数组，而不是一个列表或范围对象。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.arange([start, ]stop, [step, ]dtype=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>start: 序列的起始值，默认为 0。</li>
+<li>stop: 序列的结束值（不包含在序列中）。</li>
+<li>step: 序列的步长，默认为 1。</li>
+<li>dtype: 数据类型，可选。生成数组的数据类型。如果未指定，则根据 start、stop 和 step 的类型推断。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>一个包含等间隔数字的 NumPy 数组。</li>
+</ul>
+<h3 id="np-meshgrid"><a href="#np-meshgrid" class="headerlink" title="np.meshgrid"></a>np.meshgrid</h3><p>用于生成网格点坐标矩阵。这个函数在多维数据处理、绘图和科学计算中非常有用，尤其是在需要在二维或更高维度上进行操作时。<br><strong>函数签名</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">numpy.meshgrid(*xi, indexing=<span class="hljs-string">&#x27;xy&#x27;</span>, sparse=<span class="hljs-literal">False</span>, copy=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数</strong>:</p>
+<ul>
+<li>*xi: 一个或多个一维数组，表示每个维度上的坐标值。</li>
+<li>indexing: 字符串，可选。指定网格的索引顺序。可以是 ‘xy’（默认）或 ‘ij’。</li>
+<li>‘xy’：笛卡尔坐标系，适用于二维数组。</li>
+<li>‘ij’：矩阵索引顺序，适用于多维数组。</li>
+<li>sparse: 布尔值，可选。如果为 True，则返回稀疏网格，节省内存。默认为 False。</li>
+<li>copy: 布尔值，可选。如果为 True，则返回独立的数组副本。如果为 False，则返回视图。默认为 True。</li>
+</ul>
+<p><strong>返回值</strong>:</p>
+<ul>
+<li>一个或多个二维（或多维）数组，表示网格点的坐标矩阵。</li>
+</ul>
+<h3 id="numpy-sort"><a href="#numpy-sort" class="headerlink" title="numpy.sort()"></a>numpy.sort()</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">numpy.sort(a[, axis=-1, kind=<span class="hljs-string">&#x27;quicksort&#x27;</span>, order=None]) Return a sorted copy of an array.<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>axis：排序沿数组的（轴）方向，0表示按列，1表示按行，None表示展开来排序，默认为-1，表示沿最后的轴排序。</li>
+<li>kind：排序的算法，提供了快排’quicksort’、混排’mergesort’、堆排’heapsort’， 默认为‘quicksort’。</li>
+<li>order：排序的字段名，可指定字段排序，默认为None。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">import numpy as np<br><br>dt = np.dtype([(<span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;S10&#x27;</span>), (<span class="hljs-string">&#x27;age&#x27;</span>, np.int)])<br>a = np.array([(<span class="hljs-string">&quot;Mike&quot;</span>, 21), (<span class="hljs-string">&quot;Nancy&quot;</span>, 25), (<span class="hljs-string">&quot;Bob&quot;</span>, 17), (<span class="hljs-string">&quot;Jane&quot;</span>, 27)], dtype=dt)<br>b = np.sort(a, order=<span class="hljs-string">&#x27;name&#x27;</span>)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-comment"># [(b&#x27;Bob&#x27;, 17) (b&#x27;Jane&#x27;, 27) (b&#x27;Mike&#x27;, 21) (b&#x27;Nancy&#x27;, 25)]</span><br><br>b = np.sort(a, order=<span class="hljs-string">&#x27;age&#x27;</span>)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-comment"># [(b&#x27;Bob&#x27;, 17) (b&#x27;Mike&#x27;, 21) (b&#x27;Nancy&#x27;, 25) (b&#x27;Jane&#x27;, 27)]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="numpy-argsort"><a href="#numpy-argsort" class="headerlink" title="numpy.argsort()"></a>numpy.argsort()</h3><p>排序后，用元素的索引位置替代排序后的实际结果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">numpy.argsort(a[, axis=-1, kind=<span class="hljs-string">&#x27;quicksort&#x27;</span>, order=None]) Returns the indices that would <span class="hljs-built_in">sort</span> an array.<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>1.<a target="_blank" rel="noopener" href="https://www.numpy.org.cn/user/quickstart.html#%E6%95%B0%E7%BB%84%E5%88%9B%E5%BB%BA">NumPy中文网</a><br>2.<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/course/323?spm=a2c22.21852674.0.0.84f43619wFGPR8">Numpy实践</a></p>
+<h2 id="二、Pandas"><a href="#二、Pandas" class="headerlink" title="二、Pandas"></a>二、Pandas</h2><h3 id="1-数据结构：Series、DataFrame"><a href="#1-数据结构：Series、DataFrame" class="headerlink" title="1.数据结构：Series、DataFrame"></a>1.数据结构：Series、DataFrame</h3><p><strong>区别</strong></p>
+<ul>
+<li>series，只是一个一维数据结构，它由index和value组成。</li>
+<li>dataframe，是一个二维结构，除了拥有index和value之外，还拥有column。</li>
+</ul>
+<p><strong>联系</strong></p>
+<ul>
+<li>dataframe由多个series组成，无论是行还是列，单独拆分出来都是一个series。<br><img src="/img/aba42e892ca93f043ca746729d062ce2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></li>
+</ul>
+<h3 id="2-date-range-函数"><a href="#2-date-range-函数" class="headerlink" title="2.date_range()函数"></a>2.date_range()函数</h3><p>主要用于生成一个固定频率的时间索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">date_range(start=<span class="hljs-literal">None</span>, end=<span class="hljs-literal">None</span>, periods=<span class="hljs-literal">None</span>, freq=<span class="hljs-literal">None</span>, tz=<span class="hljs-literal">None</span>, normalize=<span class="hljs-literal">False</span>, name=<span class="hljs-literal">None</span>, inclusive=<span class="hljs-literal">None</span>, **kwargs)<br></code></pre></td></tr></table></figure>
+<p>函数调用时至少要指定参数start、end、periods中的两个。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数据类型</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>start</td>
+<td>str or datetime-like, optional</td>
+<td>生成日期的左侧边界</td>
+</tr>
+<tr>
+<td>end</td>
+<td>str or datetime-like, optional</td>
+<td>生成日期的右侧边界</td>
+</tr>
+<tr>
+<td><strong>periods</strong></td>
+<td><strong>integer, optional</strong></td>
+<td><strong>生成周期</strong></td>
+</tr>
+<tr>
+<td>freq</td>
+<td>str or DateOffset, default ‘D’</td>
+<td>常见取值见下表</td>
+</tr>
+<tr>
+<td>tz</td>
+<td>str or tzinfo, optional</td>
+<td>返回本地化的DatetimeIndex的时区名，例如’Asia&#x2F;Hong_Kong’</td>
+</tr>
+<tr>
+<td>normalize</td>
+<td>bool, default False</td>
+<td>生成日期之前，将开始&#x2F;结束时间初始化为午夜</td>
+</tr>
+<tr>
+<td>name</td>
+<td>str, default None</td>
+<td>产生的DatetimeIndex的名字</td>
+</tr>
+<tr>
+<td>closed</td>
+<td>{None, ‘left’, ‘right’}, optional</td>
+<td>使区间相对于给定频率左闭合、右闭合、双向闭合（默认的None）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>freq 常见取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M</td>
+<td>月</td>
+</tr>
+<tr>
+<td>B</td>
+<td>工作日</td>
+</tr>
+<tr>
+<td>W</td>
+<td>星期天</td>
+</tr>
+<tr>
+<td>D</td>
+<td>天</td>
+</tr>
+<tr>
+<td>H</td>
+<td>小时</td>
+</tr>
+<tr>
+<td>T</td>
+<td>分钟</td>
+</tr>
+<tr>
+<td>S</td>
+<td>秒</td>
+</tr>
+<tr>
+<td>L</td>
+<td>毫秒</td>
+</tr>
+</tbody></table>
+<h3 id="3-loc和iloc"><a href="#3-loc和iloc" class="headerlink" title="3.loc和iloc"></a>3.loc和iloc</h3><p>loc表示location的意思；iloc中的loc意思相同，前面的i表示integer，所以它只接受整数作为参数。</p>
+<p><img src="/img/b83a60c5808f1acb74043f6eacb25d34.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="iloc和loc区别联系"><a href="#iloc和loc区别联系" class="headerlink" title="iloc和loc区别联系"></a>iloc和loc区别联系</h4><p><strong>索引方式</strong>：</p>
+<ul>
+<li>iloc使用基于零的整数位置进行索引，通过行和列的整数位置来选择数据。</li>
+<li>loc使用标签进行索引，通过行和列的标签来选择数据。</li>
+</ul>
+<p><strong>索引对象类型</strong>：</p>
+<ul>
+<li>iloc使用整数位置作为索引，可以接受整数、整数切片或整数列表作为参数。</li>
+<li>loc使用标签作为索引，可以接受标签、标签切片或标签列表作为参数。</li>
+</ul>
+<p><strong>切片方式</strong>：</p>
+<ul>
+<li>iloc使用Python的切片语法，即左闭右开，例如[start:end]。</li>
+<li>loc使用Pandas的切片语法，即左闭右闭，例如[start:end]。</li>
+</ul>
+<p><strong>索引类型</strong>：</p>
+<ul>
+<li>iloc使用整数索引，无论数据框的索引类型是整数索引还是标签索引。</li>
+<li>loc使用标签索引，无论数据框的索引类型是整数索引还是标签索引。</li>
+</ul>
+<p><strong>参数省略</strong>：</p>
+<ul>
+<li>iloc可以省略行参数或列参数中的一个来选择所有行或所有列。</li>
+<li>loc可以省略行参数或列参数中的一个来选择所有行或所有列。</li>
+</ul>
+<p><strong>引用方式</strong>：</p>
+<ul>
+<li>iloc在选择数据时使用的是复制引用的方式，即返回的是数据的副本。</li>
+<li>loc在选择数据时使用的是原地引用的方式，即返回的是数据的视图。</li>
+</ul>
+<h3 id="4-dropna-删除缺失值"><a href="#4-dropna-删除缺失值" class="headerlink" title="4.dropna() 删除缺失值"></a>4.dropna() 删除缺失值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">df.dropna(<br>axis=<span class="hljs-number">0</span>, <span class="hljs-comment">#删除维度，0为行，1为列。默认为0。</span><br>how=<span class="hljs-string">&#x27;any&#x27;</span>, <span class="hljs-comment">#删除的判断条件。&#x27;any&#x27;代表这一行只要有一个空值就删除。&#x27;all&#x27;表示，这一行都是空值才删除。</span><br>thresh=<span class="hljs-literal">None</span>, <span class="hljs-comment"># 例如，thresh=N，即，只要空值大于等于N的都删除，只保留空值小于N的行和列。</span><br>subset=<span class="hljs-literal">None</span>, <span class="hljs-comment"># list，对特定的列的缺失值处理。</span><br>inplace=<span class="hljs-literal">False</span> <span class="hljs-comment"># 布尔值，是否修改原数据。默认为False。</span><br>)<br></code></pre></td></tr></table></figure>
+<h3 id="5-判断重复值duplicated-和删除重复值drop-duplicates"><a href="#5-判断重复值duplicated-和删除重复值drop-duplicates" class="headerlink" title="5.判断重复值duplicated()和删除重复值drop_duplicates()"></a>5.判断重复值duplicated()和删除重复值drop_duplicates()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">drop_duplicates(subset=<span class="hljs-literal">None</span>, keep=<span class="hljs-string">&#x27;first&#x27;</span>, inplace=<span class="hljs-literal">False</span>, ignore_index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数解析</strong>：</p>
+<ul>
+<li><p>subset：列名或列名序列，对某些列来识别重复项，默认情况下使用所有列。</p>
+</li>
+<li><p>keep：可选值有first，last，False，默认为first，确定要保留哪些重复项。</p>
+<pre><code class="hljs"> first：删除除第一次出现的重复项，即保留第一次出现的重复项。
+ last：保留最后一次出现的重复项。
+ False：删除所有重复项。
+</code></pre>
+</li>
+<li><p>inplace：布尔值，默认为False，返回副本。如果为True，则直接在原始的Dataframe上进行删除。</p>
+</li>
+<li><p>ignore_index：布尔值，默认为False，如果为True，则生成的行索引将被标记为0、1、2、…、n-1。</p>
+</li>
+</ul>
+<h3 id="6-sort-values-和sort-index"><a href="#6-sort-values-和sort-index" class="headerlink" title="6.sort_values()和sort_index()"></a>6.sort_values()和sort_index()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.sort_values(by, axis=<span class="hljs-number">0</span>, ascending=<span class="hljs-literal">True</span>, inplace=<span class="hljs-literal">False</span>, kind=<span class="hljs-string">&#x27;quicksort&#x27;</span>, na_position=<span class="hljs-string">&#x27;last&#x27;</span>, ignore_index=<span class="hljs-literal">False</span>, key=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>by：按照哪些列的数值进行排序。可以是一个字符串，也可以是一个由多个列名组成的列表或数组。</li>
+<li>axis：排序轴，0表示行（默认），1表示列。</li>
+<li>ascending：排序方式，True表示升序（默认），False表示降序。</li>
+<li>inplace：是否对原DataFrame对象进行修改。True表示修改原对象，False表示返回一个新的对象。</li>
+<li>kind：排序算法，可以是”quicksort”（默认）、”mergesort”或”heapsort”。</li>
+<li>na_position：缺失值的排列顺序，可以是”last”（默认）或”first”。</li>
+<li>ignore_index：是否重新生成索引，True表示生成新的连续索引，False表示保留原来的索引。</li>
+<li>key：排序时使用的函数，可以是一个函数、函数名或由多个函数组成的列表。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.sort_index(axis=<span class="hljs-number">0</span>, level=<span class="hljs-literal">None</span>, ascending=<span class="hljs-literal">True</span>, inplace=<span class="hljs-literal">False</span>, kind=<span class="hljs-string">&#x27;quicksort&#x27;</span>, na_position=<span class="hljs-string">&#x27;last&#x27;</span>, sort_remaining=<span class="hljs-literal">True</span>, ignore_index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="7-DataFrame-prod"><a href="#7-DataFrame-prod" class="headerlink" title="7.DataFrame.prod()"></a>7.DataFrame.prod()</h3><p>返回值在请求的轴上的乘积</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.prod(axis=<span class="hljs-literal">None</span>, skipna=<span class="hljs-literal">True</span>, level=<span class="hljs-literal">None</span>, numeric_only=<span class="hljs-literal">None</span>, min_count=<span class="hljs-number">0</span>, **kwargs)<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>axis</td>
+<td>{索引(0)，列(1)}</td>
+<td>要应用的函数的轴。</td>
+</tr>
+<tr>
+<td>skipna</td>
+<td>布尔值，默认为True</td>
+<td>计算结果时排除NA&#x2F;NULL值。</td>
+</tr>
+<tr>
+<td>level</td>
+<td>Int或Level名称，默认为无</td>
+<td>如果轴是多索引(分层)，则沿特定级别计数，折叠为系列。</td>
+</tr>
+<tr>
+<td>numeric_only</td>
+<td>布尔，默认为无</td>
+<td>包括浮点型、整型、布尔型列。如果没有，将尝试使用所有内容，然后仅使用数字数据。</td>
+</tr>
+<tr>
+<td>min_count</td>
+<td>整型，默认为0</td>
+<td>执行操作所需的有效值数。如果少于 min_count 如果存在非NA值，则结果将为NA。</td>
+</tr>
+</tbody></table>
+<h3 id="8-resample"><a href="#8-resample" class="headerlink" title="8.resample()"></a>8.resample()</h3><p>重采样是时间序列分析中处理时序数据的一项基本技术。它是关于将时间序列数据从一个频率转换到另一个频率，它可以更改数据的时间间隔，通过上采样增加粒度，或通过下采样减少粒度。<br>Pandas中的resample方法用于对时间序列数据进行重采样，可以将数据从一个时间频率转换为另一个时间频率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.resample(rule, how=<span class="hljs-literal">None</span>, axis=<span class="hljs-number">0</span>, fill_method=<span class="hljs-literal">None</span>, closed=<span class="hljs-literal">None</span>, label=<span class="hljs-literal">None</span>, convention=<span class="hljs-string">&#x27;start&#x27;</span>, kind=<span class="hljs-literal">None</span>, loffset=<span class="hljs-literal">None</span>, limit=<span class="hljs-literal">None</span>, base=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>rule：重采样的规则，例如”5min”表示5分钟，”D”表示天。具体规则可以参考Pandas官方文档。</li>
+<li>how：对采样到的数据执行聚合操作的函数名或函数对象。例如”sum”、”mean”、”median”等。默认为None，表示不进行聚合操作。</li>
+<li>axis：指定重采样的轴，0表示行轴，1表示列轴。默认为0。</li>
+<li>fill_method：填充缺失值的方法，例如”ffill”、”bfill”等。默认为None，表示不填充缺失值。</li>
+<li>closed：在重采样过程中，区间闭合的位置，例如”left”、”right”等。默认为None，表示使用默认值。</li>
+<li>label：在重采样过程中，区间闭合位置的标签，例如”left”、”right”等。默认为None，表示使用默认值。</li>
+<li>convention：在重采样过程中，指定重采样区间的位置是左边界还是右边界。默认为”start”，表示使用左边界。</li>
+<li>kind：在重采样过程中，指定返回的对象类型，例如”period”、”timestamp”等。默认为None，表示使用默认类型。</li>
+<li>loffset：在重采样过程中，为重采样的时间序列添加偏移量。</li>
+<li>limit：在重采样过程中，限制填充缺失值的连续次数。</li>
+<li>base：在重采样过程中，指定重采样区间的基准点。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd <br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np <br> <br><span class="hljs-comment"># 创建一个时间序列数据 </span><br>rng = pd.date_range(<span class="hljs-string">&#x27;1/1/2021&#x27;</span>, periods=<span class="hljs-number">100</span>, freq=<span class="hljs-string">&#x27;D&#x27;</span>) <br>ts = pd.Series(np.random.randn(<span class="hljs-built_in">len</span>(rng)), index=rng) <br> <br><span class="hljs-comment"># 将数据按月份进行重采样，并计算每个月的平均值 </span><br>ts.resample(<span class="hljs-string">&#x27;M&#x27;</span>).mean() <br></code></pre></td></tr></table></figure>
+<h3 id="9-DataFrame-plot"><a href="#9-DataFrame-plot" class="headerlink" title="9.DataFrame.plot( )"></a>9.DataFrame.plot( )</h3><p>使用pandas.DataFrame的plot方法绘制图像会按照数据的每一列绘制一条曲线，默认按照列columns的名称在适当的位置展示图例，比matplotlib绘制节省时间，且DataFrame格式的数据更规范，方便向量化及计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.plot(x=<span class="hljs-literal">None</span>, y=<span class="hljs-literal">None</span>, kind=<span class="hljs-string">&#x27;line&#x27;</span>, ax=<span class="hljs-literal">None</span>, subplots=<span class="hljs-literal">False</span>, <br>                sharex=<span class="hljs-literal">None</span>, sharey=<span class="hljs-literal">False</span>, layout=<span class="hljs-literal">None</span>, figsize=<span class="hljs-literal">None</span>, <br>                use_index=<span class="hljs-literal">True</span>, title=<span class="hljs-literal">None</span>, grid=<span class="hljs-literal">None</span>, legend=<span class="hljs-literal">True</span>, <br>                style=<span class="hljs-literal">None</span>, logx=<span class="hljs-literal">False</span>, logy=<span class="hljs-literal">False</span>, loglog=<span class="hljs-literal">False</span>, <br>                xticks=<span class="hljs-literal">None</span>, yticks=<span class="hljs-literal">None</span>, xlim=<span class="hljs-literal">None</span>, ylim=<span class="hljs-literal">None</span>, rot=<span class="hljs-literal">None</span>, <br>                fontsize=<span class="hljs-literal">None</span>, colormap=<span class="hljs-literal">None</span>, position=<span class="hljs-number">0.5</span>, table=<span class="hljs-literal">False</span>, yerr=<span class="hljs-literal">None</span>, <br>                xerr=<span class="hljs-literal">None</span>, stacked=<span class="hljs-literal">True</span>/<span class="hljs-literal">False</span>, sort_columns=<span class="hljs-literal">False</span>, <br>                secondary_y=<span class="hljs-literal">False</span>, mark_right=<span class="hljs-literal">True</span>, **kwds)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>x和y：表示标签或者位置，用来指定显示的索引，默认为None</p>
+</li>
+<li><p>kind：表示绘图的类型，默认为line，折线图</p>
+<pre><code class="hljs"> line：折线图
+ bar/barh：柱状图（条形图），纵向/横向
+ pie：饼状图
+ hist：直方图（数值频率分布）
+ box：箱型图
+ kde：密度图，主要对柱状图添加Kernel 概率密度线
+ area：区域图（面积图）
+ scatter：散点图
+ hexbin：蜂巢图
+</code></pre>
+</li>
+<li><p>ax：子图，可以理解成第二坐标轴，默认None</p>
+</li>
+<li><p>subplots：是否对列分别作子图，默认False</p>
+</li>
+<li><p>sharex：共享x轴刻度、标签。如果ax为None，则默认为True，如果传入ax，则默认为False</p>
+</li>
+<li><p>sharey：共享y轴刻度、标签</p>
+</li>
+<li><p>layout：子图的行列布局，(rows, columns)</p>
+</li>
+<li><p>figsize：图形尺寸大小，(width, height)</p>
+</li>
+<li><p>use_index：用索引做x轴，默认True</p>
+</li>
+<li><p>title：图形的标题</p>
+</li>
+<li><p>grid：图形是否有网格，默认None</p>
+</li>
+<li><p>legend：子图的图例</p>
+</li>
+<li><p>style：对每列折线图设置线的类型，list or dict</p>
+</li>
+<li><p>xticks：设置x轴刻度值，序列形式（比如列表）</p>
+</li>
+<li><p>yticks</p>
+</li>
+<li><p>xlim：设置坐标轴的范围。数值，列表或元组（区间范围）</p>
+</li>
+<li><p>ylim</p>
+</li>
+<li><p>rot：轴标签（轴刻度）的显示旋转度数，默认None</p>
+</li>
+<li><p>fontsize : int, default None#设置轴刻度的字体大小</p>
+</li>
+<li><p>colormap：设置图的区域颜色</p>
+</li>
+<li><p>colorbar：柱子颜色</p>
+</li>
+<li><p>position：柱形图的对齐方式，取值范围[0,1]，默认0.5（中间对齐）</p>
+</li>
+<li><p>table：图下添加表，默认False。若为True，则使用DataFrame中的数据绘制表格</p>
+</li>
+<li><p>yerr：误差线</p>
+</li>
+<li><p>xerr</p>
+</li>
+<li><p>stacked：是否堆积，在折线图和柱状图中默认为False，在区域图中默认为True</p>
+</li>
+<li><p>sort_columns：对列名称进行排序，默认为False</p>
+</li>
+<li><p>secondary_y：设置第二个y轴（右辅助y轴），默认为False</p>
+</li>
+<li><p>mark_right : 当使用secondary_y轴时，在图例中自动用“(right)”标记列标签 ，默认True</p>
+</li>
+<li><p>x_compat：适配x轴刻度显示，默认为False。设置True可优化时间刻度的显示</p>
+</li>
+</ul>
+<h3 id="10-cumsum"><a href="#10-cumsum" class="headerlink" title="10.cumsum()"></a>10.cumsum()</h3><p>cumsum函数是pandas的累加函数，用来求列的累加值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.cumsum(axis=<span class="hljs-literal">None</span>, skipna=<span class="hljs-literal">True</span>, args, kwargs)<br></code></pre></td></tr></table></figure>
+<ul>
+<li>axis:{索引(0)，列(1)}</li>
+<li>skipna:排除NA &#x2F;空值。如果整个行&#x2F;列均为NA，则结果为NA</li>
+</ul>
+<h3 id="11-isna-和isnull"><a href="#11-isna-和isnull" class="headerlink" title="11.isna()和isnull()"></a>11.isna()和isnull()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 分别统计每一列的缺失值比例和每一行的缺失值比例</span><br>df.isna().mean()  <span class="hljs-comment"># 默认mean的axis参数为0，按照行方向计算列的均值。</span><br>df.isna().mean(axis=<span class="hljs-number">1</span>)<br><span class="hljs-comment"># 如果想要统计每列包含的缺失值个数，只需把mean替换为sum即可。</span><br><span class="hljs-comment"># 如果想知道缺失的行或列具体实哪一些，可以如下操作：</span><br>df[df.isna().<span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span>) &gt;= <span class="hljs-number">2</span>]<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 判断有空值的列</span><br>df.isnull().<span class="hljs-built_in">any</span>()<br><span class="hljs-comment"># 显示出有空值列的列名的列表</span><br>df.columns[iris.isnull().<span class="hljs-built_in">any</span>()].tolist()  <br></code></pre></td></tr></table></figure>
+
+<h3 id="12-idxmax-和idxmin"><a href="#12-idxmax-和idxmin" class="headerlink" title="12.idxmax()和idxmin()"></a>12.idxmax()和idxmin()</h3><p>返回一列最大值所在行的行索引<code>df.idxmax()</code>，默认参数为0；若参数设置为1，则为一行最大值所在列的列索引<code>df.idxmax(1)</code>。（取最小值为<code>df.idxmin()</code>）</p>
+<h3 id="13-io读取与存储"><a href="#13-io读取与存储" class="headerlink" title="13.io读取与存储"></a>13.io读取与存储</h3><h4 id="read-csv"><a href="#read-csv" class="headerlink" title="read_csv()"></a>read_csv()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">pandas.read_csv(filepath_or_buffer, sep=<span class="hljs-string">&#x27;, &#x27;</span>, delimiter=<span class="hljs-literal">None</span>, header=<span class="hljs-string">&#x27;infer&#x27;</span>, names=<span class="hljs-literal">None</span>, <br>index_col=<span class="hljs-literal">None</span>, usecols=<span class="hljs-literal">None</span>, squeeze=<span class="hljs-literal">False</span>, prefix=<span class="hljs-literal">None</span>, mangle_dupe_cols=<span class="hljs-literal">True</span>, dtype=<span class="hljs-literal">None</span>, <br>engine=<span class="hljs-literal">None</span>, converters=<span class="hljs-literal">None</span>, true_values=<span class="hljs-literal">None</span>, false_values=<span class="hljs-literal">None</span>, skipinitialspace=<span class="hljs-literal">False</span>, <br>skiprows=<span class="hljs-literal">None</span>, nrows=<span class="hljs-literal">None</span>, na_values=<span class="hljs-literal">None</span>, keep_default_na=<span class="hljs-literal">True</span>, na_filter=<span class="hljs-literal">True</span>, verbose=<span class="hljs-literal">False</span>, <br>skip_blank_lines=<span class="hljs-literal">True</span>, parse_dates=<span class="hljs-literal">False</span>, infer_datetime_format=<span class="hljs-literal">False</span>, keep_date_col=<span class="hljs-literal">False</span>, <br>date_parser=<span class="hljs-literal">None</span>, dayfirst=<span class="hljs-literal">False</span>, iterator=<span class="hljs-literal">False</span>, chunksize=<span class="hljs-literal">None</span>, compression=<span class="hljs-string">&#x27;infer&#x27;</span>, <br>thousands=<span class="hljs-literal">None</span>, decimal=<span class="hljs-string">b&#x27;.&#x27;</span>, lineterminator=<span class="hljs-literal">None</span>, quotechar=<span class="hljs-string">&#x27;&quot;&#x27;</span>, quoting=<span class="hljs-number">0</span>, escapechar=<span class="hljs-literal">None</span>, <br>comment=<span class="hljs-literal">None</span>, encoding=<span class="hljs-literal">None</span>, dialect=<span class="hljs-literal">None</span>, tupleize_cols=<span class="hljs-literal">None</span>, error_bad_lines=<span class="hljs-literal">True</span>, <br>warn_bad_lines=<span class="hljs-literal">True</span>, skipfooter=<span class="hljs-number">0</span>, skip_footer=<span class="hljs-number">0</span>, doublequote=<span class="hljs-literal">True</span>, delim_whitespace=<span class="hljs-literal">False</span>, <br>as_recarray=<span class="hljs-literal">None</span>, compact_ints=<span class="hljs-literal">None</span>, use_unsigned=<span class="hljs-literal">None</span>, low_memory=<span class="hljs-literal">True</span>, buffer_lines=<span class="hljs-literal">None</span>, <br>memory_map=<span class="hljs-literal">False</span>, float_precision=<span class="hljs-literal">None</span><br></code></pre></td></tr></table></figure>
+<p><strong>常用参数</strong>：</p>
+<ul>
+<li><p><strong>filepath_or_buffer</strong>：字符串，或者任何对象的read()方法。这个字符串可以是URL，有效的URL方案包括http、ftp、s3和文件。</p>
+</li>
+<li><p><strong>sep</strong> : str, default ‘,’。指定分隔符。如果不指定参数，则会尝试使用逗号分隔。分隔符长于一个字符并且不是‘\s+’,将使用python的语法分析器。并且忽略数据中的逗号。正则表达式例子：’\r\t’。</p>
+</li>
+<li><p><strong>delimiter</strong> : str, default None。定界符，备选分隔符（如果指定该参数，则sep参数失效）</p>
+</li>
+<li><p>delim_whitespace : boolean, default False. 指定空格是否作为分隔符使用，等效于设定sep&#x3D;’\s+’。如果这个参数设定为Ture那么delimiter 参数失效。在版本0.18.1支持</p>
+</li>
+<li><p><strong>header</strong> : int or list of ints, default ‘infer’。指定行数用来作为列名，数据开始行数。如果文件中没有列名，则默认为0，否则设置为None。如果明确设定header&#x3D;0 就会替换掉原来存在列名。header参数可以是一个list例如：[0,1,3]，这个list表示将文件中的这些行作为列标题（意味着每一列有多个标题），介于中间的行将被忽略掉。</p>
+<pre><code class="hljs"> 注意：如果skip_blank_lines=True 那么header参数忽略注释行和空行，所以header=0表示第一行数据而不是文件的第一行。
+</code></pre>
+</li>
+<li><p>names : array-like, default None。用于结果的列名列表，如果数据文件中没有列标题行，就需要执行header&#x3D;None。默认列表中不能出现重复，除非设定参数mangle_dupe_cols&#x3D;True。</p>
+</li>
+<li><p><strong>index_col</strong> : int or sequence or False, default  None。用作行索引的列编号或者列名，如果给定一个序列则有多个行索引。如果文件不规则，行尾有分隔符，则可以设定index_col&#x3D;False 保证pandas用第一列作为行索引。</p>
+</li>
+<li><p><strong>usecols</strong> : array-like, default None。返回一个数据子集，该列表中的值必须可以对应到文件中的位置（数字可以对应到指定的列）或者是字符传为文件中的列名。例如：usecols有效参数可能是[0,1,2]或者是 [‘foo’, ‘bar’, ‘baz’]。使用这个参数可以加快加载速度并降低内存消耗。</p>
+</li>
+<li><p>squeeze : boolean, default False。如果文件值包含一列，则返回一个Series。</p>
+</li>
+<li><p><strong>prefix</strong> : str, default None。在没有列标题时，给列添加前缀。例如：添加‘X’ 成为 X0, X1, …</p>
+</li>
+<li><p><strong>mangle_dupe_cols</strong> : boolean, default True。重复的列，将‘X’…’X’表示为‘X.0’…’X.N’。如果设定为false则会将所有重名列覆盖。</p>
+</li>
+<li><p><strong>dtype</strong> : Type name or dict of column -&gt; type, default None 每列数据的数据类型。例如 {‘a’: np.float64, ‘b’: np.int32}</p>
+</li>
+<li><p><strong>engine</strong> : {‘c’, ‘python’}, optional。使用的分析引擎。可以选择C或者是python。C引擎快但是Python引擎功能更加完备。</p>
+</li>
+<li><p><strong>converters</strong> : dict, default None。列转换函数的字典。key可以是列名或者列的序号。</p>
+</li>
+<li><p><strong>skipinitialspace</strong> : boolean, default False。忽略分隔符后的空白（默认为False，即不忽略）.</p>
+</li>
+<li><p><strong>skiprows</strong> : list-like or integer, default None。需要忽略的行数（从文件开始处算起），或需要跳过的行号列表（从0开始）。</p>
+</li>
+<li><p>skipfooter : int, default 0。从文件尾部开始忽略。 (c引擎不支持)</p>
+</li>
+<li><p><strong>nrows</strong> : int, default None。需要读取的行数（从文件头开始算起）。</p>
+</li>
+<li><p>na_values : scalar, str, list-like, or dict, default None。一组用于替换NA&#x2F;NaN的值。如果传参，需要制定特定列的空值。默认为‘1.#IND’, ‘1.#QNAN’, ‘N&#x2F;A’, ‘NA’, ‘NULL’, ‘NaN’, ‘nan’&#96;.</p>
+</li>
+<li><p>keep_default_na : bool, default True。如果指定na_values参数，并且keep_default_na&#x3D;False，那么默认的NaN将被覆盖，否则添加。</p>
+</li>
+<li><p><strong>na_filter</strong> : boolean, default True。是否检查丢失值（空字符串或者是空值）。对于大文件来说数据集中没有空值，设定na_filter&#x3D;False可以提升读取速度。</p>
+</li>
+<li><p><strong>verbose</strong> : boolean, default False。是否打印各种解析器的输出信息，例如：“非数值列中缺失值的数量”等。</p>
+</li>
+<li><p>skip_blank_lines : boolean, default True。如果为True，则跳过空行；否则记为NaN。</p>
+</li>
+<li><p>date_parser : function, default None。用于解析日期的函数，默认使用dateutil.parser.parser来做转换。</p>
+</li>
+<li><p>iterator : boolean, default False。返回一个TextFileReader 对象，以便逐块处理文件。</p>
+</li>
+<li><p>chunksize : int, default None。文件块的大小， See IO Tools docs for more<br>informationon iterator and chunksize.</p>
+</li>
+<li><p>compression : {‘infer’, ‘gzip’, ‘bz2’, ‘zip’, ‘xz’, None}, default ‘infer’。直接使用磁盘上的压缩文件。如果使用infer参数，则使用 gzip, bz2, zip或者解压文件名中以‘.gz’,  ‘.bz2’, ‘.zip’, or ‘xz’这些为后缀的文件，否则不解压。如果使用zip，那么ZIP包中国必须只包含一个文件。设置为None则不解压。版本0.18.1版本支持zip和xz解压</p>
+</li>
+<li><p>thousands : str, default None。千分位分割符，如“，”或者“.”</p>
+</li>
+<li><p>decimal : str, default ‘.’。字符中的小数点 (例如：欧洲数据使用’，‘).</p>
+</li>
+<li><p>lineterminator : str (length 1), default None。行分割符，只在C解析器下使用。</p>
+</li>
+<li><p><strong>encoding</strong> : str, default None。指定字符集类型，通常指定为’utf-8’. List of Python<br>standard encodings。</p>
+</li>
+</ul>
+<h4 id="to-csv"><a href="#to-csv" class="headerlink" title="to_csv()"></a>to_csv()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.to_csv(path_or_buf=<span class="hljs-literal">None</span>, sep=<span class="hljs-string">&#x27;, &#x27;</span>, na_rep=<span class="hljs-string">&#x27;&#x27;</span>, float_format=<span class="hljs-literal">None</span>, columns=<span class="hljs-literal">None</span>, <br>header=<span class="hljs-literal">True</span>, index=<span class="hljs-literal">True</span>, index_label=<span class="hljs-literal">None</span>, mode=<span class="hljs-string">&#x27;w&#x27;</span>, encoding=<span class="hljs-literal">None</span>, compression=<span class="hljs-literal">None</span>, <br>quoting=<span class="hljs-literal">None</span>, quotechar=<span class="hljs-string">&#x27;&quot;&#x27;</span>, line_terminator=<span class="hljs-string">&#x27;\n&#x27;</span>, chunksize=<span class="hljs-literal">None</span>, tupleize_cols=<span class="hljs-literal">None</span>, <br>date_format=<span class="hljs-literal">None</span>, doublequote=<span class="hljs-literal">True</span>, escapechar=<span class="hljs-literal">None</span>, decimal=<span class="hljs-string">&#x27;.&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>path_or_buf：字符串或文件句柄，默认无文件。路径或对象，如果没有提供，结果将返回为字符串。</li>
+<li>sep : character, default ‘,’ Field delimiter for the output file. 默认字符 ‘ ，’ 输出文件的字段分隔符。</li>
+<li>columns : sequence, optional Columns to write。可选列写入</li>
+<li>header : boolean or list of string, default True：字符串或布尔列表，默认为true。写出列名。如果给定字符串列表，则假定为列名的别名。</li>
+<li>index : boolean, default True：布尔值，默认为Ture。写入行名称（索引）</li>
+<li>index_label : string or sequence, or False, default None：字符串或序列，或False,默认为None。如果需要，可以使用索引列的列标签。如果没有给出，且标题和索引为True，则使用索引名称。如果数据文件使用多索引，则应该使用这个序列。如果值为False，不打印索引字段。</li>
+<li><strong>mode</strong> : str：模式：值为‘str’，字符串。Python写模式，默认“w”</li>
+<li><strong>encoding</strong> : string, optional：编码：字符串，可选。表示在输出文件中使用的编码的字符串，Python 2上默认为“ASCII”和Python 3上默认为“UTF-8”。</li>
+<li>compression : string, optional：字符串，可选项。表示在输出文件中使用的压缩的字符串，允许值为“gzip”、“bz2”、“xz”，仅在第一个参数是文件名时使用。</li>
+<li>date_format : string, default None：字符串，默认为None。字符串对象转换为日期时间对象。</li>
+</ul>
+<h4 id="read-excel"><a href="#read-excel" class="headerlink" title="read_excel()"></a>read_excel()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">read_excel(io, sheetname=<span class="hljs-number">0</span>, header=<span class="hljs-number">0</span>, skiprows=<span class="hljs-literal">None</span>, skip_footer=<span class="hljs-number">0</span>, index_col=<span class="hljs-literal">None</span>,names=<span class="hljs-literal">None</span>, <br>parse_cols=<span class="hljs-literal">None</span>, parse_dates=<span class="hljs-literal">False</span>,date_parser=<span class="hljs-literal">None</span>,na_values=<span class="hljs-literal">None</span>,thousands=<span class="hljs-literal">None</span>, convert_float=<span class="hljs-literal">True</span>, <br>has_index_names=<span class="hljs-literal">None</span>, converters=<span class="hljs-literal">None</span>,dtype=<span class="hljs-literal">None</span>, true_values=<span class="hljs-literal">None</span>, false_values=<span class="hljs-literal">None</span>, engine=<span class="hljs-literal">None</span>, squeeze=<span class="hljs-literal">False</span>, **kwds)<br></code></pre></td></tr></table></figure>
+
+<p><strong>常用参数解析</strong>：</p>
+<ul>
+<li><p>io : string, path object ; excel 路径。</p>
+</li>
+<li><p>sheetname : string, int, mixed list of strings&#x2F;ints, or None, default 0 </p>
+<pre><code class="hljs"> 返回多表使用sheetname=[0,1],若sheetname=None是返回全表 
+ 注意：int/string 返回的是dataframe，而none和list返回的是dict of dataframe
+</code></pre>
+</li>
+<li><p>header : int, list of ints, default 0 指定列名行，默认0，即取第一行，数据为列名行以下的数据；若数据不含列名，则设定 header &#x3D; None</p>
+</li>
+<li><p>skiprows : list-like,Rows to skip at the beginning，省略指定行数的数据。</p>
+</li>
+<li><p>skip_footer : int,default 0, 省略从尾部数的int行数据。</p>
+</li>
+<li><p>index_col : int, list of ints, default None指定列为索引列，也可以使用u”strings”</p>
+</li>
+<li><p>names : array-like, default None, 指定列的名字。</p>
+</li>
+<li><p>usecols：指定要读取的列范围，可以是列名称、列索引或一个包含列名称&#x2F;索引的列表。</p>
+</li>
+</ul>
+<h4 id="to-excel"><a href="#to-excel" class="headerlink" title="to_excel()"></a>to_excel()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">to_excel(<span class="hljs-variable language_">self</span>, excel_writer, sheet_name=<span class="hljs-string">&#x27;Sheet1&#x27;</span>, na_rep=<span class="hljs-string">&#x27;&#x27;</span>, float_format=<span class="hljs-literal">None</span>,<br>columns=<span class="hljs-literal">None</span>, header=<span class="hljs-literal">True</span>, index=<span class="hljs-literal">True</span>, index_label=<span class="hljs-literal">None</span>,startrow=<span class="hljs-number">0</span>, startcol=<span class="hljs-number">0</span>, <br>engine=<span class="hljs-literal">None</span>, merge_cells=<span class="hljs-literal">True</span>, encoding=<span class="hljs-literal">None</span>,inf_rep=<span class="hljs-string">&#x27;inf&#x27;</span>, verbose=<span class="hljs-literal">True</span>, freeze_panes=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>excel_writer：指定要写入的 Excel 文件的路径或文件对象。</p>
+</li>
+<li><p>sheet_name：指定要写入的工作表名称。</p>
+</li>
+<li><p>index：指定是否写入行索引，默认为 True。</p>
+</li>
+<li><p>header：指定是否写入表头，默认为 True。</p>
+</li>
+<li><p>startrow：指定写入数据的起始行号。</p>
+</li>
+<li><p>startcol：指定写入数据的起始列号。</p>
+</li>
+<li><p>na_rep：指定缺失值的表示方式。</p>
+</li>
+<li><p>columns&#x3D;None：指定输出某些列 列 &#x3D; [“名称”， “数字”]</p>
+</li>
+<li><p>encoding&#x3D;None：指定编码，常用 utf-8</p>
+</li>
+<li><p>float_format&#x3D;None：浮点数保存的格式，默认保存为字符串 </p>
+<pre><code class="hljs"> float_format=’%.2f’ # 保存为浮点数，保留2位小数
+</code></pre>
+</li>
+<li><p>engine&#x3D;None：保存格式。</p>
+</li>
+</ul>
+<h4 id="ExcelWriter"><a href="#ExcelWriter" class="headerlink" title="ExcelWriter()"></a>ExcelWriter()</h4><p>有时一个excel内会有多个sheet。但是将两组数据通过to_excel函数先后保存到一个excel内会发现只有后一组保存的数据，因为前一组的数据被后写入的数据覆盖了。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">df1.to_excel(<span class="hljs-string">&#x27;xxx.xlsx&#x27;</span>,sheet_name=<span class="hljs-string">&#x27;df1&#x27;</span>)<br>df2.to_excel(<span class="hljs-string">&#x27;xxx.xlsx&#x27;</span>,sheet_name=<span class="hljs-string">&#x27;df2&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>使用pd.ExcelWriter建立一个writer，然后，将df1，df2都使用to_excel（writer, sheet名），最后一次性将这些数据保存，并关闭writer就完成了。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">writer = pd.ExcelWriter(<span class="hljs-string">&#x27;xxx.xlsx&#x27;</span>)<br>df1.to_excel(writer,sheet_name=<span class="hljs-string">&quot;df1&quot;</span>)<br>df2.to_excel(writer,sheet_name=<span class="hljs-string">&quot;df2&quot;</span>)<br><br>writer.save()<br>writer.close()<br></code></pre></td></tr></table></figure>
+<p>这样会覆盖我们原有的excel数据，如果不想覆盖，可以：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">writer = pd.ExcelWriter(<span class="hljs-string">&#x27;保存.xlsx&#x27;</span>)  <span class="hljs-meta"># 如果不存在，会自动创建excel</span><br>df = pd.read_excel(<span class="hljs-string">&quot;xxx.xlsx&quot;</span>, sheet_name=xxx)<br>......<br>df_res.to_excel(writer, sheet_name=xxx, index=False)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 一次写入多个sheet</span><br><span class="hljs-keyword">with</span> pd.ExcelWriter(<span class="hljs-string">&#x27;writer.xlsx&#x27;</span>) <span class="hljs-keyword">as</span> writer:<br>    data.to_excel(writer,sheet_name=<span class="hljs-string">&#x27;a&#x27;</span>)<br>    data.to_excel(writer,sheet_name=<span class="hljs-string">&#x27;b&#x27;</span>)<br>    data.to_excel(writer,sheet_name=<span class="hljs-string">&#x27;c&#x27;</span>)<br><br><span class="hljs-comment"># 追加新sheet</span><br><span class="hljs-keyword">with</span> pd.ExcelWriter(<span class="hljs-string">&#x27;writer.xlsx&#x27;</span>,mode=<span class="hljs-string">&#x27;a&#x27;</span>,engine=<span class="hljs-string">&#x27;openpyxl&#x27;</span>) <span class="hljs-keyword">as</span> writer:<br>    data2.to_excel(writer,sheet_name=<span class="hljs-string">&#x27;d&#x27;</span>)<br><br><span class="hljs-comment"># 测试excel追加数据至sheet</span><br><span class="hljs-keyword">with</span> pd.ExcelWriter(<span class="hljs-string">&#x27;writer.xlsx&#x27;</span>,mode=<span class="hljs-string">&#x27;a&#x27;</span>,engine=<span class="hljs-string">&#x27;openpyxl&#x27;</span>) <span class="hljs-keyword">as</span> writer:<br>    data.to_excel(writer,sheet_name=<span class="hljs-string">&#x27;d&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-describe"><a href="#14-describe" class="headerlink" title="14.describe()"></a>14.describe()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.describe(percentiles=<span class="hljs-literal">None</span>, include=<span class="hljs-literal">None</span>, exclude=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>percentiles：设置输出的百分位数，默认为[.25,.50,.75]，返回第25，50，75百分位数。</li>
+<li>include：包含哪类数据。默认只包含连续值，不包含离散值；include &#x3D; ‘all’ 设置全部类型。</li>
+<li>exclude:描述 DataFrame 时要排除的数据类型列表。默认为无</li>
+</ul>
+<p>对于对象类型数据（例如字符串或时间戳），则结果的指数将包括count，unique， top，和freq。top标识最常见的值。freq标识最常见的值的出现频次。时间戳还包括first和last指标。如果多个对象值具有最高计数，那么将从具有最高计数的那些中任意选择count和top结果。</p>
+<h3 id="15-数据合并concat、merge和join"><a href="#15-数据合并concat、merge和join" class="headerlink" title="15.数据合并concat、merge和join"></a>15.数据合并concat、merge和join</h3><h4 id="concat"><a href="#concat" class="headerlink" title="concat()"></a>concat()</h4><p>可以沿着一条轴将多个对象进行堆叠，其使用方式类似数据库中的数据表合并。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pandas.concat(objs, axis=<span class="hljs-number">0</span>, join=’outer’, join_axes=<span class="hljs-literal">None</span>, ignore_index=<span class="hljs-literal">False</span>, keys=<span class="hljs-literal">None</span>, levels=<span class="hljs-literal">None</span>, verify_integrity=<span class="hljs-literal">False</span>, sort=<span class="hljs-literal">None</span>, copy=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>axis</td>
+<td>默认为0，0为行拼接，1为列拼接，意为沿着连接的轴。</td>
+</tr>
+<tr>
+<td>join</td>
+<td>{‘inner’，‘outer’}，默认为“outer”。如何处理其他轴上的索引。outer为并集和inner为交集。</td>
+</tr>
+<tr>
+<td>ignore_index</td>
+<td>接收布尔值，默认为False。如果设置为True，则表示清除现有索引并重置索引值</td>
+</tr>
+<tr>
+<td>keys</td>
+<td>接收序列，表示添加最外层索引</td>
+</tr>
+<tr>
+<td>levels</td>
+<td>用于构建MultiIndex的特定级别（唯一值）</td>
+</tr>
+<tr>
+<td>names</td>
+<td>设置了keys和level参数后，用于创建分层级别的名称</td>
+</tr>
+<tr>
+<td>verify_integerity</td>
+<td>检查新的连接轴是否包含重复项。接收布尔值，当设置为True时，如果有重复的轴将会抛出错误，默认为False</td>
+</tr>
+</tbody></table>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">merge(left, right, how=<span class="hljs-string">&#x27;inner&#x27;</span>, on=<span class="hljs-literal">None</span>, left_on=<span class="hljs-literal">None</span>, right_on=<span class="hljs-literal">None</span>,  <br>      left_index=<span class="hljs-literal">False</span>, right_index=<span class="hljs-literal">False</span>, sort=<span class="hljs-literal">True</span>,  <br>      suffixes=(<span class="hljs-string">&#x27;_x&#x27;</span>, <span class="hljs-string">&#x27;_y&#x27;</span>), copy=<span class="hljs-literal">True</span>, indicator=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>left：参与合并的左侧DataFrame</li>
+<li>right：参与合并的右侧DataFrame</li>
+<li>how：｛inner、outer、left、right｝default为inner为交集。</li>
+<li>on：用于连接的列名。该列名就像连接的两张表中共同的特征。类似按键合并多表。如果未制定，且其他连接键也没用制定，则以left和right列名的交集为连接键，也就是inner连接。</li>
+<li>left_on：左侧DataFrame中用作连接键的列</li>
+<li>right_on：右则DataFrame中用作连接键的列</li>
+<li>left_index：使用左则DataFrame中的行索引做为连接键</li>
+<li>right_index：使用右则DataFrame中的行索引做为连接键</li>
+<li>sort：默认为True，将合并的数据进行排序。在大多数情况下设置为False可以提高性能</li>
+<li>suffixes：字符串值组成的元组，用于指定当左右DataFrame存在相同列名时在列名后面附加的后缀名称，默认为(‘_x’,‘_y’)。如果两个DataFrame对象都有“Data”，则结果中就会出现“Data_x”和”Data_y“</li>
+</ul>
+<h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>能够通过索引或指定列来连接多个DataFrame对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">join（other，on = <span class="hljs-literal">None</span>，how =‘left’，lsuffix =‘’，rsuffix =‘’，sort = <span class="hljs-literal">False</span> ）<br></code></pre></td></tr></table></figure>
+<h3 id="16-groupby"><a href="#16-groupby" class="headerlink" title="16.groupby"></a>16.groupby</h3><p>groupby 函数是 Pandas 库中 DataFrame 和 Series 对象的一个方法，它允许你对这些对象中的数据进行分组和聚合。<br>对于 DataFrame 对象，groupby 函数的语法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.groupby(by=<span class="hljs-literal">None</span>, axis=<span class="hljs-number">0</span>, level=<span class="hljs-literal">None</span>, as_index=<span class="hljs-literal">True</span>,<br>                  sort=<span class="hljs-literal">True</span>, group_keys=<span class="hljs-literal">True</span>, squeeze=<span class="hljs-literal">False</span>, <br>                   observed=<span class="hljs-literal">False</span>, dropna=<span class="hljs-literal">True</span>) <br></code></pre></td></tr></table></figure>
+
+<p>其中，各个参数的含义如下：</p>
+<ul>
+<li>by：用于分组的列名或函数。可以是一个列名、一个函数、一个列表或一个字典。按多个字段分组时传入列表。</li>
+<li>axis：分组轴。如果axis&#x3D;0（默认值），则沿着行方向分组；如果 axis&#x3D;1，则沿着列方向分组。 </li>
+<li>level：当DataFrame的索引为多重索引时，level参数指定用于分组的索引，可以传入多重索引中索引的下标（0,1…）或索引名，多个用列表传入。</li>
+<li>as_index：分组结果默认将分组列的值作为索引，如果按单列分组，结果默认是单索引，如果按多列分组，结果默认是多重索引。是否将分组键作为索引返回。如果as_index&#x3D;True（默认值），则返回一个带有分组键作为索引的对象；否则返回一个不带索引的对象。</li>
+<li>sort：是否对分组键进行排序。如果 sort&#x3D;True（默认值），则对分组键进行排序；否则不排序。</li>
+<li>group_keys：是否在结果中包含分组键。如果 group_keys&#x3D;True（默认值），则在结果中包含分组键；否则不包含。</li>
+<li>dropna：是否删除包含缺失值的行。如果dropna&#x3D;True（默认值），则删除包含缺失值的行；否则保留。</li>
+</ul>
+<p>groupby()分组得到的是一个DataFrameGroupBy对象，直接打印DataFrameGroupBy对象只能看到它的内存地址，看不到内部的结构。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;pandas.core.groupby.generic.DataFrameGroupBy <span class="hljs-built_in">object</span> at <span class="hljs-number">0x000007C4E22D3498</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>DataFrameGroupBy是一个可迭代对象，可以转换成list打印，也可以直接遍历打印出来。遍历出来的是一个个元组，每个元组对应一个分组，元组的第一个元素与分组列里的值对应，元组的第二个元素是分到当前小组的数据，是一个DataFrame。</p>
+<p>DataFrameGroupBy对象的内部结构为：[(分组名1， 子DataFrame1), (分组名2， 子DataFrame2), …]，相当于groupby()将DataFrame按字段值分成了多个小的DataFrame，然后将字段值和小的DataFrame用元组的方式保存在DataFrameGroupBy对象中。</p>
+<p>分组对象的groups属性可以返回分组信息，结果是一个形似字典的对象，由分组名和此分组数据在原DataFrame中的行索引组成。</p>
+<p>借用groups可以提取出所有分组的分组名，分组对象的get_group()方法可以返回指定分组名的子DataFrame。</p>
+<h4 id="aggregate、apply、transform"><a href="#aggregate、apply、transform" class="headerlink" title="aggregate、apply、transform"></a>aggregate、apply、transform</h4><p><strong>DataFrame.agg</strong></p>
+<p><code>DataFrame.agg(func=None, axis=0, *args, **kwargs)</code>；针对特定的轴进行一个或者多个聚合操作。</p>
+<ul>
+<li>func：函数，可以为str, list或者dict类型。可接受的组合包括：函数，字符串形式的函数名，函数或函数名列表（如[np.sum, ‘mean’]），轴标签字典-&gt;函数，函数名或此类的列表。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">count() – Number of non-null observations<br><span class="hljs-built_in">sum</span>() – Sum of values<br>mean() – Mean of values<br>median() – Arithmetic median of values<br><span class="hljs-built_in">min</span>() – Minimum<br><span class="hljs-built_in">max</span>() – Maximum<br>mode() – Mode<br>std() – Standard deviation<br>var() – Variance<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>axis：0 or ‘index’, 1 or ‘columns’，默认为0。如果0或’index’，对每一列应用函数；如果1或’columns’，应用函数到每一行。</li>
+</ul>
+<p><strong>DataFrame.apply</strong></p>
+<p><code>DataFrame.apply(func, axis=0, raw=False, result_type=None, args=(), **kwargs)</code>；沿着dataframe的轴进行操作。</p>
+<ul>
+<li>func：同agg</li>
+<li>axis：同agg</li>
+<li>raw：布尔型，默认为False。确定是否将行或列作为Series或ndarray对象传递。如果设置为False，将每一行或每一列作为series传递给函数；如果设置为True，传递的函数将接收ndarray对象。如果只是应用NumPy缩减函数，可以设置为Ture，会获得更好的性能.</li>
+</ul>
+<p><strong>DataFrame.transform</strong><br><code>DataFrame.transform(func, axis=0, *args, **kwargs)</code>；调用func函数生成带有转换值的DataFrame，生成的DataFrame将具有与self相同的轴长。</p>
+<h3 id="17-query方法"><a href="#17-query方法" class="headerlink" title="17.query方法"></a>17.query方法</h3><p>在pandas中，支持把字符串形式的查询表达式传入query方法来查询数据，其表达式的执行结果必须返回布尔列表。在进行复杂索引时，由于这种检索方式无需像普通方法一样重复使用DataFrame的名字来引用列名，一般而言会使代码长度在不降低可读性的前提下有所减少。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 选出col0在30到80之间的行中col3与col1之差为奇数的行，</span><br><span class="hljs-comment"># 或者col2大于50中的行col3超过col1均值的行</span><br>c11 = df[<span class="hljs-string">&quot;col 0&quot;</span>].between(<span class="hljs-number">30</span>, <span class="hljs-number">80</span>)<br>c12 = (df[<span class="hljs-string">&quot;col 3&quot;</span>] - df[<span class="hljs-string">&quot;col 1&quot;</span>]) % <span class="hljs-number">2</span> ==<span class="hljs-number">1</span><br>c21 = df[<span class="hljs-string">&quot;col 2&quot;</span>] &gt; <span class="hljs-number">50</span><br>c22 = df[<span class="hljs-string">&quot;col 3&quot;</span>] &gt; df[<span class="hljs-string">&quot;col 1&quot;</span>].mean()<br>df.loc[(c11 &amp; c12) | (c21 &amp; c22)]<br><br><span class="hljs-comment"># dataframe保留两位小数</span><br>df = df.<span class="hljs-built_in">round</span>(<span class="hljs-number">2</span>)<br><br><span class="hljs-comment"># 写入WPD</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">WriteTXT</span>(<span class="hljs-params">data: pd.DataFrame, savepath: <span class="hljs-built_in">str</span></span>):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(savepath, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-number">65536</span>, <span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>        h1 = <span class="hljs-string">&quot;// matfile&quot;</span><br>        file.write(h1.strip() + <span class="hljs-string">&quot;\n&quot;</span>)<br>        <span class="hljs-keyword">for</span> key, items <span class="hljs-keyword">in</span> data.iterrows():<br>            items_l = <span class="hljs-built_in">list</span>(items)<br>            line = <span class="hljs-built_in">str</span>()<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(items_l)):<br>                <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:<br>                    line += items_l[i]<br>                    line += <span class="hljs-string">&#x27; &#x27;</span><br>                <span class="hljs-keyword">elif</span> i == <span class="hljs-number">1</span>:<br>                    line += <span class="hljs-built_in">str</span>(items_l[i])<br>                    line += <span class="hljs-string">&#x27;    &#x27;</span><br>                <span class="hljs-keyword">elif</span> i == <span class="hljs-number">2</span>:<br>                    line += items_l[i]<br>                    line += <span class="hljs-string">&#x27;    &#x27;</span><br>                <span class="hljs-keyword">elif</span> i == <span class="hljs-built_in">len</span>(items_l) - <span class="hljs-number">1</span>:<br>                    line += <span class="hljs-built_in">str</span>(<span class="hljs-string">&quot;%.6f&quot;</span> % items_l[i])<br>                <span class="hljs-keyword">else</span>:<br>                    line += <span class="hljs-built_in">str</span>(<span class="hljs-string">&quot;%.6f&quot;</span> % items_l[i])<br>                    line += <span class="hljs-string">&#x27;    &#x27;</span><br>            <br>            file.write(line.strip() + <span class="hljs-string">&quot;\n&quot;</span>)<br>        file.write(h1.strip() + <span class="hljs-string">&quot;\n&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h3><p>1.<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/336909179">pd.set_option()参数详解</a><br>2.<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/385818806">Python的reshape的用法：reshape(1,-1)、reshape(-1,1)</a><br>3.<a target="_blank" rel="noopener" href="https://github.com/datawhalechina/joyful-pandas">https://github.com/datawhalechina/joyful-pandas</a><br>4.<a target="_blank" rel="noopener" href="https://github.com/datawhalechina/powerful-numpy">https://github.com/datawhalechina/powerful-numpy</a><br>5.<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/course/325?spm=a2c22.29554855.J_2019578110.48.715812b68nnhLE">Pandas实践</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="category-chain-item">数据科学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AC%94%E8%AE%B0/" class="print-no-link">#笔记</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/" class="print-no-link">#数据科学</a>
+      
+        <a href="/tags/NumPy/" class="print-no-link">#NumPy</a>
+      
+        <a href="/tags/Pandas/" class="print-no-link">#Pandas</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数据科学：Numpy、Pandas笔记</div>
+      <div>https://qzkq.github.io/2026/01/04/数据科学：Numpy、Pandas笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%9AScipy%E3%80%81Scikit-Learn%E7%AC%94%E8%AE%B0/" title="数据科学：Scipy、Scikit-Learn笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据科学：Scipy、Scikit-Learn笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%9AMatplotlib%E3%80%81Seaborn%E7%AC%94%E8%AE%B0/" title="数据科学：Matplotlib、Seaborn笔记">
+                        <span class="hidden-mobile">数据科学：Matplotlib、Seaborn笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

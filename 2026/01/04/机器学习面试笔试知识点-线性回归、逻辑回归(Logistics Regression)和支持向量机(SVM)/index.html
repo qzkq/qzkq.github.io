@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@[TOC](机器学习面试笔试知识点-线性回归、逻辑回归Logistics Regression和支持向量机SVM) 微信公众号：数学建模与人工智能一、线性回归1.线性回归的假设函数 2.线性回归的损失函数（Loss Function）MSE（均方误差）   通过梯度下降法或正规方程求出使得代价函数最小的参数 两者区别 3.简述岭回归与Lasso回归以及使用场景目的 本质：约束（限制）要优化的参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)">
+<meta property="og:url" content="https://qzkq.github.io/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E3%80%81%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92(Logistics%20Regression)%E5%92%8C%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA(SVM)/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@[TOC](机器学习面试笔试知识点-线性回归、逻辑回归Logistics Regression和支持向量机SVM) 微信公众号：数学建模与人工智能一、线性回归1.线性回归的假设函数 2.线性回归的损失函数（Loss Function）MSE（均方误差）   通过梯度下降法或正规方程求出使得代价函数最小的参数 两者区别 3.简述岭回归与Lasso回归以及使用场景目的 本质：约束（限制）要优化的参">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qzkq.github.io/img/8d4d216a9ab04161b878c521bc880b0b.png">
+<meta property="og:image" content="https://qzkq.github.io/img/075c517239ef428da3c26511129f923d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/323af78291e64b9b8981fa8dcd1bf4be.png">
+<meta property="og:image" content="https://qzkq.github.io/img/b484e812ec7944bcb0368dc7fe641664.png">
+<meta property="og:image" content="https://qzkq.github.io/img/ffc9068ddcd34b20bc9e0455fd5f4740.png">
+<meta property="og:image" content="https://qzkq.github.io/img/89d728a157c74588b8b5e35932bc8013.png">
+<meta property="og:image" content="https://qzkq.github.io/img/71001899bc834cfcb8a699ef8c5ae06f.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c06f4e0222a74d49aa58fdd1a1ba0354.png">
+<meta property="og:image" content="https://qzkq.github.io/img/c89c7d90fdcb47c59a58b7a8f831ab8d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/5055feb5cbf04aee95c94e7995f479e8.png">
+<meta property="og:image" content="https://qzkq.github.io/img/632ce66f0edd43e9be2b355467392780.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d1ae4f579abb4bbc8b0de4a03782799d.png">
+<meta property="og:image" content="https://qzkq.github.io/img/08e522816ff44982b70761e6f53936e5.png">
+<meta property="og:image" content="https://qzkq.github.io/img/2a34f964cc694a5d870d9e55e7bfe104.png">
+<meta property="og:image" content="https://qzkq.github.io/img/d8d62d54e6604f26b2dcbd433da84835.png">
+<meta property="article:published_time" content="2026-01-04T00:16:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T02:31:26.416Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="SVM">
+<meta property="article:tag" content="支持向量机">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="线性回归">
+<meta property="article:tag" content="逻辑回归">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://qzkq.github.io/img/8d4d216a9ab04161b878c521bc880b0b.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM) - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-04 08:16" pubdate>
+          2026年1月4日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>﻿@[TOC](机器学习面试笔试知识点-线性回归、逻辑回归Logistics Regression和支持向量机SVM)</p>
+<h1 id="微信公众号：数学建模与人工智能"><a href="#微信公众号：数学建模与人工智能" class="headerlink" title="微信公众号：数学建模与人工智能"></a><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5MTY1MzU1Mg==&mid=2247487933&idx=1&sn=7bf999a20800e41806cb05b65098bb4f&chksm=ec0c0362db7b8a74a266afc842b45e7b2b53f2e8eb4b6609af105e2cf0b4aae13d03c6e0dc1e&token=1104317395&lang=zh_CN#rd">微信公众号：数学建模与人工智能</a></h1><h1 id="一、线性回归"><a href="#一、线性回归" class="headerlink" title="一、线性回归"></a>一、线性回归</h1><h2 id="1-线性回归的假设函数"><a href="#1-线性回归的假设函数" class="headerlink" title="1.线性回归的假设函数"></a>1.线性回归的假设函数</h2><p><img src="/img/8d4d216a9ab04161b878c521bc880b0b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-线性回归的损失函数（Loss-Function）"><a href="#2-线性回归的损失函数（Loss-Function）" class="headerlink" title="2.线性回归的损失函数（Loss Function）"></a>2.线性回归的损失函数（Loss Function）</h2><p><strong>MSE（均方误差）</strong> </p>
+<p><img src="/img/075c517239ef428da3c26511129f923d.png" srcset="/img/loading.gif" lazyload></p>
+<p>通过梯度下降法或正规方程<br><img src="/img/323af78291e64b9b8981fa8dcd1bf4be.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>求出使得代价函数最小的参数</p>
+<h3 id="两者区别"><a href="#两者区别" class="headerlink" title="两者区别"></a>两者区别</h3><p><img src="/img/b484e812ec7944bcb0368dc7fe641664.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="3-简述岭回归与Lasso回归以及使用场景"><a href="#3-简述岭回归与Lasso回归以及使用场景" class="headerlink" title="3.简述岭回归与Lasso回归以及使用场景"></a>3.简述岭回归与Lasso回归以及使用场景</h2><p><strong>目的</strong><img src="/img/ffc9068ddcd34b20bc9e0455fd5f4740.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>本质</strong>：约束（限制）要优化的参数</p>
+<p>这两种回归均通过在损失函数中引入正则化项来达到目的：<br><img src="/img/89d728a157c74588b8b5e35932bc8013.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>L1正则化容易得到稀疏矩阵</strong></p>
+<h2 id="4-什么场景下用L1、L2正则化"><a href="#4-什么场景下用L1、L2正则化" class="headerlink" title="4.什么场景下用L1、L2正则化"></a>4.什么场景下用L1、L2正则化</h2><p> L2正则化会使参数的绝对值变小，增强模型的稳定性（不会因为数据变化而产生很大的震荡）；而L1正则化会使一些参数为0，可以实现特征稀疏，增强模型解释性。</p>
+<h2 id="5-什么是ElasticNet回归"><a href="#5-什么是ElasticNet回归" class="headerlink" title="5.什么是ElasticNet回归"></a>5.什么是ElasticNet回归</h2><p><strong>综合了L1正则化项和L2正则化项：</strong></p>
+<p><img src="/img/71001899bc834cfcb8a699ef8c5ae06f.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="6-ElasticNet回归的使用场景"><a href="#6-ElasticNet回归的使用场景" class="headerlink" title="6.ElasticNet回归的使用场景"></a>6.ElasticNet回归的使用场景</h2><p>使用Lasso回归太过(太多特征被稀疏为0),而岭回归正则化的不够(回归系数衰减太慢)的时候，可以考虑ElasticNet回归。</p>
+<p><strong>L1正则化和L2正则化分别是假设参数服从laplace分布和高斯分布。</strong></p>
+<p><strong>线性回归中的残差服从均值为0的正态分布。</strong></p>
+<p><strong>L2:权重衰减</strong></p>
+<h2 id="7-线性回归要求因变量服从正态分布？-持保留态度"><a href="#7-线性回归要求因变量服从正态分布？-持保留态度" class="headerlink" title="7.线性回归要求因变量服从正态分布？(持保留态度)"></a>7.线性回归要求因变量服从正态分布？(持保留态度)</h2><p>假设线性回归的噪声服从均值为0的正态分布。 当噪声符合正态分布N(0,  )时，因变量则符合正态分布N(ax(i)+b,  )，其中预测函数y&#x3D;ax(i)+b。这个结论可以由正态分布的概率密度函数得到。也就是说当噪声符合正态分布时，其因变量必然也符合正态分布。<br>在用线性回归模型拟合数据之前，首先要求数据应符合或近似符合正态分布，否则得到的拟合函数不正确。</p>
+<h1 id="二、逻辑回归-Logistics-Regression"><a href="#二、逻辑回归-Logistics-Regression" class="headerlink" title="二、逻辑回归(Logistics Regression)"></a>二、逻辑回归(Logistics Regression)</h1><h2 id="1-本质：极大似然估计"><a href="#1-本质：极大似然估计" class="headerlink" title="1.本质：极大似然估计"></a>1.本质：极大似然估计</h2><p>逻辑回归是用来做分类算法的。把线性回归的结果Y代入一个非线性变换的<strong>Sigmoid函数</strong>中，即可得到[0,1]之间取值范围的数S，S可以把它看成是一个概率值，如果设置概率阈值为0.5，那么S大于0.5可以看成是正样本，小于0.5看成是负样本，就可以进行分类。</p>
+<h2 id="2-激活函数：Sigmoid"><a href="#2-激活函数：Sigmoid" class="headerlink" title="2.激活函数：Sigmoid"></a>2.激活函数：Sigmoid</h2><p><img src="/img/c06f4e0222a74d49aa58fdd1a1ba0354.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="3-损失函数：对数损失函数-log-loss"><a href="#3-损失函数：对数损失函数-log-loss" class="headerlink" title="3.损失函数：对数损失函数(log loss)"></a>3.损失函数：对数损失函数(log loss)</h2><p><img src="/img/c89c7d90fdcb47c59a58b7a8f831ab8d.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>公式中的 y&#x3D;1 表示的是真实值为1时用第一个公式， y&#x3D;0 表示真实值为0时用第二个公式计算损失。</p>
+<p><strong>为什么要加上log函数呢？</strong><br>    当真实样本为1时，但h&#x3D;0，那么log0&#x3D;∞，即对模型最大的惩罚力度；当h&#x3D;1时，那么log1&#x3D;0，相当于没有惩罚，也就是没有损失，达到最优结果。把上面损失函数写成统一的形式：</p>
+<p><img src="/img/5055feb5cbf04aee95c94e7995f479e8.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="4-代价函数：交叉熵-Cross-Entropy-："><a href="#4-代价函数：交叉熵-Cross-Entropy-：" class="headerlink" title="4.代价函数：交叉熵(Cross Entropy)："></a>4.代价函数：交叉熵(Cross Entropy)：</h2><p><img src="/img/632ce66f0edd43e9be2b355467392780.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>最后按照梯度下降法，求解极小值点，得到想要的模型效果。</p>
+<h2 id="5-可以进行多分类吗？"><a href="#5-可以进行多分类吗？" class="headerlink" title="5.可以进行多分类吗？"></a>5.可以进行多分类吗？</h2><p>可以 ，从二分类问题过度到多分类问题(one vs rest)，思路步骤如下：</p>
+<ol>
+<li>将类型class1看作正样本，其他类型全部看作负样本，可得到样本标记类型为该类型的概率p1。</li>
+<li>然后再将另外类型class2看作正样本，其他类型全部看作负样本，同理得到p2。</li>
+<li>以此循环，我们可以得到该待预测样本的标记类型分别为类型class i时的概率pi，最后取pi中最大的那个概率对应的样本标记类型作为待预测样本类型。</li>
+</ol>
+<p><img src="/img/d1ae4f579abb4bbc8b0de4a03782799d.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<p>总之还是以二分类来依次划分，并求出最大概率结果。</p>
+<h2 id="6-逻辑回归优缺点"><a href="#6-逻辑回归优缺点" class="headerlink" title="6.逻辑回归优缺点"></a>6.逻辑回归优缺点</h2><h3 id="优"><a href="#优" class="headerlink" title="优"></a>优</h3><ul>
+<li>能以概率的形式输出结果，而非只是0,1判定。</li>
+<li>可解释性强，可控度高，训练快。</li>
+<li>因为结果是概率，可以做ranking model（排序模型）。</li>
+</ul>
+<h3 id="缺"><a href="#缺" class="headerlink" title="缺"></a>缺</h3><ul>
+<li>对模型中自变量多重共线性较为敏感。</li>
+</ul>
+<h2 id="7-逻辑回归有哪些应用"><a href="#7-逻辑回归有哪些应用" class="headerlink" title="7.逻辑回归有哪些应用"></a>7.逻辑回归有哪些应用</h2><ol>
+<li>CTR预估&#x2F;推荐系统的learning to rank&#x2F;各种分类场景。</li>
+<li>某搜索引擎厂的广告CTR（点击率）预估基线版是LR。</li>
+<li>某电商搜索排序&#x2F;广告CTR预估基线版是LR。</li>
+<li>某电商的购物搭配推荐用了大量LR。</li>
+<li>某现在一天广告赚1000w+的新闻app排序基线是LR。</li>
+</ol>
+<h2 id="8-逻辑回归为什么要对特征进行离散化。"><a href="#8-逻辑回归为什么要对特征进行离散化。" class="headerlink" title="8.逻辑回归为什么要对特征进行离散化。"></a>8.逻辑回归为什么要对特征进行离散化。</h2><ol start="6">
+<li><strong>非线性</strong>！逻辑回归属于广义线性模型，表达能力受限；单变量离散化为N个后，每个变量有单独的权重，相当于为模型引入了非线性，能够提升模型表达能力，加大拟合； 离散特征的增加和减少都很容易，易于模型的快速迭代；</li>
+<li><strong>速度快</strong>！稀疏向量内积乘法运算速度快，计算结果方便存储，容易扩展； </li>
+<li><strong>鲁棒性</strong>！离散化后的特征对异常数据有很强的鲁棒性：比如一个特征是年龄&gt;30是1，否则0\</li>
+<li>如果特征没有离散化，一个异常数据“年龄200岁”会给模型造成很大的干扰；<br>方便交叉与特征组合：离散化后可以进行特征交叉，由M+N个变量变为M*N个变量，进一步引入非线性，提升表达能力；<br>简化模型：特征离散化以后，起到了简化了逻辑回归模型的作用，降低了模型过拟合的风险。</li>
+</ol>
+<p><strong>若要求多分类，需要把sigmoid换成softmax</strong></p>
+<p>实战中，设置  </p>
+<p><strong>损失函数、代价函数、目标函数</strong><br>损失函数（Loss Function ）<strong>是定义在单个样本上的，算的是一个样本的误差。</strong><br>代价函数（Cost Function ）<strong>是定义在整个训练集上的，是所有样本误差的平均，也就是损失函数的平均。</strong><br>目标函数（Object Function）定义为：<strong>最终需要优化的函数。等于经验风险+结构风险（也就是Cost Function + 正则化项）。对于目标函数来说在有约束条件下的最小化就是损失函数。</strong></p>
+<h1 id="机器学习中的最优化方法"><a href="#机器学习中的最优化方法" class="headerlink" title="机器学习中的最优化方法"></a>机器学习中的最优化方法</h1><h2 id="1-梯度下降法"><a href="#1-梯度下降法" class="headerlink" title="1.梯度下降法"></a>1.梯度下降法</h2><p>优化思想：用当前位置负梯度方向作为搜索方向。</p>
+<h2 id="2-牛顿法"><a href="#2-牛顿法" class="headerlink" title="2.牛顿法"></a>2.牛顿法</h2><p>使用函数f(x)的泰勒级数的前几项来寻找f(x)的根<br>优：以本质上看，牛顿法是二阶收敛，梯度下降是一阶收敛，所以牛顿法更快。<br>缺：牛顿法是一种迭代算法，每一步都需要求解目标函数的Hesssian矩阵的逆矩阵，计算较复杂。</p>
+<h2 id="3-拟牛顿法"><a href="#3-拟牛顿法" class="headerlink" title="3.拟牛顿法"></a>3.拟牛顿法</h2><p>本质思想：改善牛顿法内次需要求解复杂的Hessian矩阵的逆矩阵的缺陷，它使用正定矩阵来近似Hessian（黑塞）矩阵的逆，从而简化运算的复杂度。</p>
+<h2 id="4-共轭梯度法"><a href="#4-共轭梯度法" class="headerlink" title="4.共轭梯度法"></a>4.共轭梯度法</h2><p>仅需利用一阶导数信息，但克服了梯度下降法收敛慢的缺点，又避免了牛顿法需要存储和计算Hesse矩阵的逆的特点。</p>
+<h1 id="三、支持向量机-SVM"><a href="#三、支持向量机-SVM" class="headerlink" title="三、支持向量机(SVM)"></a>三、支持向量机(SVM)</h1><p>一种二类分类模型，其基本模型定义为特征空间上的间隔最大的线性分类器，其学习策略便是间隔最大化，最终可转化为一个凸二次规划问题的求解。</p>
+<h2 id="函数间隔"><a href="#函数间隔" class="headerlink" title="函数间隔"></a>函数间隔</h2><p>给定一个超平面(w,b)，定义该超平面关于样本点  的函数间隔为：  ，定义该超平面关于训练集T的函数间隔为：</p>
+<p><img src="/img/08e522816ff44982b70761e6f53936e5.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="几何间隔（geometrical-margin）"><a href="#几何间隔（geometrical-margin）" class="headerlink" title="几何间隔（geometrical margin）"></a>几何间隔（geometrical margin）</h2><p><img src="/img/2a34f964cc694a5d870d9e55e7bfe104.png" srcset="/img/loading.gif" lazyload alt="添加图片注释，不超过 140 字（可选）"></p>
+<h2 id="1-损失函数：合页损失函数（Hinge-loss）"><a href="#1-损失函数：合页损失函数（Hinge-loss）" class="headerlink" title="1.损失函数：合页损失函数（Hinge loss）"></a>1.损失函数：合页损失函数（Hinge loss）</h2><p>SVM的损失函数就是合页损失函数+正则项<br> <img src="/img/d8d62d54e6604f26b2dcbd433da84835.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="2-为什么要将求解SVM的原始问题转换为其对偶问题？"><a href="#2-为什么要将求解SVM的原始问题转换为其对偶问题？" class="headerlink" title="2.为什么要将求解SVM的原始问题转换为其对偶问题？"></a>2.为什么要将求解SVM的原始问题转换为其对偶问题？</h2><ol>
+<li>对偶问题更容易求解，</li>
+<li>可以自然引入核函数，进而推广到非线性分类问题。</li>
+</ol>
+<p><strong>（若原问题与对偶问题均存在可行解，则两者均存在最优解）。</strong></p>
+<h2 id="3-支持向量"><a href="#3-支持向量" class="headerlink" title="3.支持向量"></a>3.支持向量</h2><p>距离超平面最近的且满足一定条件的几个样本点。</p>
+<h2 id="4-带核的SVM为什么能分类非线性问题"><a href="#4-带核的SVM为什么能分类非线性问题" class="headerlink" title="4.带核的SVM为什么能分类非线性问题"></a>4.带核的SVM为什么能分类非线性问题</h2><p>核函数的本质是两个函数的内积，通过核函数将其映射到高维空间，在高维空间非线性问题转换为线性问题，SVM得到超平面是高维空间的线性分类平面，其分类结果也视为低维空间的非线性分类结果。</p>
+<h2 id="5-SVM的应用"><a href="#5-SVM的应用" class="headerlink" title="5.SVM的应用"></a>5.SVM的应用</h2><p>SVM在很多诸如文本分类，图像分类，生物序列分析和生物数据挖掘，手写字符识别等领域有很多的应用。</p>
+<h2 id="6-如何选择核函数？"><a href="#6-如何选择核函数？" class="headerlink" title="6. 如何选择核函数？"></a>6. 如何选择核函数？</h2><ul>
+<li>如果特征的数量大到和样本数量差不多，则选用LR或者线性核的SVM；</li>
+<li>如果特征的数量小，样本的数量正常，则选用SVM+高斯核函数；</li>
+<li>如果特征的数量小，而样本的数量很大，则需要手工添加一些特征从而变成第一种情况。</li>
+</ul>
+<h2 id="7-LR和SVM的联系与区别"><a href="#7-LR和SVM的联系与区别" class="headerlink" title="7.LR和SVM的联系与区别"></a>7.LR和SVM的联系与区别</h2><p><strong>相同点</strong></p>
+<ul>
+<li>如果不考虑核函数，都是线性分类器。</li>
+<li>都是监督学习算法。</li>
+<li>都是判别模型。判别模型不关心数据是怎么生成的，它只关心信号之间的差别，然后用差别来简单对给定的一个信号进行分类。</li>
+</ul>
+<p><strong>不同点</strong></p>
+<ul>
+<li>（本质区别）：目标函数不同，逻辑回归是log loss，SVM采用的是hinge loss（铰链损失函数），这两个损失函数的目的都是增加对分类影响较大的数据点的权重，减少与分类关系较小的数据点的权重。</li>
+<li>LR是参数模型，svm是非参数模型。</li>
+<li>与SVM相比，LR对异常数据更加敏感。</li>
+<li>SVM的目标是结构风险最小化，逻辑回归目标函数是最小化先验概率。</li>
+<li>在训练集较小时，SVM较适用（基于距离分类），需要对数据先做归一化；LR则需要更多的样本（基于概率分类）</li>
+<li>SVM只考虑支持向量（support vectors），也就是和分类最相关的少数点，去学习分类器。而逻辑回归通过非线性映射，大大减小了离分类平面较远的点的权重，相对提升了与分类最相关的数据点的权重。</li>
+</ul>
+<h2 id="8-加入松弛变量的SVM的训练误差可以为0吗？"><a href="#8-加入松弛变量的SVM的训练误差可以为0吗？" class="headerlink" title="8.加入松弛变量的SVM的训练误差可以为0吗？"></a>8.加入松弛变量的SVM的训练误差可以为0吗？</h2><p>使用SMO（序列最小优化算法）算法训练的线性分类器并不一定能得到训练误差为0的模型。这是由于优化目标改变了，并不再是使训练误差最小。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/" class="print-no-link">#面试</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="print-no-link">#线性回归</a>
+      
+        <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" class="print-no-link">#逻辑回归</a>
+      
+        <a href="/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" class="print-no-link">#支持向量机</a>
+      
+        <a href="/tags/SVM/" class="print-no-link">#SVM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)</div>
+      <div>https://qzkq.github.io/2026/01/04/机器学习面试笔试知识点-线性回归、逻辑回归(Logistics Regression)和支持向量机(SVM)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9-%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C(Bayesian%20Network)%20%E3%80%81%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB(Markov)%20%E5%92%8C%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B(T%20M)/" title="机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">机器学习面试笔试知识点-贝叶斯网络(Bayesian Network) 、马尔科夫(Markov) 和主题模型(T M)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%9D%A2%E8%AF%95%E7%AC%94%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9-%E5%86%B3%E7%AD%96%E6%A0%91%E3%80%81%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E3%80%81%E6%A2%AF%E5%BA%A6%E6%8F%90%E5%8D%87%E5%86%B3%E7%AD%96%E6%A0%91(GBDT)%E3%80%81XGBoost%E3%80%81LightGBM%E3%80%81CatBoost/" title="机器学习面试笔试知识点-决策树、随机森林、梯度提升决策树(GBDT)、XGBoost、LightGBM、CatBoost">
+                        <span class="hidden-mobile">机器学习面试笔试知识点-决策树、随机森林、梯度提升决策树(GBDT)、XGBoost、LightGBM、CatBoost</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
