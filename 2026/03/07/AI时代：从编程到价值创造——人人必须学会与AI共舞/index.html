@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/xiaotubiao.png">
+  <link rel="icon" href="/img/xiaotubiao.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Qin Zk">
+  <meta name="keywords" content="数学建模,机器学习,深度学习,大模型,Python">
+  
+    <meta name="description" content="@TOC过去两年，大语言模型的爆发式发展，将人工智能从实验室的”高深技术”迅速推向了每一个普通人的指尖。从国际主流的ChatGPT、Claude、Gemini，到国内的DeepSeek、通义千问、豆包、智谱等众多大模型，AI的能力边界不断被拓宽，而它对各行各业的影响，正以一种”参差不齐但势不可挡”的姿态渗透进我们的工作与生活。 一个新时代的轮廓正在形成：你可以不深入理解AI的原理，但你必须学会使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI时代：从编程到价值创造——人人必须学会与AI共舞">
+<meta property="og:url" content="https://qzkq.github.io/2026/03/07/AI%E6%97%B6%E4%BB%A3%EF%BC%9A%E4%BB%8E%E7%BC%96%E7%A8%8B%E5%88%B0%E4%BB%B7%E5%80%BC%E5%88%9B%E9%80%A0%E2%80%94%E2%80%94%E4%BA%BA%E4%BA%BA%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9A%E4%B8%8EAI%E5%85%B1%E8%88%9E/index.html">
+<meta property="og:site_name" content="幸运藏在努力里">
+<meta property="og:description" content="@TOC过去两年，大语言模型的爆发式发展，将人工智能从实验室的”高深技术”迅速推向了每一个普通人的指尖。从国际主流的ChatGPT、Claude、Gemini，到国内的DeepSeek、通义千问、豆包、智谱等众多大模型，AI的能力边界不断被拓宽，而它对各行各业的影响，正以一种”参差不齐但势不可挡”的姿态渗透进我们的工作与生活。 一个新时代的轮廓正在形成：你可以不深入理解AI的原理，但你必须学会使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/img_convert/33af1e1e03410a3dd6b3298dd3aac4b5.jpeg">
+<meta property="article:published_time" content="2026-03-06T23:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-07T02:40:02.807Z">
+<meta property="article:author" content="Qin Zk">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="未来趋势">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i-blog.csdnimg.cn/img_convert/33af1e1e03410a3dd6b3298dd3aac4b5.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>AI时代：从编程到价值创造——人人必须学会与AI共舞 - 幸运藏在努力里</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"qzkq.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2026-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>数学建模与人工智能</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AI时代：从编程到价值创造——人人必须学会与AI共舞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-07 07:00" pubdate>
+          2026年3月7日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/qzkq/qzkq.github.io" class="github-corner" aria-label="View source on GitHub" style="position:absolute; top:0; right:0; border:0; z-index:9999;">
+      <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/>
+      </svg>
+    </a>
+    <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AI时代：从编程到价值创造——人人必须学会与AI共舞</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>@<a href="AI%E6%97%B6%E4%BB%A3%EF%BC%9A%E4%BB%8E%E7%BC%96%E7%A8%8B%E5%88%B0%E4%BB%B7%E5%80%BC%E5%88%9B%E9%80%A0%E2%80%94%E2%80%94%E4%BA%BA%E4%BA%BA%E5%BF%85%E9%A1%BB%E5%AD%A6%E4%BC%9A%E4%B8%8EAI%E5%85%B1%E8%88%9E">TOC</a><br>过去两年，大语言模型的爆发式发展，将人工智能从实验室的”高深技术”迅速推向了每一个普通人的指尖。从国际主流的ChatGPT、Claude、Gemini，到国内的DeepSeek、通义千问、豆包、智谱等众多大模型，AI的能力边界不断被拓宽，而它对各行各业的影响，正以一种”参差不齐但势不可挡”的姿态渗透进我们的工作与生活。</p>
+<p>一个新时代的轮廓正在形成：你可以不深入理解AI的原理，但你必须学会使用AI。</p>
+<h1 id="一、从”写代码”到”做价值”：软件工程师的角色重塑"><a href="#一、从”写代码”到”做价值”：软件工程师的角色重塑" class="headerlink" title="一、从”写代码”到”做价值”：软件工程师的角色重塑"></a>一、从”写代码”到”做价值”：软件工程师的角色重塑</h1><p>这一时代变革的浪尖，首先冲击的便是曾经的”技术堡垒”——软件工程师。</p>
+<p><strong>“Vibecoding”时代的到来</strong>“Vibecoding”一词悄然兴起，它描绘了一种新的编程状态：开发者不再逐行敲击键盘，而是通过与AI的对话、提示和协作，让大模型自动生成代码。程序员的工作重心从”如何实现”转向”实现什么”——需求分析、系统架构、业务价值成为核心。你只需要给出清晰的意图，AI就能快速输出可运行的代码片段，甚至整个模块。</p>
+<p><strong>能力的重新定义</strong>这一转变并非简单的”偷懒”，而是对工程师能力的重新定义。当重复性的编码工作被AI接管，人类得以解放出来专注于更富创造性的任务：理解复杂业务、设计优雅的解决方案、优化系统性能、确保安全与伦理。未来的软件工程师，更像是一位”AI指挥家”，他们需要懂得如何用精准的Prompt调动AI，如何组合多种AI工具完成复杂任务，如何评估和整合AI生成的成果。代码本身不再是价值的终点，而是实现价值的媒介。</p>
+<h1 id="二、从对话到执行：支撑变革的AI工具生态"><a href="#二、从对话到执行：支撑变革的AI工具生态" class="headerlink" title="二、从对话到执行：支撑变革的AI工具生态"></a>二、从对话到执行：支撑变革的AI工具生态</h1><p>软件工程师角色的转变，以及更广泛的AI应用，离不开一个快速进化、日益繁荣的工具生态。这些工具共同的特点是：它们让AI从”被动回答”走向”主动执行”，从”单一对话”走向”系统集成”。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/33af1e1e03410a3dd6b3298dd3aac4b5.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>Prompt工程</strong>：作为与AI沟通的”语言艺术”，Prompt不再只是简单的提问，而是一门需要精心设计的技艺。结构化的提示、角色设定、示例引导、思维链……这些技巧能让AI的输出质量产生质的飞跃。优秀的Prompt工程师，就像一位能与AI心灵相通的译者，将模糊的需求转化为精确的指令。</p>
+<p><strong>RAG（检索增强生成）</strong>：如何让AI拥有长期记忆和实时知识成为关键。RAG技术通过检索外部知识库、文档或数据库，将相关信息注入生成过程，使得AI的回答更准确、更贴近业务场景。无论是处理企业私有数据，还是结合最新资讯，RAG都让大模型摆脱了训练数据的时效性和封闭性，真正实现了”带着知识库思考”。</p>
+<p><strong>Skills（技能）</strong>：大语言模型虽能对答如流，却无法自主完成多步骤操作。为了解决这一痛点，”Skills”（或称函数调用）概念应运而生。一个Skill就是AI的”技能包”，以文件夹形式封装着操作说明书（SKILL.md）、可执行脚本和必要数据。当AI代理需要执行具体任务时，它会按需加载对应的Skill，读取说明书理解流程，运行脚本调用外部工具，最终输出可靠结果。这种机制使AI从只能提供建议的”聊天顾问”，进化为能按标准化流程可靠执行的”数字助手”。</p>
+<p><strong>OpenClaw</strong>：如果说大模型是AI的大脑，那么OpenClaw就是它的手和脚——一款能真正”动手做事”的开源个人AI代理。它可部署于个人电脑，在获得授权后直接访问和操作系统。你只需在日常聊天软件中向它发送指令，它便能在后台自主完成编写代码、处理文档等复杂任务。OpenClaw的出现，标志着AI从”被动回答问题”的秘书，进化为”主动执行任务”的智能管家。</p>
+<p><strong>AI IDE与CLI</strong>：传统的集成开发环境（IDE）和命令行界面（CLI）正在被AI赋能。像Cursor、GitHub Copilot这样的AI IDE，能将自然语言直接转化为代码，甚至自动修复错误、重构代码。而CLI层面，出现了AI驱动的终端工具，只需用日常语言描述意图，AI就能自动生成并执行命令行指令，极大降低了系统操作的门槛。</p>
+<h1 id="三、从数字到物理：具身智能的崛起"><a href="#三、从数字到物理：具身智能的崛起" class="headerlink" title="三、从数字到物理：具身智能的崛起"></a>三、从数字到物理：具身智能的崛起</h1><p>当AI在数字世界大展拳脚之时，它也开始向物理世界延伸——具身智能正成为下一波浪潮。如果说大语言模型让AI拥有了”大脑”，那么机器人就是AI的”身体”，让智能从屏幕中走出来，与现实世界发生真实的互动。</p>
+<p>近年来，人形机器人、工业机械臂、自动驾驶汽车等形态的具身智能产品层出不穷。特斯拉的Optimus、Figure 01，以及国内优必选Walker、宇树科技H1等，都在展示着AI与机器人融合的潜力。这些机器人能够通过自然语言理解人类指令，自主规划任务路径，动态适应环境变化——这背后正是大模型提供的推理、决策与对话能力。</p>
+<p>具身智能的崛起，对软件工程师提出了新的挑战：代码不仅要运行在服务器上，还要嵌入到物理系统中，实时感知世界并做出反应。与此同时，普通人也将在生活中越来越多地接触机器人助手。学会与这些”有身体的AI”协作，将成为未来生活的基本技能。</p>
+<h1 id="四、繁荣的背面：算力、能源与可持续的追问"><a href="#四、繁荣的背面：算力、能源与可持续的追问" class="headerlink" title="四、繁荣的背面：算力、能源与可持续的追问"></a>四、繁荣的背面：算力、能源与可持续的追问</h1><p>然而，在我们为AI的每一次突破欢呼时，一个不容回避的问题正在浮现：这一切巨量智能的背后，是更加巨量的算力消耗；而算力的尽头，是能源。</p>
+<p>**隐现的”电力黑洞”**训练一次GPT-5级别的大模型，耗电量可达百万千瓦时级别。而当我们人人都开始使用AI——每一次Prompt查询、每一段代码生成、每一个代理在后台持续运行——这些看似微小的请求汇聚起来，正在成为一座看不见的”电力黑洞”。国际能源署预测，到2026年，数据中心、AI和加密货币的电力消耗可能翻倍。2026年春节期间，国内主流AI APP甚至出现严重的排队现象，算力供不应求已成为主旋律。</p>
+<p>几重深刻的追问</p>
+<p><strong>环境代价</strong>：如果全球的AI需求都由化石能源支撑，那么AI的”智慧”将以碳排放为代价。我们是否在用地球的未来，换取当下的便利？</p>
+<p><strong>资源分配</strong>：算力正在成为一种战略资源。当少数公司和国家掌握着最先进的芯片和最充沛的电力，AI会不会加剧而非缩小数字鸿沟？</p>
+<p><strong>效率的悖论</strong>：如果每个任务背后的能耗远超人类手动完成所需，这种”高效”在宏观层面是否可持续？</p>
+<p><strong>有意识的AI使用</strong>这并非要否定AI的价值，而是呼唤一种”有意识的AI使用”。就像我们提倡随手关灯一样，未来我们或许也需要思考：这个任务真的需要调用大模型吗？能不能用更轻量的方式解决？开发者正在探索稀疏激活、模型蒸馏、专用芯片等降低能耗的路径，而作为普通用户，意识到每一次点击背后的能源成本，本身就是一种进步。AI的进化不应以地球的退化为代价。</p>
+<h1 id="五、与AI共舞：新时代的素养与未来展望"><a href="#五、与AI共舞：新时代的素养与未来展望" class="headerlink" title="五、与AI共舞：新时代的素养与未来展望"></a>五、与AI共舞：新时代的素养与未来展望</h1><p>AI技术一日千里，但它在不同行业的渗透却呈现出明显的”残次不齐”。科技行业早已全员拥抱AI；金融、医疗、教育等领域正在积极探索但相对谨慎；而一些传统行业可能还停留在”听说过但没用过”的阶段。</p>
+<p><strong>必然的渗透</strong>然而，不可否认的是，AI的浪潮终将席卷每一个角落。就像当年互联网的普及一样，率先学会使用AI的人和企业，将在效率、创新和竞争力上获得巨大优势。一个设计师借助AI几小时产出上百个方案，而不用AI的同行还在手绘草图——这样的差距会迅速累积成行业鸿沟。</p>
+<p><strong>新时代的基本素养</strong>一个重要的观念正在形成：AI时代的基本素养，不再是理解神经网络的数学原理，也不是掌握某种编程语言的语法，而是”与AI协作的能力”。就像我们开车不需要懂内燃机原理一样，使用AI的门槛正在无限降低。无论你是教师、会计，还是艺术家、管理者，都需要学会如何向AI提问，如何利用AI工具辅助决策，如何让AI完成繁琐的重复劳动。这些能力将成为未来职场的基础技能。</p>
+<p><strong>结语：释放人类潜能</strong>Vibecoding只是一个开始，它象征着一种趋势：当技术足够先进，它会从显性的工具内化为隐性的环境。未来的工作，可能不再区分”用AI的工作”和”不用AI的工作”，因为AI会像电力、互联网一样无处不在。</p>
+<p>但就像电力时代的辉煌伴随着对燃煤污染的反思，AI时代的繁荣也需要直面算力的能源代价。我们正在学习与AI共舞，这支舞的步伐既要轻盈敏捷，也要稳健持久。</p>
+<p>软件工程师将不再以写代码为荣，而是以创造价值为傲；各行各业的人们，将借助AI突破自身能力的边界。我们或许不必深究AI背后的黑盒，但必须学会与这个强大的伙伴共舞。无论是数字世界的智能代理，还是物理世界的机器人，它们都将成为人类能力的延伸。而这个时代的真正智慧，在于驾驭技术的同时，不忘审视技术背后的代价——用更少的能源，释放更多的创造力；用更克制的算力，成就更深远的价值。</p>
+<p>这个时代，属于那些善于驾驭AI的人——也属于那些懂得为地球着想的人。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%80%9D%E8%80%83/" class="category-chain-item">技术思考</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="print-no-link">#人工智能</a>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+        <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%B6%8B%E5%8A%BF/" class="print-no-link">#未来趋势</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AI时代：从编程到价值创造——人人必须学会与AI共舞</div>
+      <div>https://qzkq.github.io/2026/03/07/AI时代：从编程到价值创造——人人必须学会与AI共舞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Qin Zk</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/03/07/APS%E7%B3%BB%E7%BB%9F%E4%B8%8EOR-Tools%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9A%E6%99%BA%E8%83%BD%E6%8E%92%E4%BA%A7%E4%B8%8E%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98%E8%A7%A3%E6%9E%90/" title="APS系统与OR-Tools完全指南：智能排产与优化算法实战解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">APS系统与OR-Tools完全指南：智能排产与优化算法实战解析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/06/%E9%A3%8E%E7%94%B5%E5%85%89%E4%BC%8F%E5%8A%9F%E7%8E%87%E9%A2%84%E6%B5%8B%E7%AB%9E%E8%B5%9B%E7%B2%BE%E5%8D%8E%E6%80%BB%E7%BB%93%EF%BC%9A%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" title="风电光伏功率预测竞赛精华总结：技术解析与实战经验">
+                        <span class="hidden-mobile">风电光伏功率预测竞赛精华总结：技术解析与实战经验</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
