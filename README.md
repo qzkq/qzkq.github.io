@@ -15,6 +15,20 @@
 >
 > :triangular_flag_on_post: 同时，也欢迎大家PR，共同将这个项目壮大！
 
+## 🏷️ 技术栈标签
+
+**机器学习与深度学习**: XGBoost、LightGBM、CatBoost、PyTorch、TensorFlow、CNN、RNN、LSTM、Transformer
+
+**运筹优化**: Google OR-Tools、线性规划、整数规划、APS系统、生产排程优化
+
+**大模型与AI**: Prompt工程、大模型接入、智能体开发、AI工具应用
+
+**开发工具**: Python、C++、Docker、Git、uv、poetry、conda
+
+**应用领域**: 数学建模、计算机视觉、语音识别、数据科学、AGV调度
+
+---
+
 ## 🤝 在线阅读
 
 **博客地址**: https://qzkq.github.io
@@ -105,10 +119,10 @@ npm config set cache "D:\nodejs\node_cache"
 - 编辑系统变量，新建 `NODE_PATH` 变量，变量值为 `node_modules` 地址
 - 将用户变量下 Path 的 `C:\Users\用户名\AppData\Roaming\npm` 修改为 `D:\nodejs\node_global`
 
-防止 npm 下载过慢，使用国内淘宝镜像：
+防止 npm 下载过慢，使用国内淘宝镜像（新版）：
 
 ```bash
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 ```
 
 ---
@@ -591,6 +605,27 @@ git reset --hard HEAD^
 ## 博客展示
 
 [https://qzkq.github.io/](https://qzkq.github.io/)
+
+---
+
+## 最新文章
+
+### 📚 数学建模与AI学习资源全景整理
+- 涵盖数学建模竞赛、机器学习、深度学习、大模型等学习资源
+- 整合了竞赛真题、经典教材、教学视频等多个维度的资源
+
+### 🚀 uv完全指南：Python项目与依赖管理实战
+- 极速的Python包与项目工作流工具
+- 集成虚拟环境管理、包安装器、项目/依赖管理器等功能
+
+### 🏭 APS系统与OR-Tools完全指南：智能排产与优化算法
+- APS系统概述与核心理论
+- OR-Tools优化算法在生产排程中的应用
+
+### 🤖 AI时代：从编程到价值创造
+- 探索AI对软件工程师角色的影响
+- "Vibecoding"时代的编程范式转变
+- AI工具在工作流中的应用
 
 ---
 
