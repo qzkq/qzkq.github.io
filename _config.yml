@@ -102,5 +102,5 @@ theme: fluid
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:qzkq/qzkq.github.io.git  # 推荐使用SSH地址
-  branch: main  # 如果你的仓库默认分支是 master，则改为 master
+  repo: https://github.com/qzkq/qzkq.github.io.git
+  branch: main

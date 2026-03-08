@@ -12,7 +12,7 @@ categories:
 ---
 
 @[TOC](uv完全指南：从入门到精通的Python项目与依赖管理实战)
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/9fa87de9aafb41b3a9377e1b50fb44c8.png#pic_center)
+![在这里插入图片描述](/img/9fa87de9aafb41b3a9377e1b50fb44c8.png)
 
 ---
 ## 一、uv 是什么？—— 定位与核心功能

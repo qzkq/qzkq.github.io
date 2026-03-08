@@ -13,7 +13,7 @@ categories:
 
 @[TOC](APS系统与OR-Tools完全指南：智能排产与优化算法实战解析)
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/3f1d8dffd1be408b9f7f4cdade0a8644.png#pic_center)
+![在这里插入图片描述](/img/3f1d8dffd1be408b9f7f4cdade0a8644.png)
 
 # 第一部分：APS系统概述与核心理论
 
@@ -251,7 +251,7 @@ pip install ortools
 
 ---
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/bd61d1166040464d90046f3939c3c462.png#pic_center)
+![在这里插入图片描述](/img/bd61d1166040464d90046f3939c3c462.png)
 
 ## 📦 核心模块详解
 
